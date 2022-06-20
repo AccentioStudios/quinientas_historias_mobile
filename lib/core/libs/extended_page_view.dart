@@ -192,6 +192,7 @@ class ExtendedPageView extends StatefulWidget {
   /// null is infinity, it will cache all pages
   final int cacheExtent;
   @override
+  // ignore: library_private_types_in_public_api
   _ExtendedPageViewState createState() => _ExtendedPageViewState();
 }
 

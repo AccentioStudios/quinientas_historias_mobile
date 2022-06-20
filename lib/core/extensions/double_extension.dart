@@ -1,17 +1,17 @@
 extension CalculateRange2 on double {
   double calculateRangePercentage(
       {required double max, required double min, double? input}) {
-    final double _input = input ?? this;
+    final double inputNotNull = input ?? this;
     double output = 0.0;
-    if (!_input.isNegative && _input > min) {
-      final mathsxd = (((_input - min) * 1.0) / (max - min));
-      if (_input > min && _input < max) {
+    if (!inputNotNull.isNegative && inputNotNull > min) {
+      final mathsxd = (((inputNotNull - min) * 1.0) / (max - min));
+      if (inputNotNull > min && inputNotNull < max) {
         output = mathsxd;
       }
-      if (_input >= max) {
+      if (inputNotNull >= max) {
         output = max;
       }
-      if (_input <= min) {
+      if (inputNotNull <= min) {
         output = 0.0;
       }
     } else {

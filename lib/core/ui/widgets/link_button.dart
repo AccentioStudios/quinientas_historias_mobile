@@ -16,7 +16,7 @@ class LinkButton extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    Color _color = color ?? Theme.of(context).primaryColor;
+    Color colorText = color ?? Theme.of(context).primaryColor;
     return InkWell(
       onTap: onTap,
       child: SizedBox(
@@ -25,7 +25,7 @@ class LinkButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: _color,
+              color: colorText,
               height: 1.2,
               decoration: decoration,
             ),

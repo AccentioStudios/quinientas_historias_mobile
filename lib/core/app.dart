@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ui/app_provider.dart';
+import '../features/home/ui/home_provider.dart';
 import 'theme/theme.dart';
 
 class Application extends StatelessWidget {
@@ -9,10 +9,10 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mama Africa App',
+      title: '500 Historias',
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: const AppProvider(),
+      home: const HomeProvider(),
     );
   }
 }

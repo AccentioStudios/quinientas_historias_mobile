@@ -111,6 +111,7 @@ class ExtendedTabBarView extends StatefulWidget {
   final PageController? pageController;
 
   @override
+  // ignore: library_private_types_in_public_api
   _ExtendedTabBarViewState createState() => _ExtendedTabBarViewState();
 }
 

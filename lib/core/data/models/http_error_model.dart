@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mama_africa_app/core/data/models/http_response_model.dart';
 
 import '../../failures/error_codes.dart';
+import 'http_response_model.dart';
 
 part 'http_error_model.g.dart';
 

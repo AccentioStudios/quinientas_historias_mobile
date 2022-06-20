@@ -1,19 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: const FirebaseOptions(
-      apiKey: 'AIzaSyBOLUZ-_ePR1xfI2ax6OhpKhHWKYIpQ1f8',
-      appId: '1:842187200552:web:e3f12e7d5509a36f483d1d',
-      messagingSenderId: '842187200552',
-      projectId: 'mama-africa-app',
-      storageBucket: 'http://mama-africa-app.appspot.com',
+        options: FirebaseOptions(
+      apiKey: dotenv.get('FIREBASE_API_KEY'),
+      appId: dotenv.get('FIREBASE_APP_ID'),
+      messagingSenderId: dotenv.get('FIREBASE_MESSAGING_SENDER_ID'),
+      projectId: dotenv.get('FIREBASE_PROJECT_ID'),
+      storageBucket: dotenv.get('FIREBASE_STORAGE_BUCKET'),
     ));
   } else {
     await Firebase.initializeApp();

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "167564851917",
+    "project_id": "historias-25985",
+    "storage_bucket": "historias-25985.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167564851917:android:0e6e7614fc226c120ac784",
+        "android_client_info": {
+          "package_name": "com.accentiostudios.quinientas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlgQVIg4dkwRwDGs-enN6Zta0eeR3zgO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167564851917:android:50fd10a9fc5628d20ac784",
+        "android_client_info": {
+          "package_name": "com.accentiostudios.quinientas_historias"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlgQVIg4dkwRwDGs-enN6Zta0eeR3zgO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

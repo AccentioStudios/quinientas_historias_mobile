@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.quinientas_historias">
+    package="com.accentiostudios.quinientas">
    <application
-        android:label="quinientas_historias"
+        android:label="500Historias"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

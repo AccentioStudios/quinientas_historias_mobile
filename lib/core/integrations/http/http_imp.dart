@@ -1,13 +1,12 @@
 import 'package:http/http.dart' as http;
 
-import 'package:mama_africa_app/core/data/models/http_response_model.dart';
-import 'package:mama_africa_app/core/exceptions/http_request_exception.dart';
-import 'package:mama_africa_app/core/helpers/http_helper.dart';
-
-import '../enviroments/enviroments_config.dart';
+import '../../data/models/http_response_model.dart';
+import '../../exceptions/http_request_exception.dart';
+import '../../helpers/http_helper.dart';
+import '../environments/plataform_environments.dart';
 
 class HttpImp implements HttpHelper {
-  HttpImp({required this.hostUrl, this.https = EnviromentConfig.https});
+  HttpImp({required this.hostUrl, this.https = PlataformEnvironment.https});
   final String hostUrl;
   final bool https;
   @override
