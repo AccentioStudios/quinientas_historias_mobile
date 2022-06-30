@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/data/entities/story_progress_entity.dart';
 
 import '../../../../core/data/entities/author_entitiy.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/utils/constants.dart';
+import '../core/data/entities/story_entity.dart';
 import 'home/ui/widgets/header_points_and_favorites_row.dart';
 import 'home/ui/widgets/hero_header_widget.dart';
-import 'reading_module/data/models/carrousel_book_model.dart';
 import 'reading_module/reading_challenge/ui/widgets/reading_carousel_book.dart';
 
 class HomePage extends StatelessWidget {
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           children: [
             const SizedBox(height: Constants.space16),
-            ReadingCarouselBook(bookList: bookList),
+            ReadingCarouselBook(stories: bookList),
             const SizedBox(height: Constants.space41),
             PaddingColumn(
               padding:
@@ -76,45 +77,55 @@ class HomePage extends StatelessWidget {
   }
 }
 
-final List<CarouselBookModel> bookList = [
-  CarouselBookModel(
-    bookId: '1',
-    title: 'The Amazing Book',
-    readingTime: '5 min',
-    author: Author(name: 'Felipe', lastname: 'Hernandez'),
-    readingState: ReadingBookState.done,
+final List<StoryProgress> bookList = [
+  StoryProgress(
+    story: Story(
+      id: '1',
+      title: 'The Amazing Book',
+      readingTime: '5 min',
+      author: Author(name: 'Felipe', lastname: 'Hernandez'),
+    ),
+    state: ReadingBookState.done,
+    progress: 100,
   ),
-  CarouselBookModel(
-    bookId: '2',
-    title: 'The Awesome Book',
-    readingTime: '5 min',
-    author: Author(name: 'Felipe', lastname: 'Hernandez'),
-    readingState: ReadingBookState.done,
+  StoryProgress(
+    story: Story(
+      id: '2',
+      title: 'The Amazing Book',
+      readingTime: '5 min',
+      author: Author(name: 'Felipe', lastname: 'Hernandez'),
+    ),
+    state: ReadingBookState.done,
+    progress: 100,
   ),
-  CarouselBookModel(
-    bookId: '3',
-    title: 'The Unforgettable Book',
-    readingTime: '5 min',
-    author: Author(name: 'Felipe', lastname: 'Hernandez'),
-    readingState: ReadingBookState.reading,
+  StoryProgress(
+    story: Story(
+      id: '3',
+      title: 'The Amazing Book',
+      readingTime: '5 min',
+      author: Author(name: 'Felipe', lastname: 'Hernandez'),
+    ),
+    state: ReadingBookState.done,
+    progress: 100,
   ),
-  CarouselBookModel(
-    bookId: '4',
-    title: 'The Chosen One Book',
-    readingTime: '5 min',
-    author: Author(name: 'Felipe', lastname: 'Hernandez'),
+  StoryProgress(
+    story: Story(
+      id: '4',
+      title: 'The Amazing Book',
+      readingTime: '5 min',
+      author: Author(name: 'Felipe', lastname: 'Hernandez'),
+    ),
+    state: ReadingBookState.done,
+    progress: 100,
   ),
-  CarouselBookModel(
-    bookId: '5',
-    title: 'Ella es la sensacion del bloque',
-    readingTime: '5 min',
-    author: Author(name: 'Felipe', lastname: 'Hernandez'),
-  ),
-  CarouselBookModel(
-    bookId: '5',
-    title:
-        'Caramba ñero se oscurecieron mis dias, alzo al vuelo mi alegria cuando menos lo esperaba',
-    readingTime: '5 min',
-    author: Author(name: 'Felipe', lastname: 'Hernandez'),
+  StoryProgress(
+    story: Story(
+      id: '5',
+      title: 'The Amazing Book',
+      readingTime: '5 min',
+      author: Author(name: 'Felipe', lastname: 'Hernandez'),
+    ),
+    state: ReadingBookState.done,
+    progress: 100,
   ),
 ];

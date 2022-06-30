@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/failures/failures.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
 
-import '../../../auth/data/entities/user_entity.dart';
+import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/ui/widgets/padding_column.dart';
+import '../../../../core/utils/constants.dart';
 import '../../bloc/cubit/home_cubit.dart';
+import '../widgets/hero_header_widget.dart';
+import '../widgets/home_app_bar.dart';
 
 class HomePage extends StatefulWidget with ErrorHandling {
   const HomePage({Key? key}) : super(key: key);
@@ -35,12 +35,12 @@ class _HomePageState extends State<HomePage> {
     const TextStyle userTypeTextStyle = TextStyle(fontSize: 14);
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return state.loading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Scaffold(
-                body: ListView(
+        return Scaffold(
+          body: state.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView(
                   padding: const EdgeInsets.only(top: 0),
                   physics: const BouncingScrollPhysics(),
                   children: [
@@ -56,102 +56,23 @@ class _HomePageState extends State<HomePage> {
                         color: Theme.of(context).colorScheme.primaryContainer,
                       ),
                       child: Column(children: [
-                        Container(
-                          color: Colors.black12,
-                          width: double.infinity,
-                          height: 84,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Constants.space18,
-                              vertical: Constants.space21),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _Username(
-                                userNameTextStyle: userNameTextStyle,
-                                userTypeTextStyle: userTypeTextStyle,
-                                user: state.user,
-                              ),
-                              _UserStreak(),
-                            ],
-                          ),
+                        HomeAppBar(
+                            user: state.user,
+                            userNameTextStyle: userNameTextStyle,
+                            userTypeTextStyle: userTypeTextStyle),
+                        const PaddingColumn(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Constants.space18),
+                          children: [
+                            HeroHeader(),
+                          ],
                         ),
                       ]),
                     ),
                   ],
                 ),
-              );
+        );
       },
     );
-  }
-}
-
-class _UserStreak extends StatelessWidget {
-  const _UserStreak({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          'assets/icons/flame-icon.svg',
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-        const SizedBox(width: Constants.space4),
-        Text(
-          '0',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class _Username extends StatelessWidget {
-  const _Username({
-    Key? key,
-    required this.userNameTextStyle,
-    required this.userTypeTextStyle,
-    required this.user,
-  }) : super(key: key);
-
-  final TextStyle userNameTextStyle;
-  final TextStyle userTypeTextStyle;
-  final User? user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        const CircleAvatar(),
-        const SizedBox(width: Constants.space18),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(user?.firstName ?? '', style: userNameTextStyle),
-            Text(user?.type.name ?? '', style: userTypeTextStyle),
-          ],
-        ),
-      ],
-    );
-  }
-
-  String formatUserType(UserType userType) {
-    switch (userType) {
-      case UserType.reader:
-        return 'Lector';
-      case UserType.prof:
-        return 'Profesor';
-      case UserType.writer:
-        return 'Escritor';
-      case UserType.unknown:
-        return '';
-    }
   }
 }

@@ -3,14 +3,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../data/models/carrousel_book_model.dart';
 
 class ReadingCarouselBook extends StatelessWidget {
-  const ReadingCarouselBook({Key? key, required this.bookList})
+  const ReadingCarouselBook({Key? key, required this.stories})
       : super(key: key);
 
-  final List<CarouselBookModel> bookList;
+  final List<StoryProgress> stories;
   @override
   Widget build(BuildContext context) {
     final TextStyle textStyle = TextStyle(
@@ -41,8 +41,8 @@ class ReadingCarouselBook extends StatelessWidget {
   }
 
   int searchCurrentReadingBook() {
-    int indexCurrentReadingBook = bookList.indexOf(bookList.firstWhere(
-        (element) => element.readingState == ReadingBookState.reading));
+    int indexCurrentReadingBook = stories.indexOf(stories
+        .firstWhere((element) => element.state == ReadingBookState.reading));
     return indexCurrentReadingBook;
   }
 
@@ -60,7 +60,7 @@ class ReadingCarouselBook extends StatelessWidget {
       color: Colors.black45,
     );
 
-    return bookList
+    return stories
         .map((item) => Padding(
               padding: const EdgeInsets.only(
                   bottom: Constants.space18, top: Constants.space8),
@@ -71,7 +71,7 @@ class ReadingCarouselBook extends StatelessWidget {
                     elevation: 5,
                     borderRadius: Constants.borderRadius23,
                     child: GestureDetector(
-                      onTap: () => navigateToBook(context, item.bookId),
+                      onTap: () => navigateToBook(context, item.story.id),
                       child: Container(
                         clipBehavior: Clip.antiAlias,
                         width: 145,
@@ -92,7 +92,7 @@ class ReadingCarouselBook extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.only(top: 30),
                                         child: AutoSizeText(
-                                          item.title,
+                                          item.story.title,
                                           maxLines: 4,
                                           minFontSize: 13,
                                           style: headerTextStyle,
@@ -108,7 +108,7 @@ class ReadingCarouselBook extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(bottom: 18),
                                         child: Text(
-                                          'Tiempo lectura \n${item.readingTime}',
+                                          'Tiempo lectura \n${item.state}',
                                           style: secondaryTextStyle,
                                           textAlign: TextAlign.center,
                                         ),
@@ -118,7 +118,7 @@ class ReadingCarouselBook extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            item.readingState == ReadingBookState.done
+                            item.state == ReadingBookState.done
                                 ? foregroundMutedLayer
                                 : const SizedBox.shrink(),
                           ],
@@ -130,7 +130,7 @@ class ReadingCarouselBook extends StatelessWidget {
                     right: -6,
                     top: -6,
                     child: _ReadingBadge(
-                      readingState: item.readingState,
+                      readingState: item.state,
                     ),
                   ),
                 ],

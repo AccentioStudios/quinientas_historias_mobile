@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 
-import '../../../auth/data/entities/user_entity.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../../data/useCases/auth_usecases.dart';
 
 part 'home_state.dart';

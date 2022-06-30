@@ -94,7 +94,7 @@ class HttpImp implements HttpHelper {
       body: response.body,
       status: HttpStatusModel.fromJson({
         "message": "",
-        "statusCode": response.statusCode,
+        "statusCode": response.statusCode.toString(),
       }),
       headers: response.headers,
     );
@@ -105,7 +105,7 @@ class HttpImp implements HttpHelper {
       body: error.data,
       status: HttpStatusModel.fromJson({
         "message": "",
-        "statusCode": error.statusCode,
+        "statusCode": error.statusCode.toString(),
       }),
     );
   }

@@ -20,7 +20,7 @@ class HeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: small ? 92 : 140,
+      height: 93,
       decoration: BoxDecoration(
         borderRadius: Constants.borderRadius23,
       ),
@@ -32,7 +32,9 @@ class HeroHeader extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             buildBackgroundImage(),
-            small ? buildSmallContent() : buildContent(context),
+            small
+                ? buildContentInitial()
+                : buildContentChallangeOngoing(context),
           ],
         ),
       ),
@@ -43,19 +45,14 @@ class HeroHeader extends StatelessWidget {
     String imagePath = '';
     switch (dayState) {
       case HeroHeaderDayState.day:
-        imagePath = small
-            ? 'assets/images/day-illustration-small.svg'
-            : 'assets/images/day-illustration.svg';
+        imagePath = 'assets/images/day-illustration-small.svg';
+
         break;
       case HeroHeaderDayState.evening:
-        imagePath = small
-            ? 'assets/images/evening-illustration-small.svg'
-            : 'assets/images/evening-illustration.svg';
+        imagePath = 'assets/images/evening-illustration-small.svg';
         break;
       case HeroHeaderDayState.night:
-        imagePath = small
-            ? 'assets/images/night-illustration-small.svg'
-            : 'assets/images/night-illustration.svg';
+        imagePath = 'assets/images/night-illustration-small.svg';
         break;
     }
     return SvgPicture.asset(
@@ -65,7 +62,7 @@ class HeroHeader extends StatelessWidget {
     );
   }
 
-  Widget buildSmallContent() {
+  Widget buildContentInitial() {
     const textShadow = [
       Shadow(
         offset: Offset(0.0, 2.0),
@@ -114,8 +111,7 @@ class HeroHeader extends StatelessWidget {
     );
   }
 
-  Widget buildContent(BuildContext context) {
-    double completedPercentage = 40;
+  Widget buildContentChallangeOngoing(BuildContext context) {
     const textShadow = [
       Shadow(
         offset: Offset(0.0, 2.0),
@@ -123,28 +119,62 @@ class HeroHeader extends StatelessWidget {
         color: Color.fromARGB(31, 0, 0, 0),
       ),
     ];
-    final Widget textHeader = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: Constants.space12, horizontal: Constants.space18),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Mis Lecturas Diarias',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              shadows: textShadow,
-            ),
+          Row(
+            children: [
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: SvgPicture.asset(
+                  'assets/icons/flame-icon.svg',
+                  color: const Color(0xFFFFB84D),
+                ),
+              ),
+              const SizedBox(width: Constants.space8),
+              const Text(
+                '¿Vamos a comenzar con la lectura?',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  shadows: textShadow,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: Constants.space4),
-          Text(
-            'Leyendo: ${bookName}',
-            style: const TextStyle(
+          const Text(
+            'Lee cada dia para entrar en racha y \nhacer mas puntos',
+            style: TextStyle(
               fontSize: 15,
               shadows: textShadow,
             ),
           ),
-        ]);
-    final Widget progressBar = Column(
+        ],
+      ),
+    );
+  }
+}
+
+class _ProgressBar extends StatelessWidget {
+  const _ProgressBar({Key? key, this.completedPercentage = 0})
+      : super(key: key);
+  final double completedPercentage;
+  @override
+  Widget build(BuildContext context) {
+    const textShadow = [
+      Shadow(
+        offset: Offset(0.0, 2.0),
+        blurRadius: 7.0,
+        color: Color.fromARGB(31, 0, 0, 0),
+      ),
+    ];
+    return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -169,19 +199,6 @@ class HeroHeader extends StatelessWidget {
           ),
         ),
       ],
-    );
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          vertical: Constants.space18, horizontal: Constants.space18),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          textHeader,
-          progressBar,
-        ],
-      ),
     );
   }
 }

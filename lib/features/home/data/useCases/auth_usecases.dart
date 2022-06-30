@@ -1,4 +1,4 @@
-import '../../../auth/data/entities/user_entity.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../repositories/home_repository.dart';
 
 class HomeUseCases {

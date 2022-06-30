@@ -12,6 +12,7 @@ const primaryContainerColor = Color(0xFFD5E3FF);
 const onPrimaryContainerColor = Color(0xFF001B3F);
 const tertiaryContainerColor = Color(0xFF69FBCB);
 const onTertiaryContainerColor = Color(0xFFFFFFFF);
+const streakFireRedColor = Color(0xFFFF5D5D);
 
 const backgroundDarkColor = Color(0xFF101C29);
 const onBackgroundDarkColor = Color(0xFFE3E2E6);
@@ -26,3 +27,4 @@ const onPrimaryContainerDarkColor = Color(0xFFE3E2E6);
 const onSurfaceMutedTextDarkColor = Color(0xFFB6B6B6);
 const tertiaryContainerDarkColor = Color(0xFF00513B);
 const onTertiaryContainerDarkColor = Color(0xFF69FBCB);
+const streakFireRedDarkColor = Color(0xFFFF5D5D);

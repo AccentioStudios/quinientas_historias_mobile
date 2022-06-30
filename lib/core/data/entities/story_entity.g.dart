@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post_entity.dart';
+part of 'story_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Post _$PostFromJson(Map<String, dynamic> json) => Post(
+Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       id: json['id'] as String,
       title: json['title'] as String,
       content: json['content'] as String?,
@@ -16,7 +16,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       coverUrl: json['coverUrl'] as String?,
     );
 
-Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'content': instance.content,
