@@ -1,0 +1,43 @@
+<svg width="354" height="139" viewBox="0 0 354 139" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="paint0_linear_556_748" x1="177" y1="-33.5" x2="177" y2="144" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5C5B97"/>
+<stop offset="0.595598" stop-color="#084588" stop-opacity="0.63"/>
+</linearGradient>
+<linearGradient id="paint1_linear_556_748" x1="177" y1="14" x2="177" y2="138.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.14"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint2_linear_556_748" x1="185.156" y1="70" x2="185.156" y2="154.5" gradientUnits="userSpaceOnUse">
+<stop stop-opacity="0.25"/>
+<stop offset="0.0001" stop-color="white" stop-opacity="0.25"/>
+<stop offset="1" stop-color="white" stop-opacity="0.07"/>
+</linearGradient>
+<radialGradient id="paint3_radial_556_748" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(297 22) rotate(90) scale(93)">
+<stop stop-color="white" stop-opacity="0.31"/>
+<stop offset="0.70625" stop-color="#4200FF" stop-opacity="0"/>
+</radialGradient>
+<radialGradient id="paint4_radial_556_748" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(297 22) rotate(90) scale(272)">
+<stop stop-color="white" stop-opacity="0.43"/>
+<stop offset="0.680208" stop-color="#2F00EA" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="paint5_linear_556_748" x1="-2.07018" y1="67.5" x2="353.999" y2="70.1785" gradientUnits="userSpaceOnUse">
+<stop stop-color="#475894" stop-opacity="0.53"/>
+<stop offset="1" stop-color="#44217C" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_556_748">
+<rect width="354" height="139" fill="white"/>
+</clipPath>
+</defs>
+<g clip-path="url(#clip0_556_748)">
+<rect width="354" height="139" fill="#084588"/>
+<rect width="354" height="139" fill="url(#paint0_linear_556_748)"/>
+<path d="M41 46.5L-6 97L-1.5 128L208 138.5L347 132L360 84L342.5 66L322.5 84L285 57L253 84L204 46.5L171 72L121.5 23.5L71.5 72L41 46.5Z" fill="url(#paint1_linear_556_748)"/>
+<path d="M8.5 76.5L-45.5 112L-25.5 155C101.833 161.667 375 154.5 381 154.5C387 154.5 383.5 118.5 381 100.5L357 76.5L332 100.5L273.5 82L197.5 104.5L133 76.5L66 104.5L8.5 76.5Z" fill="url(#paint2_linear_556_748)"/>
+<path d="M81 101.5C51.5 95.5 15.5 70.8333 -17 55.5L-11 114L7 156.5L343.5 167C357.333 159.5 381.4 144.5 367 144.5C349 144.5 310 132.5 277.5 125C251.5 119 206 111.5 184.5 111.5C161 111.5 110.5 107.5 81 101.5Z" fill="#6990B8"/>
+<circle cx="297" cy="22" r="93" fill="url(#paint3_radial_556_748)"/>
+<circle cx="297" cy="22" r="272" fill="url(#paint4_radial_556_748)"/>
+<path d="M302 24.1828C301.119 24.8152 300.021 25.1902 298.832 25.1902C295.925 25.1902 293.568 22.9499 293.568 20.1865C293.568 19.4025 293.758 18.6606 294.096 18C292.823 18.9133 292 20.3635 292 21.9963C292 24.7598 294.357 27 297.264 27C299.346 27 301.146 25.8506 302 24.1828Z" fill="white"/>
+<rect width="354" height="139" fill="url(#paint5_linear_556_748)"/>
+</g>
+</svg>

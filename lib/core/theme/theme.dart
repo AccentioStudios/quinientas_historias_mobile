@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../utils/colors.dart';
 
-var appTheme = ThemeData(
-  backgroundColor: backgroundColor,
-  scaffoldBackgroundColor: backgroundColor,
-  primaryColor: primaryColor,
-  textTheme: GoogleFonts.montserratTextTheme(),
-  bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: backgroundDarkColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+class ThemeClass {
+  static ThemeData lightTheme = ThemeData(
+    scaffoldBackgroundColor: readingBackgroundColor,
+    primaryColor: primaryColor,
+    backgroundColor: readingBackgroundColor,
+    textTheme: ThemeData.light().textTheme,
+    fontFamily: 'Proxima Nova',
+    colorScheme: const ColorScheme.light().copyWith(
+      primary: primaryColor,
+      onPrimary: onPrimaryColor,
+      primaryContainer: primaryContainerColor,
+      onPrimaryContainer: onPrimaryContainerColor,
+      onBackground: onReadingBackgroundColor,
+      background: readingBackgroundColor,
+      secondary: secondaryColor,
+      onSecondary: onSecondaryColor,
+      tertiaryContainer: tertiaryContainerColor,
+      onTertiaryContainer: onTertiaryContainerColor,
     ),
-  ),
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    primary: primaryColor,
-    onPrimary: onPrimaryColor,
-    primaryContainer: primaryContainerColor,
-    onPrimaryContainer: onPrimaryContainerColor,
-    onBackground: onBackgroundColor,
-    background: backgroundColor,
-    secondary: secondaryColor,
-    onSecondary: onSecondaryColor,
-  ),
-);
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+    ),
+  );
+
+  static ThemeData darkTheme = ThemeData(
+    scaffoldBackgroundColor: backgroundDarkColor,
+    primaryColor: primaryDarkColor,
+    backgroundColor: backgroundDarkColor,
+    textTheme: ThemeData.dark().textTheme,
+    fontFamily: 'Proxima Nova',
+    colorScheme: const ColorScheme.dark().copyWith(
+      primary: primaryDarkColor,
+      onPrimary: onPrimaryDarkColor,
+      primaryContainer: primaryContainerDarkColor,
+      onPrimaryContainer: onPrimaryContainerDarkColor,
+      onBackground: onBackgroundDarkColor,
+      background: backgroundDarkColor,
+      secondary: secondaryDarkColor,
+      onSecondary: onSecondaryDarkColor,
+      tertiaryContainer: tertiaryContainerDarkColor,
+      onTertiaryContainer: onTertiaryContainerDarkColor,
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+    ),
+  );
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/home/ui/home_provider.dart';
+import '../features/home/home_provider.dart';
 import 'theme/theme.dart';
 
 class Application extends StatelessWidget {
@@ -11,7 +11,9 @@ class Application extends StatelessWidget {
     return MaterialApp(
       title: '500 Historias',
       debugShowCheckedModeBanner: false,
-      theme: appTheme,
+      themeMode: ThemeMode.dark,
+      theme: ThemeClass.lightTheme,
+      darkTheme: ThemeClass.darkTheme,
       home: const HomeProvider(),
     );
   }

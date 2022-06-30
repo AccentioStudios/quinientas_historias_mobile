@@ -10,7 +10,7 @@
             "type": "dart",
             "program": "lib/main.dart",
             "args": [
-                "--dart-define=API_URL=http://localhost:3000/",
+                "--dart-define=API_URL=localhost:5000",
             ]
         },
         {
@@ -20,7 +20,7 @@
             "flutterMode": "release",
             "program": "lib/main.dart",
             "args": [
-                "--dart-define=API_URL=https://localhost:3000/",
+                "--dart-define=API_URL=localhost:5000",
             ]
         },
         {
@@ -29,7 +29,7 @@
             "type": "dart",
             "program": "lib/main.dart",
             "args": [
-              "--dart-define=API_URL=http://localhost:3000/",
+              "--dart-define=API_URL=localhost:5000",
             ]
           }
     ]
