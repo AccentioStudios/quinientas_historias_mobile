@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
 import '../../../../core/utils/constants.dart';
 
@@ -9,14 +10,13 @@ class HeroHeader extends StatelessWidget {
   const HeroHeader({
     Key? key,
     this.dayState = HeroHeaderDayState.day,
-    this.small = false,
+    this.dailyChallenge,
     this.onTap,
-    this.bookName,
   }) : super(key: key);
   final HeroHeaderDayState dayState;
-  final bool small;
+  final DailyChallenge? dailyChallenge;
   final GestureTapCallback? onTap;
-  final String? bookName;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,13 +32,19 @@ class HeroHeader extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             buildBackgroundImage(),
-            small
-                ? buildContentInitial()
-                : buildContentChallangeOngoing(context),
+            ifDailyChallengeExists()
+                ? buildContentChallangeOngoing(context)
+                : buildContentInitial(),
           ],
         ),
       ),
     );
+  }
+
+  bool ifDailyChallengeExists() {
+    return dailyChallenge != null
+        ? dailyChallenge!.challenge.isNotEmpty
+        : false;
   }
 
   Widget buildBackgroundImage() {
@@ -65,9 +71,14 @@ class HeroHeader extends StatelessWidget {
   Widget buildContentInitial() {
     const textShadow = [
       Shadow(
+        offset: Offset(0.0, 1.0),
+        blurRadius: 3.0,
+        color: Color.fromARGB(92, 0, 0, 0),
+      ),
+      Shadow(
         offset: Offset(0.0, 2.0),
         blurRadius: 7.0,
-        color: Color.fromARGB(31, 0, 0, 0),
+        color: Color.fromARGB(38, 0, 0, 0),
       ),
     ];
     return Padding(
@@ -114,87 +125,83 @@ class HeroHeader extends StatelessWidget {
   Widget buildContentChallangeOngoing(BuildContext context) {
     const textShadow = [
       Shadow(
+        offset: Offset(0.0, 1.0),
+        blurRadius: 3.0,
+        color: Color.fromARGB(92, 0, 0, 0),
+      ),
+      Shadow(
         offset: Offset(0.0, 2.0),
         blurRadius: 7.0,
-        color: Color.fromARGB(31, 0, 0, 0),
+        color: Color.fromARGB(38, 0, 0, 0),
       ),
     ];
+
+    int completedPercentage =
+        calculatePercentage(dailyChallenge?.count, dailyChallenge?.readed);
     return Padding(
       padding: const EdgeInsets.symmetric(
-          vertical: Constants.space12, horizontal: Constants.space18),
+          vertical: Constants.space18, horizontal: Constants.space21),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 24,
-                height: 24,
-                child: SvgPicture.asset(
-                  'assets/icons/flame-icon.svg',
-                  color: const Color(0xFFFFB84D),
+              const Text(
+                'Mis Lecturas Diarias',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  shadows: textShadow,
                 ),
               ),
-              const SizedBox(width: Constants.space8),
-              const Text(
-                '¿Vamos a comenzar con la lectura?',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(height: Constants.space4),
+              Text(
+                'Has completado el $completedPercentage% de tu meta diaria',
+                style: const TextStyle(
+                  fontSize: 14,
                   shadows: textShadow,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: Constants.space4),
-          const Text(
-            'Lee cada dia para entrar en racha y \nhacer mas puntos',
-            style: TextStyle(
-              fontSize: 15,
-              shadows: textShadow,
-            ),
-          ),
+          _ProgressBar(
+            completedPercentage: completedPercentage,
+          )
         ],
       ),
     );
+  }
+
+  int calculatePercentage(int? total, int? current) {
+    if (total != null && current != null) {
+      return (current * 100 ~/ total).toInt();
+    }
+    return 0;
   }
 }
 
 class _ProgressBar extends StatelessWidget {
   const _ProgressBar({Key? key, this.completedPercentage = 0})
       : super(key: key);
-  final double completedPercentage;
+  final int completedPercentage;
   @override
   Widget build(BuildContext context) {
-    const textShadow = [
-      Shadow(
-        offset: Offset(0.0, 2.0),
-        blurRadius: 7.0,
-        color: Color.fromARGB(31, 0, 0, 0),
-      ),
-    ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(
-          'Has completado el ${completedPercentage.toInt()}% de tu meta diaria',
-          textAlign: TextAlign.right,
-          style: const TextStyle(
-            shadows: textShadow,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: Constants.space8),
         ClipRRect(
           clipBehavior: Clip.antiAlias,
           borderRadius: Constants.borderRadius16,
           child: LinearProgressIndicator(
             minHeight: 7,
             value: completedPercentage / 100,
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            backgroundColor: Theme.of(context)
+                .colorScheme
+                .secondaryContainer
+                .withOpacity(0.32),
             color: Theme.of(context).colorScheme.primary,
           ),
         ),

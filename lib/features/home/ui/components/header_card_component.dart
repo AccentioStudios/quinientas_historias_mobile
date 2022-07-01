@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
+import '../../../../core/data/entities/story_entity.dart';
+import '../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/single_chip.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
+import '../../../reading_module/data/models/author_model.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../widgets/hero_header_widget.dart';
 import '../widgets/home_app_bar.dart';
@@ -34,6 +38,68 @@ class HeaderCard extends StatelessWidget {
             HeroHeader(
               dayState: HeroHeaderDayState.day,
               onTap: () => _navigateToDailyChallenge(context),
+              dailyChallenge: DailyChallenge(
+                challenge: [
+                  StoryProgress(
+                    progress: 100,
+                    state: ReadingBookState.done,
+                    story: Story(
+                      id: '1',
+                      title: 'The Awesome Book',
+                      author: Author(
+                        id: '1',
+                        email: 'test@test.com',
+                        firstName: 'Lorem',
+                        lastName: 'Ipsum',
+                      ),
+                    ),
+                  ),
+                  StoryProgress(
+                    progress: 100,
+                    state: ReadingBookState.done,
+                    story: Story(
+                      id: '2',
+                      title: 'The Amazing Book',
+                      author: Author(
+                        id: '1',
+                        email: 'test@test.com',
+                        firstName: 'Lorem',
+                        lastName: 'Ipsum',
+                      ),
+                    ),
+                  ),
+                  StoryProgress(
+                    progress: 40,
+                    state: ReadingBookState.reading,
+                    story: Story(
+                      id: '3',
+                      title: 'The Spectacular Book',
+                      author: Author(
+                        id: '1',
+                        email: 'test@test.com',
+                        firstName: 'Lorem',
+                        lastName: 'Ipsum',
+                      ),
+                    ),
+                  ),
+                  StoryProgress(
+                    progress: 0,
+                    state: ReadingBookState.unread,
+                    story: Story(
+                      id: '4',
+                      title: 'The Friendly Book',
+                      author: Author(
+                        id: '1',
+                        email: 'test@test.com',
+                        firstName: 'Lorem',
+                        lastName: 'Ipsum',
+                      ),
+                    ),
+                  ),
+                ],
+                count: 4,
+                readed: 2,
+              ),
             ),
             const SizedBox(height: Constants.space18),
             _PointsRow(

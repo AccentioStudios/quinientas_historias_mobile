@@ -1,12 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/ui/widgets/headline.dart';
+import 'package:quinientas_historias/core/utils/colors.dart';
 
+import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
+import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../reading_module/data/models/author_model.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../components/header_card_component.dart';
 
@@ -72,6 +77,23 @@ class _HomePageState extends State<HomePage> {
                                   const ArrowLeaderBoard(number: 1),
                             ),
                           ],
+                        ),
+                        Headline(
+                          label: 'Explorar Lecturas',
+                          linkText: 'Ver más',
+                          onTap: () {},
+                        ),
+                        GridView.count(
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          crossAxisSpacing: Constants.space12,
+                          mainAxisSpacing: Constants.space12,
+                          childAspectRatio: 109 / 147,
+                          crossAxisCount: 3,
+                          children: [
+                            ...stories.map((story) => StoryCover(story: story)),
+                          ],
                         )
                       ],
                     ),
@@ -82,6 +104,49 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+List<Story> stories = [
+  Story(
+    id: '1',
+    title: 'The Awesome Book',
+    author: Author(
+      id: '1',
+      email: 'test@test.com',
+      firstName: 'Lorem',
+      lastName: 'Ipsum',
+    ),
+  ),
+  Story(
+    id: '2',
+    title: 'The Amazing Book',
+    author: Author(
+      id: '1',
+      email: 'test@test.com',
+      firstName: 'Lorem',
+      lastName: 'Ipsum',
+    ),
+  ),
+  Story(
+    id: '3',
+    title: 'The Spectacular Book',
+    author: Author(
+      id: '1',
+      email: 'test@test.com',
+      firstName: 'Lorem',
+      lastName: 'Ipsum',
+    ),
+  ),
+  Story(
+    id: '4',
+    title: 'The Spectacular Book',
+    author: Author(
+      id: '1',
+      email: 'test@test.com',
+      firstName: 'Lorem',
+      lastName: 'Ipsum',
+    ),
+  ),
+];
 
 class HomePositionsChip extends StatelessWidget {
   const HomePositionsChip(

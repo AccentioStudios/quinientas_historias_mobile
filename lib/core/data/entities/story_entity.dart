@@ -5,14 +5,14 @@ part 'story_entity.g.dart';
 
 @JsonSerializable()
 class Story {
-  Story({
-    required this.id,
-    required this.title,
-    this.readingTime,
-    this.content,
-    this.author,
-    this.coverUrl,
-  });
+  Story(
+      {required this.id,
+      required this.title,
+      this.readingTime,
+      this.content,
+      this.author,
+      this.coverUrl,
+      this.coverColor});
 
   factory Story.fromJson(Map<String, dynamic> json) => _$StoryFromJson(json);
   final String id;
@@ -21,5 +21,6 @@ class Story {
   final String? content;
   final Author? author;
   final String? coverUrl;
+  final String? coverColor;
   Map<String, dynamic> toJson() => _$StoryToJson(this);
 }
