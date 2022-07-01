@@ -28,6 +28,7 @@ extension HttpExtension on Future<HttpResponse> {
       try {
         yield mapper(response.jsonData!);
       } catch (error) {
+        print(error);
         throw HttpHandleFailure(error: error);
       }
     }

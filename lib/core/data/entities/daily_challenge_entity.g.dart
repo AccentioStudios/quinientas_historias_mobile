@@ -10,10 +10,8 @@ DailyChallenge _$DailyChallengeFromJson(Map<String, dynamic> json) =>
     DailyChallenge(
       count: json['count'] as int,
       readed: json['readed'] as int,
-      challenge: (json['challenge'] as List<dynamic>)
-          .map((e) => e == null
-              ? null
-              : StoryProgress.fromJson(e as Map<String, dynamic>))
+      challenge: (json['challenge'] as List<dynamic>?)
+          ?.map((e) => StoryProgress.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

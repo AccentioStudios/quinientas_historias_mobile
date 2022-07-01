@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   User? get user => throw _privateConstructorUsedError;
+  DailyChallenge? get dailyChallenge => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -28,7 +29,7 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call({User? user, bool loading});
+  $Res call({User? user, DailyChallenge? dailyChallenge, bool loading});
 }
 
 /// @nodoc
@@ -42,6 +43,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
   @override
   $Res call({
     Object? user = freezed,
+    Object? dailyChallenge = freezed,
     Object? loading = freezed,
   }) {
     return _then(_value.copyWith(
@@ -49,6 +51,10 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      dailyChallenge: dailyChallenge == freezed
+          ? _value.dailyChallenge
+          : dailyChallenge // ignore: cast_nullable_to_non_nullable
+              as DailyChallenge?,
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -63,7 +69,7 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _$_HomeState value, $Res Function(_$_HomeState) then) =
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call({User? user, bool loading});
+  $Res call({User? user, DailyChallenge? dailyChallenge, bool loading});
 }
 
 /// @nodoc
@@ -79,6 +85,7 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
+    Object? dailyChallenge = freezed,
     Object? loading = freezed,
   }) {
     return _then(_$_HomeState(
@@ -86,6 +93,10 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      dailyChallenge: dailyChallenge == freezed
+          ? _value.dailyChallenge
+          : dailyChallenge // ignore: cast_nullable_to_non_nullable
+              as DailyChallenge?,
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -97,17 +108,19 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  const _$_HomeState({this.user, this.loading = false});
+  const _$_HomeState({this.user, this.dailyChallenge, this.loading = false});
 
   @override
   final User? user;
+  @override
+  final DailyChallenge? dailyChallenge;
   @override
   @JsonKey()
   final bool loading;
 
   @override
   String toString() {
-    return 'HomeState(user: $user, loading: $loading)';
+    return 'HomeState(user: $user, dailyChallenge: $dailyChallenge, loading: $loading)';
   }
 
   @override
@@ -116,6 +129,8 @@ class _$_HomeState implements _HomeState {
         (other.runtimeType == runtimeType &&
             other is _$_HomeState &&
             const DeepCollectionEquality().equals(other.user, user) &&
+            const DeepCollectionEquality()
+                .equals(other.dailyChallenge, dailyChallenge) &&
             const DeepCollectionEquality().equals(other.loading, loading));
   }
 
@@ -123,6 +138,7 @@ class _$_HomeState implements _HomeState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(user),
+      const DeepCollectionEquality().hash(dailyChallenge),
       const DeepCollectionEquality().hash(loading));
 
   @JsonKey(ignore: true)
@@ -132,11 +148,15 @@ class _$_HomeState implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({final User? user, final bool loading}) =
-      _$_HomeState;
+  const factory _HomeState(
+      {final User? user,
+      final DailyChallenge? dailyChallenge,
+      final bool loading}) = _$_HomeState;
 
   @override
   User? get user => throw _privateConstructorUsedError;
+  @override
+  DailyChallenge? get dailyChallenge => throw _privateConstructorUsedError;
   @override
   bool get loading => throw _privateConstructorUsedError;
   @override

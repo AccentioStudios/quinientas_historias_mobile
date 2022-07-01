@@ -43,6 +43,7 @@ const successDarkColor = Color(0xFF69FBCB);
 const errorDarkColor = Color(0xFFFF7B5B);
 
 Color generateRandomColors() {
+  print('randomColor');
   const List<Color> rangeOfRandomColors = [
     Color(0xFFFFCD81),
     Color(0xFF88C9F9),
@@ -57,4 +58,21 @@ Color generateRandomColors() {
   math.Random random = math.Random();
   int cindex = random.nextInt(rangeOfRandomColors.length);
   return rangeOfRandomColors[cindex];
+}
+
+extension HexColor on Color {
+  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
+  static Color fromHex(String hexString) {
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
+  }
+
+  /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
+  String toHex({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
+      '${alpha.toRadixString(16).padLeft(2, '0')}'
+      '${red.toRadixString(16).padLeft(2, '0')}'
+      '${green.toRadixString(16).padLeft(2, '0')}'
+      '${blue.toRadixString(16).padLeft(2, '0')}';
 }

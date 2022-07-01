@@ -42,9 +42,7 @@ class HeroHeader extends StatelessWidget {
   }
 
   bool ifDailyChallengeExists() {
-    return dailyChallenge != null
-        ? dailyChallenge!.challenge.isNotEmpty
-        : false;
+    return dailyChallenge != null;
   }
 
   Widget buildBackgroundImage() {

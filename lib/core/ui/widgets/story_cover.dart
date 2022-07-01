@@ -29,7 +29,9 @@ class StoryCover extends StatelessWidget {
           onTap: onTap,
           child: Container(
             decoration: BoxDecoration(
-              color: generateRandomColors(),
+              color: story.coverColor != null
+                  ? HexColor.fromHex(story.coverColor!)
+                  : generateRandomColors(),
             ),
             child: Padding(
               padding:

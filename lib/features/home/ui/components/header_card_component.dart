@@ -38,68 +38,7 @@ class HeaderCard extends StatelessWidget {
             HeroHeader(
               dayState: HeroHeaderDayState.day,
               onTap: () => _navigateToDailyChallenge(context),
-              dailyChallenge: DailyChallenge(
-                challenge: [
-                  StoryProgress(
-                    progress: 100,
-                    state: ReadingBookState.done,
-                    story: Story(
-                      id: '1',
-                      title: 'The Awesome Book',
-                      author: Author(
-                        id: '1',
-                        email: 'test@test.com',
-                        firstName: 'Lorem',
-                        lastName: 'Ipsum',
-                      ),
-                    ),
-                  ),
-                  StoryProgress(
-                    progress: 100,
-                    state: ReadingBookState.done,
-                    story: Story(
-                      id: '2',
-                      title: 'The Amazing Book',
-                      author: Author(
-                        id: '1',
-                        email: 'test@test.com',
-                        firstName: 'Lorem',
-                        lastName: 'Ipsum',
-                      ),
-                    ),
-                  ),
-                  StoryProgress(
-                    progress: 40,
-                    state: ReadingBookState.reading,
-                    story: Story(
-                      id: '3',
-                      title: 'The Spectacular Book',
-                      author: Author(
-                        id: '1',
-                        email: 'test@test.com',
-                        firstName: 'Lorem',
-                        lastName: 'Ipsum',
-                      ),
-                    ),
-                  ),
-                  StoryProgress(
-                    progress: 0,
-                    state: ReadingBookState.unread,
-                    story: Story(
-                      id: '4',
-                      title: 'The Friendly Book',
-                      author: Author(
-                        id: '1',
-                        email: 'test@test.com',
-                        firstName: 'Lorem',
-                        lastName: 'Ipsum',
-                      ),
-                    ),
-                  ),
-                ],
-                count: 4,
-                readed: 2,
-              ),
+              dailyChallenge: state.dailyChallenge,
             ),
             const SizedBox(height: Constants.space18),
             _PointsRow(

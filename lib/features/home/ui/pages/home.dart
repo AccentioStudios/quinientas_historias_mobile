@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/core/utils/colors.dart';
 
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
@@ -31,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     BlocProvider.of<HomeCubit>(context)
-        .loadUserData(onError: (error) => widget.handleError(context, error));
+        .getDashboard(onError: (error) => widget.handleError(context, error));
     super.didChangeDependencies();
   }
 
@@ -109,6 +108,7 @@ List<Story> stories = [
   Story(
     id: '1',
     title: 'The Awesome Book',
+    coverColor: 'FFCD81',
     author: Author(
       id: '1',
       email: 'test@test.com',
@@ -119,6 +119,7 @@ List<Story> stories = [
   Story(
     id: '2',
     title: 'The Amazing Book',
+    coverColor: '88C9F9',
     author: Author(
       id: '1',
       email: 'test@test.com',
@@ -129,6 +130,7 @@ List<Story> stories = [
   Story(
     id: '3',
     title: 'The Spectacular Book',
+    coverColor: 'ADE9B3',
     author: Author(
       id: '1',
       email: 'test@test.com',
@@ -139,6 +141,7 @@ List<Story> stories = [
   Story(
     id: '4',
     title: 'The Spectacular Book',
+    coverColor: 'C494F3',
     author: Author(
       id: '1',
       email: 'test@test.com',

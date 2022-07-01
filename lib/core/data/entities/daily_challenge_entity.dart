@@ -9,7 +9,7 @@ class DailyChallenge {
   DailyChallenge({
     required this.count,
     required this.readed,
-    required this.challenge,
+    this.challenge,
   });
 
   factory DailyChallenge.fromJson(Map<String, dynamic> json) =>
@@ -17,7 +17,7 @@ class DailyChallenge {
 
   final int count;
   final int readed;
-  final List<StoryProgress?> challenge;
+  final List<StoryProgress>? challenge;
 
   Map<String, dynamic> toJson() => _$DailyChallengeToJson(this);
 }

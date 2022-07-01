@@ -4,7 +4,7 @@ import 'package:quinientas_historias/features/auth/data/repositories/auth_reposi
 import 'package:quinientas_historias/features/auth/data/useCases/auth_usecases.dart';
 
 import 'bloc/cubit/auth_cubit.dart';
-import 'ui/pages/login/login_page.dart';
+import 'ui/pages/login_page.dart';
 
 class AuthProvider extends StatelessWidget {
   const AuthProvider({Key? key}) : super(key: key);

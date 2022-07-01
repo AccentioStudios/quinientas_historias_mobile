@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
+import 'package:quinientas_historias/features/home/data/entities/dashboard_entity.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
 import '../../data/useCases/home_usecases.dart';
@@ -14,10 +16,11 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
   }) : super(const HomeState());
   final HomeUseCases homeUseCases;
 
-  void loadUserData({required Function? onError}) {
+  void getDashboard({required Function? onError}) {
     emit(state.copyWith(loading: true));
-    homeUseCases.userData().listen((User user) {
-      emit(state.copyWith(user: user));
+    homeUseCases.getDashboard().listen((Dashboard dashboard) {
+      emit(state.copyWith(
+          user: dashboard.user, dailyChallenge: dashboard.dailyChallenge));
     }, onError: (error) {
       if (onError != null) onError(error);
     }, onDone: () {
