@@ -27,7 +27,7 @@ class HeroHeader extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         borderRadius: Constants.borderRadius23,
-        onTap: () {},
+        onTap: onTap,
         child: Stack(
           fit: StackFit.expand,
           children: [

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/data/entities/author_entitiy.dart';
+import '../../../features/reading_module/data/models/author_model.dart';
 part 'story_entity.g.dart';
 
 @JsonSerializable()

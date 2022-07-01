@@ -6,8 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/utils/constants.dart';
 
-class ReadingCarouselBook extends StatelessWidget {
-  const ReadingCarouselBook({Key? key, required this.stories})
+class ReadingCarouselStory extends StatelessWidget {
+  const ReadingCarouselStory({Key? key, required this.stories})
       : super(key: key);
 
   final List<StoryProgress> stories;
@@ -24,19 +24,27 @@ class ReadingCarouselBook extends StatelessWidget {
       fontSize: 14,
     );
 
-    return CarouselSlider(
-      options: CarouselOptions(
-        scrollPhysics: const BouncingScrollPhysics(),
-        initialPage: searchCurrentReadingBook(),
-        enableInfiniteScroll: false,
-        aspectRatio: 145 / 196,
-        viewportFraction: 0.43,
-        height: 196 + 18 + 8,
-        enlargeCenterPage: true,
-        onPageChanged: onPageChangedHandler,
-        enlargeStrategy: CenterPageEnlargeStrategy.height,
-      ),
-      items: buildList(context, textStyle, secondaryTextStyle),
+    double heightCarousel = 196 + 18 + 8;
+
+    return SizedBox(
+      height: heightCarousel,
+      width: MediaQuery.of(context).size.width,
+      child: stories.isEmpty
+          ? const SizedBox.shrink()
+          : CarouselSlider(
+              options: CarouselOptions(
+                scrollPhysics: const BouncingScrollPhysics(),
+                initialPage: searchCurrentReadingBook(),
+                enableInfiniteScroll: false,
+                aspectRatio: 145 / 196,
+                viewportFraction: 0.43,
+                height: heightCarousel,
+                enlargeCenterPage: true,
+                onPageChanged: onPageChangedHandler,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+              ),
+              items: buildList(context, textStyle, secondaryTextStyle),
+            ),
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
-import '../../data/useCases/auth_usecases.dart';
+import '../../data/useCases/home_usecases.dart';
 
 part 'home_state.dart';
 part 'home_cubit.freezed.dart';

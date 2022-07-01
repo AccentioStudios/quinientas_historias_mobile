@@ -9,16 +9,16 @@ class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     Key? key,
     this.user,
-    required this.userNameTextStyle,
-    required this.userTypeTextStyle,
   }) : super(key: key);
 
   final User? user;
-  final TextStyle userNameTextStyle;
-  final TextStyle userTypeTextStyle;
 
   @override
   Widget build(BuildContext context) {
+    const TextStyle userNameTextStyle =
+        TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+    const TextStyle userTypeTextStyle = TextStyle(fontSize: 14);
+
     return Container(
       width: double.infinity,
       height: 84,
