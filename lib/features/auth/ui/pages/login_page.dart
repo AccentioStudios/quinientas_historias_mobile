@@ -2,13 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/failures/failures.dart';
+import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 import 'package:quinientas_historias/core/ui/widgets/headline.dart';
 import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
 import 'package:quinientas_historias/features/auth/bloc/cubit/auth_cubit.dart';
+import 'package:quinientas_historias/features/auth/data/models/auth_model.dart';
 import 'package:quinientas_historias/features/auth/ui/pages/forgot_password_page.dart';
+import 'package:quinientas_historias/features/home/home_provider.dart';
 
+import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/constants.dart';
+import '../../data/models/login_model.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -44,7 +50,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _LoginForm extends StatefulWidget {
+class _LoginForm extends StatefulWidget with ErrorHandling {
   const _LoginForm({Key? key}) : super(key: key);
 
   @override
@@ -63,44 +69,63 @@ class _LoginFormState extends State<_LoginForm> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    emailAddressLoginController.dispose();
+    passwordLoginController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
-      child: Column(
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(left: Constants.space21),
-            child: Headline(label: 'Iniciar sesion'),
-          ),
-          ThemedTextFormField(
-            controller: emailAddressLoginController,
-            hintText: 'Email',
-            prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(height: Constants.space18),
-          ThemedTextFormField(
-            controller: passwordLoginController,
-            hintText: 'Password',
-            prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
-            keyboardType: TextInputType.text,
-            obscureText: true,
-          ),
-          const SizedBox(height: Constants.space18),
-          Align(
-              alignment: Alignment.topRight,
-              child: LinkButton(
-                text: 'Olvidé la contraseña',
-                onTap: () => _navigateToForgotPassword(context),
-              )),
-          const SizedBox(height: Constants.space18),
-          BigButton(
-            elevation: 5,
-            text: 'Entrar a 500 Historias',
-            isLoading: false,
-            onPressed: () {},
-          )
-        ],
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          return Column(
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(left: Constants.space21),
+                child: Headline(label: 'Iniciar sesion'),
+              ),
+              ThemedTextFormField(
+                controller: emailAddressLoginController,
+                hintText: 'Email',
+                prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
+                keyboardType: TextInputType.emailAddress,
+                enabled: !state.loading,
+                errorText: state.authError?.emailErrorMessage,
+              ),
+              const SizedBox(height: Constants.space18),
+              ThemedTextFormField(
+                controller: passwordLoginController,
+                hintText: 'Password',
+                prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
+                keyboardType: TextInputType.text,
+                obscureText: true,
+                enabled: !state.loading,
+                errorText: state.authError?.passwordErrorMessage,
+              ),
+              const SizedBox(height: Constants.space18),
+              Align(
+                  alignment: Alignment.topRight,
+                  child: LinkButton(
+                    text: 'Olvidé la contraseña',
+                    onTap: () => state.loading
+                        ? null
+                        : _navigateToForgotPassword(context),
+                  )),
+              const SizedBox(height: Constants.space18),
+              BigButton(
+                elevation: 5,
+                text: 'Entrar a 500 Historias',
+                isLoading: state.loading,
+                onPressed: () {
+                  _navigateToHome(context);
+                },
+              )
+            ],
+          );
+        },
       ),
     );
   }
@@ -115,6 +140,18 @@ class _LoginFormState extends State<_LoginForm> {
       ),
     );
   }
+
+  void _navigateToHome(BuildContext context) {
+    BlocProvider.of<AuthCubit>(context).login(
+        LoginModel(
+            email: emailAddressLoginController.text,
+            password: passwordLoginController.text),
+        onSuccess: () {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).pushReplacementNamed(Routes.home);
+        },
+        onError: (error) => widget.handleError(context, error));
+  }
 }
 
 class ThemedTextFormField extends StatelessWidget {
@@ -127,6 +164,7 @@ class ThemedTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.enabled,
     this.autofocus = false,
+    this.errorText,
   }) : super(key: key);
 
   final String? hintText;
@@ -136,6 +174,7 @@ class ThemedTextFormField extends StatelessWidget {
   final bool obscureText;
   final bool? enabled;
   final bool autofocus;
+  final String? errorText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -145,6 +184,7 @@ class ThemedTextFormField extends StatelessWidget {
       controller: controller,
       enabled: enabled,
       decoration: InputDecoration(
+        errorText: errorText,
         prefixIcon: prefixIconSvgPath != null
             ? Padding(
                 padding: const EdgeInsets.only(
@@ -177,9 +217,19 @@ class ThemedTextFormField extends StatelessWidget {
               width: 1),
           borderRadius: Constants.borderRadius50,
         ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+              width: 1),
+          borderRadius: Constants.borderRadius50,
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.error, width: 1),
+          borderRadius: Constants.borderRadius50,
+        ),
         filled: enabled == false ? false : true,
         fillColor: Theme.of(context).colorScheme.primaryContainer,
-        hoverColor: Theme.of(context).colorScheme.onPrimaryContainer,
         hintText: hintText,
       ),
     );

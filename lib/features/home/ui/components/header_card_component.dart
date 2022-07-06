@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
-import '../../../../core/data/entities/story_entity.dart';
-import '../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/single_chip.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
-import '../../../reading_module/data/models/author_model.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../widgets/hero_header_widget.dart';
 import '../widgets/home_app_bar.dart';

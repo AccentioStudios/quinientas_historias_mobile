@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:quinientas_historias/features/auth/data/models/auth_model.dart';
 
 import '../../data/models/http_response_model.dart';
 import '../../data/models/http_status_model.dart';
@@ -12,14 +14,25 @@ class HttpImp implements HttpHelper {
   HttpImp({required this.hostUrl, this.https = PlataformEnvironment.https});
   final String hostUrl;
   final bool https;
+
+  Future<String?> _getSavedAccessToken() async {
+    const secureStorage = FlutterSecureStorage();
+    return await secureStorage.read(key: 'accessToken');
+  }
+
   @override
   Future<HttpResponse> get(String path,
       {Map<String, dynamic>? parameters}) async {
     try {
+      String? savedAccessToken = await _getSavedAccessToken();
       final Uri uri = _buildUri(path, parameters);
       final response = await http.get(
         uri,
-        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          if (savedAccessToken != null)
+            HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+        },
       );
       HttpResponse httpResponse = _buildHttpResponse(response);
       return httpResponse;
@@ -32,8 +45,18 @@ class HttpImp implements HttpHelper {
   Future<HttpResponse> post(String path,
       {Object? data, Map<String, dynamic>? parameters}) async {
     try {
+      String? savedAccessToken = await _getSavedAccessToken();
+
       final response = await http.post(_buildUri(path, parameters),
-          headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.accessControlAllowOriginHeader: '*',
+            HttpHeaders.accessControlAllowMethodsHeader:
+                'GET, POST, DELETE, HEAD, OPTIONS',
+            HttpHeaders.accessControlAllowCredentialsHeader: 'true',
+            if (savedAccessToken != null)
+              HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+          },
           body: data);
       return _buildHttpResponse(response);
     } catch (e) {
@@ -45,8 +68,14 @@ class HttpImp implements HttpHelper {
   Future<HttpResponse> put(String path,
       {Object? data, Map<String, dynamic>? parameters}) async {
     try {
+      String? savedAccessToken = await _getSavedAccessToken();
+
       final response = await http.put(_buildUri(path, parameters),
-          headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            if (savedAccessToken != null)
+              HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+          },
           body: data);
       return _buildHttpResponse(response);
     } catch (e) {
@@ -58,7 +87,13 @@ class HttpImp implements HttpHelper {
   Future<HttpResponse> delete(String path,
       {Map<String, dynamic>? parameters}) async {
     try {
-      final response = await http.get(_buildUri(path, parameters));
+      String? savedAccessToken = await _getSavedAccessToken();
+
+      final response = await http.get(_buildUri(path, parameters), headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        if (savedAccessToken != null)
+          HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken',
+      });
       return _buildHttpResponse(response);
     } catch (e) {
       throw _buildHttpResponseWithError(_handleHttpError(e));
@@ -108,5 +143,21 @@ class HttpImp implements HttpHelper {
         "statusCode": error.statusCode.toString(),
       }),
     );
+  }
+
+  @override
+  void setAuth(AuthModel authModel) {
+    if (authModel.accessToken != null) {
+      const secureStorage = FlutterSecureStorage();
+      secureStorage.deleteAll();
+      secureStorage.write(key: 'accessToken', value: authModel.accessToken);
+      secureStorage.write(key: 'userId', value: authModel.userId);
+    }
+  }
+
+  @override
+  void removeAuth() {
+    const secureStorage = FlutterSecureStorage();
+    secureStorage.deleteAll();
   }
 }

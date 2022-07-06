@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/auth/auth_provider.dart';
+import 'routes/routes.dart';
 import 'theme/theme.dart';
 
 class Application extends StatelessWidget {
@@ -14,7 +14,8 @@ class Application extends StatelessWidget {
       themeMode: ThemeMode.dark,
       theme: ThemeClass.lightTheme,
       darkTheme: ThemeClass.darkTheme,
-      home: const AuthProvider(),
+      routes: Routes.generateRoutes(),
+      initialRoute: Routes.root,
     );
   }
 }

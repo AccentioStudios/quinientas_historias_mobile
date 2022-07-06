@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import '../failures/failures.dart';
+import '../ui/pages/error_page.dart';
 
 mixin ErrorHandling on Widget {
+  Future<void> _showErrorMessage(BuildContext context, Widget page) {
+    return Navigator.of(context, rootNavigator: true)
+        .push(MaterialPageRoute<void>(builder: (context) => page));
+  }
+
   void handleError(BuildContext context, Object error,
       {void Function()? navigate}) {
     if (error is NetworkFailure) {
@@ -27,9 +33,11 @@ mixin ErrorHandling on Widget {
 
   void _gotoCommonError(BuildContext context, CommonFailure error,
       [void Function()? navigate]) {
-    Navigator.of(context, rootNavigator: true).push<void>(
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) => const Text("Common error :)")));
+    _showErrorMessage(context, ErrorPage(
+      onBtnTap: () {
+        Navigator.of(context).pop();
+      },
+    ));
   }
 
   void _gotoNetworkError(BuildContext context, [void Function()? navigate]) {

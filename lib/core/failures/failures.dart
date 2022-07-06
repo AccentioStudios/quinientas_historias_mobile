@@ -1,3 +1,5 @@
+import '../../features/auth/data/models/auth_error_model.dart';
+
 abstract class Failure implements Exception {}
 
 class CommonFailure extends Failure {
@@ -12,6 +14,11 @@ class CommonFailure extends Failure {
 class UnauthorizedFailure extends Failure {
   UnauthorizedFailure({this.message});
   final String? message;
+}
+
+class LoginFailure extends Failure {
+  LoginFailure({required this.authErrorModel});
+  final AuthErrorModel authErrorModel;
 }
 
 class HttpHandleFailure extends Failure {

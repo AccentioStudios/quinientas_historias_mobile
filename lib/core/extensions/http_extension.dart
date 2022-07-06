@@ -1,5 +1,6 @@
-import '../data/models/http_status_model.dart';
+import '../../features/auth/data/models/auth_error_model.dart';
 import '../data/models/http_response_model.dart';
+import '../data/models/http_status_model.dart';
 import '../failures/error_codes.dart';
 import '../failures/failures.dart';
 
@@ -21,6 +22,7 @@ extension HttpExtension on Future<HttpResponse> {
 
   Stream<T> handleJson<T>({required HttpResponseJsonMapper<T> mapper}) async* {
     final HttpResponse response = await this;
+    _checkFailures(response);
     if (response.isSuccess()) {
       if (response.jsonData == null) {
         throw HttpHandleFailure(error: 'no json data');
@@ -32,7 +34,6 @@ extension HttpExtension on Future<HttpResponse> {
         throw HttpHandleFailure(error: error);
       }
     }
-    _checkFailures(response);
   }
 }
 
@@ -54,6 +55,12 @@ void _checkFailures(HttpResponse response) {
           throw CommonFailure(httpStatus.message);
         case StatusCodes.notFound:
           throw CommonFailure('Not found');
+        case StatusCodes.unauthorized:
+          if (response.jsonData != null) {
+            throw LoginFailure(
+                authErrorModel: AuthErrorModel.fromMap(response.jsonData!));
+          }
+          throw UnauthorizedFailure();
         default:
           throw UnknownFailure();
       }
