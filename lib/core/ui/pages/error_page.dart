@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
+import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
 
 import '../../utils/constants.dart';
-import '../layouts/layout_with_footer.dart';
+import '../widgets/big_button.dart';
 
 class ErrorPage extends StatelessWidget {
-  const ErrorPage({
-    Key? key,
-    this.headline = 'Oops...',
-    this.message =
-        'Algo sucedió y no sabemos que pasó.\nIntenta nuevamente, quizás ya se solucionó',
-    this.svgImagePath = 'assets/images/bug-error-image.svg',
-    this.haveBackButton = false,
-    this.btnLabel = 'Volver',
-    this.onBtnTap,
-  }) : super(key: key);
+  const ErrorPage(
+      {Key? key,
+      this.headline = 'Oops...',
+      this.message =
+          'Algo sucedió y no sabemos que pasó.\nIntenta nuevamente, quizás ya se solucionó',
+      this.svgImagePath = 'assets/images/bug-error-image.svg',
+      this.haveBackButton = false,
+      this.btnLabel = 'Volver',
+      this.onBtnTap,
+      this.linkBtnLabel,
+      this.linkBtnOnTap})
+      : super(key: key);
 
   final String headline;
   final String message;
   final String svgImagePath;
   final bool haveBackButton;
-  final String btnLabel;
-  final Function? onBtnTap;
+  final String? btnLabel;
+  final Function()? onBtnTap;
+
+  final String? linkBtnLabel;
+  final Function()? linkBtnOnTap;
   @override
   Widget build(BuildContext context) {
     const TextStyle headlineStyle = TextStyle(
@@ -68,12 +73,27 @@ class ErrorPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: Constants.space21),
-            child: BigButton(
-                text: btnLabel,
-                onPressed: () {
-                  if (onBtnTap != null) onBtnTap!();
-                  _navigatoToBack(context);
-                }),
+            child: Column(
+              children: [
+                BigButton(
+                    text: btnLabel,
+                    onPressed: () {
+                      if (onBtnTap != null) {
+                        onBtnTap!();
+                      } else {
+                        _navigatoToBack(context);
+                      }
+                    }),
+                linkBtnLabel != null && linkBtnOnTap != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: LinkButton(
+                          text: linkBtnLabel!,
+                          onTap: linkBtnOnTap,
+                        ))
+                    : const SizedBox.shrink(),
+              ],
+            ),
           ),
         ]),
       ),

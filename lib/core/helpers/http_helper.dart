@@ -1,4 +1,4 @@
-import 'package:quinientas_historias/features/auth/data/models/auth_model.dart';
+import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
 import '../data/models/http_response_model.dart';
 
@@ -25,6 +25,6 @@ abstract class HttpHelper {
     Map<String, dynamic>? parameters,
   });
 
-  void setAuth(AuthModel authModel);
+  void setAuth(JWTTokenModel authModel);
   void removeAuth();
 }

@@ -213,6 +213,13 @@ packages:
       url: "https://github.com/AccentioStudios/custom_nested_scroll_view.git"
     source: git
     version: "0.0.1"
+  dart_jsonwebtoken:
+    dependency: "direct main"
+    description:
+      name: dart_jsonwebtoken
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.1"
   dart_style:
     dependency: transitive
     description:
@@ -781,6 +788,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.6.0"
   pool:
     dependency: transitive
     description:

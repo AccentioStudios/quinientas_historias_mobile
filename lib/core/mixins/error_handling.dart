@@ -1,64 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/failures/auth_failure.dart';
+import '../failures/common_failure.dart';
 import '../failures/failures.dart';
+import '../routes/routes.dart';
 import '../ui/pages/error_page.dart';
 
 mixin ErrorHandling on Widget {
-  Future<void> _showErrorMessage(BuildContext context, Widget page) {
+  Future<T?> _showErrorMessage<T>(BuildContext context, Widget page) {
     return Navigator.of(context, rootNavigator: true)
-        .push(MaterialPageRoute<void>(builder: (context) => page));
+        .push<T>(MaterialPageRoute<T>(builder: (context) => page));
   }
 
-  void handleError(BuildContext context, Object error,
-      {void Function()? navigate}) {
+  Future<T?> handleError<T>(
+    BuildContext context,
+    Object error, {
+    String? btnLabel,
+    void Function()? onTap,
+    String? linkBtnLabel,
+    void Function()? linkBtnOnTap,
+  }) async {
     if (error is NetworkFailure) {
-      _gotoNetworkError(context, navigate);
-      return;
+      return _gotoNetworkError<T>(context, onTap);
     }
     if (error is CommonFailure) {
-      _gotoCommonError(context, error, navigate);
-      return;
+      return _gotoCommonError<T>(context, error, onTap: onTap);
     }
 
-    if (error is UnauthorizedFailure) {
-      _gotoUnauthorizedError(context);
-      return;
+    if (error is AuthFailure) {
+      return _gotoAuthError<T>(context);
     }
 
-    _gotoCommonError(
+    return _gotoCommonError<T>(
       context,
-      CommonFailure(''),
-      navigate,
+      CommonFailure(),
+      btnLabel: btnLabel,
+      onTap: onTap,
+      linkBtnLabel: linkBtnLabel,
+      linkBtnOnTap: linkBtnOnTap,
     );
   }
 
-  void _gotoCommonError(BuildContext context, CommonFailure error,
-      [void Function()? navigate]) {
-    _showErrorMessage(context, ErrorPage(
-      onBtnTap: () {
-        Navigator.of(context).pop();
-      },
-    ));
+  Future<T?> _gotoCommonError<T>(
+    BuildContext context,
+    CommonFailure error, {
+    String? btnLabel,
+    void Function()? onTap,
+    String? linkBtnLabel,
+    void Function()? linkBtnOnTap,
+  }) {
+    return _showErrorMessage<T>(
+        context,
+        ErrorPage(
+          btnLabel: btnLabel,
+          onBtnTap: () {
+            if (onTap != null) {
+              onTap();
+            }
+            Navigator.of(context).pop(true);
+          },
+          linkBtnLabel: linkBtnLabel,
+          linkBtnOnTap: linkBtnOnTap,
+        ));
   }
 
-  void _gotoNetworkError(BuildContext context, [void Function()? navigate]) {
-    Navigator.of(context, rootNavigator: true).push<void>(
-        MaterialPageRoute<void>(
+  Future<T?> _gotoNetworkError<T>(BuildContext context,
+      [void Function()? onTap]) {
+    return Navigator.of(context, rootNavigator: true).push<T>(
+        MaterialPageRoute<T>(
             builder: (BuildContext context) => const Text("Network Error :)")));
   }
 
-  void _gotoUnauthorizedError(BuildContext context) {
-    Navigator.of(context, rootNavigator: true).push<void>(
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) =>
-                const Text("Sesion/Login Error :)")));
-  }
-}
-
-class ErrorMessagePage extends StatelessWidget {
-  const ErrorMessagePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  Future<T?> _gotoAuthError<T>(BuildContext context) {
+    return _showErrorMessage<T>(
+        context,
+        ErrorPage(
+          headline: 'You shall not pass!!',
+          message:
+              'No reconocemos que tengas acceso aquí, intenta iniciar sesión nuevamente con los permisos correctos.',
+          svgImagePath: 'assets/images/hand-left-image.svg',
+          btnLabel: 'Iniciar sesión',
+          onBtnTap: () {
+            // Navigator.of(context).popUntil((route) => route.isFirst);
+            Navigator.of(context).pushNamed(Routes.login);
+          },
+        ));
   }
 }

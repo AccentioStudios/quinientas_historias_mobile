@@ -7,7 +7,7 @@ part 'story_progress_entity.g.dart';
 @JsonSerializable()
 class StoryProgress {
   StoryProgress({
-    required this.state,
+    required this.status,
     required this.progress,
     required this.story,
   });
@@ -15,14 +15,14 @@ class StoryProgress {
   factory StoryProgress.fromJson(Map<String, dynamic> json) =>
       _$StoryProgressFromJson(json);
 
-  final ReadingBookState state;
+  final StoryStatus status;
   final int progress;
   final Story story;
 
   Map<String, dynamic> toJson() => _$StoryProgressToJson(this);
 }
 
-enum ReadingBookState {
+enum StoryStatus {
   @JsonValue('done')
   done,
   @JsonValue('reading')

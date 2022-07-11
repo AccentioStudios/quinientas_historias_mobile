@@ -49,8 +49,8 @@ class ReadingCarouselStory extends StatelessWidget {
   }
 
   int searchCurrentReadingBook() {
-    int indexCurrentReadingBook = stories.indexOf(stories
-        .firstWhere((element) => element.state == ReadingBookState.reading));
+    int indexCurrentReadingBook = stories.indexOf(
+        stories.firstWhere((element) => element.status == StoryStatus.reading));
     return indexCurrentReadingBook;
   }
 
@@ -116,7 +116,7 @@ class ReadingCarouselStory extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(bottom: 18),
                                         child: Text(
-                                          'Tiempo lectura \n${item.state}',
+                                          'Tiempo lectura \n${item.status}',
                                           style: secondaryTextStyle,
                                           textAlign: TextAlign.center,
                                         ),
@@ -126,7 +126,7 @@ class ReadingCarouselStory extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            item.state == ReadingBookState.done
+                            item.status == StoryStatus.done
                                 ? foregroundMutedLayer
                                 : const SizedBox.shrink(),
                           ],
@@ -138,7 +138,7 @@ class ReadingCarouselStory extends StatelessWidget {
                     right: -6,
                     top: -6,
                     child: _ReadingBadge(
-                      readingState: item.state,
+                      readingState: item.status,
                     ),
                   ),
                 ],
@@ -151,10 +151,10 @@ class ReadingCarouselStory extends StatelessWidget {
 class _ReadingBadge extends StatelessWidget {
   const _ReadingBadge({
     Key? key,
-    this.readingState = ReadingBookState.unread,
+    this.readingState = StoryStatus.unread,
   }) : super(key: key);
 
-  final ReadingBookState readingState;
+  final StoryStatus readingState;
   @override
   Widget build(BuildContext context) {
     return buildBadge(context);
@@ -165,17 +165,17 @@ class _ReadingBadge extends StatelessWidget {
     Color? badgeColor;
     double badgeWidth = 30;
     switch (readingState) {
-      case ReadingBookState.done:
+      case StoryStatus.done:
         svgIconPath = 'assets/icons/done-badge.svg';
         badgeColor = Theme.of(context).colorScheme.onTertiaryContainer;
         badgeWidth = 30;
         break;
-      case ReadingBookState.reading:
+      case StoryStatus.reading:
         svgIconPath = 'assets/icons/reading-badge.svg';
         badgeColor = Theme.of(context).colorScheme.onSurface;
         badgeWidth = 95;
         break;
-      case ReadingBookState.unread:
+      case StoryStatus.unread:
         svgIconPath = '';
         badgeWidth = 0;
         break;

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthState {
   bool get loading => throw _privateConstructorUsedError;
-  AuthErrorModel? get authError => throw _privateConstructorUsedError;
+  AuthFailure? get authFailure => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
 
@@ -31,7 +31,7 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res>;
   $Res call(
-      {bool loading, AuthErrorModel? authError, String email, String password});
+      {bool loading, AuthFailure? authFailure, String email, String password});
 }
 
 /// @nodoc
@@ -45,7 +45,7 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
   @override
   $Res call({
     Object? loading = freezed,
-    Object? authError = freezed,
+    Object? authFailure = freezed,
     Object? email = freezed,
     Object? password = freezed,
   }) {
@@ -54,10 +54,10 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      authError: authError == freezed
-          ? _value.authError
-          : authError // ignore: cast_nullable_to_non_nullable
-              as AuthErrorModel?,
+      authFailure: authFailure == freezed
+          ? _value.authFailure
+          : authFailure // ignore: cast_nullable_to_non_nullable
+              as AuthFailure?,
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,7 @@ abstract class _$$_AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
       __$$_AuthStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool loading, AuthErrorModel? authError, String email, String password});
+      {bool loading, AuthFailure? authFailure, String email, String password});
 }
 
 /// @nodoc
@@ -93,7 +93,7 @@ class __$$_AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? loading = freezed,
-    Object? authError = freezed,
+    Object? authFailure = freezed,
     Object? email = freezed,
     Object? password = freezed,
   }) {
@@ -102,10 +102,10 @@ class __$$_AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      authError: authError == freezed
-          ? _value.authError
-          : authError // ignore: cast_nullable_to_non_nullable
-              as AuthErrorModel?,
+      authFailure: authFailure == freezed
+          ? _value.authFailure
+          : authFailure // ignore: cast_nullable_to_non_nullable
+              as AuthFailure?,
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ class __$$_AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
 class _$_AuthState implements _AuthState {
   const _$_AuthState(
       {this.loading = false,
-      this.authError,
+      this.authFailure,
       this.email = '',
       this.password = ''});
 
@@ -131,7 +131,7 @@ class _$_AuthState implements _AuthState {
   @JsonKey()
   final bool loading;
   @override
-  final AuthErrorModel? authError;
+  final AuthFailure? authFailure;
   @override
   @JsonKey()
   final String email;
@@ -141,7 +141,7 @@ class _$_AuthState implements _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(loading: $loading, authError: $authError, email: $email, password: $password)';
+    return 'AuthState(loading: $loading, authFailure: $authFailure, email: $email, password: $password)';
   }
 
   @override
@@ -150,7 +150,8 @@ class _$_AuthState implements _AuthState {
         (other.runtimeType == runtimeType &&
             other is _$_AuthState &&
             const DeepCollectionEquality().equals(other.loading, loading) &&
-            const DeepCollectionEquality().equals(other.authError, authError) &&
+            const DeepCollectionEquality()
+                .equals(other.authFailure, authFailure) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.password, password));
   }
@@ -159,7 +160,7 @@ class _$_AuthState implements _AuthState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(loading),
-      const DeepCollectionEquality().hash(authError),
+      const DeepCollectionEquality().hash(authFailure),
       const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(password));
 
@@ -172,14 +173,14 @@ class _$_AuthState implements _AuthState {
 abstract class _AuthState implements AuthState {
   const factory _AuthState(
       {final bool loading,
-      final AuthErrorModel? authError,
+      final AuthFailure? authFailure,
       final String email,
       final String password}) = _$_AuthState;
 
   @override
   bool get loading => throw _privateConstructorUsedError;
   @override
-  AuthErrorModel? get authError => throw _privateConstructorUsedError;
+  AuthFailure? get authFailure => throw _privateConstructorUsedError;
   @override
   String get email => throw _privateConstructorUsedError;
   @override

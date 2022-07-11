@@ -1,6 +1,7 @@
-import '../../features/auth/data/models/auth_error_model.dart';
 import '../data/models/http_response_model.dart';
 import '../data/models/http_status_model.dart';
+import '../failures/auth_failure.dart';
+import '../failures/common_failure.dart';
 import '../failures/error_codes.dart';
 import '../failures/failures.dart';
 
@@ -52,15 +53,19 @@ void _checkFailures(HttpResponse response) {
         case StatusCodes.unknown:
           throw UnknownFailure();
         case StatusCodes.badRequest:
-          throw CommonFailure(httpStatus.message);
+          throw CommonFailure();
         case StatusCodes.notFound:
-          throw CommonFailure('Not found');
+          throw CommonFailure();
         case StatusCodes.unauthorized:
           if (response.jsonData != null) {
-            throw LoginFailure(
-                authErrorModel: AuthErrorModel.fromMap(response.jsonData!));
+            throw AuthFailure.fromJson(response.jsonData!);
           }
-          throw UnauthorizedFailure();
+          throw AuthFailure();
+        case StatusCodes.internalServerError:
+          if (response.jsonData != null) {
+            throw CommonFailure.fromJson(response.jsonData!);
+          }
+          throw CommonFailure();
         default:
           throw UnknownFailure();
       }

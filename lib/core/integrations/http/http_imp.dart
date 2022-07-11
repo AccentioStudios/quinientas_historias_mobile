@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:quinientas_historias/features/auth/data/models/auth_model.dart';
+import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
 import '../../data/models/http_response_model.dart';
 import '../../data/models/http_status_model.dart';
@@ -146,12 +146,13 @@ class HttpImp implements HttpHelper {
   }
 
   @override
-  void setAuth(AuthModel authModel) {
-    if (authModel.accessToken != null) {
+  void setAuth(JWTTokenModel jwtToken) {
+    if (jwtToken.accessToken != null) {
+      final String jwtJson = jwtToken.toJson();
       const secureStorage = FlutterSecureStorage();
       secureStorage.deleteAll();
-      secureStorage.write(key: 'accessToken', value: authModel.accessToken);
-      secureStorage.write(key: 'userId', value: authModel.userId);
+      secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);
+      secureStorage.write(key: 'userData', value: jwtJson);
     }
   }
 

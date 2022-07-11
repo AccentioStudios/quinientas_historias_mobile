@@ -4,7 +4,7 @@ part of 'auth_cubit.dart';
 class AuthState with _$AuthState {
   const factory AuthState({
     @Default(false) bool loading,
-    AuthErrorModel? authError,
+    AuthFailure? authFailure,
     @Default('') String email,
     @Default('') String password,
   }) = _AuthState;

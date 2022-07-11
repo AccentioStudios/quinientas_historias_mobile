@@ -28,8 +28,7 @@ class _LandingPageState extends State<LandingPage> {
 
   Future<bool> _checkAccessToken() async {
     const secureStorage = FlutterSecureStorage();
-    return await secureStorage.containsKey(key: 'accessToken') &&
-        await secureStorage.containsKey(key: 'userId');
+    return await secureStorage.containsKey(key: 'accessToken');
   }
 
   Future<void> initCheckings() async {

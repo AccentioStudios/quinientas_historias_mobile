@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/core/failures/auth_failure.dart';
 import 'package:quinientas_historias/core/ui/widgets/headline.dart';
 
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
@@ -29,9 +32,34 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-    BlocProvider.of<HomeCubit>(context)
-        .getDashboard(onError: (error) => widget.handleError(context, error));
+    getDashboard(context);
     super.didChangeDependencies();
+  }
+
+  void logout() {
+    const secureStorage = FlutterSecureStorage();
+    secureStorage.deleteAll();
+  }
+
+  void getDashboard(BuildContext context) {
+    BlocProvider.of<HomeCubit>(context).getDashboard(onError: (error) async {
+      if (error is AuthFailure) {
+        logout();
+      }
+      widget.handleError<bool>(context, error,
+          btnLabel: 'Intentar nuevamente',
+          linkBtnLabel: 'Cerrar Sesión', linkBtnOnTap: () {
+        logout();
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pushNamed(Routes.login);
+      }).then((isRefresh) {
+        if (isRefresh != null) {
+          if (isRefresh) {
+            getDashboard(context);
+          }
+        }
+      });
+    });
   }
 
   @override
@@ -39,7 +67,7 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          body: state.loading
+          body: state.loading && state.user == null
               ? const Center(
                   child: CircularProgressIndicator(),
                 )

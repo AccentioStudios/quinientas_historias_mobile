@@ -17,6 +17,7 @@ dependencies:
   custom_nested_scroll_view:
     git:
       url: https://github.com/AccentioStudios/custom_nested_scroll_view.git
+  dart_jsonwebtoken: ^2.4.1
   device_info_plus: ^3.2.3
   firebase_auth: ^3.3.19
   firebase_core: ^1.17.1

@@ -2,16 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/failures/failures.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
-import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
-import 'package:quinientas_historias/features/auth/bloc/cubit/auth_cubit.dart';
-import 'package:quinientas_historias/features/auth/data/models/auth_model.dart';
-import 'package:quinientas_historias/features/auth/ui/pages/forgot_password_page.dart';
-import 'package:quinientas_historias/features/home/home_provider.dart';
-
+import 'package:quinientas_historias/core/failures/auth_failure.dart';
+import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/ui/widgets/big_button.dart';
+import '../../../../core/ui/widgets/headline.dart';
+import '../../../../core/ui/widgets/link_button.dart';
+import '../../bloc/cubit/auth_cubit.dart';
+import 'forgot_password_page.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/constants.dart';
 import '../../data/models/login_model.dart';
@@ -93,7 +90,9 @@ class _LoginFormState extends State<_LoginForm> {
                 prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
                 keyboardType: TextInputType.emailAddress,
                 enabled: !state.loading,
-                errorText: state.authError?.emailErrorMessage,
+                errorText: state.authFailure?.errorType == AuthFailureType.email
+                    ? state.authFailure?.message
+                    : null,
               ),
               const SizedBox(height: Constants.space18),
               ThemedTextFormField(
@@ -103,7 +102,10 @@ class _LoginFormState extends State<_LoginForm> {
                 keyboardType: TextInputType.text,
                 obscureText: true,
                 enabled: !state.loading,
-                errorText: state.authError?.passwordErrorMessage,
+                errorText:
+                    state.authFailure?.errorType == AuthFailureType.password
+                        ? state.authFailure?.message
+                        : null,
               ),
               const SizedBox(height: Constants.space18),
               Align(
@@ -133,7 +135,7 @@ class _LoginFormState extends State<_LoginForm> {
   void _navigateToForgotPassword(BuildContext context) {
     Navigator.of(context).push(
       CupertinoPageRoute(
-        builder: (context) => BlocProvider.value(
+        builder: (_) => BlocProvider.value(
           value: BlocProvider.of<AuthCubit>(context),
           child: const ForgotPasswordPage(),
         ),
