@@ -7,7 +7,7 @@ part of 'story_entity.dart';
 // **************************************************************************
 
 Story _$StoryFromJson(Map<String, dynamic> json) => Story(
-      id: json['id'] as String,
+      id: json['id'] as int,
       title: json['title'] as String,
       readingTime: json['readingTime'] as String?,
       content: json['content'] as String?,

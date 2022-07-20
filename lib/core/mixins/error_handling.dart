@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:quinientas_historias/core/failures/auth_failure.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../failures/auth_failure.dart';
 import '../failures/common_failure.dart';
-import '../failures/failures.dart';
+import '../failures/network_failure.dart';
 import '../routes/routes.dart';
 import '../ui/pages/error_page.dart';
 
@@ -23,7 +25,14 @@ mixin ErrorHandling on Widget {
       return _gotoNetworkError<T>(context, onTap);
     }
     if (error is CommonFailure) {
-      return _gotoCommonError<T>(context, error, onTap: onTap);
+      return _gotoCommonError<T>(
+        context,
+        CommonFailure(),
+        btnLabel: btnLabel,
+        onTap: onTap,
+        linkBtnLabel: linkBtnLabel,
+        linkBtnOnTap: linkBtnOnTap,
+      );
     }
 
     if (error is AuthFailure) {
@@ -54,7 +63,7 @@ mixin ErrorHandling on Widget {
           btnLabel: btnLabel,
           onBtnTap: () {
             if (onTap != null) {
-              onTap();
+              return onTap();
             }
             Navigator.of(context).pop(true);
           },
@@ -65,9 +74,28 @@ mixin ErrorHandling on Widget {
 
   Future<T?> _gotoNetworkError<T>(BuildContext context,
       [void Function()? onTap]) {
-    return Navigator.of(context, rootNavigator: true).push<T>(
-        MaterialPageRoute<T>(
-            builder: (BuildContext context) => const Text("Network Error :)")));
+    return _showErrorMessage<T>(
+        context,
+        ErrorPage(
+            headline: 'What!?',
+            message:
+                'Hay un problema de conexion a internet. Parece que alguién se llevó la conexión a internet ☹',
+            svgImagePath: 'assets/images/wifi-error-image.svg',
+            btnLabel: 'Intentar nuevamente',
+            onBtnTap: () {
+              if (onTap != null) {
+                onTap();
+                return;
+              }
+              Navigator.of(context).pop(true);
+            },
+            linkBtnLabel: 'Cerrar Sesión',
+            linkBtnOnTap: () {
+              const secureStorage = FlutterSecureStorage();
+              secureStorage.deleteAll();
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pushNamed(Routes.login);
+            }));
   }
 
   Future<T?> _gotoAuthError<T>(BuildContext context) {

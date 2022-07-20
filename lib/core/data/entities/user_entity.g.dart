@@ -7,22 +7,26 @@ part of 'user_entity.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      id: json['id'] as String,
+      id: json['id'] as int,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
-      avatarUrl: json['avatarUrl'] as String,
-      phoneNumber: json['phoneNumber'] as String,
+      avatarUrl: json['avatarUrl'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
       email: json['email'] as String,
       type: $enumDecodeNullable(_$UserTypeEnumMap, json['type']) ??
           UserType.unknown,
-      score: json['score'] as int,
-      streak: json['streak'] as int,
-      bestStreak: json['bestStreak'] as int,
-      favoriteStories: (json['favoriteStories'] as List<dynamic>)
-          .map((e) => Story.fromJson(e as Map<String, dynamic>))
+      score: json['score'] as int?,
+      streak: json['streak'] as int?,
+      bestStreak: json['bestStreak'] as int?,
+      favoriteStories: (json['favoriteStories'] as List<dynamic>?)
+          ?.map((e) => Story.fromJson(e as Map<String, dynamic>))
           .toList(),
-      school: School.fromJson(json['school'] as Map<String, dynamic>),
-      team: Team.fromJson(json['team'] as Map<String, dynamic>),
+      school: json['school'] == null
+          ? null
+          : School.fromJson(json['school'] as Map<String, dynamic>),
+      team: json['team'] == null
+          ? null
+          : Team.fromJson(json['team'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -44,6 +48,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
 const _$UserTypeEnumMap = {
   UserType.reader: 'reader',
   UserType.prof: 'prof',
-  UserType.writer: 'writer',
+  UserType.captain: 'captain',
   UserType.unknown: 'unknown',
 };

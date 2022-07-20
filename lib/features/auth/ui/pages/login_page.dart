@@ -7,11 +7,14 @@ import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/link_button.dart';
+import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../bloc/cubit/auth_cubit.dart';
+import '../../data/models/iforgot_request_model.dart';
 import 'forgot_password_page.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/constants.dart';
 import '../../data/models/login_model.dart';
+import 'otpcode_password_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -90,7 +93,7 @@ class _LoginFormState extends State<_LoginForm> {
                 prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
                 keyboardType: TextInputType.emailAddress,
                 enabled: !state.loading,
-                errorText: state.authFailure?.errorType == AuthFailureType.email
+                errorText: state.authFailure?.error == AuthFailureType.email
                     ? state.authFailure?.message
                     : null,
               ),
@@ -102,10 +105,9 @@ class _LoginFormState extends State<_LoginForm> {
                 keyboardType: TextInputType.text,
                 obscureText: true,
                 enabled: !state.loading,
-                errorText:
-                    state.authFailure?.errorType == AuthFailureType.password
-                        ? state.authFailure?.message
-                        : null,
+                errorText: state.authFailure?.error == AuthFailureType.password
+                    ? state.authFailure?.message
+                    : null,
               ),
               const SizedBox(height: Constants.space18),
               Align(
@@ -134,10 +136,11 @@ class _LoginFormState extends State<_LoginForm> {
 
   void _navigateToForgotPassword(BuildContext context) {
     Navigator.of(context).push(
-      CupertinoPageRoute(
+      MaterialPageRoute(
         builder: (_) => BlocProvider.value(
           value: BlocProvider.of<AuthCubit>(context),
           child: const ForgotPasswordPage(),
+          // child: const ForgotPasswordPage(),
         ),
       ),
     );
@@ -153,88 +156,6 @@ class _LoginFormState extends State<_LoginForm> {
           Navigator.of(context).pushReplacementNamed(Routes.home);
         },
         onError: (error) => widget.handleError(context, error));
-  }
-}
-
-class ThemedTextFormField extends StatelessWidget {
-  const ThemedTextFormField({
-    Key? key,
-    this.hintText,
-    this.prefixIconSvgPath,
-    this.keyboardType,
-    required this.controller,
-    this.obscureText = false,
-    this.enabled,
-    this.autofocus = false,
-    this.errorText,
-  }) : super(key: key);
-
-  final String? hintText;
-  final String? prefixIconSvgPath;
-  final TextInputType? keyboardType;
-  final TextEditingController controller;
-  final bool obscureText;
-  final bool? enabled;
-  final bool autofocus;
-  final String? errorText;
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      autofocus: autofocus,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      controller: controller,
-      enabled: enabled,
-      decoration: InputDecoration(
-        errorText: errorText,
-        prefixIcon: prefixIconSvgPath != null
-            ? Padding(
-                padding: const EdgeInsets.only(
-                    top: 0.0, left: 21, bottom: 0, right: 13),
-                child: SvgPicture.asset(
-                  prefixIconSvgPath!,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              )
-            : null,
-        prefixIconColor: Theme.of(context).colorScheme.onSurface,
-        contentPadding: EdgeInsets.only(
-          left: prefixIconSvgPath == null ? 21 : 0,
-          top: 20,
-          bottom: 20,
-          right: 20,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0x00000000), width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: const Color(0xFFFFFFFF).withOpacity(0.3), width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: const Color.fromARGB(255, 199, 199, 199).withOpacity(0.12),
-              width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.error.withOpacity(0.5),
-              width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: Theme.of(context).colorScheme.error, width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        filled: enabled == false ? false : true,
-        fillColor: Theme.of(context).colorScheme.primaryContainer,
-        hintText: hintText,
-      ),
-    );
   }
 }
 

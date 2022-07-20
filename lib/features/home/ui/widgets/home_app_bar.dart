@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/utils/colors.dart';
@@ -41,7 +43,7 @@ class HomeAppBar extends StatelessWidget {
   }
 }
 
-class _UserStreak extends StatelessWidget {
+class _UserStreak extends StatelessWidget with SheetMessages {
   const _UserStreak({
     Key? key,
     this.streakNumber = 0,
@@ -50,26 +52,31 @@ class _UserStreak extends StatelessWidget {
   final int? streakNumber;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          'assets/icons/flame-icon.svg',
-          color: streakNumber != null
-              ? Theme.of(context).brightness == Brightness.light
-                  ? streakFireRedColor
-                  : streakFireRedDarkColor
-              : Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-        const SizedBox(width: Constants.space4),
-        Text(
-          streakNumber.toString(),
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        showInfoAboutStreakMessage(context);
+      },
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            'assets/icons/flame-icon.svg',
+            color: streakNumber != null
+                ? Theme.of(context).brightness == Brightness.light
+                    ? streakFireRedColor
+                    : streakFireRedDarkColor
+                : Theme.of(context).colorScheme.onPrimaryContainer,
           ),
-        )
-      ],
+          const SizedBox(width: Constants.space4),
+          Text(
+            streakNumber.toString(),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -112,8 +119,8 @@ class _Username extends StatelessWidget {
         return 'Lector';
       case UserType.prof:
         return 'Profesor';
-      case UserType.writer:
-        return 'Escritor';
+      case UserType.captain:
+        return 'Capitan de Equipo';
       case UserType.unknown:
         return '';
       default:

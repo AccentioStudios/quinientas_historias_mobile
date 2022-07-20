@@ -1,23 +1,27 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/failures/auth_failure.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
 
 import '../../../../core/data/entities/story_entity.dart';
+import '../../../../core/failures/auth_failure.dart';
+import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
+import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
 import '../../../reading_module/data/models/author_model.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../components/header_card_component.dart';
 
-class HomePage extends StatefulWidget with ErrorHandling {
+class HomePage extends StatefulWidget with ErrorHandling, SheetMessages {
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -36,13 +40,139 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    final HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: state.loading && state.user == null
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : RefreshIndicator(
+                  onRefresh: () async {
+                    await getDashboard(context);
+                  },
+                  child: ListView(
+                    padding: const EdgeInsets.only(top: 0),
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      HeaderCard(
+                        state: state,
+                        onTap: () {
+                          _navigateToDailyChallengePage(context, state, cubit);
+                        },
+                      ),
+                      const SizedBox(height: Constants.space21),
+                      PaddingColumn(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: Constants.space18),
+                        children: <Widget>[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              HomePositionsChip(
+                                onTap: () {},
+                                label: 'Mi equipo',
+                                position: '8',
+                                content: state.user?.team?.name ?? '',
+                                arrowLeaderBoard: const ArrowLeaderBoard(
+                                  number: 2,
+                                ),
+                              ),
+                              const SizedBox(width: Constants.space18),
+                              HomePositionsChip(
+                                onTap: () {},
+                                label: 'Mi escuela',
+                                position: '4',
+                                content: state.user?.school?.name ?? '',
+                                arrowLeaderBoard:
+                                    const ArrowLeaderBoard(number: 1),
+                              ),
+                            ],
+                          ),
+                          Headline(
+                            label: 'Explorar Lecturas',
+                            linkText: 'Ver más',
+                            onTap: () {},
+                          ),
+                          GridView.count(
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            crossAxisSpacing: Constants.space12,
+                            mainAxisSpacing: Constants.space12,
+                            childAspectRatio: 109 / 147,
+                            crossAxisCount: 3,
+                            children: [
+                              ...stories
+                                  .map((story) => StoryCover(story: story)),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+        );
+      },
+    );
+  }
+
+  void _navigateToDailyChallengePage(
+    BuildContext context,
+    HomeState state,
+    HomeCubit cubit, {
+    bool softGenerateNewChallenge = false,
+    bool forceGenerateNewChallenge = false,
+  }) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => DailyChallangeProvider(
+              homeCubit: cubit,
+              dailyChallenge: state.dailyChallenge,
+              softGenerateNewChallenge: softGenerateNewChallenge,
+              forceGenerateNewChallenge: forceGenerateNewChallenge,
+            )));
+  }
+
   void logout() {
     const secureStorage = FlutterSecureStorage();
     secureStorage.deleteAll();
   }
 
-  void getDashboard(BuildContext context) {
-    BlocProvider.of<HomeCubit>(context).getDashboard(onError: (error) async {
+  Future<dynamic> getDashboard(BuildContext context, {HomeState? state}) {
+    var completer = Completer();
+    BlocProvider.of<HomeCubit>(context).getDashboard(
+        onSuccess: (dashboard) async {
+      if (dashboard.dailyChallenge != null) {
+        if (dashboard.dailyChallenge!.hasOldChallengeIncomplete) {
+          bool? userWantsTryAgain =
+              await widget.showChallengeNotCompletedMessage<bool>(context);
+          if (!mounted) return;
+          if (userWantsTryAgain == true) {
+            _navigateToDailyChallengePage(
+              context,
+              BlocProvider.of<HomeCubit>(context).state,
+              BlocProvider.of<HomeCubit>(context),
+              softGenerateNewChallenge: true,
+            );
+            completer.complete();
+          } else if (userWantsTryAgain == false) {
+            _navigateToDailyChallengePage(
+              context,
+              BlocProvider.of<HomeCubit>(context).state,
+              BlocProvider.of<HomeCubit>(context),
+              forceGenerateNewChallenge: true,
+            );
+            completer.complete();
+          }
+          completer.complete();
+        }
+      }
+      completer.complete();
+    }, onError: (error) async {
       if (error is AuthFailure) {
         logout();
       }
@@ -59,119 +189,52 @@ class _HomePageState extends State<HomePage> {
           }
         }
       });
+      completer.completeError(error);
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        return Scaffold(
-          body: state.loading && state.user == null
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView(
-                  padding: const EdgeInsets.only(top: 0),
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    HeaderCard(state: state),
-                    const SizedBox(height: Constants.space21),
-                    PaddingColumn(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Constants.space18),
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            HomePositionsChip(
-                              onTap: () {},
-                              label: 'Mi equipo',
-                              position: '8',
-                              content: state.user?.team.name ?? '',
-                              arrowLeaderBoard: const ArrowLeaderBoard(
-                                number: 2,
-                              ),
-                            ),
-                            const SizedBox(width: Constants.space18),
-                            HomePositionsChip(
-                              onTap: () {},
-                              label: 'Mi escuela',
-                              position: '4',
-                              content: state.user?.school.name ?? '',
-                              arrowLeaderBoard:
-                                  const ArrowLeaderBoard(number: 1),
-                            ),
-                          ],
-                        ),
-                        Headline(
-                          label: 'Explorar Lecturas',
-                          linkText: 'Ver más',
-                          onTap: () {},
-                        ),
-                        GridView.count(
-                          padding: EdgeInsets.zero,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          crossAxisSpacing: Constants.space12,
-                          mainAxisSpacing: Constants.space12,
-                          childAspectRatio: 109 / 147,
-                          crossAxisCount: 3,
-                          children: [
-                            ...stories.map((story) => StoryCover(story: story)),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-        );
-      },
-    );
+    return completer.future;
   }
 }
 
 List<Story> stories = [
   Story(
-    id: '1',
+    id: 1,
     title: 'The Awesome Book',
     coverColor: 'FFCD81',
     author: Author(
-      id: '1',
+      id: 1,
       email: 'test@test.com',
       firstName: 'Lorem',
       lastName: 'Ipsum',
     ),
   ),
   Story(
-    id: '2',
+    id: 2,
     title: 'The Amazing Book',
     coverColor: '88C9F9',
     author: Author(
-      id: '1',
+      id: 1,
       email: 'test@test.com',
       firstName: 'Lorem',
       lastName: 'Ipsum',
     ),
   ),
   Story(
-    id: '3',
+    id: 3,
     title: 'The Spectacular Book',
     coverColor: 'ADE9B3',
     author: Author(
-      id: '1',
+      id: 1,
       email: 'test@test.com',
       firstName: 'Lorem',
       lastName: 'Ipsum',
     ),
   ),
   Story(
-    id: '4',
+    id: 4,
     title: 'The Spectacular Book',
     coverColor: 'C494F3',
     author: Author(
-      id: '1',
+      id: 1,
       email: 'test@test.com',
       firstName: 'Lorem',
       lastName: 'Ipsum',
@@ -209,7 +272,7 @@ class HomePositionsChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             arrowLeaderBoard

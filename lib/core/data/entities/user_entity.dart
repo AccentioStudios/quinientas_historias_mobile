@@ -12,34 +12,34 @@ class User {
     required this.id,
     required this.firstName,
     required this.lastName,
-    required this.avatarUrl,
-    required this.phoneNumber,
+    this.avatarUrl,
+    this.phoneNumber,
     required this.email,
     required this.type,
-    required this.score,
-    required this.streak,
-    required this.bestStreak,
-    required this.favoriteStories,
-    required this.school,
-    required this.team,
+    this.score,
+    this.streak,
+    this.bestStreak,
+    this.favoriteStories,
+    this.school,
+    this.team,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  final String id;
+  final int id;
   final String firstName;
   final String lastName;
-  final String avatarUrl;
-  final String phoneNumber;
+  final String? avatarUrl;
+  final String? phoneNumber;
   final String email;
   @JsonKey(defaultValue: UserType.unknown)
   final UserType type;
-  final int score;
-  final int streak;
-  final int bestStreak;
-  final List<Story> favoriteStories;
-  final School school;
-  final Team team;
+  final int? score;
+  final int? streak;
+  final int? bestStreak;
+  final List<Story>? favoriteStories;
+  final School? school;
+  final Team? team;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
@@ -49,7 +49,7 @@ enum UserType {
   reader,
   @JsonValue('prof')
   prof,
-  @JsonValue('writer')
-  writer,
+  @JsonValue('captain')
+  captain,
   unknown,
 }

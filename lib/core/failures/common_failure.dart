@@ -6,9 +6,9 @@ part 'common_failure.g.dart';
 
 @JsonSerializable()
 class CommonFailure extends Failure {
-  CommonFailure({this.message, this.errorType = CommonFailureType.unknown});
+  CommonFailure({this.message, this.error = CommonFailureType.unknown});
   final String? message;
-  final CommonFailureType? errorType;
+  final CommonFailureType? error;
 
   factory CommonFailure.fromJson(Map<String, dynamic> json) =>
       _$CommonFailureFromJson(json);

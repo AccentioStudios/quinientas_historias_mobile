@@ -8,11 +8,14 @@ part of 'daily_challenge_entity.dart';
 
 DailyChallenge _$DailyChallengeFromJson(Map<String, dynamic> json) =>
     DailyChallenge(
-      count: json['count'] as int,
-      readed: json['readed'] as int,
+      count: json['count'] as int? ?? 0,
+      readed: json['readed'] as int? ?? 0,
       challenge: (json['challenge'] as List<dynamic>?)
-          ?.map((e) => StoryProgress.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => StoryProgress.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          defaultValue,
+      hasOldChallengeIncomplete:
+          json['hasOldChallengeIncomplete'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$DailyChallengeToJson(DailyChallenge instance) =>
@@ -20,4 +23,5 @@ Map<String, dynamic> _$DailyChallengeToJson(DailyChallenge instance) =>
       'count': instance.count,
       'readed': instance.readed,
       'challenge': instance.challenge,
+      'hasOldChallengeIncomplete': instance.hasOldChallengeIncomplete,
     };

@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart';
-
-import '../../failures/error_codes.dart';
-import 'http_status_model.dart';
+import '../../exceptions/http_request_exception.dart';
+import '../../failures/status_codes.dart';
 
 part 'http_response_model.g.dart';
 
@@ -12,39 +12,50 @@ part 'http_response_model.g.dart';
 class HttpResponse {
   HttpResponse({
     this.body,
-    this.jsonData,
-    this.status,
+    this.statusCode = StatusCodes.unknown,
     this.headers,
     this.stackTrace,
   });
 
-  HttpResponse jsonDecode(Response response) {
-    HttpResponse _this = this;
-
-    Map<String, dynamic>? responseBodyJson = json.decode(response.body);
-    HttpStatusModel status = HttpStatusModel.fromJson({
-      "message": "",
-      "statusCode": response.statusCode.toString(),
-    });
-
-    HttpResponse httpResponse = HttpResponse(
-      body: response.body,
-      jsonData: responseBodyJson,
-      status: status,
-      headers: _this.headers,
-    );
-    return httpResponse;
+  HttpResponse parse(dynamic response) {
+    try {
+      if (response is Response) {
+        // ignore: no_leading_underscores_for_local_identifiers
+        HttpResponse _this = this;
+        HttpResponse httpResponse = HttpResponse(
+          body: response.body,
+          statusCode:
+              $enumDecodeNullable(_$StatusCodesEnumMap, response.statusCode) ??
+                  StatusCodes.unknown,
+          headers: _this.headers,
+        );
+        return httpResponse;
+      } else if (response is HttpRequestException) {
+        // If we cant reach the server because connectivity issues or server down
+        if (response.exception is SocketException) {
+          return HttpResponse(body: null, statusCode: StatusCodes.networkError);
+        }
+        throw response.exception as Exception;
+      } else {
+        return HttpResponse(
+          body: response.data,
+          statusCode:
+              $enumDecodeNullable(_$StatusCodesEnumMap, response.statusCode) ??
+                  StatusCodes.unknown,
+        );
+      }
+    } catch (err) {
+      return HttpResponse(body: null, statusCode: StatusCodes.unknown);
+    }
   }
 
   final String? body;
-  final Map<String, dynamic>? jsonData;
-  final HttpStatusModel? status;
+  @JsonKey(defaultValue: StatusCodes.unknown)
+  StatusCodes statusCode;
   final Map<String, String>? headers;
   final Object? stackTrace;
 
-  Map<String, dynamic> toJson() => _$HttpResponseToJson(this);
-
   bool isSuccess() {
-    return status?.statusCode == StatusCodes.ok;
+    return statusCode == StatusCodes.ok;
   }
 }

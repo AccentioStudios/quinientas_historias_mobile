@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
+import '../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../core/utils/constants.dart';
 
 enum HeroHeaderDayState { day, evening, night }
@@ -42,7 +43,12 @@ class HeroHeader extends StatelessWidget {
   }
 
   bool ifDailyChallengeExists() {
-    return dailyChallenge != null;
+    if (dailyChallenge != null) {
+      if (dailyChallenge?.challenge.isNotEmpty == true) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Widget buildBackgroundImage() {
@@ -158,13 +164,13 @@ class HeroHeader extends StatelessWidget {
               Text(
                 'Has completado el $completedPercentage% de tu meta diaria',
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 15,
                   shadows: textShadow,
                 ),
               ),
             ],
           ),
-          _ProgressBar(
+          PercentageProgressBar(
             completedPercentage: completedPercentage,
           )
         ],
@@ -174,36 +180,11 @@ class HeroHeader extends StatelessWidget {
 
   int calculatePercentage(int? total, int? current) {
     if (total != null && current != null) {
-      return (current * 100 ~/ total).toInt();
+      if (total > 0) {
+        return (current * 100 ~/ total).toInt();
+      }
+      return 0;
     }
     return 0;
-  }
-}
-
-class _ProgressBar extends StatelessWidget {
-  const _ProgressBar({Key? key, this.completedPercentage = 0})
-      : super(key: key);
-  final int completedPercentage;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ClipRRect(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: Constants.borderRadius16,
-          child: LinearProgressIndicator(
-            minHeight: 7,
-            value: completedPercentage / 100,
-            backgroundColor: Theme.of(context)
-                .colorScheme
-                .secondaryContainer
-                .withOpacity(0.32),
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-      ],
-    );
   }
 }

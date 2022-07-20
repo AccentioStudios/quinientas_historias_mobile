@@ -15,7 +15,7 @@ class Story {
       this.coverColor});
 
   factory Story.fromJson(Map<String, dynamic> json) => _$StoryFromJson(json);
-  final String id;
+  final int id;
   final String title;
   final String? readingTime;
   final String? content;

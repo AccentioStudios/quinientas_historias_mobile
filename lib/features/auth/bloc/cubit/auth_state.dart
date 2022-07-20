@@ -7,5 +7,7 @@ class AuthState with _$AuthState {
     AuthFailure? authFailure,
     @Default('') String email,
     @Default('') String password,
+    @Default('') String token,
+    @Default('') String code,
   }) = _AuthState;
 }

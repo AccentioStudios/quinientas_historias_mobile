@@ -16,15 +16,21 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
   }) : super(const HomeState());
   final HomeUseCases homeUseCases;
 
-  void getDashboard({required Function? onError}) {
+  void getDashboard(
+      {Function(Dashboard dashboard)? onSuccess, required Function? onError}) {
     emit(state.copyWith(loading: true));
     homeUseCases.getDashboard().listen((Dashboard dashboard) {
       emit(state.copyWith(
           user: dashboard.user, dailyChallenge: dashboard.dailyChallenge));
+      if (onSuccess != null) onSuccess(dashboard);
     }, onError: (error) {
       if (onError != null) onError(error);
     }, onDone: () {
       emit(state.copyWith(loading: false));
     }).subscribe(this);
+  }
+
+  void saveDailyChallenge(DailyChallenge dailyChallenge) {
+    emit(state.copyWith(dailyChallenge: dailyChallenge));
   }
 }

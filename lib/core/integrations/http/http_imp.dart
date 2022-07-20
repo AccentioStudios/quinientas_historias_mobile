@@ -5,10 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
 import '../../data/models/http_response_model.dart';
-import '../../data/models/http_status_model.dart';
 import '../../exceptions/http_request_exception.dart';
+import '../../helpers/alice_helper.dart';
 import '../../helpers/http_helper.dart';
 import '../environments/plataform_environments.dart';
+import 'package:alice/core/alice_http_extensions.dart';
 
 class HttpImp implements HttpHelper {
   HttpImp({required this.hostUrl, this.https = PlataformEnvironment.https});
@@ -33,11 +34,11 @@ class HttpImp implements HttpHelper {
           if (savedAccessToken != null)
             HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
         },
-      );
+      ).interceptWithAlice(AliceHelper.instance);
       HttpResponse httpResponse = _buildHttpResponse(response);
       return httpResponse;
     } catch (e) {
-      throw _buildHttpResponseWithError(_handleHttpError(e));
+      return _buildHttpResponseWithError(_handleHttpError(e));
     }
   }
 
@@ -47,20 +48,23 @@ class HttpImp implements HttpHelper {
     try {
       String? savedAccessToken = await _getSavedAccessToken();
 
-      final response = await http.post(_buildUri(path, parameters),
-          headers: {
-            HttpHeaders.contentTypeHeader: 'application/json',
-            HttpHeaders.accessControlAllowOriginHeader: '*',
-            HttpHeaders.accessControlAllowMethodsHeader:
-                'GET, POST, DELETE, HEAD, OPTIONS',
-            HttpHeaders.accessControlAllowCredentialsHeader: 'true',
-            if (savedAccessToken != null)
-              HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
-          },
-          body: data);
+      final response = await http
+          .post(_buildUri(path, parameters),
+              headers: {
+                HttpHeaders.contentTypeHeader: 'application/json',
+                HttpHeaders.accessControlAllowOriginHeader: '*',
+                HttpHeaders.accessControlAllowMethodsHeader:
+                    'GET, POST, DELETE, HEAD, OPTIONS',
+                HttpHeaders.accessControlAllowCredentialsHeader: 'true',
+                if (savedAccessToken != null)
+                  HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+              },
+              body: data)
+          .interceptWithAlice(AliceHelper.instance);
+
       return _buildHttpResponse(response);
     } catch (e) {
-      throw _buildHttpResponseWithError(_handleHttpError(e));
+      return _buildHttpResponseWithError(_handleHttpError(e));
     }
   }
 
@@ -70,16 +74,18 @@ class HttpImp implements HttpHelper {
     try {
       String? savedAccessToken = await _getSavedAccessToken();
 
-      final response = await http.put(_buildUri(path, parameters),
-          headers: {
-            HttpHeaders.contentTypeHeader: 'application/json',
-            if (savedAccessToken != null)
-              HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
-          },
-          body: data);
+      final response = await http
+          .put(_buildUri(path, parameters),
+              headers: {
+                HttpHeaders.contentTypeHeader: 'application/json',
+                if (savedAccessToken != null)
+                  HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+              },
+              body: data)
+          .interceptWithAlice(AliceHelper.instance);
       return _buildHttpResponse(response);
     } catch (e) {
-      throw _buildHttpResponseWithError(_handleHttpError(e));
+      return _buildHttpResponseWithError(_handleHttpError(e));
     }
   }
 
@@ -93,10 +99,10 @@ class HttpImp implements HttpHelper {
         HttpHeaders.contentTypeHeader: 'application/json',
         if (savedAccessToken != null)
           HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken',
-      });
+      }).interceptWithAlice(AliceHelper.instance);
       return _buildHttpResponse(response);
     } catch (e) {
-      throw _buildHttpResponseWithError(_handleHttpError(e));
+      return _buildHttpResponseWithError(_handleHttpError(e));
     }
   }
 
@@ -114,35 +120,18 @@ class HttpImp implements HttpHelper {
     if (error is FormatException) {
       return HttpRequestException(500, error.message, error);
     }
-    return HttpRequestException(500, 'Unknown error', error as Exception);
+
+    return HttpRequestException(null, 'Unknown error', error as Exception);
   }
 
   HttpResponse _buildHttpResponse(http.Response response) {
-    if (response.headers['content-type']!
-        .split(";")
-        .contains('application/json')) {
-      return HttpResponse(
-        headers: response.headers,
-      ).jsonDecode(response);
-    }
     return HttpResponse(
-      body: response.body,
-      status: HttpStatusModel.fromJson({
-        "message": "",
-        "statusCode": response.statusCode.toString(),
-      }),
       headers: response.headers,
-    );
+    ).parse(response);
   }
 
   HttpResponse _buildHttpResponseWithError(HttpRequestException error) {
-    return HttpResponse(
-      body: error.data,
-      status: HttpStatusModel.fromJson({
-        "message": "",
-        "statusCode": error.statusCode.toString(),
-      }),
-    );
+    return HttpResponse().parse(error);
   }
 
   @override

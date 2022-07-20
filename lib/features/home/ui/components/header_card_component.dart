@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/single_chip.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../widgets/hero_header_widget.dart';
 import '../widgets/home_app_bar.dart';
@@ -12,8 +11,10 @@ class HeaderCard extends StatelessWidget {
   const HeaderCard({
     Key? key,
     required this.state,
+    required this.onTap,
   }) : super(key: key);
   final HomeState state;
+  final GestureTapCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,23 +34,18 @@ class HeaderCard extends StatelessWidget {
             const SizedBox(height: Constants.space12),
             HeroHeader(
               dayState: HeroHeaderDayState.day,
-              onTap: () => _navigateToDailyChallenge(context),
+              onTap: onTap,
               dailyChallenge: state.dailyChallenge,
             ),
             const SizedBox(height: Constants.space18),
             _PointsRow(
               points: state.user?.score ?? 0,
-              favorites: state.user?.favoriteStories.length ?? 0,
+              favorites: state.user?.favoriteStories?.length ?? 0,
             )
           ],
         ),
       ]),
     );
-  }
-
-  void _navigateToDailyChallenge(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const DailyChallangeProvider()));
   }
 }
 

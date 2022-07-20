@@ -7,4 +7,10 @@ class DailyChallengeRepository with ApiService {
         .get('v1/challenges/dailyChallenge')
         .handleJson(mapper: (data) => DailyChallenge.fromJson(data));
   }
+
+  Stream<DailyChallenge> generateNewDailyChallenge(bool forceGenerate) async* {
+    yield* appApi.get('v1/challenges/generateNewDailyChallenge', parameters: {
+      'force': forceGenerate.toString()
+    }).handleJson(mapper: (data) => DailyChallenge.fromJson(data));
+  }
 }

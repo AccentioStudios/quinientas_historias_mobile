@@ -6,9 +6,9 @@ part 'auth_failure.g.dart';
 
 @JsonSerializable()
 class AuthFailure extends Failure {
-  AuthFailure({this.message, this.errorType = AuthFailureType.unknown});
+  AuthFailure({this.message, this.error = AuthFailureType.unknown});
   final String? message;
-  final AuthFailureType? errorType;
+  final AuthFailureType? error;
 
   factory AuthFailure.fromJson(Map<String, dynamic> json) =>
       _$AuthFailureFromJson(json);

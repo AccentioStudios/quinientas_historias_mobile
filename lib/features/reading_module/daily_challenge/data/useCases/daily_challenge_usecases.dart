@@ -6,7 +6,17 @@ class DailyChallengeUseCases {
   DailyChallengeUseCases({required this.repository});
   final DailyChallengeRepository repository;
 
-  Stream<DailyChallenge> getData() async* {
+  Stream<DailyChallenge> getData(
+      {bool softGenerateNewChallenge = false,
+      bool forceGenerateNewChallenge = false}) async* {
+    if (softGenerateNewChallenge || forceGenerateNewChallenge) {
+      yield* repository.generateNewDailyChallenge(forceGenerateNewChallenge);
+    }
     yield* repository.getData();
+  }
+
+  Stream<DailyChallenge> generateNewDailyChallenge(
+      {bool forceGenerateNewChallenge = false}) async* {
+    yield* repository.generateNewDailyChallenge(forceGenerateNewChallenge);
   }
 }

@@ -7,7 +7,7 @@ part of 'school_entity.dart';
 // **************************************************************************
 
 School _$SchoolFromJson(Map<String, dynamic> json) => School(
-      id: json['id'] as String,
+      id: json['id'] as int,
       name: json['name'] as String,
     );
 

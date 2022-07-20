@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DailyChallengeState {
   bool get loading => throw _privateConstructorUsedError;
-  DailyChallenge? get data => throw _privateConstructorUsedError;
+  DailyChallenge get data => throw _privateConstructorUsedError;
+  Story? get storyHovered => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DailyChallengeStateCopyWith<DailyChallengeState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $DailyChallengeStateCopyWith<$Res> {
   factory $DailyChallengeStateCopyWith(
           DailyChallengeState value, $Res Function(DailyChallengeState) then) =
       _$DailyChallengeStateCopyWithImpl<$Res>;
-  $Res call({bool loading, DailyChallenge? data});
+  $Res call({bool loading, DailyChallenge data, Story? storyHovered});
 }
 
 /// @nodoc
@@ -45,6 +46,7 @@ class _$DailyChallengeStateCopyWithImpl<$Res>
   $Res call({
     Object? loading = freezed,
     Object? data = freezed,
+    Object? storyHovered = freezed,
   }) {
     return _then(_value.copyWith(
       loading: loading == freezed
@@ -54,7 +56,11 @@ class _$DailyChallengeStateCopyWithImpl<$Res>
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as DailyChallenge?,
+              as DailyChallenge,
+      storyHovered: storyHovered == freezed
+          ? _value.storyHovered
+          : storyHovered // ignore: cast_nullable_to_non_nullable
+              as Story?,
     ));
   }
 }
@@ -66,7 +72,7 @@ abstract class _$$_ReadingChallangeStateCopyWith<$Res>
           $Res Function(_$_ReadingChallangeState) then) =
       __$$_ReadingChallangeStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool loading, DailyChallenge? data});
+  $Res call({bool loading, DailyChallenge data, Story? storyHovered});
 }
 
 /// @nodoc
@@ -85,6 +91,7 @@ class __$$_ReadingChallangeStateCopyWithImpl<$Res>
   $Res call({
     Object? loading = freezed,
     Object? data = freezed,
+    Object? storyHovered = freezed,
   }) {
     return _then(_$_ReadingChallangeState(
       loading: loading == freezed
@@ -94,7 +101,11 @@ class __$$_ReadingChallangeStateCopyWithImpl<$Res>
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as DailyChallenge?,
+              as DailyChallenge,
+      storyHovered: storyHovered == freezed
+          ? _value.storyHovered
+          : storyHovered // ignore: cast_nullable_to_non_nullable
+              as Story?,
     ));
   }
 }
@@ -102,17 +113,20 @@ class __$$_ReadingChallangeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ReadingChallangeState implements _ReadingChallangeState {
-  const _$_ReadingChallangeState({this.loading = false, this.data});
+  const _$_ReadingChallangeState(
+      {this.loading = false, required this.data, this.storyHovered});
 
   @override
   @JsonKey()
   final bool loading;
   @override
-  final DailyChallenge? data;
+  final DailyChallenge data;
+  @override
+  final Story? storyHovered;
 
   @override
   String toString() {
-    return 'DailyChallengeState(loading: $loading, data: $data)';
+    return 'DailyChallengeState(loading: $loading, data: $data, storyHovered: $storyHovered)';
   }
 
   @override
@@ -121,14 +135,17 @@ class _$_ReadingChallangeState implements _ReadingChallangeState {
         (other.runtimeType == runtimeType &&
             other is _$_ReadingChallangeState &&
             const DeepCollectionEquality().equals(other.loading, loading) &&
-            const DeepCollectionEquality().equals(other.data, data));
+            const DeepCollectionEquality().equals(other.data, data) &&
+            const DeepCollectionEquality()
+                .equals(other.storyHovered, storyHovered));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(loading),
-      const DeepCollectionEquality().hash(data));
+      const DeepCollectionEquality().hash(data),
+      const DeepCollectionEquality().hash(storyHovered));
 
   @JsonKey(ignore: true)
   @override
@@ -140,12 +157,15 @@ class _$_ReadingChallangeState implements _ReadingChallangeState {
 abstract class _ReadingChallangeState implements DailyChallengeState {
   const factory _ReadingChallangeState(
       {final bool loading,
-      final DailyChallenge? data}) = _$_ReadingChallangeState;
+      required final DailyChallenge data,
+      final Story? storyHovered}) = _$_ReadingChallangeState;
 
   @override
   bool get loading => throw _privateConstructorUsedError;
   @override
-  DailyChallenge? get data => throw _privateConstructorUsedError;
+  DailyChallenge get data => throw _privateConstructorUsedError;
+  @override
+  Story? get storyHovered => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingChallangeStateCopyWith<_$_ReadingChallangeState> get copyWith =>

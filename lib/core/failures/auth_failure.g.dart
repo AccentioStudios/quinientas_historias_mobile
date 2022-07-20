@@ -8,15 +8,14 @@ part of 'auth_failure.dart';
 
 AuthFailure _$AuthFailureFromJson(Map<String, dynamic> json) => AuthFailure(
       message: json['message'] as String?,
-      errorType:
-          $enumDecodeNullable(_$AuthFailureTypeEnumMap, json['errorType']) ??
-              AuthFailureType.unknown,
+      error: $enumDecodeNullable(_$AuthFailureTypeEnumMap, json['error']) ??
+          AuthFailureType.unknown,
     );
 
 Map<String, dynamic> _$AuthFailureToJson(AuthFailure instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'errorType': _$AuthFailureTypeEnumMap[instance.errorType],
+      'error': _$AuthFailureTypeEnumMap[instance.error],
     };
 
 const _$AuthFailureTypeEnumMap = {

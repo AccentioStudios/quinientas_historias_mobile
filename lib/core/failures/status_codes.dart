@@ -1,17 +1,22 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum StatusCodes {
+  networkError,
   unknown,
-  @JsonValue('200')
+  @JsonValue(200)
   ok,
-  @JsonValue('400')
+  @JsonValue(400)
   badRequest,
-  @JsonValue('401')
+  @JsonValue(401)
   unauthorized,
-  @JsonValue('403')
+  @JsonValue(403)
   fordbidden,
-  @JsonValue('404')
+  @JsonValue(404)
   notFound,
-  @JsonValue('500')
+  @JsonValue(500)
   internalServerError,
+
+  // Custom errors
+  @JsonValue(452)
+  iforgotError,
 }

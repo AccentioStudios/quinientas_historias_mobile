@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
+import 'package:quinientas_historias/features/home/bloc/cubit/home_cubit.dart';
+import 'package:quinientas_historias/features/home/data/repositories/home_repository.dart';
+import 'package:quinientas_historias/features/home/data/useCases/home_usecases.dart';
 
 import 'bloc/cubit/daily_challenge_cubit.dart';
 import 'data/repositories/daily_challenge_repository.dart';
@@ -7,15 +11,39 @@ import 'data/useCases/daily_challenge_usecases.dart';
 import 'ui/pages/reading_challange_page.dart';
 
 class DailyChallangeProvider extends StatelessWidget {
-  const DailyChallangeProvider({Key? key}) : super(key: key);
+  const DailyChallangeProvider({
+    Key? key,
+    this.dailyChallenge,
+    required this.homeCubit,
+    this.softGenerateNewChallenge = false,
+    this.forceGenerateNewChallenge = false,
+  }) : super(key: key);
 
+  // pass a daily challenge to screen, if this is not null, we dont automatically load from server. Instead we use this.
+  final DailyChallenge? dailyChallenge;
+  // When enter to first screen, automatically generate a new challenge keeping the last unreaded and reading stories.
+  final bool softGenerateNewChallenge;
+  // When enter to first screen, force to generate a totally new challenge.
+  final bool forceGenerateNewChallenge;
+  final HomeCubit homeCubit;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => DailyChallengeCubit(
-          dailyChallengeUseCases:
-              DailyChallengeUseCases(repository: DailyChallengeRepository())),
-      child: const DailyChallengePage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (BuildContext context) => DailyChallengeCubit(
+              dailyChallengeUseCases: DailyChallengeUseCases(
+                  repository: DailyChallengeRepository())),
+        ),
+        BlocProvider.value(
+          value: homeCubit,
+        ),
+      ],
+      child: DailyChallengePage(
+        dailyChallenge: dailyChallenge,
+        softGenerateNewChallenge: softGenerateNewChallenge,
+        forceGenerateNewChallenge: forceGenerateNewChallenge,
+      ),
     );
   }
 }

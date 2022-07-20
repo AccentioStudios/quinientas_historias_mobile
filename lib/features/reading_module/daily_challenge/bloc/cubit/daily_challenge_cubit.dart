@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 
+import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../data/useCases/daily_challenge_usecases.dart';
 
 part 'daily_challenge_state.dart';
@@ -12,18 +14,71 @@ class DailyChallengeCubit extends Cubit<DailyChallengeState>
     with StreamDisposable {
   DailyChallengeCubit({
     required this.dailyChallengeUseCases,
-  }) : super(const DailyChallengeState());
+  }) : super(DailyChallengeState(data: DailyChallenge()));
 
   final DailyChallengeUseCases dailyChallengeUseCases;
 
-  void getData({required Function? onError}) {
+  void getData(bool isFromPullRefresh,
+      {bool softGenerateNewChallenge = false,
+      bool forceGenerateNewChallenge = false,
+      DailyChallenge? dailyChallengeOnMemory,
+      Function(DailyChallenge data)? onSuccess,
+      required Function? onError}) {
     emit(state.copyWith(loading: true));
-    dailyChallengeUseCases.getData().listen((DailyChallenge data) {
-      emit(state.copyWith(data: data));
-    }, onError: (error) {
-      if (onError != null) onError(error);
-    }, onDone: () {
-      emit(state.copyWith(loading: false));
-    }).subscribe(this);
+
+    if (dailyChallengeOnMemory != null &&
+        isFromPullRefresh == false &&
+        softGenerateNewChallenge == false &&
+        forceGenerateNewChallenge == false) {
+      emit(state.copyWith(data: dailyChallengeOnMemory, loading: false));
+      if (verifyIfHasChallenge()) {
+        emit(state.copyWith(
+            storyHovered: dailyChallengeOnMemory
+                .challenge[_searchIndexCurrentReadingBook()].story));
+      }
+    } else {
+      dailyChallengeUseCases
+          .getData(
+        softGenerateNewChallenge: softGenerateNewChallenge,
+        forceGenerateNewChallenge: forceGenerateNewChallenge,
+      )
+          .listen((DailyChallenge data) {
+        emit(state.copyWith(data: data));
+        if (data.challenge.isNotEmpty) {
+          emit(state.copyWith(
+              storyHovered:
+                  data.challenge[_searchIndexCurrentReadingBook()].story));
+        } else {
+          emit(state.copyWith(storyHovered: null));
+        }
+
+        if (onSuccess != null) onSuccess(data);
+      }, onError: (error) {
+        if (onError != null) onError(error);
+      }, onDone: () {
+        emit(state.copyWith(loading: false));
+      }).subscribe(this);
+    }
+  }
+
+  int _searchIndexCurrentReadingBook() {
+    try {
+      return state.data.challenge.indexOf(state.data.challenge
+          .firstWhere((element) => element.status == StoryStatus.reading));
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  void changeStoryHovered(int index) {
+    final Story story = state.data.challenge[index].story;
+    emit(state.copyWith(storyHovered: story));
+  }
+
+  bool verifyIfHasChallenge() {
+    if (state.data.challenge.isNotEmpty == true) {
+      return true;
+    }
+    return false;
   }
 }

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
 
+import '../../../../core/failures/iforgot_failure.dart';
+import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/ui/widgets/big_button.dart';
+import '../../../../core/ui/widgets/headline.dart';
+import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
+import '../../bloc/cubit/auth_cubit.dart';
+import '../../data/models/iforgot_request_model.dart';
+import 'otpcode_password_page.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
+class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
@@ -30,7 +36,7 @@ class ForgotPasswordPage extends StatelessWidget {
               children: [
                 const SizedBox(height: Constants.space21),
                 SvgPicture.asset('assets/images/forgot-password-image.svg'),
-                _ForgotPasswordForm(),
+                const _ForgotPasswordForm(),
               ],
             ),
           ],
@@ -40,7 +46,7 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 }
 
-class _ForgotPasswordForm extends StatefulWidget {
+class _ForgotPasswordForm extends StatefulWidget with ErrorHandling {
   const _ForgotPasswordForm({Key? key}) : super(key: key);
 
   @override
@@ -49,122 +55,95 @@ class _ForgotPasswordForm extends StatefulWidget {
 
 class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
   late TextEditingController emailAddressLoginController;
-  late TextEditingController passwordLoginController;
+  String? errorMessage;
 
   @override
   void initState() {
     super.initState();
     emailAddressLoginController = TextEditingController();
-    passwordLoginController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
-      child: Column(
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(left: Constants.space21),
-            child: Headline(label: 'Olvidé la contraseña'),
-          ),
-          ThemedTextFormField(
-            controller: emailAddressLoginController,
-            hintText: 'Email',
-            prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const SizedBox(height: Constants.space18),
-          ThemedTextFormField(
-            controller: passwordLoginController,
-            hintText: 'Password',
-            prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
-            keyboardType: TextInputType.text,
-            obscureText: true,
-          ),
-          const SizedBox(height: Constants.space18),
-          const Align(
-              alignment: Alignment.topRight,
-              child: LinkButton(text: 'Olvidé la contraseña')),
-          const SizedBox(height: Constants.space18),
-          BigButton(
-            elevation: 5,
-            text: 'Entrar a 500 Historias',
-            isLoading: false,
-            onPressed: () {},
-          )
-        ],
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          return Column(
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(left: 5, bottom: 0),
+                child: Headline(label: 'Olvidé mi contraseña'),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+                child: Text(
+                  'No te preocupes, podrás crear una nueva.\nEscribe tu email y recibirás un código de verificación para continuar.',
+                  style: TextStyle(height: 1.4),
+                ),
+              ),
+              const SizedBox(height: Constants.space18),
+              ThemedTextFormField(
+                controller: emailAddressLoginController,
+                hintText: 'Email',
+                prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
+                keyboardType: TextInputType.emailAddress,
+                enabled: !state.loading,
+                errorText: errorMessage,
+              ),
+              const SizedBox(height: 30),
+              BigButton(
+                elevation: 5,
+                text: 'Restaurar Contraseña',
+                isLoading: state.loading,
+                onPressed: () {
+                  _navigateToNext();
+                },
+              )
+            ],
+          );
+        },
       ),
     );
   }
-}
 
-class ThemedTextFormField extends StatelessWidget {
-  const ThemedTextFormField({
-    Key? key,
-    this.hintText,
-    this.prefixIconSvgPath,
-    this.keyboardType,
-    required this.controller,
-    this.obscureText = false,
-    this.enabled,
-    this.autofocus = false,
-  }) : super(key: key);
+  bool validateEmail(String email) {
+    return BlocProvider.of<AuthCubit>(context).validateEmail(email);
+  }
 
-  final String? hintText;
-  final String? prefixIconSvgPath;
-  final TextInputType? keyboardType;
-  final TextEditingController controller;
-  final bool obscureText;
-  final bool? enabled;
-  final bool autofocus;
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      autofocus: autofocus,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      controller: controller,
-      enabled: enabled,
-      decoration: InputDecoration(
-        prefixIcon: prefixIconSvgPath != null
-            ? Padding(
-                padding: const EdgeInsets.only(
-                    top: 0.0, left: 21, bottom: 0, right: 13),
-                child: SvgPicture.asset(
-                  prefixIconSvgPath!,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              )
-            : null,
-        prefixIconColor: Theme.of(context).colorScheme.onSurface,
-        contentPadding: EdgeInsets.only(
-          left: prefixIconSvgPath == null ? 21 : 0,
-          top: 20,
-          bottom: 20,
-          right: 20,
+  void _navigateToNext() {
+    setState(() {
+      errorMessage = null;
+    });
+
+    if (!validateEmail(emailAddressLoginController.text)) {
+      setState(() {
+        errorMessage = "Escribe un email válido";
+      });
+      return;
+    }
+
+    BlocProvider.of<AuthCubit>(context)
+        .setEmail(emailAddressLoginController.text);
+
+    BlocProvider.of<AuthCubit>(context).resetPassword(onSuccess: () {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: BlocProvider.of<AuthCubit>(context),
+            child: const OtpCodePasswordPage(),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0x00000000), width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: const Color(0xFFFFFFFF).withOpacity(0.3), width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: const Color.fromARGB(255, 199, 199, 199).withOpacity(0.12),
-              width: 1),
-          borderRadius: Constants.borderRadius50,
-        ),
-        filled: enabled == false ? false : true,
-        fillColor: Theme.of(context).colorScheme.primaryContainer,
-        hoverColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        hintText: hintText,
-      ),
-    );
+      );
+    }, onError: (error) {
+      if (error is IForgotFailure) {
+        setState(() {
+          errorMessage = error.message;
+        });
+        return;
+      }
+      widget.handleError(context, error);
+    });
   }
 }
 

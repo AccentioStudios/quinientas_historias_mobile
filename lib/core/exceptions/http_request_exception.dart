@@ -2,11 +2,11 @@ class HttpRequestException implements Exception {
   const HttpRequestException(
     this.statusCode,
     this.data,
-    this.stackTrace,
+    this.exception,
   );
-  final int statusCode;
+  final int? statusCode;
   final String? data;
-  final Exception? stackTrace;
+  final Exception? exception;
 
   @override
   String toString() =>

@@ -11,7 +11,7 @@ class Team {
 
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
 
-  final String id;
+  final int id;
   final String name;
 
   Map<String, dynamic> toJson() => _$TeamToJson(this);

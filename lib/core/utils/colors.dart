@@ -38,7 +38,7 @@ const tertiaryContainerDarkColor = Color(0xFF00513B);
 const onTertiaryContainerDarkColor = Color(0xFF69FBCB);
 const streakFireRedDarkColor = Color(0xFFFF5D5D);
 const onSurfaceDarkColor = Color(0xFFE3E2E6);
-const onSurfaceVariantDarkColor = Color(0xFFE3E2E6);
+const onSurfaceVariantDarkColor = Color(0xFFC4C6CF);
 const successDarkColor = Color(0xFF69FBCB);
 const errorDarkColor = Color(0xFFFF7B5B);
 

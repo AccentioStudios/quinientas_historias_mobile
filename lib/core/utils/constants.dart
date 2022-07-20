@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -13,5 +14,10 @@ class Constants {
   static const double space16 = 16;
   static const double space18 = 18;
   static const double space21 = 21;
+  static const double space30 = 30;
   static const double space41 = 41;
+}
+
+class FeatureFlag {
+  static bool aliceEnabled = kDebugMode;
 }

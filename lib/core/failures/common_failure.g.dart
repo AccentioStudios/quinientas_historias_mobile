@@ -9,15 +9,14 @@ part of 'common_failure.dart';
 CommonFailure _$CommonFailureFromJson(Map<String, dynamic> json) =>
     CommonFailure(
       message: json['message'] as String?,
-      errorType:
-          $enumDecodeNullable(_$CommonFailureTypeEnumMap, json['errorType']) ??
-              CommonFailureType.unknown,
+      error: $enumDecodeNullable(_$CommonFailureTypeEnumMap, json['error']) ??
+          CommonFailureType.unknown,
     );
 
 Map<String, dynamic> _$CommonFailureToJson(CommonFailure instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'errorType': _$CommonFailureTypeEnumMap[instance.errorType],
+      'error': _$CommonFailureTypeEnumMap[instance.error],
     };
 
 const _$CommonFailureTypeEnumMap = {

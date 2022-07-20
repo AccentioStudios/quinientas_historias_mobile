@@ -4,20 +4,23 @@ import 'story_progress_entity.dart';
 
 part 'daily_challenge_entity.g.dart';
 
+const List<StoryProgress> defaultValue = [];
+
 @JsonSerializable()
 class DailyChallenge {
-  DailyChallenge({
-    required this.count,
-    required this.readed,
-    this.challenge,
-  });
+  DailyChallenge(
+      {this.count = 0,
+      this.readed = 0,
+      this.challenge = defaultValue,
+      this.hasOldChallengeIncomplete = false});
 
   factory DailyChallenge.fromJson(Map<String, dynamic> json) =>
       _$DailyChallengeFromJson(json);
 
   final int count;
   final int readed;
-  final List<StoryProgress>? challenge;
+  final List<StoryProgress> challenge;
+  final bool hasOldChallengeIncomplete;
 
   Map<String, dynamic> toJson() => _$DailyChallengeToJson(this);
 }

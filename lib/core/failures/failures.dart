@@ -9,6 +9,4 @@ class HttpHandleFailure extends Failure {
   final StackTrace? stackTrace;
 }
 
-class NetworkFailure extends Failure {}
-
 class UnknownFailure extends Failure {}

@@ -8,10 +8,9 @@ part of 'http_response_model.dart';
 
 HttpResponse _$HttpResponseFromJson(Map<String, dynamic> json) => HttpResponse(
       body: json['body'] as String?,
-      jsonData: json['jsonData'] as Map<String, dynamic>?,
-      status: json['status'] == null
-          ? null
-          : HttpStatusModel.fromJson(json['status'] as Map<String, dynamic>),
+      statusCode:
+          $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']) ??
+              StatusCodes.unknown,
       headers: (json['headers'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -21,8 +20,19 @@ HttpResponse _$HttpResponseFromJson(Map<String, dynamic> json) => HttpResponse(
 Map<String, dynamic> _$HttpResponseToJson(HttpResponse instance) =>
     <String, dynamic>{
       'body': instance.body,
-      'jsonData': instance.jsonData,
-      'status': instance.status,
+      'statusCode': _$StatusCodesEnumMap[instance.statusCode],
       'headers': instance.headers,
       'stackTrace': instance.stackTrace,
     };
+
+const _$StatusCodesEnumMap = {
+  StatusCodes.networkError: 'networkError',
+  StatusCodes.unknown: 'unknown',
+  StatusCodes.ok: 200,
+  StatusCodes.badRequest: 400,
+  StatusCodes.unauthorized: 401,
+  StatusCodes.fordbidden: 403,
+  StatusCodes.notFound: 404,
+  StatusCodes.internalServerError: 500,
+  StatusCodes.iforgotError: 452,
+};

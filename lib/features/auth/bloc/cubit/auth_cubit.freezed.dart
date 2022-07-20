@@ -20,6 +20,8 @@ mixin _$AuthState {
   AuthFailure? get authFailure => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -31,7 +33,12 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res>;
   $Res call(
-      {bool loading, AuthFailure? authFailure, String email, String password});
+      {bool loading,
+      AuthFailure? authFailure,
+      String email,
+      String password,
+      String token,
+      String code});
 }
 
 /// @nodoc
@@ -48,6 +55,8 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
     Object? authFailure = freezed,
     Object? email = freezed,
     Object? password = freezed,
+    Object? token = freezed,
+    Object? code = freezed,
   }) {
     return _then(_value.copyWith(
       loading: loading == freezed
@@ -66,6 +75,14 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      token: token == freezed
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -77,7 +94,12 @@ abstract class _$$_AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
       __$$_AuthStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool loading, AuthFailure? authFailure, String email, String password});
+      {bool loading,
+      AuthFailure? authFailure,
+      String email,
+      String password,
+      String token,
+      String code});
 }
 
 /// @nodoc
@@ -96,6 +118,8 @@ class __$$_AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
     Object? authFailure = freezed,
     Object? email = freezed,
     Object? password = freezed,
+    Object? token = freezed,
+    Object? code = freezed,
   }) {
     return _then(_$_AuthState(
       loading: loading == freezed
@@ -114,6 +138,14 @@ class __$$_AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
+      token: token == freezed
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -125,7 +157,9 @@ class _$_AuthState implements _AuthState {
       {this.loading = false,
       this.authFailure,
       this.email = '',
-      this.password = ''});
+      this.password = '',
+      this.token = '',
+      this.code = ''});
 
   @override
   @JsonKey()
@@ -138,10 +172,16 @@ class _$_AuthState implements _AuthState {
   @override
   @JsonKey()
   final String password;
+  @override
+  @JsonKey()
+  final String token;
+  @override
+  @JsonKey()
+  final String code;
 
   @override
   String toString() {
-    return 'AuthState(loading: $loading, authFailure: $authFailure, email: $email, password: $password)';
+    return 'AuthState(loading: $loading, authFailure: $authFailure, email: $email, password: $password, token: $token, code: $code)';
   }
 
   @override
@@ -153,7 +193,9 @@ class _$_AuthState implements _AuthState {
             const DeepCollectionEquality()
                 .equals(other.authFailure, authFailure) &&
             const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality().equals(other.password, password));
+            const DeepCollectionEquality().equals(other.password, password) &&
+            const DeepCollectionEquality().equals(other.token, token) &&
+            const DeepCollectionEquality().equals(other.code, code));
   }
 
   @override
@@ -162,7 +204,9 @@ class _$_AuthState implements _AuthState {
       const DeepCollectionEquality().hash(loading),
       const DeepCollectionEquality().hash(authFailure),
       const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(password));
+      const DeepCollectionEquality().hash(password),
+      const DeepCollectionEquality().hash(token),
+      const DeepCollectionEquality().hash(code));
 
   @JsonKey(ignore: true)
   @override
@@ -175,7 +219,9 @@ abstract class _AuthState implements AuthState {
       {final bool loading,
       final AuthFailure? authFailure,
       final String email,
-      final String password}) = _$_AuthState;
+      final String password,
+      final String token,
+      final String code}) = _$_AuthState;
 
   @override
   bool get loading => throw _privateConstructorUsedError;
@@ -185,6 +231,10 @@ abstract class _AuthState implements AuthState {
   String get email => throw _privateConstructorUsedError;
   @override
   String get password => throw _privateConstructorUsedError;
+  @override
+  String get token => throw _privateConstructorUsedError;
+  @override
+  String get code => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_AuthStateCopyWith<_$_AuthState> get copyWith =>

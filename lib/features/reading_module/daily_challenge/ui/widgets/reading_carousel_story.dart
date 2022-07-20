@@ -7,10 +7,11 @@ import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/utils/constants.dart';
 
 class ReadingCarouselStory extends StatelessWidget {
-  const ReadingCarouselStory({Key? key, required this.stories})
+  const ReadingCarouselStory({Key? key, this.stories, this.onPageChanged})
       : super(key: key);
 
-  final List<StoryProgress> stories;
+  final List<StoryProgress>? stories;
+  final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
   @override
   Widget build(BuildContext context) {
     final TextStyle textStyle = TextStyle(
@@ -29,7 +30,7 @@ class ReadingCarouselStory extends StatelessWidget {
     return SizedBox(
       height: heightCarousel,
       width: MediaQuery.of(context).size.width,
-      child: stories.isEmpty
+      child: !verifyIfHaveStories(stories)
           ? const SizedBox.shrink()
           : CarouselSlider(
               options: CarouselOptions(
@@ -40,7 +41,7 @@ class ReadingCarouselStory extends StatelessWidget {
                 viewportFraction: 0.43,
                 height: heightCarousel,
                 enlargeCenterPage: true,
-                onPageChanged: onPageChangedHandler,
+                onPageChanged: onPageChanged,
                 enlargeStrategy: CenterPageEnlargeStrategy.height,
               ),
               items: buildList(context, textStyle, secondaryTextStyle),
@@ -48,17 +49,25 @@ class ReadingCarouselStory extends StatelessWidget {
     );
   }
 
+  bool verifyIfHaveStories(List<StoryProgress>? stories) {
+    if (stories != null) {
+      if (stories.isNotEmpty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   int searchCurrentReadingBook() {
-    int indexCurrentReadingBook = stories.indexOf(
-        stories.firstWhere((element) => element.status == StoryStatus.reading));
-    return indexCurrentReadingBook;
+    try {
+      return stories!.indexOf(stories!
+          .firstWhere((element) => element.status == StoryStatus.reading));
+    } catch (error) {
+      return 0;
+    }
   }
 
-  void onPageChangedHandler(int index, CarouselPageChangedReason reason) {
-    print('onPageChangedHandler $index');
-  }
-
-  void navigateToBook(BuildContext context, String bookId) {}
+  void navigateToStory(BuildContext context, int storyId) {}
 
   List<Widget> buildList(BuildContext context, TextStyle headerTextStyle,
       TextStyle secondaryTextStyle) {
@@ -68,7 +77,7 @@ class ReadingCarouselStory extends StatelessWidget {
       color: Colors.black45,
     );
 
-    return stories
+    return stories!
         .map((item) => Padding(
               padding: const EdgeInsets.only(
                   bottom: Constants.space18, top: Constants.space8),
@@ -79,7 +88,7 @@ class ReadingCarouselStory extends StatelessWidget {
                     elevation: 5,
                     borderRadius: Constants.borderRadius23,
                     child: GestureDetector(
-                      onTap: () => navigateToBook(context, item.story.id),
+                      onTap: () => navigateToStory(context, item.story.id),
                       child: Container(
                         clipBehavior: Clip.antiAlias,
                         width: 145,

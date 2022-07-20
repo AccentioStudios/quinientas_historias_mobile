@@ -1,13 +1,23 @@
+import 'package:alice/alice.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:quinientas_historias/core/utils/constants.dart';
 
 import 'core/app.dart';
+import 'core/helpers/alice_helper.dart';
 
 void main() async {
+  GlobalKey<NavigatorState>? navigateKey;
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+
+  if (FeatureFlag.aliceEnabled) {
+    final Alice alice = AliceHelper.instance;
+    navigateKey = alice.getNavigatorKey();
+  }
+
   if (kIsWeb) {
     await Firebase.initializeApp(
         options: FirebaseOptions(
@@ -20,14 +30,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Application();
-  }
+  runApp(Application(
+    navigatorKey: navigateKey,
+  ));
 }

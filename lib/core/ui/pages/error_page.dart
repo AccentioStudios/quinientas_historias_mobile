@@ -39,63 +39,68 @@ class ErrorPage extends StatelessWidget {
       fontSize: 16,
     );
 
-    return Scaffold(
-      appBar: haveBackButton
-          ? AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-            )
-          : null,
-      resizeToAvoidBottomInset: true,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
-        child: Column(children: [
-          Expanded(
-            flex: 1,
-            child: Column(children: [
-              Expanded(
-                flex: 2,
-                child: SvgPicture.asset(svgImagePath),
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(children: [
-                  Text(headline, style: headlineStyle),
-                  const SizedBox(height: Constants.space21),
-                  Text(
-                    message,
-                    style: messageStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: haveBackButton
+            ? AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
               )
-            ]),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: Constants.space21),
-            child: Column(
-              children: [
-                BigButton(
-                    text: btnLabel,
-                    onPressed: () {
-                      if (onBtnTap != null) {
-                        onBtnTap!();
-                      } else {
-                        _navigatoToBack(context);
-                      }
-                    }),
-                linkBtnLabel != null && linkBtnOnTap != null
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: LinkButton(
-                          text: linkBtnLabel!,
-                          onTap: linkBtnOnTap,
-                        ))
-                    : const SizedBox.shrink(),
-              ],
+            : null,
+        resizeToAvoidBottomInset: true,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
+          child: Column(children: [
+            Expanded(
+              flex: 1,
+              child: Column(children: [
+                Expanded(
+                  flex: 2,
+                  child: SvgPicture.asset(svgImagePath),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(children: [
+                    Text(headline, style: headlineStyle),
+                    const SizedBox(height: Constants.space21),
+                    Text(
+                      message,
+                      style: messageStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+                )
+              ]),
             ),
-          ),
-        ]),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: Constants.space21),
+              child: Column(
+                children: [
+                  BigButton(
+                      text: btnLabel ?? 'Volver',
+                      onPressed: () {
+                        if (onBtnTap != null) {
+                          onBtnTap!();
+                        } else {
+                          _navigatoToBack(context);
+                        }
+                      }),
+                  linkBtnLabel != null && linkBtnOnTap != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: LinkButton(
+                            text: linkBtnLabel!,
+                            onTap: linkBtnOnTap,
+                          ))
+                      : const SizedBox.shrink(),
+                ],
+              ),
+            ),
+          ]),
+        ),
       ),
     );
   }

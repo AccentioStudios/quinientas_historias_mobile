@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -5,21 +6,21 @@ import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 
 class BigButton extends StatelessWidget {
-  const BigButton(
-      {Key? key,
-      required this.onPressed,
-      this.child,
-      this.text,
-      this.isLoading = false,
-      this.elevation = 0,
-      this.fontSize = 18,
-      this.padding = const EdgeInsets.symmetric(
-          horizontal: Constants.space21, vertical: Constants.space16),
-      this.svgIconPath
-      // this.width,
-      // this.height,
-      })
-      : super(key: key);
+  const BigButton({
+    Key? key,
+    required this.onPressed,
+    this.child,
+    this.text,
+    this.isLoading = false,
+    this.elevation = 0,
+    this.fontSize = 18,
+    this.padding = const EdgeInsets.symmetric(
+        horizontal: Constants.space21, vertical: Constants.space16),
+    this.svgIconPath,
+    this.filled = true,
+    // this.width,
+    // this.height,
+  }) : super(key: key);
   final void Function()? onPressed;
   final Widget? child;
   final String? text;
@@ -28,6 +29,7 @@ class BigButton extends StatelessWidget {
   final double? fontSize;
   final EdgeInsets padding;
   final String? svgIconPath;
+  final bool filled;
   // final double? width;
   // final double? height;
   @override
@@ -49,16 +51,22 @@ class BigButton extends StatelessWidget {
             if (Theme.of(context).brightness == Brightness.dark) {
               return primaryMutedDarkColor;
             }
-            return primaryMutedColor;
+            if (filled) {
+              return primaryMutedColor;
+            }
+            return Colors.transparent;
           }
-          return null;
+          if (filled) {
+            return Theme.of(context).colorScheme.primary;
+          }
+          return Colors.transparent;
         },
       ), shape: MaterialStateProperty.resolveWith<OutlinedBorder?>((_) {
         return RoundedRectangleBorder(
           borderRadius: Constants.borderRadius50,
         );
       }), elevation: MaterialStateProperty.resolveWith<double?>((_) {
-        return elevation;
+        return filled ? elevation : 0;
       })),
       onPressed: isLoading ? null : onPressed,
       child: Padding(
@@ -70,7 +78,7 @@ class BigButton extends StatelessWidget {
               : text != null
                   ? svgIconPath != null
                       ? buildTextWithIconOption(context)
-                      : buildTextOption()
+                      : buildTextOption(context)
                   : child,
         ),
       ),
@@ -89,16 +97,33 @@ class BigButton extends StatelessWidget {
     ));
   }
 
-  Widget buildTextOption() {
+  Widget buildTextOption(BuildContext context) {
     return Center(
-      child: Text(
+      child: AutoSizeText(
         text ?? '',
         style: TextStyle(
+          color: getEnabledTextColor(context, onPressed != null),
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
         ),
       ),
     );
+  }
+
+  Color getEnabledTextColor(BuildContext context, bool enabled) {
+    if (enabled) {
+      if (Theme.of(context).brightness == Brightness.dark) {
+        return filled ? onPrimaryDarkColor : primaryDarkColor;
+      } else {
+        return filled ? onPrimaryColor : primaryColor;
+      }
+    } else {
+      if (Theme.of(context).brightness == Brightness.dark) {
+        return onPrimaryMutedDarkColor;
+      } else {
+        return onPrimaryMutedColor;
+      }
+    }
   }
 
   Widget buildTextWithIconOption(BuildContext context) {
@@ -109,16 +134,10 @@ class BigButton extends StatelessWidget {
           height: 24,
           child: SvgPicture.asset(
             svgIconPath!,
-            color: onPressed != null
-                ? Theme.of(context).brightness == Brightness.dark
-                    ? onPrimaryDarkColor
-                    : onPrimaryColor
-                : Theme.of(context).brightness == Brightness.dark
-                    ? onPrimaryMutedDarkColor
-                    : onPrimaryMutedColor,
+            color: getEnabledTextColor(context, onPressed != null),
           ),
         ),
-        Flexible(child: buildTextOption()),
+        Flexible(child: buildTextOption(context)),
       ]),
     );
   }

@@ -11,7 +11,7 @@ class School {
 
   factory School.fromJson(Map<String, dynamic> json) => _$SchoolFromJson(json);
 
-  final String id;
+  final int id;
   final String name;
 
   Map<String, dynamic> toJson() => _$SchoolToJson(this);
