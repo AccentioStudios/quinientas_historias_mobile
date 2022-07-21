@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
-import 'package:quinientas_historias/features/home/bloc/cubit/home_cubit.dart';
-import 'package:quinientas_historias/features/home/data/repositories/home_repository.dart';
-import 'package:quinientas_historias/features/home/data/useCases/home_usecases.dart';
 
+import '../../../core/data/entities/daily_challenge_entity.dart';
+import '../../home/bloc/cubit/home_cubit.dart';
 import 'bloc/cubit/daily_challenge_cubit.dart';
 import 'data/repositories/daily_challenge_repository.dart';
 import 'data/useCases/daily_challenge_usecases.dart';

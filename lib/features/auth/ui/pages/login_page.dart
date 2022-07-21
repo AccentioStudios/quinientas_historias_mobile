@@ -1,20 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/failures/auth_failure.dart';
+
+import '../../../../core/failures/auth_failure.dart';
 import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/link_button.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
-import '../../bloc/cubit/auth_cubit.dart';
-import '../../data/models/iforgot_request_model.dart';
-import 'forgot_password_page.dart';
-import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/constants.dart';
+import '../../bloc/cubit/auth_cubit.dart';
 import '../../data/models/login_model.dart';
-import 'otpcode_password_page.dart';
+import 'forgot_password_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -40,7 +38,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 const SizedBox(height: Constants.space21),
                 SvgPicture.asset('assets/images/login-image.svg'),
-                _LoginForm(),
+                const _LoginForm(),
               ],
             ),
           ],

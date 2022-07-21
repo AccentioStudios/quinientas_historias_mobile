@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart';
+
 import '../../exceptions/http_request_exception.dart';
 import '../../failures/status_codes.dart';
 

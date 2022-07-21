@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
+import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../core/utils/constants.dart';
 

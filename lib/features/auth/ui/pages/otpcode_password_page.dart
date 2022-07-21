@@ -264,7 +264,6 @@ class _OtpCodeFormState extends State<_OtpCodeForm> {
     BlocProvider.of<AuthCubit>(context).setCodeAndToken(code, token);
 
     BlocProvider.of<AuthCubit>(context).verifyOtp(onSuccess: () {
-      print('success');
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => BlocProvider.value(

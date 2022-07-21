@@ -9,7 +9,6 @@ import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
 import '../../bloc/cubit/auth_cubit.dart';
-import '../../data/models/iforgot_request_model.dart';
 import 'otpcode_password_page.dart';
 
 class ForgotPasswordPage extends StatelessWidget with ErrorHandling {

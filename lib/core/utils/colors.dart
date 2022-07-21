@@ -43,7 +43,6 @@ const successDarkColor = Color(0xFF69FBCB);
 const errorDarkColor = Color(0xFFFF7B5B);
 
 Color generateRandomColors() {
-  print('randomColor');
   const List<Color> rangeOfRandomColors = [
     Color(0xFFFFCD81),
     Color(0xFF88C9F9),

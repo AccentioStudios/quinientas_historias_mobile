@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/routes/routes.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
 
 import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/utils/constants.dart';

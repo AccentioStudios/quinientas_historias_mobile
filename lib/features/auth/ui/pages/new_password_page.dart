@@ -1,19 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../core/failures/iforgot_failure.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
-import '../../../../core/utils/colors.dart';
 import '../../../../core/utils/constants.dart';
 import '../../bloc/cubit/auth_cubit.dart';
-import '../../data/models/verify_otp_code_request_model.dart';
 import 'new_password_success_page.dart';
 
 class NewPasswordPage extends StatelessWidget with ErrorHandling {
