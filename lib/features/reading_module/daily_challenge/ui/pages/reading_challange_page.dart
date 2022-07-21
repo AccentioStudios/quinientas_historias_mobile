@@ -9,8 +9,11 @@ import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
+import '../../../../../core/ui/components/story_summary.dart';
+import '../../../../../core/ui/widgets/author_name_chip.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/percentage_progress_bar.dart';
+import '../../../../../core/ui/widgets/story_summary_metadata.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../home/bloc/cubit/home_cubit.dart';
 import '../../../reading_story/reading_story_provider.dart';
@@ -47,6 +50,9 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
   @override
   Widget build(BuildContext context) {
     final homeCubit = BlocProvider.of<HomeCubit>(context);
+
+    const TextStyle headerTextStyle =
+        TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 1.4);
 
     return BlocBuilder<DailyChallengeCubit, DailyChallengeState>(
       builder: (context, state) {
@@ -123,10 +129,22 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
                                     ),
                                   ]),
                                 ),
-                                const SizedBox(
-                                  height: Constants.space21,
+                                const SizedBox(height: Constants.space21),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: Constants.space21),
+                                  child: Text(
+                                    state.storyHovered!.title,
+                                    style: headerTextStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                                _SummaryStory(state: state),
+                                const SizedBox(height: Constants.space12),
+                                SummaryStory(story: state.storyHovered),
+                                const SizedBox(height: Constants.space21),
+                                _FirstLinesOfStory(
+                                    text: state.storyHovered!.content),
+                                const SizedBox(height: Constants.space21),
                               ],
                             ),
                           ),
@@ -199,39 +217,6 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
   }
 }
 
-class _SummaryStory extends StatelessWidget {
-  const _SummaryStory({Key? key, required this.state}) : super(key: key);
-  final DailyChallengeState state;
-
-  final TextStyle _headerTextStyle =
-      const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 1.4);
-  @override
-  Widget build(BuildContext context) {
-    return state.storyHovered == null
-        ? const SizedBox.shrink()
-        : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Constants.space21),
-            child: Column(
-              children: [
-                Text(
-                  state.storyHovered!.title,
-                  style: _headerTextStyle,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: Constants.space12),
-                _NameChip(
-                  name: state.storyHovered!.author!.firstName,
-                ),
-                const SizedBox(height: Constants.space18),
-                const _SummaryMetadata(),
-                const SizedBox(height: Constants.space21),
-                _FirstLinesOfStory(text: state.storyHovered!.content)
-              ],
-            ),
-          );
-  }
-}
-
 class _FirstLinesOfStory extends StatelessWidget {
   const _FirstLinesOfStory({Key? key, required this.text}) : super(key: key);
   final String? text;
@@ -239,144 +224,44 @@ class _FirstLinesOfStory extends StatelessWidget {
   Widget build(BuildContext context) {
     return text == null
         ? const SizedBox.shrink()
-        : SizedBox(
-            height: 340,
-            child: Stack(
-              children: [
-                Html(
-                  style: {
-                    "*": Style(
-                      textAlign: TextAlign.justify,
-                      padding: EdgeInsets.zero,
-                      margin: EdgeInsets.zero,
-                      fontFamily: 'Literata',
-                      fontSize: FontSize.rem(1.20),
-                      lineHeight: LineHeight.percent(143),
-                    )
-                  },
-                  data: text,
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                    stops: [
-                      0.2,
-                      1,
-                    ],
-                    colors: [Color(0xff101c29), Color.fromARGB(22, 16, 28, 41)],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  )),
-                ),
-              ],
-            ),
-          );
-  }
-}
-
-class _SummaryMetadata extends StatelessWidget {
-  const _SummaryMetadata({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          _RowItem(
-            svgIconPath: 'assets/icons/eye-small-icon.svg',
-            label: 'Leídas',
-            value: '85',
-          ),
-          VerticalDivider(
-            width: 32,
-            thickness: 2,
-            color: Colors.white,
-            endIndent: 25,
-          ),
-          _RowItem(
-            svgIconPath: 'assets/icons/clock-small-icon.svg',
-            label: 'Tiempo',
-            value: '10 min',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RowItem extends StatelessWidget {
-  const _RowItem(
-      {Key? key,
-      required this.svgIconPath,
-      required this.label,
-      required this.value})
-      : super(key: key);
-  final String svgIconPath;
-  final String label;
-  final String value;
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 45,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              SizedBox(
-                  width: 16, height: 16, child: SvgPicture.asset(svgIconPath)),
-              const SizedBox(width: 6),
-              Text(label,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  )),
-            ],
-          ),
-          Text(value,
-              style:
-                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-}
-
-class _NameChip extends StatelessWidget {
-  const _NameChip({Key? key, required this.name}) : super(key: key);
-  final String name;
-  @override
-  Widget build(BuildContext context) {
-    return FittedBox(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Constants.space8,
-          vertical: Constants.space8,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: Constants.borderRadius23,
-        ),
-        child: Row(
-          children: [
-            const SizedBox(
-              width: 25,
-              height: 25,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(''),
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Constants.space21),
+            child: SizedBox(
+              height: 340,
+              child: Stack(
+                children: [
+                  Html(
+                    style: {
+                      "*": Style(
+                        textAlign: TextAlign.justify,
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        fontFamily: 'Literata',
+                        fontSize: FontSize.rem(1.20),
+                        lineHeight: LineHeight.percent(143),
+                      )
+                    },
+                    data: text,
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                      stops: [
+                        0.2,
+                        1,
+                      ],
+                      colors: [
+                        Color(0xff101c29),
+                        Color.fromARGB(22, 16, 28, 41)
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                    )),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              width: Constants.space12,
-            ),
-            Text(name),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
 

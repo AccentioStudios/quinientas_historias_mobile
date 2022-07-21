@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 
+import '../../../../../core/ui/components/story_summary.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../bloc/cubit/reading_story_cubit.dart';
 
@@ -52,43 +53,65 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            elevation: 5,
-            centerTitle: true,
-            toolbarHeight: 64,
-            title: Text(state.storyProgress?.story.title ?? 'Modo Lectura',
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            actions: [
-              IconButton(
-                iconSize: 24,
-                onPressed: () {},
-                icon:
-                    SvgPicture.asset('assets/icons/bookmark-outline-icon.svg'),
-              )
-            ],
-          ),
           body: !state.loading && state.storyProgress != null
-              ? SingleChildScrollView(
+              ? CustomScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: GestureDetector(
-                    child: Padding(
+                  slivers: [
+                    SliverAppBar(
+                      elevation: 0,
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      centerTitle: true,
+                      toolbarHeight: 64,
+                      title: Text(
+                          state.storyProgress?.story.title ?? 'Modo Lectura',
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      floating: false,
+                      pinned: true,
+                      snap: false,
+                      flexibleSpace: SingleChildScrollView(
+                        child: Column(children: [
+                          SizedBox(height: MediaQuery.of(context).padding.top),
+                          const SizedBox(height: 64),
+                          SummaryStory(story: state.storyProgress?.story),
+                          const SizedBox(height: Constants.space21),
+                        ]),
+                      ),
+                      expandedHeight: MediaQuery.of(context).padding.top + 160,
+                      actions: [
+                        IconButton(
+                          iconSize: 24,
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                              'assets/icons/bookmark-outline-icon.svg'),
+                        )
+                      ],
+                    ),
+                    //                       const SizedBox(height: Constants.space21),
+                    // Hero(
+                    //     tag: 'summary_story',
+                    //     child: SummaryStory(state: state)),
+                    // const SizedBox(height: Constants.space21),
+
+                    SliverPadding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: Constants.space21),
-                      child: Html(
-                        style: {
-                          "*": Style(
-                            textAlign: TextAlign.justify,
-                            padding: EdgeInsets.zero,
-                            margin: EdgeInsets.zero,
-                            fontFamily: 'Literata',
-                            fontSize: fontSize,
-                            lineHeight: lineHeight,
-                          )
-                        },
-                        data: state.storyProgress!.story.content,
+                      sliver: SliverToBoxAdapter(
+                        child: Html(
+                          style: {
+                            "*": Style(
+                              textAlign: TextAlign.justify,
+                              padding: EdgeInsets.zero,
+                              margin: EdgeInsets.zero,
+                              fontFamily: 'Literata',
+                              fontSize: fontSize,
+                              lineHeight: lineHeight,
+                            )
+                          },
+                          data: state.storyProgress!.story.content,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 )
               : const Center(child: CircularProgressIndicator()),
         );
