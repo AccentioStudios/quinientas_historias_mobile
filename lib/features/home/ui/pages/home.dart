@@ -17,7 +17,7 @@ import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
-import '../../../reading_module/data/models/author_model.dart';
+import '../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../components/header_card_component.dart';
 
@@ -107,8 +107,12 @@ class _HomePageState extends State<HomePage> {
                             childAspectRatio: 109 / 147,
                             crossAxisCount: 3,
                             children: [
-                              ...stories
-                                  .map((story) => StoryCover(story: story)),
+                              ...state.exploreStories.map((story) => StoryCover(
+                                    story: story,
+                                    onTap: () {
+                                      _navigateToStoryPage(context, story);
+                                    },
+                                  )),
                             ],
                           )
                         ],
@@ -119,6 +123,17 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void _navigateToStoryPage(
+    BuildContext context,
+    Story story,
+  ) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => ReadingStoryProvider(
+              homeCubit: BlocProvider.of<HomeCubit>(context),
+              storyId: story.id,
+            )));
   }
 
   void _navigateToDailyChallengePage(
@@ -194,53 +209,6 @@ class _HomePageState extends State<HomePage> {
     return completer.future;
   }
 }
-
-List<Story> stories = [
-  Story(
-    id: 1,
-    title: 'The Awesome Book',
-    coverColor: 'FFCD81',
-    author: Author(
-      id: 1,
-      email: 'test@test.com',
-      firstName: 'Lorem',
-      lastName: 'Ipsum',
-    ),
-  ),
-  Story(
-    id: 2,
-    title: 'The Amazing Book',
-    coverColor: '88C9F9',
-    author: Author(
-      id: 1,
-      email: 'test@test.com',
-      firstName: 'Lorem',
-      lastName: 'Ipsum',
-    ),
-  ),
-  Story(
-    id: 3,
-    title: 'The Spectacular Book',
-    coverColor: 'ADE9B3',
-    author: Author(
-      id: 1,
-      email: 'test@test.com',
-      firstName: 'Lorem',
-      lastName: 'Ipsum',
-    ),
-  ),
-  Story(
-    id: 4,
-    title: 'The Spectacular Book',
-    coverColor: 'C494F3',
-    author: Author(
-      id: 1,
-      email: 'test@test.com',
-      firstName: 'Lorem',
-      lastName: 'Ipsum',
-    ),
-  ),
-];
 
 class HomePositionsChip extends StatelessWidget {
   const HomePositionsChip(

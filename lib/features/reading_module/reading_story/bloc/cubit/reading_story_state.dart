@@ -4,6 +4,7 @@ part of 'reading_story_cubit.dart';
 class ReadingStoryState with _$ReadingStoryState {
   const factory ReadingStoryState({
     @Default(false) bool loading,
-    StoryProgress? storyProgress,
+    @Default(0) int storyProgress,
+    Story? story,
   }) = _ReadingStoryState;
 }

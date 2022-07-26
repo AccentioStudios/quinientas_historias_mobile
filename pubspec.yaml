@@ -41,6 +41,11 @@ dependencies:
   skeleton_text: ^3.0.0
   sliding_up_panel: ^2.0.0+1
 
+  page_turn:
+    git:
+      url: https://github.com/juniorise/page_turn
+      ref: master # branch name
+
 dev_dependencies:
   build_runner: ^2.1.11
   flutter_lints: ^2.0.0

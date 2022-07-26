@@ -4,6 +4,7 @@ import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.d
 import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 import 'package:quinientas_historias/features/home/data/entities/dashboard_entity.dart';
 
+import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
 import '../../data/useCases/home_usecases.dart';
 
@@ -21,7 +22,9 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
     emit(state.copyWith(loading: true));
     homeUseCases.getDashboard().listen((Dashboard dashboard) {
       emit(state.copyWith(
-          user: dashboard.user, dailyChallenge: dashboard.dailyChallenge));
+          user: dashboard.user,
+          dailyChallenge: dashboard.dailyChallenge,
+          exploreStories: dashboard.exploreStories));
       if (onSuccess != null) onSuccess(dashboard);
     }, onError: (error) {
       if (onError != null) onError(error);

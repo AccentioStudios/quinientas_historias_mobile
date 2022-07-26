@@ -15,8 +15,10 @@ class StoryProgress {
   factory StoryProgress.fromJson(Map<String, dynamic> json) =>
       _$StoryProgressFromJson(json);
 
-  final StoryStatus status;
-  final int progress;
+  @Default(StoryStatus.unread)
+  StoryStatus status;
+  @Default(0)
+  int progress;
   final Story story;
 
   Map<String, dynamic> toJson() => _$StoryProgressToJson(this);

@@ -823,6 +823,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  page_turn:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "8c6ef1de9f6cb35fd54b034daca1664e47917667"
+      url: "https://github.com/juniorise/page_turn"
+    source: git
+    version: "2.0.2"
   path:
     dependency: transitive
     description:

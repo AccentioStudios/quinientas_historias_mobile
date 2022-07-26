@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ReadingStoryState {
   bool get loading => throw _privateConstructorUsedError;
-  StoryProgress? get storyProgress => throw _privateConstructorUsedError;
+  int get storyProgress => throw _privateConstructorUsedError;
+  Story? get story => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReadingStoryStateCopyWith<ReadingStoryState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $ReadingStoryStateCopyWith<$Res> {
   factory $ReadingStoryStateCopyWith(
           ReadingStoryState value, $Res Function(ReadingStoryState) then) =
       _$ReadingStoryStateCopyWithImpl<$Res>;
-  $Res call({bool loading, StoryProgress? storyProgress});
+  $Res call({bool loading, int storyProgress, Story? story});
 }
 
 /// @nodoc
@@ -45,6 +46,7 @@ class _$ReadingStoryStateCopyWithImpl<$Res>
   $Res call({
     Object? loading = freezed,
     Object? storyProgress = freezed,
+    Object? story = freezed,
   }) {
     return _then(_value.copyWith(
       loading: loading == freezed
@@ -54,7 +56,11 @@ class _$ReadingStoryStateCopyWithImpl<$Res>
       storyProgress: storyProgress == freezed
           ? _value.storyProgress
           : storyProgress // ignore: cast_nullable_to_non_nullable
-              as StoryProgress?,
+              as int,
+      story: story == freezed
+          ? _value.story
+          : story // ignore: cast_nullable_to_non_nullable
+              as Story?,
     ));
   }
 }
@@ -66,7 +72,7 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
           $Res Function(_$_ReadingStoryState) then) =
       __$$_ReadingStoryStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool loading, StoryProgress? storyProgress});
+  $Res call({bool loading, int storyProgress, Story? story});
 }
 
 /// @nodoc
@@ -84,6 +90,7 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
   $Res call({
     Object? loading = freezed,
     Object? storyProgress = freezed,
+    Object? story = freezed,
   }) {
     return _then(_$_ReadingStoryState(
       loading: loading == freezed
@@ -93,7 +100,11 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
       storyProgress: storyProgress == freezed
           ? _value.storyProgress
           : storyProgress // ignore: cast_nullable_to_non_nullable
-              as StoryProgress?,
+              as int,
+      story: story == freezed
+          ? _value.story
+          : story // ignore: cast_nullable_to_non_nullable
+              as Story?,
     ));
   }
 }
@@ -101,17 +112,21 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ReadingStoryState implements _ReadingStoryState {
-  const _$_ReadingStoryState({this.loading = false, this.storyProgress});
+  const _$_ReadingStoryState(
+      {this.loading = false, this.storyProgress = 0, this.story});
 
   @override
   @JsonKey()
   final bool loading;
   @override
-  final StoryProgress? storyProgress;
+  @JsonKey()
+  final int storyProgress;
+  @override
+  final Story? story;
 
   @override
   String toString() {
-    return 'ReadingStoryState(loading: $loading, storyProgress: $storyProgress)';
+    return 'ReadingStoryState(loading: $loading, storyProgress: $storyProgress, story: $story)';
   }
 
   @override
@@ -121,14 +136,16 @@ class _$_ReadingStoryState implements _ReadingStoryState {
             other is _$_ReadingStoryState &&
             const DeepCollectionEquality().equals(other.loading, loading) &&
             const DeepCollectionEquality()
-                .equals(other.storyProgress, storyProgress));
+                .equals(other.storyProgress, storyProgress) &&
+            const DeepCollectionEquality().equals(other.story, story));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(loading),
-      const DeepCollectionEquality().hash(storyProgress));
+      const DeepCollectionEquality().hash(storyProgress),
+      const DeepCollectionEquality().hash(story));
 
   @JsonKey(ignore: true)
   @override
@@ -140,12 +157,15 @@ class _$_ReadingStoryState implements _ReadingStoryState {
 abstract class _ReadingStoryState implements ReadingStoryState {
   const factory _ReadingStoryState(
       {final bool loading,
-      final StoryProgress? storyProgress}) = _$_ReadingStoryState;
+      final int storyProgress,
+      final Story? story}) = _$_ReadingStoryState;
 
   @override
   bool get loading => throw _privateConstructorUsedError;
   @override
-  StoryProgress? get storyProgress => throw _privateConstructorUsedError;
+  int get storyProgress => throw _privateConstructorUsedError;
+  @override
+  Story? get story => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingStoryStateCopyWith<_$_ReadingStoryState> get copyWith =>

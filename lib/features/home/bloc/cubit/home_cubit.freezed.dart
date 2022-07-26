@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   User? get user => throw _privateConstructorUsedError;
   DailyChallenge? get dailyChallenge => throw _privateConstructorUsedError;
+  List<Story> get exploreStories => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +30,11 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call({User? user, DailyChallenge? dailyChallenge, bool loading});
+  $Res call(
+      {User? user,
+      DailyChallenge? dailyChallenge,
+      List<Story> exploreStories,
+      bool loading});
 }
 
 /// @nodoc
@@ -44,6 +49,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
   $Res call({
     Object? user = freezed,
     Object? dailyChallenge = freezed,
+    Object? exploreStories = freezed,
     Object? loading = freezed,
   }) {
     return _then(_value.copyWith(
@@ -55,6 +61,10 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
           ? _value.dailyChallenge
           : dailyChallenge // ignore: cast_nullable_to_non_nullable
               as DailyChallenge?,
+      exploreStories: exploreStories == freezed
+          ? _value.exploreStories
+          : exploreStories // ignore: cast_nullable_to_non_nullable
+              as List<Story>,
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -69,7 +79,11 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _$_HomeState value, $Res Function(_$_HomeState) then) =
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call({User? user, DailyChallenge? dailyChallenge, bool loading});
+  $Res call(
+      {User? user,
+      DailyChallenge? dailyChallenge,
+      List<Story> exploreStories,
+      bool loading});
 }
 
 /// @nodoc
@@ -86,6 +100,7 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? user = freezed,
     Object? dailyChallenge = freezed,
+    Object? exploreStories = freezed,
     Object? loading = freezed,
   }) {
     return _then(_$_HomeState(
@@ -97,6 +112,10 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           ? _value.dailyChallenge
           : dailyChallenge // ignore: cast_nullable_to_non_nullable
               as DailyChallenge?,
+      exploreStories: exploreStories == freezed
+          ? _value._exploreStories
+          : exploreStories // ignore: cast_nullable_to_non_nullable
+              as List<Story>,
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -108,19 +127,32 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  const _$_HomeState({this.user, this.dailyChallenge, this.loading = false});
+  const _$_HomeState(
+      {this.user,
+      this.dailyChallenge,
+      final List<Story> exploreStories = const [],
+      this.loading = false})
+      : _exploreStories = exploreStories;
 
   @override
   final User? user;
   @override
   final DailyChallenge? dailyChallenge;
+  final List<Story> _exploreStories;
+  @override
+  @JsonKey()
+  List<Story> get exploreStories {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_exploreStories);
+  }
+
   @override
   @JsonKey()
   final bool loading;
 
   @override
   String toString() {
-    return 'HomeState(user: $user, dailyChallenge: $dailyChallenge, loading: $loading)';
+    return 'HomeState(user: $user, dailyChallenge: $dailyChallenge, exploreStories: $exploreStories, loading: $loading)';
   }
 
   @override
@@ -131,6 +163,8 @@ class _$_HomeState implements _HomeState {
             const DeepCollectionEquality().equals(other.user, user) &&
             const DeepCollectionEquality()
                 .equals(other.dailyChallenge, dailyChallenge) &&
+            const DeepCollectionEquality()
+                .equals(other._exploreStories, _exploreStories) &&
             const DeepCollectionEquality().equals(other.loading, loading));
   }
 
@@ -139,6 +173,7 @@ class _$_HomeState implements _HomeState {
       runtimeType,
       const DeepCollectionEquality().hash(user),
       const DeepCollectionEquality().hash(dailyChallenge),
+      const DeepCollectionEquality().hash(_exploreStories),
       const DeepCollectionEquality().hash(loading));
 
   @JsonKey(ignore: true)
@@ -151,12 +186,15 @@ abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final User? user,
       final DailyChallenge? dailyChallenge,
+      final List<Story> exploreStories,
       final bool loading}) = _$_HomeState;
 
   @override
   User? get user => throw _privateConstructorUsedError;
   @override
   DailyChallenge? get dailyChallenge => throw _privateConstructorUsedError;
+  @override
+  List<Story> get exploreStories => throw _privateConstructorUsedError;
   @override
   bool get loading => throw _privateConstructorUsedError;
   @override
