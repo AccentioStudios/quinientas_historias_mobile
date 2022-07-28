@@ -34,7 +34,7 @@ class HomeAppBar extends StatelessWidget {
             user: user,
           ),
           _UserStreak(
-            streakNumber: user?.streak,
+            streakNumber: user?.streak ?? 0,
           ),
         ],
       ),
@@ -48,18 +48,18 @@ class _UserStreak extends StatelessWidget with SheetMessages {
     this.streakNumber = 0,
   }) : super(key: key);
 
-  final int? streakNumber;
+  final int streakNumber;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showInfoAboutStreakMessage(context);
+        showInfoAboutStreakMessage(context, streakNumber);
       },
       child: Row(
         children: [
           SvgPicture.asset(
             'assets/icons/flame-icon.svg',
-            color: streakNumber != null
+            color: streakNumber > 0
                 ? Theme.of(context).brightness == Brightness.light
                     ? streakFireRedColor
                     : streakFireRedDarkColor

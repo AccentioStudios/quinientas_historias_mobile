@@ -8,20 +8,24 @@ class CustomBottomSheet extends StatelessWidget {
   const CustomBottomSheet({
     Key? key,
     this.iconSvgPath,
+    this.iconColor,
     required this.title,
     required this.content,
     this.btnOnTap,
     this.btnLabel,
     this.secondaryBtnOnTap,
     this.secondaryBtnLabel,
+    this.height = 320,
   }) : super(key: key);
   final String? iconSvgPath;
+  final Color? iconColor;
   final String title;
   final String content;
   final Function? btnOnTap;
   final String? btnLabel;
   final Function? secondaryBtnOnTap;
   final String? secondaryBtnLabel;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class CustomBottomSheet extends StatelessWidget {
     TextStyle contentStyle = const TextStyle(fontSize: 16);
 
     return SizedBox(
-      height: 320,
+      height: height,
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: Constants.space21, vertical: Constants.space30),
@@ -43,10 +47,12 @@ class CustomBottomSheet extends StatelessWidget {
                   ? SvgPicture.asset(
                       iconSvgPath!,
                       width: 50,
+                      color: iconColor,
                     )
                   : SvgPicture.asset(
                       'assets/icons/information-circle-outline-icon.svg',
                       width: 50,
+                      color: iconColor,
                     ),
             ),
             const SizedBox(height: Constants.space16),

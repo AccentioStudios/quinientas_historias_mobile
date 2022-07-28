@@ -17,11 +17,11 @@ class User {
     required this.email,
     required this.type,
     this.score,
-    this.streak,
     this.bestStreak,
     this.favoriteStories,
     this.school,
     this.team,
+    this.streak,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -35,11 +35,11 @@ class User {
   @JsonKey(defaultValue: UserType.unknown)
   final UserType type;
   final int? score;
-  final int? streak;
   final int? bestStreak;
   final List<Story>? favoriteStories;
   final School? school;
   final Team? team;
+  final int? streak;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
