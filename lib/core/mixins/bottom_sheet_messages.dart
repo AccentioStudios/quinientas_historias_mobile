@@ -20,8 +20,9 @@ mixin SheetMessages on Widget {
     return showModalBottomSheet<T>(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: Constants.borderRadius23,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
       ),
       builder: (context) => CustomBottomSheet(
         iconSvgPath: iconSvgPath,
