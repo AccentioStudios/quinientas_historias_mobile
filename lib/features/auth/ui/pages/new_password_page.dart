@@ -8,7 +8,7 @@ import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
-import '../../bloc/cubit/auth_cubit.dart';
+import '../bloc/cubit/auth_cubit.dart';
 import 'new_password_success_page.dart';
 
 class NewPasswordPage extends StatelessWidget with ErrorHandling {

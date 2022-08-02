@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ReadingStoryState {
   bool get loading => throw _privateConstructorUsedError;
+  bool get saveFavoriteloading => throw _privateConstructorUsedError;
   int get storyProgress => throw _privateConstructorUsedError;
   Story? get story => throw _privateConstructorUsedError;
 
@@ -30,7 +31,11 @@ abstract class $ReadingStoryStateCopyWith<$Res> {
   factory $ReadingStoryStateCopyWith(
           ReadingStoryState value, $Res Function(ReadingStoryState) then) =
       _$ReadingStoryStateCopyWithImpl<$Res>;
-  $Res call({bool loading, int storyProgress, Story? story});
+  $Res call(
+      {bool loading,
+      bool saveFavoriteloading,
+      int storyProgress,
+      Story? story});
 }
 
 /// @nodoc
@@ -45,6 +50,7 @@ class _$ReadingStoryStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? loading = freezed,
+    Object? saveFavoriteloading = freezed,
     Object? storyProgress = freezed,
     Object? story = freezed,
   }) {
@@ -52,6 +58,10 @@ class _$ReadingStoryStateCopyWithImpl<$Res>
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      saveFavoriteloading: saveFavoriteloading == freezed
+          ? _value.saveFavoriteloading
+          : saveFavoriteloading // ignore: cast_nullable_to_non_nullable
               as bool,
       storyProgress: storyProgress == freezed
           ? _value.storyProgress
@@ -72,7 +82,11 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
           $Res Function(_$_ReadingStoryState) then) =
       __$$_ReadingStoryStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool loading, int storyProgress, Story? story});
+  $Res call(
+      {bool loading,
+      bool saveFavoriteloading,
+      int storyProgress,
+      Story? story});
 }
 
 /// @nodoc
@@ -89,6 +103,7 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? loading = freezed,
+    Object? saveFavoriteloading = freezed,
     Object? storyProgress = freezed,
     Object? story = freezed,
   }) {
@@ -96,6 +111,10 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      saveFavoriteloading: saveFavoriteloading == freezed
+          ? _value.saveFavoriteloading
+          : saveFavoriteloading // ignore: cast_nullable_to_non_nullable
               as bool,
       storyProgress: storyProgress == freezed
           ? _value.storyProgress
@@ -113,11 +132,17 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
 
 class _$_ReadingStoryState implements _ReadingStoryState {
   const _$_ReadingStoryState(
-      {this.loading = false, this.storyProgress = 0, this.story});
+      {this.loading = false,
+      this.saveFavoriteloading = false,
+      this.storyProgress = 0,
+      this.story});
 
   @override
   @JsonKey()
   final bool loading;
+  @override
+  @JsonKey()
+  final bool saveFavoriteloading;
   @override
   @JsonKey()
   final int storyProgress;
@@ -126,7 +151,7 @@ class _$_ReadingStoryState implements _ReadingStoryState {
 
   @override
   String toString() {
-    return 'ReadingStoryState(loading: $loading, storyProgress: $storyProgress, story: $story)';
+    return 'ReadingStoryState(loading: $loading, saveFavoriteloading: $saveFavoriteloading, storyProgress: $storyProgress, story: $story)';
   }
 
   @override
@@ -136,6 +161,8 @@ class _$_ReadingStoryState implements _ReadingStoryState {
             other is _$_ReadingStoryState &&
             const DeepCollectionEquality().equals(other.loading, loading) &&
             const DeepCollectionEquality()
+                .equals(other.saveFavoriteloading, saveFavoriteloading) &&
+            const DeepCollectionEquality()
                 .equals(other.storyProgress, storyProgress) &&
             const DeepCollectionEquality().equals(other.story, story));
   }
@@ -144,6 +171,7 @@ class _$_ReadingStoryState implements _ReadingStoryState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(loading),
+      const DeepCollectionEquality().hash(saveFavoriteloading),
       const DeepCollectionEquality().hash(storyProgress),
       const DeepCollectionEquality().hash(story));
 
@@ -157,11 +185,14 @@ class _$_ReadingStoryState implements _ReadingStoryState {
 abstract class _ReadingStoryState implements ReadingStoryState {
   const factory _ReadingStoryState(
       {final bool loading,
+      final bool saveFavoriteloading,
       final int storyProgress,
       final Story? story}) = _$_ReadingStoryState;
 
   @override
   bool get loading => throw _privateConstructorUsedError;
+  @override
+  bool get saveFavoriteloading => throw _privateConstructorUsedError;
   @override
   int get storyProgress => throw _privateConstructorUsedError;
   @override

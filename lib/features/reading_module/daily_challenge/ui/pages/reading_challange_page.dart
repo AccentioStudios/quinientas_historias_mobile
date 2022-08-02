@@ -13,9 +13,9 @@ import '../../../../../core/ui/components/story_summary.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../../home/bloc/cubit/home_cubit.dart';
+import '../../../../home/ui/bloc/cubit/home_cubit.dart';
 import '../../../reading_story/reading_story_provider.dart';
-import '../../bloc/cubit/daily_challenge_cubit.dart';
+import '../bloc/cubit/daily_challenge_cubit.dart';
 import '../widgets/reading_carousel_story.dart';
 
 class DailyChallengePage extends StatefulWidget
@@ -103,6 +103,9 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
                               children: <Widget>[
                                 ReadingCarouselStory(
                                   stories: state.data.challenge,
+                                  onTap: (storyId) {
+                                    _navigateToReadingStory(storyId, homeCubit);
+                                  },
                                   onPageChanged: (index, reason) {
                                     BlocProvider.of<DailyChallengeCubit>(
                                             context)

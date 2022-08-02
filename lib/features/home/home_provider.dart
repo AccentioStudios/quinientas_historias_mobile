@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/features/home/data/repositories/home_repository.dart';
-import 'package:quinientas_historias/features/home/data/useCases/home_usecases.dart';
-import 'package:quinientas_historias/features/home/ui/pages/home.dart';
 
-import 'bloc/cubit/home_cubit.dart';
+import 'data/repositories/home_repository.dart';
+import 'data/useCases/home_usecases.dart';
+import 'ui/bloc/cubit/home_cubit.dart';
+import 'ui/pages/home.dart';
 
 class HomeProvider extends StatelessWidget {
   const HomeProvider({Key? key}) : super(key: key);

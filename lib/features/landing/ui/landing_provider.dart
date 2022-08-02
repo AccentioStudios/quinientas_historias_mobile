@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/features/landing/ui/landing_page.dart';
 
-import '../bloc/cubit/landing_cubit.dart';
+import 'bloc/cubit/landing_cubit.dart';
+import 'landing_page.dart';
 
 class LandingProvider extends StatelessWidget {
   const LandingProvider({Key? key}) : super(key: key);

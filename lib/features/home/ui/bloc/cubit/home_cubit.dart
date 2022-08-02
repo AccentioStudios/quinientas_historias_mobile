@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
-import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
-import 'package:quinientas_historias/features/home/data/entities/dashboard_entity.dart';
 
-import '../../../../core/data/entities/story_entity.dart';
-import '../../../../core/data/entities/user_entity.dart';
-import '../../data/useCases/home_usecases.dart';
+import '../../../../../core/data/entities/daily_challenge_entity.dart';
+import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/mixins/stream_disposable.dart';
+import '../../../data/entities/dashboard_entity.dart';
+import '../../../data/useCases/home_usecases.dart';
 
-part 'home_state.dart';
 part 'home_cubit.freezed.dart';
+part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> with StreamDisposable {
   HomeCubit({

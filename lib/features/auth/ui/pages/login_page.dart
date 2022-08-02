@@ -10,8 +10,8 @@ import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/link_button.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
-import '../../bloc/cubit/auth_cubit.dart';
 import '../../data/models/login_model.dart';
+import '../bloc/cubit/auth_cubit.dart';
 import 'forgot_password_page.dart';
 
 class LoginPage extends StatelessWidget {

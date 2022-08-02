@@ -1,5 +1,8 @@
 import '../../../../../core/data/entities/story_progress_entity.dart';
+import '../../../../../core/data/models/save_favorite_request.dart';
+import '../../../../../core/data/models/save_favorite_response.dart';
 import '../../../../../core/integrations/api_service/api_service.dart';
+
 import '../models/set_progress_request.dart';
 import '../models/set_story_progress_response.dart';
 
@@ -15,5 +18,12 @@ class ReadingStoryRepository with ApiService {
     yield* appApi
         .post('v1/stories/setProgress', data: request.toJson())
         .handleJson(mapper: (data) => SetStoryProgressResponse.fromMap(data));
+  }
+
+  Stream<SaveFavoriteResponse> saveFavorite(
+      SaveFavoriteRequest request) async* {
+    yield* appApi
+        .post('v1/stories/saveFavorite', data: request.toJson())
+        .handleJson(mapper: (data) => SaveFavoriteResponse.fromMap(data));
   }
 }

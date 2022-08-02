@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/features/auth/data/repositories/auth_repository.dart';
-import 'package:quinientas_historias/features/auth/data/useCases/auth_usecases.dart';
 
-import 'bloc/cubit/auth_cubit.dart';
+import 'data/repositories/auth_repository.dart';
+import 'data/useCases/auth_usecases.dart';
+import 'ui/bloc/cubit/auth_cubit.dart';
 import 'ui/pages/login_page.dart';
 
 class AuthProvider extends StatelessWidget {

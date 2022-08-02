@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/bloc/cubit/reading_story_cubit.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/data/repositories/reading_story_repository.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/data/useCases/reading_story_usecases.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/ui/pages/reading_story_page.dart';
 
-import '../../home/bloc/cubit/home_cubit.dart';
+import '../../home/ui/bloc/cubit/home_cubit.dart';
+import 'data/repositories/reading_story_repository.dart';
+import 'data/useCases/reading_story_usecases.dart';
+import 'ui/bloc/cubit/reading_story_cubit.dart';
+import 'ui/pages/reading_story_page.dart';
 
 class ReadingStoryProvider extends StatelessWidget {
   const ReadingStoryProvider(

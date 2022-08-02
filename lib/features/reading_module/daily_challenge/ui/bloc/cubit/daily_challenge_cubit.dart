@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
-import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 
-import '../../../../../core/data/entities/story_entity.dart';
-import '../../../../../core/data/entities/story_progress_entity.dart';
-import '../../data/useCases/daily_challenge_usecases.dart';
+import '../../../../../../core/data/entities/daily_challenge_entity.dart';
+import '../../../../../../core/data/entities/story_entity.dart';
+import '../../../../../../core/data/entities/story_progress_entity.dart';
+import '../../../../../../core/mixins/stream_disposable.dart';
+import '../../../data/useCases/daily_challenge_usecases.dart';
 
-part 'daily_challenge_state.dart';
 part 'daily_challenge_cubit.freezed.dart';
+part 'daily_challenge_state.dart';
 
 class DailyChallengeCubit extends Cubit<DailyChallengeState>
     with StreamDisposable {

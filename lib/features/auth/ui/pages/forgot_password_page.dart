@@ -8,7 +8,7 @@ import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
-import '../../bloc/cubit/auth_cubit.dart';
+import '../bloc/cubit/auth_cubit.dart';
 import 'otpcode_password_page.dart';
 
 class ForgotPasswordPage extends StatelessWidget with ErrorHandling {

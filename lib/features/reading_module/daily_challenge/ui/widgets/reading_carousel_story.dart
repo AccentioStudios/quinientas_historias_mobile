@@ -1,17 +1,21 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/utils/constants.dart';
 
 class ReadingCarouselStory extends StatelessWidget {
-  const ReadingCarouselStory({Key? key, this.stories, this.onPageChanged})
+  const ReadingCarouselStory(
+      {Key? key, this.stories, this.onPageChanged, this.onTap})
       : super(key: key);
 
   final List<StoryProgress>? stories;
   final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
+  final Function(int)? onTap;
+
   @override
   Widget build(BuildContext context) {
     final TextStyle textStyle = TextStyle(
@@ -67,7 +71,11 @@ class ReadingCarouselStory extends StatelessWidget {
     }
   }
 
-  void navigateToStory(BuildContext context, int storyId) {}
+  void navigateToStory(int storyId) {
+    if (onTap != null) {
+      onTap!(storyId);
+    }
+  }
 
   List<Widget> buildList(BuildContext context, TextStyle headerTextStyle,
       TextStyle secondaryTextStyle) {
@@ -88,7 +96,7 @@ class ReadingCarouselStory extends StatelessWidget {
                     elevation: 5,
                     borderRadius: Constants.borderRadius23,
                     child: GestureDetector(
-                      onTap: () => navigateToStory(context, item.story.id),
+                      onTap: () => navigateToStory(item.story.id),
                       child: Container(
                         clipBehavior: Clip.antiAlias,
                         width: 145,

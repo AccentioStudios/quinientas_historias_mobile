@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/single_chip.dart';
 import '../../../../core/utils/constants.dart';
-import '../../bloc/cubit/home_cubit.dart';
+import '../bloc/cubit/home_cubit.dart';
 import '../widgets/hero_header_widget.dart';
 import '../widgets/home_app_bar.dart';
 
@@ -33,7 +33,7 @@ class HeaderCard extends StatelessWidget {
           children: [
             const SizedBox(height: Constants.space12),
             HeroHeader(
-              dayState: HeroHeaderDayState.day,
+              dayState: getHeroHeaderState(),
               onTap: onTap,
               dailyChallenge: state.dailyChallenge,
             ),
@@ -46,6 +46,18 @@ class HeaderCard extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  HeroHeaderDayState getHeroHeaderState() {
+    var hour = DateTime.now().hour;
+
+    if (hour < 12) {
+      return HeroHeaderDayState.day;
+    }
+    if (hour < 17) {
+      return HeroHeaderDayState.afternoon;
+    }
+    return HeroHeaderDayState.night;
   }
 }
 

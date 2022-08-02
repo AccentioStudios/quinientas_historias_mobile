@@ -12,7 +12,7 @@ import '../../../../core/ui/widgets/link_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../core/utils/constants.dart';
-import '../../bloc/cubit/auth_cubit.dart';
+import '../bloc/cubit/auth_cubit.dart';
 import 'new_password_page.dart';
 
 class OtpCodePasswordPage extends StatelessWidget with ErrorHandling {

@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/failures/iforgot_failure.dart';
 
-import '../../../../core/failures/auth_failure.dart';
-import '../../../../core/failures/common_failure.dart';
-import '../../../../core/mixins/stream_disposable.dart';
-import '../../../../core/data/models/jwt_token_model.dart';
-import '../../data/models/iforgot_request_model.dart';
-import '../../data/models/login_model.dart';
-import '../../data/models/verify_otp_code_request_model.dart';
-import '../../data/useCases/auth_usecases.dart';
+import '../../../../../core/data/models/jwt_token_model.dart';
+import '../../../../../core/failures/auth_failure.dart';
+import '../../../../../core/failures/common_failure.dart';
+import '../../../../../core/failures/iforgot_failure.dart';
+import '../../../../../core/mixins/stream_disposable.dart';
+import '../../../data/models/iforgot_request_model.dart';
+import '../../../data/models/login_model.dart';
+import '../../../data/models/verify_otp_code_request_model.dart';
+import '../../../data/useCases/auth_usecases.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
