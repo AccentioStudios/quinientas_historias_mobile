@@ -12,13 +12,14 @@ import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
+import '../../../../core/ui/widgets/buttom_bar.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
 import '../../../reading_module/reading_story/reading_story_provider.dart';
-import '../../bloc/cubit/home_cubit.dart';
+import '../bloc/cubit/home_cubit.dart';
 import '../components/header_card_component.dart';
 
 class HomePage extends StatefulWidget with ErrorHandling, SheetMessages {
@@ -46,6 +47,17 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
+          extendBody: true,
+          floatingActionButton: FloatingActionBtnDocked(
+            onPressed: () {
+              _navigateToDailyChallengePage(context, state, cubit);
+            },
+          ),
+          bottomNavigationBar: const AppButtonBar(
+            activeOption: ActiveOptionAppButtonBar.home,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           body: state.loading && state.user == null
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -117,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
+                      SizedBox(height: Constants.space41 + 70)
                     ],
                   ),
                 ),

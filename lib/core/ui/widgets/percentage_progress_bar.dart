@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import '../../utils/constants.dart';
 
 class PercentageProgressBar extends StatelessWidget {
-  const PercentageProgressBar({Key? key, this.completedPercentage = 0})
-      : super(key: key);
+  const PercentageProgressBar({
+    Key? key,
+    this.completedPercentage = 0,
+    this.backgroundColor,
+  }) : super(key: key);
   final int completedPercentage;
+  final Color? backgroundColor;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,10 +22,12 @@ class PercentageProgressBar extends StatelessWidget {
           child: LinearProgressIndicator(
             minHeight: 7,
             value: completedPercentage / 100,
-            backgroundColor: Theme.of(context)
-                .colorScheme
-                .secondaryContainer
-                .withOpacity(0.32),
+            backgroundColor: backgroundColor != null
+                ? backgroundColor!.withOpacity(0.32)
+                : Theme.of(context)
+                    .colorScheme
+                    .secondaryContainer
+                    .withOpacity(0.32),
             color: Theme.of(context).colorScheme.primary,
           ),
         ),

@@ -9,8 +9,9 @@ import 'package:page_turn/page_turn.dart';
 
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/components/story_summary.dart';
+import '../../../../../core/ui/widgets/custom_icon_button.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../bloc/cubit/reading_story_cubit.dart';
+import '../bloc/cubit/reading_story_cubit.dart';
 
 class ReadingStoryPage extends StatefulWidget with ErrorHandling {
   const ReadingStoryPage({Key? key, required this.storyId}) : super(key: key);
@@ -90,14 +91,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         ]),
                       ),
                       expandedHeight: MediaQuery.of(context).padding.top + 160,
-                      actions: [
-                        IconButton(
-                          iconSize: 24,
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                              'assets/icons/bookmark-outline-icon.svg'),
-                        )
-                      ],
+                      actions: [FavoriteBtn()],
                     ),
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(
@@ -386,5 +380,33 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     );
 
     return completer.future;
+  }
+}
+
+class FavoriteBtn extends StatefulWidget with ErrorHandling {
+  const FavoriteBtn({Key? key}) : super(key: key);
+
+  @override
+  State<FavoriteBtn> createState() => _FavoriteBtnState();
+}
+
+class _FavoriteBtnState extends State<FavoriteBtn> {
+  @override
+  Widget build(BuildContext context) {
+    final state = BlocProvider.of<ReadingStoryCubit>(context).state;
+    return CustomIconButton(
+      loading: state.saveFavoriteloading,
+      onPressed: () {
+        saveFavorite();
+      },
+      icon: state.story?.favorited ?? false
+          ? SvgPicture.asset('assets/icons/bookmark-icon.svg')
+          : SvgPicture.asset('assets/icons/bookmark-outline-icon.svg'),
+    );
+  }
+
+  void saveFavorite() {
+    BlocProvider.of<ReadingStoryCubit>(context)
+        .saveFavorite(onError: (error) => widget.handleError(context, error));
   }
 }

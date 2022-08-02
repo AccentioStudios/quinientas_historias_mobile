@@ -5,7 +5,7 @@ import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.d
 import '../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../core/utils/constants.dart';
 
-enum HeroHeaderDayState { day, evening, night }
+enum HeroHeaderDayState { day, afternoon, night }
 
 class HeroHeader extends StatelessWidget {
   const HeroHeader({
@@ -58,7 +58,7 @@ class HeroHeader extends StatelessWidget {
         imagePath = 'assets/images/day-illustration-small.svg';
 
         break;
-      case HeroHeaderDayState.evening:
+      case HeroHeaderDayState.afternoon:
         imagePath = 'assets/images/evening-illustration-small.svg';
         break;
       case HeroHeaderDayState.night:
@@ -171,6 +171,7 @@ class HeroHeader extends StatelessWidget {
             ],
           ),
           PercentageProgressBar(
+            backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
             completedPercentage: completedPercentage,
           )
         ],
