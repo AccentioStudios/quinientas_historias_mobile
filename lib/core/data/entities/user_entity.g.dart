@@ -16,7 +16,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       type: $enumDecodeNullable(_$UserTypeEnumMap, json['type']) ??
           UserType.unknown,
       score: json['score'] as int?,
-      streak: json['streak'] as int?,
       bestStreak: json['bestStreak'] as int?,
       favoriteStories: (json['favoriteStories'] as List<dynamic>?)
           ?.map((e) => Story.fromJson(e as Map<String, dynamic>))
@@ -27,6 +26,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       team: json['team'] == null
           ? null
           : Team.fromJson(json['team'] as Map<String, dynamic>),
+      streak: json['streak'] as int?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -38,11 +38,11 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'email': instance.email,
       'type': _$UserTypeEnumMap[instance.type],
       'score': instance.score,
-      'streak': instance.streak,
       'bestStreak': instance.bestStreak,
       'favoriteStories': instance.favoriteStories,
       'school': instance.school,
       'team': instance.team,
+      'streak': instance.streak,
     };
 
 const _$UserTypeEnumMap = {

@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/data/entities/story_entity.dart';
 
 class StorySummaryMetadata extends StatelessWidget {
   const StorySummaryMetadata({
     Key? key,
+    this.readNumber = 0,
+    this.readingTime,
   }) : super(key: key);
 
+  final int readNumber;
+  final ReadTimeResults? readingTime;
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           _RowItem(
             svgIconPath: 'assets/icons/eye-small-icon.svg',
             label: 'Leídas',
-            value: '85',
+            value: readNumber.toString(),
           ),
-          VerticalDivider(
+          const VerticalDivider(
             width: 32,
             thickness: 2,
             color: Colors.white,
@@ -26,7 +31,7 @@ class StorySummaryMetadata extends StatelessWidget {
           _RowItem(
             svgIconPath: 'assets/icons/clock-small-icon.svg',
             label: 'Tiempo',
-            value: '10 min',
+            value: '${readingTime?.minutes.round() ?? 0} min',
           ),
         ],
       ),

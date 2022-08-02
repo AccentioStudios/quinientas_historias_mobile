@@ -21,7 +21,10 @@ class SummaryStory extends StatelessWidget {
                   name: story!.author?.firstName,
                 ),
                 const SizedBox(height: Constants.space18),
-                const StorySummaryMetadata(),
+                StorySummaryMetadata(
+                  readNumber: 0,
+                  readingTime: story?.readingTime,
+                ),
               ],
             ),
           );
