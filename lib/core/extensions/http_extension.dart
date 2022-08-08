@@ -78,6 +78,13 @@ void _checkFailures(HttpResponse response) {
           throw IForgotFailure.fromJson(errorBodyJson);
         }
         throw IForgotFailure();
+
+      case StatusCodes.mustUpdatePassword:
+        if (errorBodyJson != null) {
+          throw AuthFailure.fromJson(errorBodyJson);
+        }
+        throw AuthFailure(error: AuthFailureType.mustUpdatePassword);
+
       default:
         throw UnknownFailure();
     }

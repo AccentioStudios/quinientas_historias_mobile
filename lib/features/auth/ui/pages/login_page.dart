@@ -138,7 +138,6 @@ class _LoginFormState extends State<_LoginForm> {
         builder: (_) => BlocProvider.value(
           value: BlocProvider.of<AuthCubit>(context),
           child: const ForgotPasswordPage(),
-          // child: const ForgotPasswordPage(),
         ),
       ),
     );

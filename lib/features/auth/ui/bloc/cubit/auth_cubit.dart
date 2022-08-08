@@ -42,6 +42,9 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     }, onError: (error) {
       if (error is AuthFailure) {
         emit(state.copyWith(authFailure: error));
+        if (error.error == AuthFailureType.mustUpdatePassword) {
+          onError(error);
+        }
       } else {
         onError(error);
       }

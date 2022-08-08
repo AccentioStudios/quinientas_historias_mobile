@@ -17,6 +17,9 @@ enum StatusCodes {
   internalServerError,
 
   // Custom errors
+  @JsonValue(451)
+  mustUpdatePassword,
+
   @JsonValue(452)
   iforgotError,
 }

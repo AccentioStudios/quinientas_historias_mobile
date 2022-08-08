@@ -64,7 +64,8 @@ class ErrorPage extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Column(children: [
-                    Text(headline, style: headlineStyle),
+                    Text(headline,
+                        style: headlineStyle, textAlign: TextAlign.center),
                     const SizedBox(height: Constants.space21),
                     Text(
                       message,

@@ -36,7 +36,7 @@ mixin ErrorHandling on Widget {
     }
 
     if (error is AuthFailure) {
-      return _gotoAuthError<T>(context);
+      return _gotoAuthError<T>(context, error.error);
     }
 
     return _gotoCommonError<T>(
@@ -98,7 +98,23 @@ mixin ErrorHandling on Widget {
             }));
   }
 
-  Future<T?> _gotoAuthError<T>(BuildContext context) {
+  Future<T?> _gotoAuthError<T>(
+      BuildContext context, AuthFailureType? errorType) {
+    if (errorType == AuthFailureType.mustUpdatePassword) {
+      return _showErrorMessage<T>(
+          context,
+          ErrorPage(
+            headline: 'Es necesario que restaures tu contraseña',
+            message:
+                'Para poder iniciar sesion es necesario que crees una nueva contraseña.',
+            svgImagePath: 'assets/images/new-pass-image.svg',
+            btnLabel: 'Volver',
+            onBtnTap: () {
+              // Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pushNamed(Routes.login);
+            },
+          ));
+    }
     return _showErrorMessage<T>(
         context,
         ErrorPage(
