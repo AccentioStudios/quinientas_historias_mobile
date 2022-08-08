@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:quinientas_historias/core/integrations/environments/platform_environments.dart';
 
 class JWTTokenModel {
   JWTTokenModel({
@@ -37,7 +37,7 @@ class JWTTokenModel {
 
   factory JWTTokenModel.decode(Map<String, dynamic> map) {
     try {
-      String jwtSignKey = dotenv.get('JWT_SIGN_KEY');
+      String jwtSignKey = PlatformEnvironment.jwtSignKey;
 
       String accessToken = map['accessToken'].toString();
       final jwt = JWT.verify(accessToken, SecretKey(jwtSignKey));

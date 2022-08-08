@@ -8,11 +8,11 @@ import '../../data/models/http_response_model.dart';
 import '../../exceptions/http_request_exception.dart';
 import '../../helpers/alice_helper.dart';
 import '../../helpers/http_helper.dart';
-import '../environments/plataform_environments.dart';
+import '../environments/platform_environments.dart';
 import 'package:alice/core/alice_http_extensions.dart';
 
 class HttpImp implements HttpHelper {
-  HttpImp({required this.hostUrl, this.https = PlataformEnvironment.https});
+  HttpImp({required this.hostUrl, this.https = PlatformEnvironment.https});
   final String hostUrl;
   final bool https;
 
