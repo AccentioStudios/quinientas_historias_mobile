@@ -37,7 +37,7 @@ class JWTTokenModel {
 
   factory JWTTokenModel.decode(Map<String, dynamic> map) {
     try {
-      String jwtSignKey = PlatformEnvironment.jwtSignKey;
+      final String jwtSignKey = PlatformEnvironment.jwtSignKey.toString();
 
       String accessToken = map['accessToken'].toString();
       final jwt = JWT.verify(accessToken, SecretKey(jwtSignKey));
