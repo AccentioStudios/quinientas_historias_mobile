@@ -12,7 +12,7 @@ class DailyChallangeProvider extends StatelessWidget {
   const DailyChallangeProvider({
     Key? key,
     this.dailyChallenge,
-    required this.homeCubit,
+    this.homeCubit,
     this.softGenerateNewChallenge = false,
     this.forceGenerateNewChallenge = false,
   }) : super(key: key);
@@ -23,7 +23,7 @@ class DailyChallangeProvider extends StatelessWidget {
   final bool softGenerateNewChallenge;
   // When enter to first screen, force to generate a totally new challenge.
   final bool forceGenerateNewChallenge;
-  final HomeCubit homeCubit;
+  final HomeCubit? homeCubit;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -33,9 +33,10 @@ class DailyChallangeProvider extends StatelessWidget {
               dailyChallengeUseCases: DailyChallengeUseCases(
                   repository: DailyChallengeRepository())),
         ),
-        BlocProvider.value(
-          value: homeCubit,
-        ),
+        if (homeCubit != null)
+          BlocProvider.value(
+            value: homeCubit!,
+          ),
       ],
       child: DailyChallengePage(
         dailyChallenge: dailyChallenge,

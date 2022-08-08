@@ -8,10 +8,9 @@ import 'ui/bloc/cubit/reading_story_cubit.dart';
 import 'ui/pages/reading_story_page.dart';
 
 class ReadingStoryProvider extends StatelessWidget {
-  const ReadingStoryProvider(
-      {Key? key, required this.storyId, required this.homeCubit})
+  const ReadingStoryProvider({Key? key, required this.storyId, this.homeCubit})
       : super(key: key);
-  final HomeCubit homeCubit;
+  final HomeCubit? homeCubit;
   final int storyId;
   @override
   Widget build(BuildContext context) {
@@ -22,9 +21,10 @@ class ReadingStoryProvider extends StatelessWidget {
               readingStoryUseCases:
                   ReadingStoryUseCases(repository: ReadingStoryRepository())),
         ),
-        BlocProvider.value(
-          value: homeCubit,
-        ),
+        if (homeCubit != null)
+          BlocProvider.value(
+            value: homeCubit!,
+          ),
       ],
       child: ReadingStoryPage(
         storyId: storyId,

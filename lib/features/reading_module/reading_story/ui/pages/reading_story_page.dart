@@ -60,7 +60,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   FontSize h2fontSize = FontSize.rem(fontSizeBase + 0.2);
 
   LineHeight lineHeight = LineHeight.percent(145);
-  final _controllerPage = GlobalKey<PageTurnState>();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +90,9 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         ]),
                       ),
                       expandedHeight: MediaQuery.of(context).padding.top + 160,
-                      actions: [FavoriteBtn()],
+                      actions: const <Widget>[
+                        FavoriteBtn(),
+                      ],
                     ),
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(

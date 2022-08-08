@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/features/home/home_provider.dart';
+import 'package:quinientas_historias/features/profiles_module/user_profile/user_profile_provider.dart';
+import 'package:quinientas_historias/features/tournament/tournament_provider.dart';
 
+import '../../../features/reading_module/daily_challenge/daily_challange_provider.dart';
 import '../../utils/constants.dart';
 
 enum ActiveOptionAppButtonBar {
@@ -34,14 +38,18 @@ class AppButtonBar extends StatelessWidget {
                 labelText: 'Home',
                 iconSvgPath: 'assets/icons/home-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/home-icon.svg',
-                onPressed: () {},
+                onPressed: () {
+                  _navigateTo(context, const HomeProvider());
+                },
               ),
               _Item(
                 active: activeOption == ActiveOptionAppButtonBar.tournament,
                 labelText: 'Torneo',
                 iconSvgPath: 'assets/icons/trophy-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/trophy-icon.svg',
-                onPressed: () {},
+                onPressed: () {
+                  _navigateTo(context, const TournamentProvider());
+                },
               ),
               const SizedBox(width: Constants.space21),
               _Item(
@@ -49,7 +57,9 @@ class AppButtonBar extends StatelessWidget {
                 labelText: 'Perfil',
                 iconSvgPath: 'assets/icons/user-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/user-icon.svg',
-                onPressed: () {},
+                onPressed: () {
+                  _navigateTo(context, const UserProfileProvider());
+                },
               ),
               _Item(
                 active: activeOption == ActiveOptionAppButtonBar.configurations,
@@ -62,6 +72,12 @@ class AppButtonBar extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => page),
     );
   }
 }
@@ -123,8 +139,7 @@ class _Item extends StatelessWidget {
 }
 
 class FloatingActionBtnDocked extends StatelessWidget {
-  const FloatingActionBtnDocked({Key? key, required this.onPressed})
-      : super(key: key);
+  const FloatingActionBtnDocked({Key? key, this.onPressed}) : super(key: key);
 
   final VoidCallback? onPressed;
 
@@ -148,11 +163,20 @@ class FloatingActionBtnDocked extends StatelessWidget {
         ),
 
         child: _Item(
-          onPressed: onPressed,
+          onPressed: () {
+            if (onPressed != null) return onPressed!();
+          },
           iconSvgPath: 'assets/icons/book-open-outline-icon.svg',
           activeIconSvgPath: 'assets/icons/book-open-icon.svg',
         ), //icon inside button
       ),
     );
+  }
+
+  void _navigateToDailyChallengePage(
+    BuildContext context,
+  ) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const DailyChallangeProvider()));
   }
 }
