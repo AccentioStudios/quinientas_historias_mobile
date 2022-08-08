@@ -59,8 +59,6 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-    - .env
-
   fonts:
     - family: Proxima
       fonts:
