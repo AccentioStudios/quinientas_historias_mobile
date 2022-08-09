@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/features/home/home_provider.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/user_profile_provider.dart';
-import 'package:quinientas_historias/features/tournament/tournament_provider.dart';
 
-import '../../../features/reading_module/daily_challenge/daily_challange_provider.dart';
+import '../../../features/home/home_provider.dart';
+import '../../../features/profiles_module/user_profile/user_profile_provider.dart';
+import '../../../features/tournament/tournament_provider.dart';
 import '../../utils/constants.dart';
 
 enum ActiveOptionAppButtonBar {
@@ -39,7 +38,9 @@ class AppButtonBar extends StatelessWidget {
                 iconSvgPath: 'assets/icons/home-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/home-icon.svg',
                 onPressed: () {
-                  _navigateTo(context, const HomeProvider());
+                  if (activeOption != ActiveOptionAppButtonBar.home) {
+                    _navigateTo(context, const HomeProvider());
+                  }
                 },
               ),
               _Item(
@@ -48,7 +49,9 @@ class AppButtonBar extends StatelessWidget {
                 iconSvgPath: 'assets/icons/trophy-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/trophy-icon.svg',
                 onPressed: () {
-                  _navigateTo(context, const TournamentProvider());
+                  if (activeOption != ActiveOptionAppButtonBar.tournament) {
+                    _navigateTo(context, const TournamentProvider());
+                  }
                 },
               ),
               const SizedBox(width: Constants.space21),
@@ -58,7 +61,9 @@ class AppButtonBar extends StatelessWidget {
                 iconSvgPath: 'assets/icons/user-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/user-icon.svg',
                 onPressed: () {
-                  _navigateTo(context, const UserProfileProvider());
+                  if (activeOption != ActiveOptionAppButtonBar.profile) {
+                    _navigateTo(context, const UserProfileProvider());
+                  }
                 },
               ),
               _Item(
@@ -173,10 +178,10 @@ class FloatingActionBtnDocked extends StatelessWidget {
     );
   }
 
-  void _navigateToDailyChallengePage(
-    BuildContext context,
-  ) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const DailyChallangeProvider()));
-  }
+  // void _navigateToDailyChallengePage(
+  //   BuildContext context,
+  // ) {
+  //   Navigator.of(context).push(MaterialPageRoute(
+  //       builder: (context) => const DailyChallangeProvider()));
+  // }
 }

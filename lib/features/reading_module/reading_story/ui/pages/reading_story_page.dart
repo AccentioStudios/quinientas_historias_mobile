@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:page_turn/page_turn.dart';
 
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/components/story_summary.dart';

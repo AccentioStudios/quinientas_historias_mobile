@@ -54,7 +54,7 @@ class TournamentHeaderWidget extends StatelessWidget {
                     backgroundColor: Theme.of(context).colorScheme.background,
                   ),
                   const SizedBox(height: Constants.space12),
-                  Text(
+                  const Text(
                     'Quedan 60 dias',
                     style: TextStyle(fontSize: 14),
                   ),

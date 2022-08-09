@@ -1,11 +1,10 @@
 import 'package:custom_nested_scroll_view/custom_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 
 import '../../../../core/libs/extended_tab_view.dart';
 import '../../../../core/ui/widgets/buttom_bar.dart';
+import '../../../../core/ui/widgets/headline.dart';
+import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../core/utils/constants.dart';
 import '../widgets/tournament_arrow_position_widget.dart';
@@ -50,7 +49,7 @@ class _TournamentPageState extends State<TournamentPage>
                   context),
               sliver: const TournamentHeaderWidget(),
             ),
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: PaddingColumn(
                 padding: EdgeInsets.symmetric(horizontal: Constants.space16),
                 children: [
@@ -71,10 +70,9 @@ class _TournamentPageState extends State<TournamentPage>
             builder: (context) => ExtendedTabBarView(
               physics: const BouncingScrollPhysics(),
               controller: tabController,
-              children: [
+              children: const <Widget>[
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: Constants.space16),
+                  padding: EdgeInsets.symmetric(horizontal: Constants.space16),
                   child: LeaderboardMyTeam(),
                 ),
                 Text("Segunda guia selecionada"),
@@ -115,7 +113,7 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
                   fontSize: 14,
                   letterSpacing: 0.8),
               controller: widget.tabController,
-              tabs: <Widget>[
+              tabs: const <Widget>[
                 Tab(
                   text: 'Mi equipo',
                 ),
@@ -139,7 +137,7 @@ class LeaderboardMyTeam extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       itemCount: 20,
       shrinkWrap: true,
-      itemBuilder: (context, index) => LeaderboardListItem(),
+      itemBuilder: (context, index) => const LeaderboardListItem(),
       separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: Constants.space12);
       },
@@ -177,7 +175,7 @@ class LeaderboardListItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const <Widget>[
                   Text('#4 Sebastian (Yo)'),
                   Text('1905 puntos - 97 lecturas',
                       style: TextStyle(fontSize: 13)),
@@ -185,7 +183,7 @@ class LeaderboardListItem extends StatelessWidget {
               ),
             ],
           ),
-          TournamentPositionArrow(
+          const TournamentPositionArrow(
             number: 2,
             arrowPositionDirection: ArrowPositionDirection.up,
           ),

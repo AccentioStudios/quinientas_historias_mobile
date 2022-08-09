@@ -5,5 +5,5 @@ part 'tournament_state.dart';
 part 'tournament_cubit.freezed.dart';
 
 class TournamentCubit extends Cubit<TournamentState> {
-  TournamentCubit() : super(TournamentState.initial());
+  TournamentCubit() : super(const TournamentState.initial());
 }
