@@ -90,8 +90,8 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         ]),
                       ),
                       expandedHeight: MediaQuery.of(context).padding.top + 160,
-                      actions: const <Widget>[
-                        FavoriteBtn(),
+                      actions: <Widget>[
+                        FavoriteBtn(state: state),
                       ],
                     ),
                     SliverPadding(
@@ -385,7 +385,8 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
 }
 
 class FavoriteBtn extends StatefulWidget with ErrorHandling {
-  const FavoriteBtn({Key? key}) : super(key: key);
+  const FavoriteBtn({Key? key, required this.state}) : super(key: key);
+  final ReadingStoryState state;
 
   @override
   State<FavoriteBtn> createState() => _FavoriteBtnState();
@@ -394,13 +395,12 @@ class FavoriteBtn extends StatefulWidget with ErrorHandling {
 class _FavoriteBtnState extends State<FavoriteBtn> {
   @override
   Widget build(BuildContext context) {
-    final state = BlocProvider.of<ReadingStoryCubit>(context).state;
     return CustomIconButton(
-      loading: state.saveFavoriteloading,
+      loading: widget.state.saveFavoriteloading,
       onPressed: () {
         saveFavorite();
       },
-      icon: state.story?.favorited ?? false
+      icon: widget.state.story?.favorited ?? false
           ? SvgPicture.asset('assets/icons/bookmark-icon.svg')
           : SvgPicture.asset('assets/icons/bookmark-outline-icon.svg'),
     );
