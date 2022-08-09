@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          extendBody: true,
+          // extendBody: true,
           floatingActionButton: FloatingActionBtnDocked(
             onPressed: () {
               _navigateToDailyChallengePage(context, state, cubit);

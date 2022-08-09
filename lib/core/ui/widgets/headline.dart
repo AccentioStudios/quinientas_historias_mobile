@@ -8,15 +8,17 @@ class Headline extends StatelessWidget {
     required this.label,
     this.linkText,
     this.onTap,
+    this.marginTop = Constants.space41,
   }) : super(key: key);
   final String label;
   final String? linkText;
   final GestureTapCallback? onTap;
+  final double marginTop;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: Constants.space41),
+        SizedBox(height: marginTop),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Row(
