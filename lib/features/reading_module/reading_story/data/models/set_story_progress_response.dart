@@ -3,18 +3,22 @@ import 'dart:convert';
 class SetStoryProgressResponse {
   SetStoryProgressResponse({
     required this.saved,
+    this.points,
     this.errorMessage,
   });
 
   final bool saved;
+  final int? points;
   final String? errorMessage;
 
   SetStoryProgressResponse copyWith({
     bool? saved,
+    int? points,
     String? errorMessage,
   }) {
     return SetStoryProgressResponse(
       saved: saved ?? this.saved,
+      points: points ?? this.points,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
@@ -22,6 +26,7 @@ class SetStoryProgressResponse {
   Map<String, dynamic> toMap() {
     return {
       'saved': saved,
+      'points': points,
       'errorMessage': errorMessage,
     };
   }
@@ -29,6 +34,7 @@ class SetStoryProgressResponse {
   factory SetStoryProgressResponse.fromMap(Map<String, dynamic> map) {
     return SetStoryProgressResponse(
       saved: map['saved'] ?? false,
+      points: map['points']?.toInt(),
       errorMessage: map['errorMessage'],
     );
   }
@@ -40,7 +46,7 @@ class SetStoryProgressResponse {
 
   @override
   String toString() =>
-      'SetStoryProgressResponse(saved: $saved, errorMessage: $errorMessage)';
+      'SetStoryProgressResponse(saved: $saved, points: $points, errorMessage: $errorMessage)';
 
   @override
   bool operator ==(Object other) {
@@ -48,9 +54,10 @@ class SetStoryProgressResponse {
 
     return other is SetStoryProgressResponse &&
         other.saved == saved &&
+        other.points == points &&
         other.errorMessage == errorMessage;
   }
 
   @override
-  int get hashCode => saved.hashCode ^ errorMessage.hashCode;
+  int get hashCode => saved.hashCode ^ points.hashCode ^ errorMessage.hashCode;
 }

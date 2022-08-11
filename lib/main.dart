@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'core/app.dart';
 import 'core/helpers/alice_helper.dart';
+import 'core/helpers/shared_preferences_helper.dart';
 import 'core/utils/constants.dart';
 
 void main() async {
@@ -14,7 +15,7 @@ void main() async {
     final Alice alice = AliceHelper.instance;
     navigateKey = alice.getNavigatorKey();
   }
-
+  SharedPreferencesHelper.init();
   await Firebase.initializeApp();
   runApp(Application(
     navigatorKey: navigateKey,

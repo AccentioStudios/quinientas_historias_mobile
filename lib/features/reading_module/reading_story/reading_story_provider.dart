@@ -14,13 +14,13 @@ class ReadingStoryProvider extends StatelessWidget {
   final int storyId;
   @override
   Widget build(BuildContext context) {
+    final useCases = ReadingStoryUseCases(repository: ReadingStoryRepository());
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (BuildContext context) => ReadingStoryCubit(
-              readingStoryUseCases:
-                  ReadingStoryUseCases(repository: ReadingStoryRepository())),
-        ),
+        BlocProvider(create: (BuildContext context) {
+          return ReadingStoryCubit(readingStoryUseCases: useCases);
+        }),
         if (homeCubit != null)
           BlocProvider.value(
             value: homeCubit!,

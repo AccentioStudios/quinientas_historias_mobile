@@ -7,15 +7,19 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../../core/data/entities/story_entity.dart';
 import '../../../../../../core/data/models/save_favorite_request.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
-import '../../../data/models/set_progress_request.dart';
+import '../../../data/models/reading_options_model.dart';
+import '../../../data/models/set_story_progress_request.dart';
 import '../../../data/useCases/reading_story_usecases.dart';
 
 part 'reading_story_cubit.freezed.dart';
 part 'reading_story_state.dart';
 
 class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
-  ReadingStoryCubit({required this.readingStoryUseCases})
-      : super(const ReadingStoryState()) {
+  ReadingStoryCubit({
+    required this.readingStoryUseCases,
+  }) : super(ReadingStoryState(
+          readingOptions: readingStoryUseCases.loadReadingOptions(),
+        )) {
     progressStreamController.stream
         .debounceTime(const Duration(seconds: 1))
         .listen((progress) {
@@ -73,5 +77,10 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
         emit(state.copyWith(saveFavoriteloading: false));
       }).subscribe(this);
     }
+  }
+
+  saveReadingOptions(ReadingOptions newReadingOptions) {
+    emit(state.copyWith(readingOptions: newReadingOptions));
+    readingStoryUseCases.saveReadingOptions(newReadingOptions);
   }
 }
