@@ -23,7 +23,7 @@ mixin SheetMessages on Widget {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
       ),
-      builder: (context) => CustomBottomSheet(
+      builder: (context) => MessagesBottomSheet(
         iconSvgPath: iconSvgPath,
         iconColor: iconColor,
         title: title,

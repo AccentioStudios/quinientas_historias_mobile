@@ -4,8 +4,8 @@ import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 
 import '../../utils/constants.dart';
 
-class CustomBottomSheet extends StatelessWidget {
-  const CustomBottomSheet({
+class MessagesBottomSheet extends StatelessWidget {
+  const MessagesBottomSheet({
     Key? key,
     this.iconSvgPath,
     this.iconColor,
