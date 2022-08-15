@@ -67,23 +67,23 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {
         return Scaffold(
-          floatingActionButton: SizedBox(
-            width: 93,
-            child: FloatingActionButton(
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16))),
-                child: SizedBox(
-                    width: 60,
-                    height: 24,
-                    child: SvgPicture.asset(
-                      'assets/icons/reading-options-icon.svg',
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    )),
-                onPressed: () {
-                  showReadingOptions(callback: () {});
-                }),
-          ),
+          // floatingActionButton: SizedBox(
+          //   width: 93,
+          //   child: FloatingActionButton(
+          //       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          //       shape: const RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.all(Radius.circular(16))),
+          //       child: SizedBox(
+          //           width: 60,
+          //           height: 24,
+          //           child: SvgPicture.asset(
+          //             'assets/icons/reading-options-icon.svg',
+          //             color: Theme.of(context).colorScheme.onPrimaryContainer,
+          //           )),
+          //       onPressed: () {
+          //         showReadingOptions(callback: () {});
+          //       }),
+          // ),
           body: !state.loading
               ? CustomScrollView(
                   controller: scrollController,

@@ -9,9 +9,16 @@ class SchoolProfileProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as SchoolProfileArguments;
     return BlocProvider(
-      create: (context) => SchoolProfileCubit(),
+      create: (context) => SchoolProfileCubit(schoolId: args.id),
       child: const SchoolProfilePage(),
     );
   }
+}
+
+class SchoolProfileArguments {
+  final int id;
+  SchoolProfileArguments(this.id);
 }

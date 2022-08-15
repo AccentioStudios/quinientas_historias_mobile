@@ -11,10 +11,13 @@ class HeaderCard extends StatelessWidget {
   const HeaderCard({
     Key? key,
     required this.state,
-    required this.onTap,
+    required this.userProfileOnTap,
+    required this.dailyChallengeOnTap,
   }) : super(key: key);
   final HomeState state;
-  final GestureTapCallback? onTap;
+  final GestureTapCallback? userProfileOnTap;
+  final GestureTapCallback? dailyChallengeOnTap;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,14 +30,17 @@ class HeaderCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.primaryContainer,
       ),
       child: Column(children: [
-        HomeAppBar(user: state.user),
+        HomeAppBar(
+          user: state.user,
+          onTap: userProfileOnTap,
+        ),
         PaddingColumn(
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           children: [
             const SizedBox(height: Constants.space12),
             HeroHeader(
               dayState: getHeroHeaderState(),
-              onTap: onTap,
+              onTap: dailyChallengeOnTap,
               dailyChallenge: state.dailyChallenge,
             ),
             const SizedBox(height: Constants.space18),

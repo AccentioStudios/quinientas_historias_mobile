@@ -4,8 +4,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/features/profiles_module/school_profile/school_profile_provider.dart';
+import 'package:quinientas_historias/features/profiles_module/school_profile/ui/pages/school_profile_page.dart';
+import 'package:quinientas_historias/features/profiles_module/team_profile/team_profile_provider.dart';
+import 'package:quinientas_historias/features/profiles_module/user_profile/user_profile_provider.dart';
 
+import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
+import '../../../../core/data/entities/team_entity.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/failures/auth_failure.dart';
 import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
@@ -72,7 +79,10 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       HeaderCard(
                         state: state,
-                        onTap: () {
+                        userProfileOnTap: () {
+                          _navigateToMyProfilePage(state.user);
+                        },
+                        dailyChallengeOnTap: () {
                           _navigateToDailyChallengePage(context, state, cubit);
                         },
                       ),
@@ -86,7 +96,9 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               HomePositionsChip(
-                                onTap: () {},
+                                onTap: () {
+                                  _navigateToMyTeamPage(state.user?.team);
+                                },
                                 label: 'Mi equipo',
                                 position: '8',
                                 content: state.user?.team?.name ?? '',
@@ -96,7 +108,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                               const SizedBox(width: Constants.space18),
                               HomePositionsChip(
-                                onTap: () {},
+                                onTap: () {
+                                  _navigateToMySchoolPage(state.user?.school);
+                                },
                                 label: 'Mi escuela',
                                 position: '4',
                                 content: state.user?.school?.name ?? '',
@@ -136,6 +150,42 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void _navigateToMySchoolPage(School? mySchool) {
+    if (mySchool != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.schoolProfile,
+        arguments: SchoolProfileArguments(
+          mySchool.id,
+        ),
+      );
+    }
+  }
+
+  void _navigateToMyTeamPage(Team? myTeam) {
+    if (myTeam != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.teamProfile,
+        arguments: TeamProfileArguments(
+          myTeam.id,
+        ),
+      );
+    }
+  }
+
+  void _navigateToMyProfilePage(User? myUser) {
+    if (myUser != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.userProfile,
+        arguments: UserProfileArguments(
+          myUser.id,
+        ),
+      );
+    }
   }
 
   void _navigateToStoryPage(

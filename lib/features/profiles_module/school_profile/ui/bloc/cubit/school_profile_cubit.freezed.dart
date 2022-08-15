@@ -16,37 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SchoolProfileState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    required TResult orElse(),
-  }) =>
+  dynamic get isLoading => throw _privateConstructorUsedError;
+  SchoolProfile? get data => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SchoolProfileStateCopyWith<SchoolProfileState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -55,6 +29,7 @@ abstract class $SchoolProfileStateCopyWith<$Res> {
   factory $SchoolProfileStateCopyWith(
           SchoolProfileState value, $Res Function(SchoolProfileState) then) =
       _$SchoolProfileStateCopyWithImpl<$Res>;
+  $Res call({dynamic isLoading, SchoolProfile? data});
 }
 
 /// @nodoc
@@ -65,102 +40,110 @@ class _$SchoolProfileStateCopyWithImpl<$Res>
   final SchoolProfileState _value;
   // ignore: unused_field
   final $Res Function(SchoolProfileState) _then;
-}
-
-/// @nodoc
-abstract class _$$_InitialCopyWith<$Res> {
-  factory _$$_InitialCopyWith(
-          _$_Initial value, $Res Function(_$_Initial) then) =
-      __$$_InitialCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_InitialCopyWithImpl<$Res>
-    extends _$SchoolProfileStateCopyWithImpl<$Res>
-    implements _$$_InitialCopyWith<$Res> {
-  __$$_InitialCopyWithImpl(_$_Initial _value, $Res Function(_$_Initial) _then)
-      : super(_value, (v) => _then(v as _$_Initial));
 
   @override
-  _$_Initial get _value => super._value as _$_Initial;
+  $Res call({
+    Object? isLoading = freezed,
+    Object? data = freezed,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      data: data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SchoolProfile?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_SchoolProfileStateCopyWith<$Res>
+    implements $SchoolProfileStateCopyWith<$Res> {
+  factory _$$_SchoolProfileStateCopyWith(_$_SchoolProfileState value,
+          $Res Function(_$_SchoolProfileState) then) =
+      __$$_SchoolProfileStateCopyWithImpl<$Res>;
+  @override
+  $Res call({dynamic isLoading, SchoolProfile? data});
+}
+
+/// @nodoc
+class __$$_SchoolProfileStateCopyWithImpl<$Res>
+    extends _$SchoolProfileStateCopyWithImpl<$Res>
+    implements _$$_SchoolProfileStateCopyWith<$Res> {
+  __$$_SchoolProfileStateCopyWithImpl(
+      _$_SchoolProfileState _value, $Res Function(_$_SchoolProfileState) _then)
+      : super(_value, (v) => _then(v as _$_SchoolProfileState));
+
+  @override
+  _$_SchoolProfileState get _value => super._value as _$_SchoolProfileState;
+
+  @override
+  $Res call({
+    Object? isLoading = freezed,
+    Object? data = freezed,
+  }) {
+    return _then(_$_SchoolProfileState(
+      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
+      data: data == freezed
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SchoolProfile?,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$_SchoolProfileState implements _SchoolProfileState {
+  const _$_SchoolProfileState({this.isLoading = false, this.data});
+
+  @override
+  @JsonKey()
+  final dynamic isLoading;
+  @override
+  final SchoolProfile? data;
 
   @override
   String toString() {
-    return 'SchoolProfileState.initial()';
+    return 'SchoolProfileState(isLoading: $isLoading, data: $data)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Initial);
+        (other.runtimeType == runtimeType &&
+            other is _$_SchoolProfileState &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(isLoading),
+      const DeepCollectionEquality().hash(data));
 
+  @JsonKey(ignore: true)
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
+  _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
+      __$$_SchoolProfileStateCopyWithImpl<_$_SchoolProfileState>(
+          this, _$identity);
 }
 
-abstract class _Initial implements SchoolProfileState {
-  const factory _Initial() = _$_Initial;
+abstract class _SchoolProfileState implements SchoolProfileState {
+  const factory _SchoolProfileState(
+      {final dynamic isLoading,
+      final SchoolProfile? data}) = _$_SchoolProfileState;
+
+  @override
+  dynamic get isLoading => throw _privateConstructorUsedError;
+  @override
+  SchoolProfile? get data => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

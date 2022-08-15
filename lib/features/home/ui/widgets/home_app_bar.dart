@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
@@ -10,10 +11,11 @@ class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     Key? key,
     this.user,
+    this.onTap,
   }) : super(key: key);
 
   final User? user;
-
+  final GestureTapCallback? onTap;
   @override
   Widget build(BuildContext context) {
     const TextStyle userNameTextStyle =
@@ -28,10 +30,13 @@ class HomeAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _Username(
-            userNameTextStyle: userNameTextStyle,
-            userTypeTextStyle: userTypeTextStyle,
-            user: user,
+          GestureDetector(
+            onTap: onTap,
+            child: _Username(
+              userNameTextStyle: userNameTextStyle,
+              userTypeTextStyle: userTypeTextStyle,
+              user: user,
+            ),
           ),
           _UserStreak(
             streakNumber: user?.streak ?? 0,
