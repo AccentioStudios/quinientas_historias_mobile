@@ -18,7 +18,7 @@ class _HomeNavigatorState extends State<HomeNavigator> {
     super.initState();
   }
 
-  ActiveOptionAppButtonBar currentOption = ActiveOptionAppButtonBar.home;
+  String currentRouteOption = Routes.home;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _HomeNavigatorState extends State<HomeNavigator> {
       //   },
       // ),
       bottomNavigationBar: AppButtonBar(
-        activeOption: currentOption,
+        activeOption: getCurrentRouteOption(),
         onSelectOption: (activeOptionAppButtonBar) {
           navigate(homeNavigatorKey.currentContext, activeOptionAppButtonBar);
         },
@@ -38,20 +38,20 @@ class _HomeNavigatorState extends State<HomeNavigator> {
       body: NestedNavigator(
         navigationKey: homeNavigatorKey,
         didPopNextRoute: (Route<dynamic> route, Route<Object?>? previousRoute) {
-          // WidgetsBinding.instance.addPostFrameCallback((_) {
-          //   final String previousPageName = previousRoute?.settings.name ?? '';
-          //   setState(() {
-          //     currentRoute = previousPageName;
-          //   });
-          // });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final String previousPageName = previousRoute?.settings.name ?? '';
+            setState(() {
+              currentRouteOption = previousPageName;
+            });
+          });
         },
         didPushRoute: (Route<dynamic>? route, Route<Object?>? previousRoute) {
-          // WidgetsBinding.instance.addPostFrameCallback((_) {
-          //   final String pageName = route?.settings.name ?? '';
-          //   setState(() {
-          //     currentRoute = pageName;
-          //   });
-          // });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final String pageName = route?.settings.name ?? '';
+            setState(() {
+              currentRouteOption = pageName;
+            });
+          });
         },
         onChangeRoute: (Route<dynamic> route, Route<Object?>? previousRoute) {},
         initialRoute: Routes.home,
@@ -60,20 +60,33 @@ class _HomeNavigatorState extends State<HomeNavigator> {
     );
   }
 
+  ActiveOptionAppButtonBar getCurrentRouteOption() {
+    if (currentRouteOption == Routes.home) {
+      return ActiveOptionAppButtonBar.home;
+    }
+    if (currentRouteOption == Routes.tournament) {
+      return ActiveOptionAppButtonBar.tournament;
+    }
+    if (currentRouteOption == Routes.dailyChallenge) {
+      return ActiveOptionAppButtonBar.dailyChallenge;
+    }
+    if (currentRouteOption == Routes.userProfile) {
+      return ActiveOptionAppButtonBar.profile;
+    }
+    return ActiveOptionAppButtonBar.none;
+    // if (currentRouteOption == Routes.home) {
+    //   return ActiveOptionAppButtonBar.configurations;
+    // }
+  }
+
   void navigateToDailyChallengePage(BuildContext? context) {
     if (context != null) {
-      setState(() {
-        currentOption = ActiveOptionAppButtonBar.dailyChallenge;
-      });
       Navigator.of(context).pushNamed(Routes.dailyChallenge);
     }
   }
 
   void navigate(BuildContext? context, ActiveOptionAppButtonBar option) {
     if (context != null) {
-      setState(() {
-        currentOption = option;
-      });
       switch (option) {
         case ActiveOptionAppButtonBar.home:
           Navigator.of(context).pushNamed(Routes.home);
@@ -90,6 +103,9 @@ class _HomeNavigatorState extends State<HomeNavigator> {
           return;
         case ActiveOptionAppButtonBar.configurations:
           // Navigator.of(context).pushNamed(Routes.home);
+          return;
+        case ActiveOptionAppButtonBar.none:
+          // TODO: Handle this case.
           return;
       }
     }

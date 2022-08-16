@@ -11,7 +11,8 @@ enum ActiveOptionAppButtonBar {
   tournament,
   dailyChallenge,
   profile,
-  configurations
+  configurations,
+  none
 }
 
 class AppButtonBar extends StatelessWidget {
