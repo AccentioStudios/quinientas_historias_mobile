@@ -9,6 +9,7 @@ import '../../../../../../core/data/models/save_favorite_request.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/models/reading_options_model.dart';
 import '../../../data/models/set_story_progress_request.dart';
+import '../../../data/models/set_story_progress_response.dart';
 import '../../../data/useCases/reading_story_usecases.dart';
 
 part 'reading_story_cubit.freezed.dart';
@@ -42,14 +43,28 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
     }).subscribe(this);
   }
 
-  updateProgressOfStory(progress, {Function? onSuccess, Function? onError}) {
+  completeStory(
+      {Function(SetStoryProgressResponse)? onSuccess, Function? onError}) {
+    emit(state.copyWith(loading: true));
+
+    updateProgressOfStory(100, onError: (error) {
+      if (onError != null) onError(error);
+      emit(state.copyWith(loading: false));
+    }, onSuccess: (response) {
+      if (onSuccess != null) onSuccess(response);
+      emit(state.copyWith(loading: false));
+    });
+  }
+
+  updateProgressOfStory(progress,
+      {Function? onSuccess, Function(SetStoryProgressResponse)? onError}) {
     if (state.story != null) {
       SetStoryProgressRequest request =
           SetStoryProgressRequest(progress: progress, storyId: state.story!.id);
 
       readingStoryUseCases.setStoryProgress(request).listen((success) {
         emit(state.copyWith(storyProgress: progress));
-        if (onSuccess != null) onSuccess();
+        if (onSuccess != null) onSuccess(success);
       }, onError: (error) {
         if (onError != null) onError(error);
       }).subscribe(this);

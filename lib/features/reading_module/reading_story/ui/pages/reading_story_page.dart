@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
+import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
+import 'package:quinientas_historias/features/reading_module/reading_story/ui/pages/reading_story_success_page.dart';
 import 'package:quinientas_historias/features/reading_module/reading_story/ui/widgets/reading_story_appbar.dart';
 
 import '../../../../../core/mixins/error_handling.dart';
@@ -309,6 +311,21 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         ),
                       ),
                     ),
+                    SliverPadding(
+                      sliver: SliverToBoxAdapter(
+                        child: BigButton(
+                          onPressed: () {
+                            completeReading();
+                          },
+                          text: 'Terminar Lectura',
+                          svgIconPath:
+                              'assets/icons/book-open-outline-icon.svg',
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Constants.space41,
+                          vertical: Constants.space21),
+                    )
                   ],
                 )
               : const Center(child: CircularProgressIndicator()),
@@ -359,10 +376,28 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
         ((scrollController.offset / scrollController.position.maxScrollExtent) *
                 100)
             .toInt();
+    if (progressValue >= 100) {
+      progressValue = 99;
+    }
 
     BlocProvider.of<ReadingStoryCubit>(context)
         .progressStreamController
         .add(progressValue);
+  }
+
+  void completeReading() {
+    context.read<ReadingStoryCubit>().completeStory(
+        onSuccess: (response) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                    value: context.read<ReadingStoryCubit>(),
+                    child: ReadingStorySuccessPage(
+                      points: response.points,
+                      recomendedStories: response.recomendedStories,
+                    ),
+                  )));
+        },
+        onError: (error) => widget.handleError(context, error));
   }
 
   Future<void> loadStory() {

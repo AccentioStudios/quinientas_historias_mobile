@@ -36,7 +36,7 @@ class ReadingStoryRepository with ApiService {
       SetStoryProgressRequest request) async* {
     yield* appApi
         .post('v1/stories/setProgress', data: request.toJson())
-        .handleJson(mapper: (data) => SetStoryProgressResponse.fromMap(data));
+        .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));
   }
 
   Stream<SaveFavoriteResponse> saveFavorite(
