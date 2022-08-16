@@ -378,8 +378,8 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
         widget.handleError<bool>(context, error,
             btnLabel: 'Intentar de nuevo',
             linkBtnLabel: 'Volver', linkBtnOnTap: () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context, rootNavigator: true).pop();
         }).then((isRefresh) {
           if (isRefresh != null) {
             if (isRefresh) {

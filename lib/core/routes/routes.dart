@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/features/landing/ui/landing_provider.dart';
+import 'package:quinientas_historias/features/reading_module/daily_challenge/daily_challange_provider.dart';
+import 'package:quinientas_historias/features/tournament/tournament_provider.dart';
 
 import '../../features/auth/auth_provider.dart';
 import '../../features/home/home_provider.dart';
-import '../../features/landing/ui/landing_provider.dart';
+import '../../features/home/ui/pages/home_navigator.dart';
 import '../../features/profiles_module/school_profile/school_profile_provider.dart';
 import '../../features/profiles_module/team_profile/team_profile_provider.dart';
 import '../../features/profiles_module/user_profile/user_profile_provider.dart';
 
 abstract class Routes {
-  static const String root = '/';
+  static const String landing = '/landing';
   static const String login = '/login';
   static const String home = '/home';
+
+  static const String homeNavigator = '/homeNavigator';
+  static const String dailyChallenge = '/dailyChallenge';
+  static const String tournament = '/tournament';
   static const String schoolProfile = '/schoolProfile';
   static const String teamProfile = '/teamProfile';
   static const String userProfile = '/userProfile';
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return <String, WidgetBuilder>{
-      root: (context) => const LandingProvider(),
+      landing: (context) => const LandingProvider(),
       login: (context) => const AuthProvider(),
+      homeNavigator: (context) => const HomeNavigator(),
+    };
+  }
+
+  static Map<String, WidgetBuilder> generateHomeNavigatorRoutes() {
+    return <String, WidgetBuilder>{
       home: (context) => const HomeProvider(),
       schoolProfile: (context) => const SchoolProfileProvider(),
+      dailyChallenge: (context) => const DailyChallangeProvider(),
+      tournament: (context) => const TournamentProvider(),
       teamProfile: (context) => const TeamProfileProvider(),
       userProfile: (context) => const UserProfileProvider(),
     };

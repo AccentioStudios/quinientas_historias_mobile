@@ -18,8 +18,12 @@ class ReadingStoryRepository with ApiService {
 
   ReadingOptions loadReadingOptions() {
     final instance = SharedPreferencesHelper.instance;
-    return ReadingOptions.fromJson(
-        instance.getString('readingOptions') as Map<String, dynamic>);
+    final String? readingOptions = instance.getString('readingOptions');
+    if (readingOptions != null) {
+      return ReadingOptions.fromJson(
+          instance.getString('readingOptions') as Map<String, dynamic>);
+    }
+    return ReadingOptions();
   }
 
   Stream<StoryProgress> loadStory(int id) async* {

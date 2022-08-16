@@ -122,7 +122,7 @@ class _LoginFormState extends State<_LoginForm> {
                 text: 'Entrar a 500 Historias',
                 isLoading: state.loading,
                 onPressed: () {
-                  _navigateToHome(context);
+                  _navigateToHomeNavigator(context);
                 },
               )
             ],
@@ -143,14 +143,14 @@ class _LoginFormState extends State<_LoginForm> {
     );
   }
 
-  void _navigateToHome(BuildContext context) {
+  void _navigateToHomeNavigator(BuildContext context) {
     BlocProvider.of<AuthCubit>(context).login(
         LoginModel(
             email: emailAddressLoginController.text,
             password: passwordLoginController.text),
         onSuccess: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
-          Navigator.of(context).pushReplacementNamed(Routes.home);
+          Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
         },
         onError: (error) => widget.handleError(context, error));
   }

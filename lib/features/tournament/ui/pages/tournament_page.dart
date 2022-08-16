@@ -30,57 +30,49 @@ class _TournamentPageState extends State<TournamentPage>
   Widget build(BuildContext context) {
     return Scaffold(
         // extendBody: true,
-        floatingActionButton: FloatingActionBtnDocked(
-          onPressed: () {
-            // _navigateToDailyChallengePage(context, state, cubit);
-          },
-        ),
-        bottomNavigationBar: const AppButtonBar(
-          activeOption: ActiveOptionAppButtonBar.tournament,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
         body: CustomNestedScrollView(
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
-          ),
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            CustomSliverOverlapAbsorber(
-              handle: CustomNestedScrollView.sliverOverlapAbsorberHandleFor(
-                  context),
-              sliver: const TournamentHeaderWidget(),
-            ),
-            const SliverToBoxAdapter(
-              child: PaddingColumn(
-                padding: EdgeInsets.symmetric(horizontal: Constants.space16),
-                children: [
-                  Headline(
-                    marginTop: Constants.space21,
-                    label: 'Podio de escuelas',
-                  ),
-                  Headline(
-                    marginTop: Constants.space21,
-                    label: 'Tablero de posiciones',
-                  ),
-                ],
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+        CustomSliverOverlapAbsorber(
+          handle:
+              CustomNestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          sliver: const TournamentHeaderWidget(),
+        ),
+        const SliverToBoxAdapter(
+          child: PaddingColumn(
+            padding: EdgeInsets.symmetric(horizontal: Constants.space16),
+            children: [
+              Headline(
+                marginTop: Constants.space21,
+                label: 'Podio de escuelas',
               ),
-            ),
-            LeaderboardTabs(tabController: tabController),
-          ],
-          body: Builder(
-            builder: (context) => ExtendedTabBarView(
-              physics: const BouncingScrollPhysics(),
-              controller: tabController,
-              children: const <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Constants.space16),
-                  child: LeaderboardMyTeam(),
-                ),
-                Text("Segunda guia selecionada"),
-                Text("Segunda guia selecionada")
-              ],
-            ),
+              Headline(
+                marginTop: Constants.space21,
+                label: 'Tablero de posiciones',
+              ),
+            ],
           ),
-        ));
+        ),
+        LeaderboardTabs(tabController: tabController),
+      ],
+      body: Builder(
+        builder: (context) => ExtendedTabBarView(
+          physics: const BouncingScrollPhysics(),
+          controller: tabController,
+          children: const <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Constants.space16),
+              child: LeaderboardMyTeam(),
+            ),
+            Text("Segunda guia selecionada"),
+            Text("Segunda guia selecionada")
+          ],
+        ),
+      ),
+    ));
   }
 }
 

@@ -15,9 +15,14 @@ enum ActiveOptionAppButtonBar {
 }
 
 class AppButtonBar extends StatelessWidget {
-  const AppButtonBar({Key? key, required this.activeOption}) : super(key: key);
+  const AppButtonBar({
+    Key? key,
+    required this.activeOption,
+    required this.onSelectOption,
+  }) : super(key: key);
 
   final ActiveOptionAppButtonBar activeOption;
+  final Function(ActiveOptionAppButtonBar) onSelectOption;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,7 +44,7 @@ class AppButtonBar extends StatelessWidget {
                 activeIconSvgPath: 'assets/icons/home-icon.svg',
                 onPressed: () {
                   if (activeOption != ActiveOptionAppButtonBar.home) {
-                    _navigateTo(context, const HomeProvider());
+                    onSelectOption(ActiveOptionAppButtonBar.home);
                   }
                 },
               ),
@@ -50,11 +55,11 @@ class AppButtonBar extends StatelessWidget {
                 activeIconSvgPath: 'assets/icons/trophy-icon.svg',
                 onPressed: () {
                   if (activeOption != ActiveOptionAppButtonBar.tournament) {
-                    _navigateTo(context, const TournamentProvider());
+                    onSelectOption(ActiveOptionAppButtonBar.tournament);
                   }
                 },
               ),
-              const SizedBox(width: Constants.space21),
+              // const SizedBox(width: Constants.space21),
               _Item(
                 active: activeOption == ActiveOptionAppButtonBar.profile,
                 labelText: 'Perfil',
@@ -62,7 +67,7 @@ class AppButtonBar extends StatelessWidget {
                 activeIconSvgPath: 'assets/icons/user-icon.svg',
                 onPressed: () {
                   if (activeOption != ActiveOptionAppButtonBar.profile) {
-                    _navigateTo(context, const UserProfileProvider());
+                    onSelectOption(ActiveOptionAppButtonBar.profile);
                   }
                 },
               ),
@@ -71,18 +76,16 @@ class AppButtonBar extends StatelessWidget {
                 labelText: 'Conf',
                 iconSvgPath: 'assets/icons/settings-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/settings-icon.svg',
-                onPressed: () {},
+                onPressed: () {
+                  if (activeOption != ActiveOptionAppButtonBar.configurations) {
+                    onSelectOption(ActiveOptionAppButtonBar.configurations);
+                  }
+                },
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  void _navigateTo(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => page),
     );
   }
 }
@@ -110,9 +113,10 @@ class _Item extends StatelessWidget {
 
     return GestureDetector(
       onTap: onPressed,
-      child: SizedBox(
-        height: 43,
-        width: 42,
+      child: Container(
+        color: Colors.transparent,
+        height: 50,
+        width: 50,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,

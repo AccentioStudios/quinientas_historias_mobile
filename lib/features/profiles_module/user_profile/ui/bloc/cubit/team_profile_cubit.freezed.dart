@@ -15,31 +15,31 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$TeamProfileState {
+mixin _$UserProfileState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  SchoolProfile? get data => throw _privateConstructorUsedError;
+  UserProfile? get data => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TeamProfileStateCopyWith<TeamProfileState> get copyWith =>
+  $UserProfileStateCopyWith<UserProfileState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TeamProfileStateCopyWith<$Res> {
-  factory $TeamProfileStateCopyWith(
-          TeamProfileState value, $Res Function(TeamProfileState) then) =
-      _$TeamProfileStateCopyWithImpl<$Res>;
-  $Res call({dynamic isLoading, SchoolProfile? data});
+abstract class $UserProfileStateCopyWith<$Res> {
+  factory $UserProfileStateCopyWith(
+          UserProfileState value, $Res Function(UserProfileState) then) =
+      _$UserProfileStateCopyWithImpl<$Res>;
+  $Res call({dynamic isLoading, UserProfile? data});
 }
 
 /// @nodoc
-class _$TeamProfileStateCopyWithImpl<$Res>
-    implements $TeamProfileStateCopyWith<$Res> {
-  _$TeamProfileStateCopyWithImpl(this._value, this._then);
+class _$UserProfileStateCopyWithImpl<$Res>
+    implements $UserProfileStateCopyWith<$Res> {
+  _$UserProfileStateCopyWithImpl(this._value, this._then);
 
-  final TeamProfileState _value;
+  final UserProfileState _value;
   // ignore: unused_field
-  final $Res Function(TeamProfileState) _then;
+  final $Res Function(UserProfileState) _then;
 
   @override
   $Res call({
@@ -54,68 +54,68 @@ class _$TeamProfileStateCopyWithImpl<$Res>
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as SchoolProfile?,
+              as UserProfile?,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_SchoolProfileStateCopyWith<$Res>
-    implements $TeamProfileStateCopyWith<$Res> {
-  factory _$$_SchoolProfileStateCopyWith(_$_SchoolProfileState value,
-          $Res Function(_$_SchoolProfileState) then) =
-      __$$_SchoolProfileStateCopyWithImpl<$Res>;
+abstract class _$$_UserProfileStateCopyWith<$Res>
+    implements $UserProfileStateCopyWith<$Res> {
+  factory _$$_UserProfileStateCopyWith(
+          _$_UserProfileState value, $Res Function(_$_UserProfileState) then) =
+      __$$_UserProfileStateCopyWithImpl<$Res>;
   @override
-  $Res call({dynamic isLoading, SchoolProfile? data});
+  $Res call({dynamic isLoading, UserProfile? data});
 }
 
 /// @nodoc
-class __$$_SchoolProfileStateCopyWithImpl<$Res>
-    extends _$TeamProfileStateCopyWithImpl<$Res>
-    implements _$$_SchoolProfileStateCopyWith<$Res> {
-  __$$_SchoolProfileStateCopyWithImpl(
-      _$_SchoolProfileState _value, $Res Function(_$_SchoolProfileState) _then)
-      : super(_value, (v) => _then(v as _$_SchoolProfileState));
+class __$$_UserProfileStateCopyWithImpl<$Res>
+    extends _$UserProfileStateCopyWithImpl<$Res>
+    implements _$$_UserProfileStateCopyWith<$Res> {
+  __$$_UserProfileStateCopyWithImpl(
+      _$_UserProfileState _value, $Res Function(_$_UserProfileState) _then)
+      : super(_value, (v) => _then(v as _$_UserProfileState));
 
   @override
-  _$_SchoolProfileState get _value => super._value as _$_SchoolProfileState;
+  _$_UserProfileState get _value => super._value as _$_UserProfileState;
 
   @override
   $Res call({
     Object? isLoading = freezed,
     Object? data = freezed,
   }) {
-    return _then(_$_SchoolProfileState(
+    return _then(_$_UserProfileState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as SchoolProfile?,
+              as UserProfile?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_SchoolProfileState implements _SchoolProfileState {
-  const _$_SchoolProfileState({this.isLoading = false, this.data});
+class _$_UserProfileState implements _UserProfileState {
+  const _$_UserProfileState({this.isLoading = false, this.data});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
-  final SchoolProfile? data;
+  final UserProfile? data;
 
   @override
   String toString() {
-    return 'TeamProfileState(isLoading: $isLoading, data: $data)';
+    return 'UserProfileState(isLoading: $isLoading, data: $data)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SchoolProfileState &&
+            other is _$_UserProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.data, data));
   }
@@ -128,22 +128,20 @@ class _$_SchoolProfileState implements _SchoolProfileState {
 
   @JsonKey(ignore: true)
   @override
-  _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
-      __$$_SchoolProfileStateCopyWithImpl<_$_SchoolProfileState>(
-          this, _$identity);
+  _$$_UserProfileStateCopyWith<_$_UserProfileState> get copyWith =>
+      __$$_UserProfileStateCopyWithImpl<_$_UserProfileState>(this, _$identity);
 }
 
-abstract class _SchoolProfileState implements TeamProfileState {
-  const factory _SchoolProfileState(
-      {final dynamic isLoading,
-      final SchoolProfile? data}) = _$_SchoolProfileState;
+abstract class _UserProfileState implements UserProfileState {
+  const factory _UserProfileState(
+      {final dynamic isLoading, final UserProfile? data}) = _$_UserProfileState;
 
   @override
   dynamic get isLoading => throw _privateConstructorUsedError;
   @override
-  SchoolProfile? get data => throw _privateConstructorUsedError;
+  UserProfile? get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
+  _$$_UserProfileStateCopyWith<_$_UserProfileState> get copyWith =>
       throw _privateConstructorUsedError;
 }

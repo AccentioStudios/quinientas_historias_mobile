@@ -65,7 +65,7 @@ mixin ErrorHandling on Widget {
             if (onTap != null) {
               return onTap();
             }
-            Navigator.of(context).pop(true);
+            Navigator.of(context, rootNavigator: true).pop(true);
           },
           linkBtnLabel: linkBtnLabel,
           linkBtnOnTap: linkBtnOnTap,
@@ -93,8 +93,10 @@ mixin ErrorHandling on Widget {
             linkBtnOnTap: () {
               const secureStorage = FlutterSecureStorage();
               secureStorage.deleteAll();
-              Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.of(context).pushNamed(Routes.login);
+              Navigator.of(context, rootNavigator: true)
+                  .popUntil((route) => route.isFirst);
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.login);
             }));
   }
 
@@ -111,7 +113,8 @@ mixin ErrorHandling on Widget {
             btnLabel: 'Volver',
             onBtnTap: () {
               // Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.of(context).pushNamed(Routes.login);
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.login);
             },
           ));
     }
@@ -125,7 +128,7 @@ mixin ErrorHandling on Widget {
           btnLabel: 'Iniciar sesión',
           onBtnTap: () {
             // Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.of(context).pushNamed(Routes.login);
+            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
           },
         ));
   }

@@ -1,9 +1,9 @@
 part of 'team_profile_cubit.dart';
 
 @freezed
-class TeamProfileState with _$TeamProfileState {
-  const factory TeamProfileState({
+class UserProfileState with _$UserProfileState {
+  const factory UserProfileState({
     @Default(false) isLoading,
-    SchoolProfile? data,
-  }) = _SchoolProfileState;
+    UserProfile? data,
+  }) = _UserProfileState;
 }

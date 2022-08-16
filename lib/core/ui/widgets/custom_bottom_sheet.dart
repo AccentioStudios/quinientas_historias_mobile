@@ -4,9 +4,10 @@ import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 
 import '../../utils/constants.dart';
 
-class MessagesBottomSheet extends StatelessWidget {
+class MessagesBottomSheet extends StatefulWidget {
   const MessagesBottomSheet({
     Key? key,
+    this.controller,
     this.iconSvgPath,
     this.iconColor,
     required this.title,
@@ -27,6 +28,31 @@ class MessagesBottomSheet extends StatelessWidget {
   final String? secondaryBtnLabel;
   final double height;
 
+  final CustomBottomSheetController? controller;
+
+  @override
+  State<MessagesBottomSheet> createState() => _MessagesBottomSheetState();
+}
+
+class _MessagesBottomSheetState extends State<MessagesBottomSheet> {
+  @override
+  void initState() {
+    if (widget.controller != null) {
+      widget.controller!.close$.addListener(() {
+        return Navigator.of(context).pop(widget.controller!.close$);
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller != null) {
+      widget.controller!.close$.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle header1Style =
@@ -35,7 +61,7 @@ class MessagesBottomSheet extends StatelessWidget {
     TextStyle contentStyle = const TextStyle(fontSize: 16);
 
     return SizedBox(
-      height: height,
+      height: widget.height,
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: Constants.space21, vertical: Constants.space30),
@@ -43,27 +69,27 @@ class MessagesBottomSheet extends StatelessWidget {
           children: [
             SizedBox(
               height: 50,
-              child: iconSvgPath != null
+              child: widget.iconSvgPath != null
                   ? SvgPicture.asset(
-                      iconSvgPath!,
+                      widget.iconSvgPath!,
                       width: 50,
-                      color: iconColor,
+                      color: widget.iconColor,
                     )
                   : SvgPicture.asset(
                       'assets/icons/information-circle-outline-icon.svg',
                       width: 50,
-                      color: iconColor,
+                      color: widget.iconColor,
                     ),
             ),
             const SizedBox(height: Constants.space16),
             Text(
-              title,
+              widget.title,
               style: header1Style,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: Constants.space21),
             Text(
-              content,
+              widget.content,
               style: contentStyle,
               textAlign: TextAlign.center,
             ),
@@ -76,18 +102,18 @@ class MessagesBottomSheet extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
                     onPressed: () {
-                      if (btnOnTap != null) {
-                        btnOnTap!();
+                      if (widget.btnOnTap != null) {
+                        widget.btnOnTap!();
                         return;
                       }
                       return Navigator.of(context).pop(true);
                     },
-                    text: btnLabel ?? 'Ok',
+                    text: widget.btnLabel ?? 'Ok',
                   ),
                 ),
-                if (secondaryBtnLabel != null)
+                if (widget.secondaryBtnLabel != null)
                   const SizedBox(width: Constants.space16),
-                if (secondaryBtnLabel != null)
+                if (widget.secondaryBtnLabel != null)
                   Expanded(
                     flex: 1,
                     child: BigButton(
@@ -95,13 +121,13 @@ class MessagesBottomSheet extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 16),
                       onPressed: () {
-                        if (secondaryBtnOnTap != null) {
-                          secondaryBtnOnTap!();
+                        if (widget.secondaryBtnOnTap != null) {
+                          widget.secondaryBtnOnTap!();
                           return;
                         }
                         return Navigator.of(context).pop(false);
                       },
-                      text: secondaryBtnLabel,
+                      text: widget.secondaryBtnLabel,
                     ),
                   ),
               ],
@@ -110,5 +136,13 @@ class MessagesBottomSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CustomBottomSheetController {
+  ValueNotifier<bool?> close$ = ValueNotifier(null);
+
+  void closeSheet(bool? result) {
+    close$.value = result;
   }
 }

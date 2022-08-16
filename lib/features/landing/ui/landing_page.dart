@@ -11,8 +11,11 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  late GlobalKey<NavigatorState> landingNavigatorKey;
+
   @override
   void initState() {
+    landingNavigatorKey = GlobalKey<NavigatorState>();
     super.initState();
     initCheckings();
   }
@@ -23,6 +26,15 @@ class _LandingPageState extends State<LandingPage> {
       body: Center(
         child: CircularProgressIndicator(),
       ),
+      // body: Navigator(
+      //   key: landingNavigatorKey,
+      //   initialRoute: Routes.home,
+      //   onGenerateRoute: (routeSettings) {
+      //     final String pageName = routeSettings.name ?? '';
+      //     final WidgetBuilder? builder = routeBuilders[pageName];
+      //     return MaterialPageRoute(builder: (context) => builder!(context));
+      //   },
+      // ),
     );
   }
 
@@ -33,11 +45,15 @@ class _LandingPageState extends State<LandingPage> {
 
   Future<void> initCheckings() async {
     if (await _checkAccessToken()) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacementNamed(Routes.home);
+      Navigator.of(context, rootNavigator: true)
+          .popUntil((route) => route.isFirst);
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacementNamed(Routes.homeNavigator);
     } else {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacementNamed(Routes.login);
+      Navigator.of(context, rootNavigator: true)
+          .popUntil((route) => route.isFirst);
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacementNamed(Routes.login);
     }
   }
 }

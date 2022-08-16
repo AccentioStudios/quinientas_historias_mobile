@@ -4,10 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/features/profiles_module/school_profile/school_profile_provider.dart';
-import 'package:quinientas_historias/features/profiles_module/school_profile/ui/pages/school_profile_page.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/team_profile_provider.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/user_profile_provider.dart';
 
 import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
@@ -24,6 +20,9 @@ import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../profiles_module/school_profile/school_profile_provider.dart';
+import '../../../profiles_module/team_profile/team_profile_provider.dart';
+import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
 import '../../../reading_module/reading_story/reading_story_provider.dart';
 import '../bloc/cubit/home_cubit.dart';
@@ -37,6 +36,8 @@ class HomePage extends StatefulWidget with ErrorHandling, SheetMessages {
 }
 
 class _HomePageState extends State<HomePage> {
+  ActiveOptionAppButtonBar activeOption = ActiveOptionAppButtonBar.home;
+
   @override
   void initState() {
     super.initState();
@@ -55,16 +56,6 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         return Scaffold(
           // extendBody: true,
-          floatingActionButton: FloatingActionBtnDocked(
-            onPressed: () {
-              _navigateToDailyChallengePage(context, state, cubit);
-            },
-          ),
-          bottomNavigationBar: const AppButtonBar(
-            activeOption: ActiveOptionAppButtonBar.home,
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
           body: state.loading && state.user == null
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -192,7 +183,7 @@ class _HomePageState extends State<HomePage> {
     BuildContext context,
     Story story,
   ) {
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
         builder: (_) => ReadingStoryProvider(
               homeCubit: BlocProvider.of<HomeCubit>(context),
               storyId: story.id,
@@ -207,6 +198,7 @@ class _HomePageState extends State<HomePage> {
     bool forceGenerateNewChallenge = false,
   }) {
     Navigator.of(context).push(MaterialPageRoute(
+        settings: const RouteSettings(name: Routes.dailyChallenge),
         builder: (context) => DailyChallangeProvider(
               homeCubit: cubit,
               dailyChallenge: state.dailyChallenge,
@@ -232,7 +224,9 @@ class _HomePageState extends State<HomePage> {
           if (userWantsTryAgain == true) {
             _navigateToDailyChallengePage(
               context,
-              BlocProvider.of<HomeCubit>(context).state,
+              BlocProvider.of<HomeCubit>(
+                context,
+              ).state,
               BlocProvider.of<HomeCubit>(context),
               softGenerateNewChallenge: true,
             );
@@ -258,8 +252,9 @@ class _HomePageState extends State<HomePage> {
           btnLabel: 'Intentar nuevamente',
           linkBtnLabel: 'Cerrar Sesión', linkBtnOnTap: () {
         logout();
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        Navigator.of(context).pushNamed(Routes.login);
+        Navigator.of(context, rootNavigator: true)
+            .popUntil((route) => route.isFirst);
+        Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
       }).then((isRefresh) {
         if (isRefresh != null) {
           if (isRefresh) {

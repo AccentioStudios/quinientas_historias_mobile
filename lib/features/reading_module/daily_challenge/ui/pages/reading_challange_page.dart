@@ -36,6 +36,8 @@ class DailyChallengePage extends StatefulWidget
 }
 
 class _DailyChallengePageState extends State<DailyChallengePage> {
+  late GlobalKey<NavigatorState> keyNavigator;
+
   @override
   void didChangeDependencies() {
     getData(
@@ -43,6 +45,12 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
       forceGenerateNewChallenge: widget.forceGenerateNewChallenge,
     );
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+    keyNavigator = GlobalKey<NavigatorState>();
+    super.initState();
   }
 
   @override
@@ -152,9 +160,10 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: Constants.space41,
-                                  vertical: Constants.space21),
+                              padding: const EdgeInsets.only(
+                                  left: Constants.space41,
+                                  right: Constants.space41,
+                                  bottom: Constants.space41),
                               child: BigButton(
                                 svgIconPath:
                                     'assets/icons/book-open-outline-icon.svg',
@@ -166,7 +175,7 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
                                 text: 'Comenzar la lectura',
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
           ),
@@ -199,7 +208,7 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
   }
 
   void _navigateToReadingStory(int storyId, HomeCubit cubit) {
-    Navigator.of(context).push(
+    Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         builder: (_) =>
             ReadingStoryProvider(storyId: storyId, homeCubit: cubit),

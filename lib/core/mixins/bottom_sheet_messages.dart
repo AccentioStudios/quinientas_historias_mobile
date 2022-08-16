@@ -6,6 +6,7 @@ import '../utils/colors.dart';
 mixin SheetMessages on Widget {
   Future<T?> showMessage<T>(
     BuildContext context, {
+    CustomBottomSheetController? controller,
     String? iconSvgPath,
     Color? iconColor,
     required String title,
@@ -19,6 +20,7 @@ mixin SheetMessages on Widget {
     return showModalBottomSheet<T>(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       context: context,
+      useRootNavigator: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
@@ -33,6 +35,7 @@ mixin SheetMessages on Widget {
         secondaryBtnOnTap: secondaryBtnOnTap,
         secondaryBtnLabel: secondaryBtnLabel,
         height: height,
+        controller: controller,
       ),
     );
   }
@@ -51,20 +54,23 @@ mixin SheetMessages on Widget {
 
   Future<T?> showGenerateNewChallengeMessage<T>(
       BuildContext context, Function(bool) callback) {
+    CustomBottomSheetController controller = CustomBottomSheetController();
+
     return showMessage(
       context,
+      controller: controller,
       iconSvgPath: 'assets/icons/refresh-challenge-xl-icon.svg',
       title: 'Generar nuevo reto diario',
       content:
           'Estas seguro que quieres traer nuevas lecturas a tu reto diario? Vas a perder el avance que ya tenías hasta ahora.',
       btnLabel: 'Generar',
       btnOnTap: () {
-        Navigator.of(context).pop(true);
+        controller.closeSheet(true);
         return callback(true);
       },
       secondaryBtnLabel: 'No gracias',
       secondaryBtnOnTap: () {
-        Navigator.of(context).pop(false);
+        controller.closeSheet(false);
         return callback(false);
       },
     );
