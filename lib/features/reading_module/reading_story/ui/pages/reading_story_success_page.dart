@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/ui/bloc/cubit/reading_story_cubit.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/routes/routes.dart';
+import '../../../../../core/ui/widgets/big_button.dart';
 
 class ReadingStorySuccessPage extends StatelessWidget {
   const ReadingStorySuccessPage({
@@ -25,7 +25,14 @@ class ReadingStorySuccessPage extends StatelessWidget {
               'Success Page: Points $points',
             ),
             if (recomendedStories != null)
-              ...recomendedStories!.map((story) => Text(story.title)).toList()
+              ...recomendedStories!.map((story) => Text(story.title)).toList(),
+            BigButton(
+                text: 'Volver al home',
+                svgIconPath: 'assets/icons/home-outline-icon.svg',
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed(Routes.homeNavigator);
+                })
           ],
         ),
       ),

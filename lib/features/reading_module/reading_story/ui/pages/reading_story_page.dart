@@ -389,13 +389,11 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     context.read<ReadingStoryCubit>().completeStory(
         onSuccess: (response) {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => BlocProvider.value(
-                    value: context.read<ReadingStoryCubit>(),
-                    child: ReadingStorySuccessPage(
-                      points: response.points,
-                      recomendedStories: response.recomendedStories,
-                    ),
-                  )));
+            builder: (_) => ReadingStorySuccessPage(
+              points: response.points,
+              recomendedStories: response.recomendedStories,
+            ),
+          ));
         },
         onError: (error) => widget.handleError(context, error));
   }
