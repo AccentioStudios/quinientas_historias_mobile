@@ -42,6 +42,13 @@ const onSurfaceVariantDarkColor = Color(0xFFC4C6CF);
 const successDarkColor = Color(0xFF69FBCB);
 const errorDarkColor = Color(0xFFFF7B5B);
 
+// Division Colors
+const division1Color = Color(0xFFA8602C);
+const division2Color = Color(0xFF8A8984);
+const division3Color = Color(0xFFA79536);
+const division4Color = Color(0xFF5A9D49);
+const division5Color = Color(0xFF8C317E);
+
 Color generateRandomColors() {
   const List<Color> rangeOfRandomColors = [
     Color(0xFFFFCD81),

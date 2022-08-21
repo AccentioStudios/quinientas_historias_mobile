@@ -14,14 +14,15 @@ class User {
     required this.lastName,
     this.avatarUrl,
     this.phoneNumber,
-    required this.email,
+    this.email,
     required this.type,
     this.score,
-    this.bestStreak,
+    this.readed,
     this.favoriteStories,
     this.school,
     this.team,
     this.streak,
+    this.division,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -31,15 +32,16 @@ class User {
   final String lastName;
   final String? avatarUrl;
   final String? phoneNumber;
-  final String email;
+  final String? email;
   @JsonKey(defaultValue: UserType.unknown)
   final UserType type;
   final int? score;
-  final int? bestStreak;
+  final int? readed;
   final List<Story>? favoriteStories;
   final School? school;
   final Team? team;
   final int? streak;
+  final UserDivision? division;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
@@ -52,4 +54,16 @@ enum UserType {
   @JsonValue('captain')
   captain,
   unknown,
+}
+
+@JsonSerializable()
+class UserDivision {
+  UserDivision({required this.level, this.scoreToAchieve});
+  final int level;
+  final int? scoreToAchieve;
+
+  factory UserDivision.fromJson(Map<String, dynamic> json) =>
+      _$UserDivisionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserDivisionToJson(this);
 }

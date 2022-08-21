@@ -12,11 +12,11 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       lastName: json['lastName'] as String,
       avatarUrl: json['avatarUrl'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
-      email: json['email'] as String,
+      email: json['email'] as String?,
       type: $enumDecodeNullable(_$UserTypeEnumMap, json['type']) ??
           UserType.unknown,
       score: json['score'] as int?,
-      bestStreak: json['bestStreak'] as int?,
+      readed: json['readed'] as int?,
       favoriteStories: (json['favoriteStories'] as List<dynamic>?)
           ?.map((e) => Story.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -27,6 +27,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           ? null
           : Team.fromJson(json['team'] as Map<String, dynamic>),
       streak: json['streak'] as int?,
+      division: json['division'] == null
+          ? null
+          : UserDivision.fromJson(json['division'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -38,11 +41,12 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'email': instance.email,
       'type': _$UserTypeEnumMap[instance.type],
       'score': instance.score,
-      'bestStreak': instance.bestStreak,
+      'readed': instance.readed,
       'favoriteStories': instance.favoriteStories,
       'school': instance.school,
       'team': instance.team,
       'streak': instance.streak,
+      'division': instance.division,
     };
 
 const _$UserTypeEnumMap = {
@@ -51,3 +55,14 @@ const _$UserTypeEnumMap = {
   UserType.captain: 'captain',
   UserType.unknown: 'unknown',
 };
+
+UserDivision _$UserDivisionFromJson(Map<String, dynamic> json) => UserDivision(
+      level: json['level'] as int,
+      scoreToAchieve: json['scoreToAchieve'] as int?,
+    );
+
+Map<String, dynamic> _$UserDivisionToJson(UserDivision instance) =>
+    <String, dynamic>{
+      'level': instance.level,
+      'scoreToAchieve': instance.scoreToAchieve,
+    };

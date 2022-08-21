@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
 import '../../../../core/ui/widgets/percentage_progress_bar.dart';
+import '../../../../core/utils/calculate_things.dart';
 import '../../../../core/utils/constants.dart';
 
 enum HeroHeaderDayState { day, afternoon, night }
@@ -140,8 +141,8 @@ class HeroHeader extends StatelessWidget {
       ),
     ];
 
-    int completedPercentage =
-        calculatePercentage(dailyChallenge?.count, dailyChallenge?.readed);
+    int completedPercentage = CalculateThings.percentage(
+        dailyChallenge?.count, dailyChallenge?.readed);
     return Padding(
       padding: const EdgeInsets.symmetric(
           vertical: Constants.space18, horizontal: Constants.space21),
@@ -177,15 +178,5 @@ class HeroHeader extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  int calculatePercentage(int? total, int? current) {
-    if (total != null && current != null) {
-      if (total > 0) {
-        return (current * 100 ~/ total).toInt();
-      }
-      return 0;
-    }
-    return 0;
   }
 }

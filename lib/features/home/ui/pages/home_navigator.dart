@@ -163,8 +163,11 @@ class _NestedNavigatorState extends State<NestedNavigator> {
         onGenerateRoute: (RouteSettings routeSettings) {
           final String pageName = routeSettings.name ?? '';
           final WidgetBuilder? builder = widget.routes[pageName];
-          return MaterialPageRoute(
-              settings: routeSettings, builder: (context) => builder!(context));
+          if (builder != null) {
+            return MaterialPageRoute(
+                settings: routeSettings,
+                builder: (context) => builder(context));
+          }
           // return SwipePageRoute<dynamic>(
           //   pageBuilderFunction: (BuildContext context,
           //           Animation<double> animation,

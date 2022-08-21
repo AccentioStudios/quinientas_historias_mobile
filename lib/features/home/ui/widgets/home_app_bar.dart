@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/mixins/bottom_sheet_messages.dart';
+import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../core/utils/constants.dart';
 
@@ -101,8 +101,8 @@ class _Username extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        CircleAvatar(
-          backgroundImage: NetworkImage(user?.avatarUrl ?? ''),
+        UserAvatar(
+          user: user!,
         ),
         const SizedBox(width: Constants.space18),
         Column(
