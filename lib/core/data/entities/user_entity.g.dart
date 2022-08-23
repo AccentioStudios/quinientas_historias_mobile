@@ -7,9 +7,9 @@ part of 'user_entity.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      id: json['id'] as int,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String,
+      id: json['id'] as int?,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       email: json['email'] as String?,
@@ -40,13 +40,13 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'phoneNumber': instance.phoneNumber,
       'email': instance.email,
       'type': _$UserTypeEnumMap[instance.type],
-      'score': instance.score,
+      'streak': instance.streak,
       'readed': instance.readed,
+      'score': instance.score,
+      'division': instance.division,
       'favoriteStories': instance.favoriteStories,
       'school': instance.school,
       'team': instance.team,
-      'streak': instance.streak,
-      'division': instance.division,
     };
 
 const _$UserTypeEnumMap = {
