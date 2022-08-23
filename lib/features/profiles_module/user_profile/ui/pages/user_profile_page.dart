@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
@@ -40,13 +41,39 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   )
                 : ListView(
                     children: <Widget>[
-                      UserAvatar(
-                        user: state.user!,
-                        width: 140,
-                        height: 140,
+                      AppBar(
+                        elevation: 0,
+                        centerTitle: false,
+                        toolbarHeight: 64,
+                        actions: [
+                          IconButton(
+                            iconSize: 24,
+                            onPressed: () {},
+                            icon: const Icon(Icons.edit_outlined),
+                          ),
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Editar perfil"),
+                          )
+                        ],
                       ),
-                      const SizedBox(
-                        width: Constants.space18,
+                      Container(
+                        margin: EdgeInsets.all(Constants.space18),
+                        child: UserAvatar(
+                          user: state.user!,
+                          width: 140,
+                          height: 140,
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            state.user!.firstName ?? '',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
                     ],
                   ),
