@@ -35,13 +35,13 @@ class User {
   final String? email;
   @JsonKey(defaultValue: UserType.unknown)
   final UserType type;
-  final int? score;
+  final int? streak;
   final int? readed;
+  final int? score;
+  final UserDivision? division;
   final List<Story>? favoriteStories;
   final School? school;
   final Team? team;
-  final int? streak;
-  final UserDivision? division;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }

@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/ui/widgets/user_avatar.dart';
+import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/team_profile_cubit.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/ui/widgets/profilepic-widget.dart';
+import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
 
-import '../../../../../core/data/entities/user_entity.dart';
-import '../../../../../core/ui/widgets/buttom_bar.dart';
+import '../../../../../core/ui/widgets/user_avatar.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget with ErrorHandling {
   const UserProfilePage({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  @override
+  void didChangeDependencies() {
+    getUserData();
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +29,33 @@ class UserProfilePage extends StatelessWidget {
         return Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
-              await Future.delayed(const Duration(seconds: 1));
+              getUserData();
             },
-            child: ListView(
-              children: <Widget>[
-                /*UserAvatar(
-                  user: user!,
-                ),*/
-                const SizedBox(
-                  width: Constants.space18,
-                ),
-              ],
-            ),
+            child: state.isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      UserAvatar(
+                        user: state.user!,
+                        width: 140,
+                        height: 140,
+                      ),
+                      const SizedBox(
+                        width: Constants.space18,
+                      ),
+                    ],
+                  ),
           ),
         );
       },
     );
+  }
+
+  getUserData() {
+    context
+        .read<UserProfileCubit>()
+        .getUserData(onError: (error) => widget.handleError(context, error));
   }
 }

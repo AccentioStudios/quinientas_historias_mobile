@@ -40,13 +40,13 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'phoneNumber': instance.phoneNumber,
       'email': instance.email,
       'type': _$UserTypeEnumMap[instance.type],
-      'score': instance.score,
+      'streak': instance.streak,
       'readed': instance.readed,
+      'score': instance.score,
+      'division': instance.division,
       'favoriteStories': instance.favoriteStories,
       'school': instance.school,
       'team': instance.team,
-      'streak': instance.streak,
-      'division': instance.division,
     };
 
 const _$UserTypeEnumMap = {

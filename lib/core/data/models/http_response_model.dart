@@ -38,7 +38,7 @@ class HttpResponse {
         throw response.exception as Exception;
       } else {
         return HttpResponse(
-          body: response.data,
+          body: response.user,
           statusCode:
               $enumDecodeNullable(_$StatusCodesEnumMap, response.statusCode) ??
                   StatusCodes.unknown,

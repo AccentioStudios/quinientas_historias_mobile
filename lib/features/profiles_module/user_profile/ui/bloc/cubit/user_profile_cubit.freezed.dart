@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'team_profile_cubit.dart';
+part of 'user_profile_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserProfileState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  UserProfile? get data => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserProfileStateCopyWith<UserProfileState> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $UserProfileStateCopyWith<$Res> {
   factory $UserProfileStateCopyWith(
           UserProfileState value, $Res Function(UserProfileState) then) =
       _$UserProfileStateCopyWithImpl<$Res>;
-  $Res call({dynamic isLoading, UserProfile? data});
+  $Res call({dynamic isLoading, User? user});
 }
 
 /// @nodoc
@@ -44,17 +44,17 @@ class _$UserProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? data = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as UserProfile?,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -66,7 +66,7 @@ abstract class _$$_UserProfileStateCopyWith<$Res>
           _$_UserProfileState value, $Res Function(_$_UserProfileState) then) =
       __$$_UserProfileStateCopyWithImpl<$Res>;
   @override
-  $Res call({dynamic isLoading, UserProfile? data});
+  $Res call({dynamic isLoading, User? user});
 }
 
 /// @nodoc
@@ -83,14 +83,14 @@ class __$$_UserProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? data = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$_UserProfileState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as UserProfile?,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -98,17 +98,17 @@ class __$$_UserProfileStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UserProfileState implements _UserProfileState {
-  const _$_UserProfileState({this.isLoading = false, this.data});
+  const _$_UserProfileState({this.isLoading = false, this.user});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
-  final UserProfile? data;
+  final User? user;
 
   @override
   String toString() {
-    return 'UserProfileState(isLoading: $isLoading, data: $data)';
+    return 'UserProfileState(isLoading: $isLoading, user: $user)';
   }
 
   @override
@@ -117,14 +117,14 @@ class _$_UserProfileState implements _UserProfileState {
         (other.runtimeType == runtimeType &&
             other is _$_UserProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.data, data));
+            const DeepCollectionEquality().equals(other.user, user));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(data));
+      const DeepCollectionEquality().hash(user));
 
   @JsonKey(ignore: true)
   @override
@@ -133,13 +133,13 @@ class _$_UserProfileState implements _UserProfileState {
 }
 
 abstract class _UserProfileState implements UserProfileState {
-  const factory _UserProfileState(
-      {final dynamic isLoading, final UserProfile? data}) = _$_UserProfileState;
+  const factory _UserProfileState({final dynamic isLoading, final User? user}) =
+      _$_UserProfileState;
 
   @override
   dynamic get isLoading => throw _privateConstructorUsedError;
   @override
-  UserProfile? get data => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_UserProfileStateCopyWith<_$_UserProfileState> get copyWith =>
