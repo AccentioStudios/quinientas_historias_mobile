@@ -9,13 +9,13 @@ part 'user_entity.g.dart';
 @JsonSerializable()
 class User {
   User({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
+    this.id,
+    this.firstName,
+    this.lastName,
     this.avatarUrl,
     this.phoneNumber,
     this.email,
-    required this.type,
+    this.type,
     this.score,
     this.readed,
     this.favoriteStories,
@@ -27,14 +27,14 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  final int id;
-  final String firstName;
-  final String lastName;
+  final int? id;
+  final String? firstName;
+  final String? lastName;
   final String? avatarUrl;
   final String? phoneNumber;
   final String? email;
   @JsonKey(defaultValue: UserType.unknown)
-  final UserType type;
+  final UserType? type;
   final int? streak;
   final int? readed;
   final int? score;

@@ -19,11 +19,12 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
   final int? userId;
   // if not userId is provided then load user session profile
 
-  getUserData({required Function onError}) {
+  getUserData({required Function onSuccess, required Function onError}) {
     emit(state.copyWith(isLoading: true));
 
     userProfileUseCases.getUserProfile(userId).listen((userProfile) {
       emit(state.copyWith(user: userProfile));
+      onSuccess();
     }, onError: (error) {
       onError(error);
     }, onDone: () {
