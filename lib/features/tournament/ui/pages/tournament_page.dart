@@ -6,12 +6,12 @@ import '../../../../core/libs/extended_tab_view.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
-import '../../../../core/utils/colors.dart';
 import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
+import '../components/leaderboard_all_tab_view.dart';
+import '../components/leaderboard_my_school_tab_view.dart';
 import '../components/leaderboard_my_team_tab_view.dart';
 import '../components/leaderboard_tabs.dart';
-import '../widgets/tournament_arrow_position_widget.dart';
 import '../widgets/tournament_header_widget.dart';
 
 class TournamentPage extends StatefulWidget with ErrorHandling {
@@ -85,8 +85,20 @@ class _TournamentPageState extends State<TournamentPage>
                     cubit: context.read<TournamentCubit>(),
                   ),
                 ),
-                Text("Segunda guia selecionada"),
-                Text("Segunda guia selecionada")
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: Constants.space16),
+                  child: LeaderboardMySchoolTabView(
+                    cubit: context.read<TournamentCubit>(),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: Constants.space16),
+                  child: LeaderboardAllTabView(
+                    cubit: context.read<TournamentCubit>(),
+                  ),
+                ),
               ],
             ),
           ),

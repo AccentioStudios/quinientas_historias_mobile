@@ -11,19 +11,18 @@ import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../widgets/leaderboard_list_item_widget.dart';
 
-class LeaderboardMyTeamTabView extends StatefulWidget with ErrorHandling {
-  const LeaderboardMyTeamTabView({Key? key, required this.cubit})
+class LeaderboardAllTabView extends StatefulWidget with ErrorHandling {
+  const LeaderboardAllTabView({Key? key, required this.cubit})
       : super(key: key);
 
   final TournamentCubit cubit;
 
   @override
-  State<LeaderboardMyTeamTabView> createState() =>
-      _LeaderboardMyTeamTabViewState();
+  State<LeaderboardAllTabView> createState() => _LeaderboardAllTabViewState();
 }
 
-class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
-    with AutomaticKeepAliveClientMixin<LeaderboardMyTeamTabView> {
+class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
+    with AutomaticKeepAliveClientMixin<LeaderboardAllTabView> {
   final _pagingController =
       PagingController<int, LeaderboardModel>(firstPageKey: 1);
 
@@ -56,8 +55,8 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
       shrinkWrap: true,
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
         itemBuilder: (context, item, index) => LeaderboardListItem(
-          avatarWidget: UserAvatar(
-            user: item.user!,
+          avatarWidget: CircleAvatar(
+            backgroundImage: NetworkImage(item.school?.avatarUrl ?? ''),
           ),
           label: Flex(
             direction: Axis.horizontal,
@@ -71,23 +70,12 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
                       text: '#${item.position} ',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    TextSpan(
-                        text: '${item.user?.firstName} ${item.user?.lastName}'),
+                    TextSpan(text: '${item.school?.name}'),
                   ],
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              item.user?.type == UserType.captain
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: Constants.space4),
-                      child: SizedBox(
-                        width: 12,
-                        height: 12,
-                        child: SvgPicture.asset('assets/icons/star-icon.svg'),
-                      ),
-                    )
-                  : const SizedBox.shrink()
             ],
           ),
           secondaryLabel: RichText(
@@ -95,21 +83,12 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
               style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
               children: <TextSpan>[
                 TextSpan(
-                  text: '${item.user?.score} ',
+                  text: '${item.school?.score} ',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary),
                 ),
-                const TextSpan(text: 'puntos - '),
-                TextSpan(
-                  text: '${item.user?.readed}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-                const TextSpan(
-                  text: ' leídos',
-                ),
+                const TextSpan(text: 'puntos'),
               ],
             ),
           ),
@@ -138,7 +117,7 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
 
   _fetchPage(int pageKey) {
     if (mounted) {
-      widget.cubit.getLeaderboard(pageKey, 'myTeam', onSuccess: (newPage) {
+      widget.cubit.getLeaderboard(pageKey, 'all', onSuccess: (newPage) {
         final previouslyFetchedItemsCount =
             _pagingController.itemList?.length ?? 0;
         final isLastPage = newPage.isLastPage(previouslyFetchedItemsCount);
