@@ -35,8 +35,8 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
                 Tab(
                   text: 'Mi equipo',
                 ),
-                Tab(text: 'Equipos'),
-                Tab(text: 'Escuelas'),
+                Tab(text: 'Mi escuela'),
+                Tab(text: 'Todos'),
               ],
             ),
           ),

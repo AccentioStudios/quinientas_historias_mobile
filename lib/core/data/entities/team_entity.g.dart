@@ -9,9 +9,13 @@ part of 'team_entity.dart';
 Team _$TeamFromJson(Map<String, dynamic> json) => Team(
       id: json['id'] as int,
       name: json['name'] as String,
+      avatarUrl: json['avatarUrl'] as String?,
+      score: json['score'] as int?,
     );
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'avatarUrl': instance.avatarUrl,
+      'score': instance.score,
     };

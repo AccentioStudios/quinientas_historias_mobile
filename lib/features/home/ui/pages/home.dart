@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          // extendBody: true,
           body: state.loading && state.user == null
               ? const Center(
                   child: CircularProgressIndicator(),
