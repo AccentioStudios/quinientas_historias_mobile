@@ -9,6 +9,7 @@ import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bl
 
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
+import '../widgets/user_profile_header.dart';
 
 class UserProfilePage extends StatefulWidget with ErrorHandling {
   const UserProfilePage({
@@ -41,39 +42,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   )
                 : ListView(
                     children: <Widget>[
-                      AppBar(
-                        elevation: 0,
-                        centerTitle: false,
-                        toolbarHeight: 64,
-                        actions: [
-                          IconButton(
-                            iconSize: 24,
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit_outlined),
-                          ),
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text("Editar perfil"),
-                          )
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(Constants.space18),
-                        child: UserAvatar(
-                          user: state.user!,
-                          width: 140,
-                          height: 140,
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            state.user!.firstName ?? '',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
+                      UserProfileHeader(
+                        user: state.user!,
                       ),
                     ],
                   ),
