@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/features/profiles_module/team_profile/data/repositories/team_profile_repository.dart';
+import 'package:quinientas_historias/features/profiles_module/team_profile/data/useCases/team_profile_usecases.dart';
 
 import 'ui/bloc/cubit/team_profile_cubit.dart';
-import 'ui/pages/school_profile_page.dart';
+import 'ui/pages/team_profile_page.dart';
 
 class TeamProfileProvider extends StatelessWidget {
   const TeamProfileProvider({Key? key}) : super(key: key);
@@ -12,7 +14,10 @@ class TeamProfileProvider extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments as TeamProfileArguments;
     return BlocProvider(
-      create: (context) => TeamProfileCubit(teamId: args.id),
+      create: (context) => TeamProfileCubit(
+          teamId: args.id,
+          teamProfileUseCases:
+              TeamProfileUseCases(repository: TeamProfileRepository())),
       child: const TeamProfilePage(),
     );
   }
