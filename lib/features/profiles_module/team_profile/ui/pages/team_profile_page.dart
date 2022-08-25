@@ -2,10 +2,12 @@
 
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/bloc/cubit/team_profile_cubit.dart';
+import 'package:quinientas_historias/features/profiles_module/team_profile/ui/widgets/team_profile_header_widget.dart';
 
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
@@ -32,86 +34,14 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
       builder: (context, state) {
         return Scaffold(
           body: RefreshIndicator(
-            onRefresh: () async {
-              getTeamData();
-            },
-            child: state.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(
-                    children: [
-                      AppBar(
-                        elevation: 0,
-                        actions: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              //CODIGO
-                            },
-                            child: Row(
-                              children: [
-                                SvgPicture.asset('assets/icons/user-plus.svg'),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: Constants.space18, left: 10.0),
-                                  child: Text("Invitar lectores",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: onSurfaceMutedTextDarkColor)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 44.0),
-                      SizedBox(
-                        height: 140,
-                        width: 140,
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          fit: StackFit.expand,
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: onSurfaceMutedTextDarkColor,
-                              child: CircleAvatar(
-                                radius: 68,
-                                backgroundImage:
-                                    AssetImage("assets/images/logo-equipo.png"),
-                              ),
-                            ),
-                            Positioned(
-                                bottom: -28,
-                                right: -28,
-                                child: RawMaterialButton(
-                                  onPressed: () {},
-                                  elevation: 0,
-                                  shape: CircleBorder(),
-                                  child: Container(
-                                    height: 64,
-                                    width: 64,
-                                    color: Colors.transparent,
-                                    child: SvgPicture.asset(
-                                        'assets/icons/plus.svg'),
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 22.0),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          state.data?.name ?? '',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-          ),
+              onRefresh: () async {
+                getTeamData();
+              },
+              child: state.isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : TeamProfileHeaderWidget(state: state)),
         );
       },
     );
