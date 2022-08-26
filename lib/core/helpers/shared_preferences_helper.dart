@@ -1,4 +1,3 @@
-import 'package:alice/alice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Singleton

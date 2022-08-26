@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../features/home/home_provider.dart';
-import '../../../features/profiles_module/user_profile/user_profile_provider.dart';
-import '../../../features/tournament/tournament_provider.dart';
 import '../../utils/constants.dart';
 
 enum ActiveOptionAppButtonBar {
