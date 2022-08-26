@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 
 import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
@@ -20,6 +21,7 @@ import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../invites/invites_provider.dart';
 import '../../../profiles_module/school_profile/school_profile_provider.dart';
 import '../../../profiles_module/team_profile/team_profile_provider.dart';
 import '../../../profiles_module/user_profile/user_profile_provider.dart';
@@ -81,6 +83,14 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space18),
                         children: <Widget>[
+                          BigButton(
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => const InvitesProvider()));
+                            },
+                            text: 'Invitaciones (boton temporal)',
+                          ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
