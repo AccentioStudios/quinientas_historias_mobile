@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
 import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
 
 import '../../../../../core/routes/routes.dart';
+import '../../../../../core/ui/widgets/single_chip.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
+import '../widgets/user_profile_cards.dart';
 import '../widgets/user_profile_header.dart';
 
 class UserProfilePage extends StatefulWidget with ErrorHandling {
@@ -45,6 +48,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       UserProfileHeader(
                         user: state.user!,
                       ),
+                      UserCards(state: state),
                     ],
                   ),
           ),
