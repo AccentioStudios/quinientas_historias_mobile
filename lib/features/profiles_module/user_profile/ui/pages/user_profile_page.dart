@@ -12,6 +12,7 @@ import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/single_chip.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../widgets/user_profile_cards.dart';
+import '../widgets/user_profile_favorites.dart';
 import '../widgets/user_profile_header.dart';
 
 class UserProfilePage extends StatefulWidget with ErrorHandling {
@@ -49,6 +50,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         user: state.user!,
                       ),
                       UserCards(state: state),
+                      UserFavorites(
+                        state: state,
+                      )
                     ],
                   ),
           ),

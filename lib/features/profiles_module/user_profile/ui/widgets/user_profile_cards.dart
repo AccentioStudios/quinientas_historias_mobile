@@ -16,41 +16,39 @@ class UserCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: PaddingColumn(
-        padding: EdgeInsets.all(Constants.space16),
-        children: <Widget>[
-          _UserPointsRowTop(
-            points: state.user?.score ?? 0,
-            favorites: state.user?.favoriteStories?.length ?? 0,
-          ),
-          SizedBox(
-            height: Constants.space16,
-          ),
-          Row(
-            children: <Widget>[
-              _UserTeamsCard(
-                label: 'Mi equipo',
-                content: state.user?.team?.name ?? '',
-              ),
-              SizedBox(
-                width: Constants.space18,
-              ),
-              _UserTeamsCard(
-                label: 'Mi escuela',
-                content: state.user?.school?.name ?? '',
-              )
-            ],
-          ),
-          SizedBox(
-            height: Constants.space16,
-          ),
-          _UserPointsRowBottom(
-            reads: state.user?.readed ?? 0,
-            streak: state.user?.streak ?? 0,
-          )
-        ],
-      ),
+    return PaddingColumn(
+      padding: const EdgeInsets.all(Constants.space16),
+      children: <Widget>[
+        _UserPointsRowTop(
+          points: state.user?.score ?? 0,
+          favorites: state.user?.favoriteStories?.length ?? 0,
+        ),
+        const SizedBox(
+          height: Constants.space16,
+        ),
+        Row(
+          children: <Widget>[
+            _UserTeamsCard(
+              label: 'Mi equipo',
+              content: state.user?.team?.name ?? '',
+            ),
+            const SizedBox(
+              width: Constants.space18,
+            ),
+            _UserTeamsCard(
+              label: 'Mi escuela',
+              content: state.user?.school?.name ?? '',
+            )
+          ],
+        ),
+        const SizedBox(
+          height: Constants.space16,
+        ),
+        _UserPointsRowBottom(
+          reads: state.user?.readed ?? 0,
+          streak: state.user?.streak ?? 0,
+        )
+      ],
     );
   }
 }
@@ -141,7 +139,7 @@ class _UserTeamsCard extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -158,10 +156,10 @@ class _UserTeamsCard extends StatelessWidget {
               children: <Widget>[
                 AutoSizeText(
                   content,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.normal,
-                    color: Color.fromRGBO(182, 182, 182, 1),
+                    color: const Color.fromRGBO(182, 182, 182, 1),
                   ),
                   minFontSize: 14,
                   maxLines: 3,

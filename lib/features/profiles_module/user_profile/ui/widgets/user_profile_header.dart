@@ -21,35 +21,33 @@ class UserProfileHeader extends StatelessWidget {
     const TextStyle userNameProfileTextStyle =
         (TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 
-    return Container(
-      child: Column(
-        children: <Widget>[
-          AppBar(
-            elevation: 0,
-            centerTitle: false,
-            toolbarHeight: 64,
-            actions: [
-              IconButton(
-                iconSize: 24,
-                onPressed: () {},
-                icon: const Icon(Icons.edit_outlined),
-              ),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Editar perfil"),
-              )
-            ],
-          ),
-          _UserProfile(
-              userNameProfileTextStyle: userNameProfileTextStyle, user: user),
-          const Padding(
-            padding: EdgeInsets.only(bottom: Constants.space41),
-          ),
-          _UserDivision(
-            user: user,
-          ),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        AppBar(
+          elevation: 0,
+          centerTitle: false,
+          toolbarHeight: 64,
+          actions: [
+            IconButton(
+              iconSize: 24,
+              onPressed: () {},
+              icon: const Icon(Icons.edit_outlined),
+            ),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Editar perfil"),
+            )
+          ],
+        ),
+        _UserProfile(
+            userNameProfileTextStyle: userNameProfileTextStyle, user: user),
+        const Padding(
+          padding: EdgeInsets.only(bottom: Constants.space41),
+        ),
+        _UserDivision(
+          user: user,
+        ),
+      ],
     );
   }
 }
