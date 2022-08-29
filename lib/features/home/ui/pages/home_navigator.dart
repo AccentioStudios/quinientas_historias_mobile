@@ -73,6 +73,9 @@ class _HomeNavigatorState extends State<HomeNavigator> {
     if (currentRouteOption == Routes.userProfile) {
       return ActiveOptionAppButtonBar.profile;
     }
+    if (currentRouteOption == Routes.config) {
+      return ActiveOptionAppButtonBar.configurations;
+    }
     return ActiveOptionAppButtonBar.none;
     // if (currentRouteOption == Routes.home) {
     //   return ActiveOptionAppButtonBar.configurations;
@@ -102,7 +105,7 @@ class _HomeNavigatorState extends State<HomeNavigator> {
           Navigator.of(context).pushNamed(Routes.userProfile);
           return;
         case ActiveOptionAppButtonBar.configurations:
-          // Navigator.of(context).pushNamed(Routes.home);
+          Navigator.of(context).pushNamed(Routes.config);
           return;
         case ActiveOptionAppButtonBar.none:
           // TODO: Handle this case.
@@ -168,6 +171,7 @@ class _NestedNavigatorState extends State<NestedNavigator> {
                 settings: routeSettings,
                 builder: (context) => builder(context));
           }
+          return null;
           // return SwipePageRoute<dynamic>(
           //   pageBuilderFunction: (BuildContext context,
           //           Animation<double> animation,

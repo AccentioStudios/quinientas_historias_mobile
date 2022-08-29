@@ -1,12 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
-import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../widgets/leaderboard_list_item_widget.dart';

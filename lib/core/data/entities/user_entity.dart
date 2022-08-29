@@ -13,7 +13,6 @@ class User {
     this.firstName,
     this.lastName,
     this.avatarUrl,
-    this.phoneNumber,
     this.email,
     this.type,
     this.score,
@@ -31,7 +30,6 @@ class User {
   final String? firstName;
   final String? lastName;
   final String? avatarUrl;
-  final String? phoneNumber;
   final String? email;
   @JsonKey(defaultValue: UserType.unknown)
   final UserType? type;

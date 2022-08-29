@@ -14,7 +14,6 @@ class TournamentUseCases {
   Stream<ListPage<LeaderboardModel>> getLeaderboard(
       int pageKey, String filter) async* {
     yield* repository.getLeaderboard(pageKey, filter).map((model) {
-      var what = 'what';
       return ListPage<LeaderboardModel>(
         grandTotalCount: model.leaderboard.length,
         itemList: model.leaderboard,
