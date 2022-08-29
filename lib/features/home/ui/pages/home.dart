@@ -85,9 +85,11 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           BigButton(
                             onPressed: () {
-                              Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(
-                                      builder: (_) => const InvitesProvider()));
+                              Navigator.of(context, rootNavigator: true)
+                                  .push(MaterialPageRoute(
+                                      builder: (_) => const InvitesProvider(
+                                            typeUserToInvite: UserType.reader,
+                                          )));
                             },
                             text: 'Invitaciones (boton temporal)',
                           ),

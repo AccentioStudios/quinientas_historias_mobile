@@ -11,7 +11,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
-      phoneNumber: json['phoneNumber'] as String?,
       email: json['email'] as String?,
       type: $enumDecodeNullable(_$UserTypeEnumMap, json['type']) ??
           UserType.unknown,
@@ -37,7 +36,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'avatarUrl': instance.avatarUrl,
-      'phoneNumber': instance.phoneNumber,
       'email': instance.email,
       'type': _$UserTypeEnumMap[instance.type],
       'streak': instance.streak,
