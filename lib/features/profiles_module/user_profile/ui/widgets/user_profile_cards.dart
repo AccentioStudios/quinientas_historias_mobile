@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:quinientas_historias/core/ui/widgets/big_chip.dart';
 import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
@@ -26,6 +27,24 @@ class UserCards extends StatelessWidget {
           SizedBox(
             height: Constants.space16,
           ),
+          Row(
+            children: <Widget>[
+              _UserTeamsCard(
+                label: 'Mi equipo',
+                content: state.user?.team?.name ?? '',
+              ),
+              SizedBox(
+                width: Constants.space18,
+              ),
+              _UserTeamsCard(
+                label: 'Mi escuela',
+                content: state.user?.school?.name ?? '',
+              )
+            ],
+          ),
+          SizedBox(
+            height: Constants.space16,
+          ),
           _UserPointsRowBottom(
             reads: state.user?.readed ?? 0,
             streak: state.user?.streak ?? 0,
@@ -41,14 +60,10 @@ class _UserPointsRowTop extends StatelessWidget {
     Key? key,
     required this.points,
     required this.favorites,
-    //required this.reads,
-    //required this.streak,
   }) : super(key: key);
 
   final int points;
   final int favorites;
-  //final int reads;
-  //final int streak;
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +124,12 @@ class _UserPointsRowBottom extends StatelessWidget {
 class _UserTeamsCard extends StatelessWidget {
   const _UserTeamsCard({
     Key? key,
+    required this.label,
+    required this.content,
   }) : super(key: key);
 
+  final String label;
+  final String content;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -119,7 +138,38 @@ class _UserTeamsCard extends StatelessWidget {
             horizontal: Constants.space16, vertical: Constants.space16),
         primary: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text('Mi equipo')],
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ],
+        ),
+        secondary: Padding(
+          padding: const EdgeInsets.only(top: Constants.space8),
+          child: SizedBox(
+            height: 90,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                AutoSizeText(
+                  content,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                    color: Color.fromRGBO(182, 182, 182, 1),
+                  ),
+                  minFontSize: 14,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

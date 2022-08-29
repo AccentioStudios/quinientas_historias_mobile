@@ -116,6 +116,7 @@ class _UserDivision extends StatelessWidget {
       child: OutlinedCard(
         child: PaddingColumn(
           padding: const EdgeInsets.all(Constants.space4),
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
               children: <Widget>[
@@ -135,22 +136,35 @@ class _UserDivision extends StatelessWidget {
                 Flexible(
                     child: PercentageProgressBar(
                   backgroundColor: getDivisionColor(user!.division?.level),
-                  completedPercentage: 30,
+                  completedPercentage: getPercentageCompleted(user!),
                 )),
                 Padding(
                   padding: const EdgeInsets.only(left: Constants.space8),
-                  child: const Text('30'),
+                  child: Text(getPercentageCompleted(user!).toString() + '%'),
                 )
               ],
             ),
-            /*PercentageProgressBar(
-              backgroundColor: getDivisionColor(user!.division?.level),
-              completedPercentage: 30,
-            ),*/
+            SizedBox(
+              height: Constants.space8,
+            ),
+            Text(
+              'Te faltan ' +
+                  getPointsLeft(user!).toString() +
+                  ' puntos para llegar al siguiente nivel',
+              style: TextStyle(fontSize: 13),
+            )
           ],
         ),
       ),
     );
+  }
+
+  int getPointsLeft(User user) {
+    return (user.division!.scoreToAchieve! - user.score!);
+  }
+
+  int getPercentageCompleted(User user) {
+    return ((user.score! / user.division!.scoreToAchieve!) * 100).toInt();
   }
 
   String getDivisionBadge(int? level) {
