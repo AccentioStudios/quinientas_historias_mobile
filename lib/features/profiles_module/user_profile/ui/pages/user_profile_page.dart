@@ -11,6 +11,7 @@ import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bl
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/single_chip.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
+import '../../user_profile_provider.dart';
 import '../widgets/user_profile_cards.dart';
 import '../widgets/user_profile_favorites.dart';
 import '../widgets/user_profile_header.dart';
@@ -49,7 +50,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       UserProfileHeader(
                         user: state.user!,
                       ),
-                      UserCards(state: state),
+                      UserCards(
+                        state: state,
+                      ),
                       UserFavorites(
                         state: state,
                       )

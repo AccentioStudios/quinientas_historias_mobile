@@ -6,10 +6,13 @@ import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
 import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 import 'package:quinientas_historias/core/ui/widgets/percentage_progress_bar.dart';
+import 'package:quinientas_historias/features/profiles_module/user_profile/ui/pages/user_progress_page.dart';
 
+import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../user_profile_provider.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({Key? key, this.user}) : super(key: key);
@@ -109,8 +112,8 @@ class _UserDivision extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(right: Constants.space16, left: Constants.space21),
+      padding: const EdgeInsets.only(
+          right: Constants.space16, left: Constants.space21),
       child: OutlinedCard(
         child: PaddingColumn(
           padding: const EdgeInsets.all(Constants.space4),
@@ -138,18 +141,16 @@ class _UserDivision extends StatelessWidget {
                 )),
                 Padding(
                   padding: const EdgeInsets.only(left: Constants.space8),
-                  child: Text(getPercentageCompleted(user!).toString() + '%'),
+                  child: Text('${getPercentageCompleted(user!)}%'),
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: Constants.space8,
             ),
             Text(
-              'Te faltan ' +
-                  getPointsLeft(user!).toString() +
-                  ' puntos para llegar al siguiente nivel',
-              style: TextStyle(fontSize: 13),
+              'Te faltan ${getPointsLeft(user!)} puntos para llegar al siguiente nivel',
+              style: const TextStyle(fontSize: 13),
             )
           ],
         ),

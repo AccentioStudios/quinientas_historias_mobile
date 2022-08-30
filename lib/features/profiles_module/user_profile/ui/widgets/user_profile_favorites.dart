@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
@@ -9,7 +10,10 @@ import 'package:quinientas_historias/core/ui/widgets/percentage_progress_bar.dar
 import 'package:quinientas_historias/core/ui/widgets/story_cover.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
 
+import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../home/ui/bloc/cubit/home_cubit.dart';
+import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
 
 class UserFavorites extends StatelessWidget {

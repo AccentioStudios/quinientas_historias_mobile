@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:quinientas_historias/core/ui/widgets/big_chip.dart';
 import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
 import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
