@@ -1,31 +1,28 @@
 import 'dart:io';
 
+import 'package:alice/core/alice_http_extensions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
 import '../../data/models/http_response_model.dart';
+import '../../data/models/jwt_token_model.dart';
 import '../../exceptions/http_request_exception.dart';
 import '../../helpers/alice_helper.dart';
 import '../../helpers/http_helper.dart';
+import '../../helpers/secure_storage_helper.dart';
 import '../environments/platform_environments.dart';
-import 'package:alice/core/alice_http_extensions.dart';
 
 class HttpImp implements HttpHelper {
   HttpImp({required this.hostUrl, this.https = PlatformEnvironment.https});
   final String hostUrl;
   final bool https;
 
-  Future<String?> _getSavedAccessToken() async {
-    const secureStorage = FlutterSecureStorage();
-    return await secureStorage.read(key: 'accessToken');
-  }
-
   @override
   Future<HttpResponse> get(String path,
       {Map<String, dynamic>? parameters}) async {
     try {
-      String? savedAccessToken = await _getSavedAccessToken();
+      String? savedAccessToken =
+          await SecureStorageHelper.getSavedAccessToken();
       final Uri uri = _buildUri(path, parameters);
       final response = await http.get(
         uri,
@@ -46,7 +43,8 @@ class HttpImp implements HttpHelper {
   Future<HttpResponse> post(String path,
       {Object? data, Map<String, dynamic>? parameters}) async {
     try {
-      String? savedAccessToken = await _getSavedAccessToken();
+      String? savedAccessToken =
+          await SecureStorageHelper.getSavedAccessToken();
 
       final response = await http
           .post(_buildUri(path, parameters),
@@ -72,7 +70,8 @@ class HttpImp implements HttpHelper {
   Future<HttpResponse> put(String path,
       {Object? data, Map<String, dynamic>? parameters}) async {
     try {
-      String? savedAccessToken = await _getSavedAccessToken();
+      String? savedAccessToken =
+          await SecureStorageHelper.getSavedAccessToken();
 
       final response = await http
           .put(_buildUri(path, parameters),
@@ -93,7 +92,8 @@ class HttpImp implements HttpHelper {
   Future<HttpResponse> delete(String path,
       {Map<String, dynamic>? parameters}) async {
     try {
-      String? savedAccessToken = await _getSavedAccessToken();
+      String? savedAccessToken =
+          await SecureStorageHelper.getSavedAccessToken();
 
       final response = await http.get(_buildUri(path, parameters), headers: {
         HttpHeaders.contentTypeHeader: 'application/json',

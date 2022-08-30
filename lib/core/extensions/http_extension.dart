@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:quinientas_historias/core/failures/iforgot_failure.dart';
-import 'package:quinientas_historias/core/failures/network_failure.dart';
-
 import '../data/models/http_response_model.dart';
 import '../failures/auth_failure.dart';
 import '../failures/common_failure.dart';
-import '../failures/status_codes.dart';
 import '../failures/failures.dart';
+import '../failures/iforgot_failure.dart';
+import '../failures/network_failure.dart';
+import '../failures/status_codes.dart';
 
 typedef HttpResponseMapper<T> = T Function(Object);
 typedef HttpResponseJsonMapper<T> = T Function(Map<String, dynamic>);
