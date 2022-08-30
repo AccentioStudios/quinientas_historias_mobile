@@ -27,9 +27,10 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_dotenv: ^5.0.2
-  flutter_html: ^2.2.1
+  flutter_html: ^3.0.0-alpha.5
+  flutter_math_fork: ^0.6.3+1
   flutter_secure_storage: ^5.0.2
-  flutter_svg: ^0.22.0
+  flutter_svg: ^1.0.0
   freezed_annotation: ^2.0.3
   google_fonts: ^3.0.1
   http: ^0.13.4
