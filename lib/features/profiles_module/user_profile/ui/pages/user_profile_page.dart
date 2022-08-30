@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
 import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
@@ -37,6 +38,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return BlocBuilder<UserProfileCubit, UserProfileState>(
       builder: (context, state) {
         return Scaffold(
+          appBar: AppBar(
+            actions: [
+              TextButton.icon(
+                onPressed: () {},
+                icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
+                label: Text(
+                  'Editar Perfil',
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+            elevation: 0,
+          ),
           body: RefreshIndicator(
             onRefresh: () async {
               getUserData();
