@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TeamProfileState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  SchoolProfile? get data => throw _privateConstructorUsedError;
+  Team? get data => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TeamProfileStateCopyWith<TeamProfileState> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $TeamProfileStateCopyWith<$Res> {
   factory $TeamProfileStateCopyWith(
           TeamProfileState value, $Res Function(TeamProfileState) then) =
       _$TeamProfileStateCopyWithImpl<$Res>;
-  $Res call({dynamic isLoading, SchoolProfile? data});
+  $Res call({dynamic isLoading, Team? data});
 }
 
 /// @nodoc
@@ -54,57 +54,57 @@ class _$TeamProfileStateCopyWithImpl<$Res>
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as SchoolProfile?,
+              as Team?,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_SchoolProfileStateCopyWith<$Res>
+abstract class _$$_TeamProfileStateCopyWith<$Res>
     implements $TeamProfileStateCopyWith<$Res> {
-  factory _$$_SchoolProfileStateCopyWith(_$_SchoolProfileState value,
-          $Res Function(_$_SchoolProfileState) then) =
-      __$$_SchoolProfileStateCopyWithImpl<$Res>;
+  factory _$$_TeamProfileStateCopyWith(
+          _$_TeamProfileState value, $Res Function(_$_TeamProfileState) then) =
+      __$$_TeamProfileStateCopyWithImpl<$Res>;
   @override
-  $Res call({dynamic isLoading, SchoolProfile? data});
+  $Res call({dynamic isLoading, Team? data});
 }
 
 /// @nodoc
-class __$$_SchoolProfileStateCopyWithImpl<$Res>
+class __$$_TeamProfileStateCopyWithImpl<$Res>
     extends _$TeamProfileStateCopyWithImpl<$Res>
-    implements _$$_SchoolProfileStateCopyWith<$Res> {
-  __$$_SchoolProfileStateCopyWithImpl(
-      _$_SchoolProfileState _value, $Res Function(_$_SchoolProfileState) _then)
-      : super(_value, (v) => _then(v as _$_SchoolProfileState));
+    implements _$$_TeamProfileStateCopyWith<$Res> {
+  __$$_TeamProfileStateCopyWithImpl(
+      _$_TeamProfileState _value, $Res Function(_$_TeamProfileState) _then)
+      : super(_value, (v) => _then(v as _$_TeamProfileState));
 
   @override
-  _$_SchoolProfileState get _value => super._value as _$_SchoolProfileState;
+  _$_TeamProfileState get _value => super._value as _$_TeamProfileState;
 
   @override
   $Res call({
     Object? isLoading = freezed,
     Object? data = freezed,
   }) {
-    return _then(_$_SchoolProfileState(
+    return _then(_$_TeamProfileState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as SchoolProfile?,
+              as Team?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_SchoolProfileState implements _SchoolProfileState {
-  const _$_SchoolProfileState({this.isLoading = false, this.data});
+class _$_TeamProfileState implements _TeamProfileState {
+  const _$_TeamProfileState({this.isLoading = false, this.data});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
-  final SchoolProfile? data;
+  final Team? data;
 
   @override
   String toString() {
@@ -115,7 +115,7 @@ class _$_SchoolProfileState implements _SchoolProfileState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SchoolProfileState &&
+            other is _$_TeamProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.data, data));
   }
@@ -128,22 +128,20 @@ class _$_SchoolProfileState implements _SchoolProfileState {
 
   @JsonKey(ignore: true)
   @override
-  _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
-      __$$_SchoolProfileStateCopyWithImpl<_$_SchoolProfileState>(
-          this, _$identity);
+  _$$_TeamProfileStateCopyWith<_$_TeamProfileState> get copyWith =>
+      __$$_TeamProfileStateCopyWithImpl<_$_TeamProfileState>(this, _$identity);
 }
 
-abstract class _SchoolProfileState implements TeamProfileState {
-  const factory _SchoolProfileState(
-      {final dynamic isLoading,
-      final SchoolProfile? data}) = _$_SchoolProfileState;
+abstract class _TeamProfileState implements TeamProfileState {
+  const factory _TeamProfileState({final dynamic isLoading, final Team? data}) =
+      _$_TeamProfileState;
 
   @override
   dynamic get isLoading => throw _privateConstructorUsedError;
   @override
-  SchoolProfile? get data => throw _privateConstructorUsedError;
+  Team? get data => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
+  _$$_TeamProfileStateCopyWith<_$_TeamProfileState> get copyWith =>
       throw _privateConstructorUsedError;
 }
