@@ -1,18 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
 import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 import 'package:quinientas_historias/core/ui/widgets/percentage_progress_bar.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/ui/pages/user_progress_page.dart';
 
-import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../user_profile_provider.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({Key? key, this.user}) : super(key: key);
@@ -26,22 +21,6 @@ class UserProfileHeader extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        AppBar(
-          elevation: 0,
-          centerTitle: false,
-          toolbarHeight: 64,
-          actions: [
-            IconButton(
-              iconSize: 24,
-              onPressed: () {},
-              icon: const Icon(Icons.edit_outlined),
-            ),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Editar perfil"),
-            )
-          ],
-        ),
         _UserProfile(
             userNameProfileTextStyle: userNameProfileTextStyle, user: user),
         const Padding(
@@ -77,15 +56,16 @@ class _UserProfile extends StatelessWidget {
                 width: 140,
                 height: 140,
               ),
-              const CircleAvatar(
-                backgroundColor: Color(0xff385775),
-                radius: 18.5,
-                child: Icon(
-                  Icons.camera_alt_outlined,
-                  size: 22.5,
-                  color: Colors.white,
-                ),
-              ),
+              CircleAvatar(
+                  backgroundColor: Color(0xff385775),
+                  radius: 18.5,
+                  child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.camera_alt_outlined,
+                        size: 22.5,
+                        color: Colors.white,
+                      ))),
             ],
           ),
         ),
