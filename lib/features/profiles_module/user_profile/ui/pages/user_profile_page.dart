@@ -7,6 +7,7 @@ import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
 
 import '../../../../../core/routes/routes.dart';
+import '../../../../../core/utils/constants.dart';
 import '../widgets/user_profile_cards.dart';
 import '../widgets/user_profile_favorites.dart';
 import '../widgets/user_profile_header.dart';
@@ -56,10 +57,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     child: CircularProgressIndicator(),
                   )
                 : ListView(
+                    physics: const BouncingScrollPhysics(),
                     children: <Widget>[
+                      const SizedBox(height: Constants.space21),
                       UserProfileHeader(
                         user: state.user!,
                       ),
+                      const SizedBox(height: Constants.space16),
                       UserCards(
                         state: state,
                       ),

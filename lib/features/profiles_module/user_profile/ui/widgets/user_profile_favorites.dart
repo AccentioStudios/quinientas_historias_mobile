@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
-import 'package:quinientas_historias/core/ui/widgets/story_cover.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
 
+import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/ui/widgets/padding_column.dart';
+import '../../../../../core/ui/widgets/story_cover.dart';
+import '../../../../../core/utils/constants.dart';
+import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
 
 class UserFavorites extends StatelessWidget {
@@ -13,7 +15,7 @@ class UserFavorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaddingColumn(
-        padding: EdgeInsets.all(Constants.space16),
+        padding: const EdgeInsets.all(Constants.space16),
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
@@ -23,9 +25,7 @@ class UserFavorites extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
           ),
-          SizedBox(
-            height: Constants.space21,
-          ),
+          const SizedBox(height: Constants.space21),
           GridView.count(
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
@@ -35,10 +35,22 @@ class UserFavorites extends StatelessWidget {
             childAspectRatio: 109 / 147,
             crossAxisCount: 3,
             children: <Widget>[
-              ...state!.user!.favoriteStories!
-                  .map((story) => StoryCover(story: story))
+              ...state!.user!.favoriteStories!.map((story) => StoryCover(
+                    story: story,
+                    onTap: () => _navigateToStoryPage(context, story),
+                  ))
             ],
           ),
         ]);
+  }
+
+  void _navigateToStoryPage(
+    BuildContext context,
+    Story story,
+  ) {
+    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+        builder: (_) => ReadingStoryProvider(
+              storyId: story.id,
+            )));
   }
 }

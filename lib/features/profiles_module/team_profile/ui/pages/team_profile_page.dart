@@ -1,25 +1,21 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/data/repositories/team_profile_repository.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/data/useCases/team_profile_usecases.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/bloc/cubit/team_profile_cubit.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/ui/components/leaderboard_my_team_view.dart';
+import 'package:quinientas_historias/features/profiles_module/team_profile/ui/components/user_profile_leaderboard_team_list.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/widgets/team_profile_header_widget.dart';
+
 import '../../../../../core/data/entities/user_entity.dart';
-import '../../../../../core/data/models/leaderboard_model.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
-import '../../../../tournament/ui/widgets/leaderboard_list_item_widget.dart';
+import '../../../../invites/invites_provider.dart';
 
 class TeamProfilePage extends StatefulWidget with ErrorHandling {
   const TeamProfilePage({Key? key}) : super(key: key);
@@ -39,8 +35,28 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<TeamProfileCubit, TeamProfileState>(
       builder: (context, state) {
-        // debugPrint(list![2].user?.lastName.toString()); //debug
         return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            actions: <Widget>[
+              TextButton.icon(
+                label: Text(
+                  'Invitar Lectores',
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                ),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .push(MaterialPageRoute(
+                          builder: (_) => const InvitesProvider(
+                                typeUserToInvite: UserType.reader,
+                              )));
+                },
+                icon: SvgPicture.asset('assets/icons/user-plus.svg'),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
           body: RefreshIndicator(
               onRefresh: () async {
                 getTeamData();
@@ -54,8 +70,7 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                       PaddingColumn(
                         padding:
                             EdgeInsets.symmetric(horizontal: Constants.space16),
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
+                        children: const <Widget>[
                           Headline(
                             marginTop: Constants.space41,
                             label: 'Tablero de posiciones del equipo',
@@ -63,9 +78,11 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space18),
-                        child: LeaderboardMyTeamView(state: state),
+                        padding: const EdgeInsets.only(
+                            left: Constants.space18,
+                            right: Constants.space18,
+                            bottom: Constants.space21),
+                        child: UserProfileLeaderboardTeamList(state: state),
                       )
                     ])),
         );

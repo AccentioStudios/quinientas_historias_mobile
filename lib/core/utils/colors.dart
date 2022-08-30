@@ -42,6 +42,8 @@ const onSurfaceVariantDarkColor = Color(0xFFC4C6CF);
 const successDarkColor = Color(0xFF69FBCB);
 const errorDarkColor = Color(0xFFFF7B5B);
 
+const brandBlue = Color(0xFF084588);
+
 // Division Colors
 const division1Color = Color(0xFFA8602C);
 const division2Color = Color(0xFF8A8984);

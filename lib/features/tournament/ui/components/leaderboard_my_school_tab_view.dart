@@ -6,7 +6,7 @@ import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
-import '../widgets/leaderboard_list_item_widget.dart';
+import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 
 class LeaderboardMySchoolTabView extends StatefulWidget with ErrorHandling {
   const LeaderboardMySchoolTabView({Key? key, required this.cubit})

@@ -6,20 +6,23 @@ import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 
 class SingleChip extends StatelessWidget {
-  const SingleChip(
-      {Key? key,
-      required this.primaryLabel,
-      required this.secondaryLabel,
-      this.svgIconPath})
-      : super(key: key);
+  const SingleChip({
+    Key? key,
+    required this.primaryLabel,
+    required this.secondaryLabel,
+    this.svgIconPath,
+    this.onTap,
+  }) : super(key: key);
   final String primaryLabel;
   final String secondaryLabel;
   final String? svgIconPath;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return OutlinedCard(
+      onTap: onTap,
       padding: const EdgeInsets.symmetric(
-          horizontal: Constants.space12, vertical: Constants.space12),
+          horizontal: Constants.space16, vertical: Constants.space12),
       child: Row(
         children: [
           if (svgIconPath != null)

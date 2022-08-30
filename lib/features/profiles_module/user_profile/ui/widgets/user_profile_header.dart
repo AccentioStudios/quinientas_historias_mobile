@@ -19,13 +19,13 @@ class UserProfileHeader extends StatelessWidget {
     const TextStyle userNameProfileTextStyle =
         (TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 
-    return Column(
+    return PaddingColumn(
+      padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
       children: <Widget>[
-        _UserProfile(
-            userNameProfileTextStyle: userNameProfileTextStyle, user: user),
-        const Padding(
-          padding: EdgeInsets.only(bottom: Constants.space41),
-        ),
+        _UserProfileAvatar(user: user),
+        const SizedBox(height: Constants.space18),
+        Text(user!.firstName ?? '', style: userNameProfileTextStyle),
+        const SizedBox(height: Constants.space41),
         _UserDivision(
           user: user,
         ),
@@ -34,46 +34,33 @@ class UserProfileHeader extends StatelessWidget {
   }
 }
 
-class _UserProfile extends StatelessWidget {
-  const _UserProfile(
-      {Key? key, required this.userNameProfileTextStyle, required this.user})
-      : super(key: key);
+class _UserProfileAvatar extends StatelessWidget {
+  const _UserProfileAvatar({Key? key, required this.user}) : super(key: key);
 
-  final TextStyle userNameProfileTextStyle;
   final User? user;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Container(
-          margin: const EdgeInsets.all(Constants.space18),
-          child: Stack(
-            alignment: AlignmentDirectional.bottomEnd,
-            children: <Widget>[
-              UserAvatar(
-                user: user!,
-                width: 140,
-                height: 140,
-              ),
-              CircleAvatar(
-                  backgroundColor: Color(0xff385775),
-                  radius: 18.5,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.camera_alt_outlined,
-                        size: 22.5,
-                        color: Colors.white,
-                      ))),
-            ],
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        Stack(
+          alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
-            Text(user!.firstName ?? '', style: userNameProfileTextStyle),
+            UserAvatar(
+              user: user!,
+              width: 140,
+              height: 140,
+            ),
+            CircleAvatar(
+                backgroundColor: const Color(0xff385775),
+                radius: 18.5,
+                child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.camera_alt_outlined,
+                      size: 22.5,
+                      color: Colors.white,
+                    ))),
           ],
         ),
       ],
@@ -91,49 +78,50 @@ class _UserDivision extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return OutlinedCard(
+      onTap: () {},
       padding: const EdgeInsets.only(
-          right: Constants.space16, left: Constants.space21),
-      child: OutlinedCard(
-        child: PaddingColumn(
-          padding: const EdgeInsets.all(Constants.space4),
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                const Text('Mi nivel: ',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                SvgPicture.asset(
-                  getDivisionBadge(user?.division?.level),
-                  height: 30,
-                  width: 30,
-                ),
-                Text(getDivisionName(user?.division?.level)),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Flexible(
-                    child: PercentageProgressBar(
-                  backgroundColor: getDivisionColor(user!.division?.level),
-                  completedPercentage: getPercentageCompleted(user!),
-                )),
-                Padding(
-                  padding: const EdgeInsets.only(left: Constants.space8),
-                  child: Text('${getPercentageCompleted(user!)}%'),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: Constants.space8,
-            ),
-            Text(
-              'Te faltan ${getPointsLeft(user!)} puntos para llegar al siguiente nivel',
-              style: const TextStyle(fontSize: 13),
-            )
-          ],
-        ),
+        left: Constants.space16,
+        right: Constants.space16,
+        bottom: Constants.space16,
+        top: Constants.space12,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              const Text('Mi nivel: ',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              SvgPicture.asset(
+                getDivisionBadge(user?.division?.level),
+                height: 30,
+                width: 30,
+              ),
+              Text(getDivisionName(user?.division?.level)),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Flexible(
+                  child: PercentageProgressBar(
+                backgroundColor: getDivisionColor(user!.division?.level),
+                completedPercentage: getPercentageCompleted(user!),
+              )),
+              Padding(
+                padding: const EdgeInsets.only(left: Constants.space8),
+                child: Text('${getPercentageCompleted(user!)}%'),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: Constants.space8,
+          ),
+          Text(
+            'Te faltan ${getPointsLeft(user!)} puntos para llegar al siguiente nivel',
+            style: const TextStyle(fontSize: 13),
+          )
+        ],
       ),
     );
   }

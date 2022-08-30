@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/data/models/leaderboard_model.dart';
-import '../../../../core/utils/colors.dart';
-import '../../../../core/utils/constants.dart';
-import 'tournament_arrow_position_widget.dart';
+import '../../data/models/leaderboard_model.dart';
+import '../../utils/colors.dart';
+import '../../utils/constants.dart';
+import '../../../features/tournament/ui/widgets/tournament_arrow_position_widget.dart';
+import 'outlined_card.dart';
 
 class LeaderboardListItem extends StatelessWidget {
   const LeaderboardListItem({
@@ -12,6 +13,7 @@ class LeaderboardListItem extends StatelessWidget {
     required this.label,
     this.secondaryLabel,
     this.trailingWidget,
+    this.onTap,
   }) : super(key: key);
 
   final Widget avatarWidget;
@@ -20,45 +22,44 @@ class LeaderboardListItem extends StatelessWidget {
 
   final Widget? trailingWidget;
 
+  final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-          horizontal: Constants.space16, vertical: Constants.space12),
-      decoration: BoxDecoration(
+    return OutlinedCard(
+      onTap: onTap,
+      backgroundColor: brandBlue.withOpacity(0.08),
+      border: Border.all(color: Colors.white.withOpacity(0.08)),
+      child: Container(
+        width: double.infinity,
         color: Theme.of(context).colorScheme.primaryContainer.withOpacity(.08),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.white.withOpacity(.08),
+        child: Flex(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
+          children: [
+            Flex(
+              direction: Axis.horizontal,
+              children: [
+                SizedBox(width: 35, child: avatarWidget),
+                const SizedBox(width: Constants.space12),
+                Flex(
+                  direction: Axis.vertical,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    label,
+                    secondaryLabel != null
+                        ? secondaryLabel!
+                        : const SizedBox.shrink(),
+                  ],
+                ),
+              ],
+            ),
+            trailingWidget != null ? trailingWidget! : const SizedBox.shrink(),
+          ],
         ),
-      ),
-      child: Flex(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        direction: Axis.horizontal,
-        children: [
-          Flex(
-            direction: Axis.horizontal,
-            children: [
-              SizedBox(width: 35, child: avatarWidget),
-              const SizedBox(width: Constants.space12),
-              Flex(
-                direction: Axis.vertical,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  label,
-                  secondaryLabel != null
-                      ? secondaryLabel!
-                      : const SizedBox.shrink(),
-                ],
-              ),
-            ],
-          ),
-          trailingWidget != null ? trailingWidget! : const SizedBox.shrink(),
-        ],
       ),
     );
   }

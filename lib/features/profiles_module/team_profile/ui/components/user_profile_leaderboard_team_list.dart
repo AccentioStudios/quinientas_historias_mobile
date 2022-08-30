@@ -1,15 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:quinientas_historias/core/data/entities/user_entity.dart';
-import 'package:quinientas_historias/core/data/models/leaderboard_model.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/ui/bloc/cubit/team_profile_cubit.dart';
-import '../../../../../core/mixins/error_handling.dart';
-import '../../../../../core/utils/constants.dart';
-import '../../../../tournament/ui/widgets/leaderboard_list_item_widget.dart';
 
-class LeaderboardMyTeamView extends StatelessWidget with ErrorHandling {
-  const LeaderboardMyTeamView({Key? key, required this.state})
+import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/data/models/leaderboard_model.dart';
+import '../../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
+import '../../../../../core/ui/widgets/user_avatar.dart';
+import '../../../../../core/utils/constants.dart';
+import '../bloc/cubit/team_profile_cubit.dart';
+
+class UserProfileLeaderboardTeamList extends StatelessWidget {
+  const UserProfileLeaderboardTeamList({Key? key, required this.state})
       : super(key: key);
 
   final TeamProfileState state;
@@ -26,9 +27,9 @@ class LeaderboardMyTeamView extends StatelessWidget with ErrorHandling {
       itemCount: list!.length,
       itemBuilder: (BuildContext context, int index) {
         return LeaderboardListItem(
-          avatarWidget: CircleAvatar(
-            radius: 21,
-            backgroundImage: NetworkImage(list[index].user?.avatarUrl ?? ''),
+          onTap: () {},
+          avatarWidget: UserAvatar(
+            user: list[index].user!,
           ),
           label: Flex(
             direction: Axis.horizontal,

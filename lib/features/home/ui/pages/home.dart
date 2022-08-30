@@ -83,16 +83,6 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space18),
                         children: <Widget>[
-                          BigButton(
-                            onPressed: () {
-                              Navigator.of(context, rootNavigator: true)
-                                  .push(MaterialPageRoute(
-                                      builder: (_) => const InvitesProvider(
-                                            typeUserToInvite: UserType.reader,
-                                          )));
-                            },
-                            text: 'Invitaciones (boton temporal)',
-                          ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -18,32 +18,10 @@ class TeamProfileHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppBar(
-          elevation: 0,
-          actions: <Widget>[
-            GestureDetector(
-              onTap: () {
-                //CODIGO
-              },
-              child: Row(
-                children: [
-                  SvgPicture.asset('assets/icons/user-plus.svg'),
-                  const Padding(
-                    padding:
-                        EdgeInsets.only(right: Constants.space18, left: 10.0),
-                    child: Text("Invitar lectores",
-                        style: TextStyle(
-                            fontSize: 14, color: onSurfaceMutedTextDarkColor)),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
         PaddingColumn(
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           children: [
-            const SizedBox(height: 44.0),
+            const SizedBox(height: Constants.space21),
             SizedBox(
               height: 140,
               width: 140,
@@ -57,7 +35,6 @@ class TeamProfileHeaderWidget extends StatelessWidget {
                       radius: 68,
                       backgroundImage:
                           NetworkImage(state.data?.avatarUrl ?? ''),
-                      // AssetImage("assets/images/logo-equipo.png"),
                     ),
                   ),
                   Positioned(
@@ -141,7 +118,8 @@ class _PointsRow extends StatelessWidget {
         const SizedBox(
           height: Constants.space16,
         ),
-        SingleChipWithoutIcon(
+        SingleChip(
+          onTap: () {},
           primaryLabel: 'Escuela',
           secondaryLabel: schoolname.toString(),
         ),

@@ -15,7 +15,7 @@ class UserCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaddingColumn(
-      padding: const EdgeInsets.all(Constants.space16),
+      padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
       children: <Widget>[
         _UserPointsRowTop(
           points: state.user?.score ?? 0,
@@ -26,14 +26,16 @@ class UserCards extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-            _UserTeamsCard(
+            _UserCard(
+              onTap: () {},
               label: 'Mi equipo',
               content: state.user?.team?.name ?? '',
             ),
             const SizedBox(
               width: Constants.space18,
             ),
-            _UserTeamsCard(
+            _UserCard(
+              onTap: () {},
               label: 'Mi escuela',
               content: state.user?.school?.name ?? '',
             )
@@ -117,19 +119,22 @@ class _UserPointsRowBottom extends StatelessWidget {
   }
 }
 
-class _UserTeamsCard extends StatelessWidget {
-  const _UserTeamsCard({
+class _UserCard extends StatelessWidget {
+  const _UserCard({
     Key? key,
     required this.label,
     required this.content,
+    this.onTap,
   }) : super(key: key);
 
   final String label;
   final String content;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: BigChip(
+        onTap: onTap,
         padding: const EdgeInsets.symmetric(
             horizontal: Constants.space16, vertical: Constants.space16),
         primary: Row(
@@ -157,7 +162,7 @@ class _UserTeamsCard extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.normal,
-                    color: const Color.fromRGBO(182, 182, 182, 1),
+                    color: Color.fromRGBO(182, 182, 182, 1),
                   ),
                   minFontSize: 14,
                   maxLines: 3,
