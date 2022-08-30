@@ -10,11 +10,11 @@ class SingleChip extends StatelessWidget {
       {Key? key,
       required this.primaryLabel,
       required this.secondaryLabel,
-      required this.svgIconPath})
+      this.svgIconPath})
       : super(key: key);
   final String primaryLabel;
   final String secondaryLabel;
-  final String svgIconPath;
+  final String? svgIconPath;
   @override
   Widget build(BuildContext context) {
     return OutlinedCard(
@@ -22,12 +22,13 @@ class SingleChip extends StatelessWidget {
           horizontal: Constants.space12, vertical: Constants.space12),
       child: Row(
         children: [
-          SizedBox(
-            width: 24,
-            height: 24,
-            child: SvgPicture.asset(svgIconPath),
-          ),
-          const SizedBox(width: Constants.space8),
+          if (svgIconPath != null)
+            SizedBox(
+              width: 24,
+              height: 24,
+              child: SvgPicture.asset(svgIconPath!),
+            ),
+          if (svgIconPath != null) const SizedBox(width: Constants.space8),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(primaryLabel,
                 style:

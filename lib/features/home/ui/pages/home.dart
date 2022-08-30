@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 
 import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
@@ -15,6 +14,7 @@ import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
+import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
 import '../../../../core/ui/widgets/buttom_bar.dart';
 import '../../../../core/ui/widgets/headline.dart';
