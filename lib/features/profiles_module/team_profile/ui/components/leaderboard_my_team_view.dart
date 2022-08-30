@@ -16,7 +16,7 @@ class LeaderboardMyTeamView extends StatelessWidget with ErrorHandling {
 
   @override
   Widget build(BuildContext context) {
-    late List<LeaderboardModel>? list = state.data?.leaderboard!;
+    final List<LeaderboardModel>? list = state.data?.leaderboard!;
     return ListView.separated(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,

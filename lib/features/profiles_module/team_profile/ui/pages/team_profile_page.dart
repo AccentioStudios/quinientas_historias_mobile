@@ -49,7 +49,7 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : ListView(children: [
+                  : ListView(physics: BouncingScrollPhysics(), children: [
                       TeamProfileHeaderWidget(state: state),
                       PaddingColumn(
                         padding:
@@ -62,10 +62,10 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                           ),
                         ],
                       ),
-                      PaddingColumn(
+                      Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space18),
-                        children: [LeaderboardMyTeamView(state: state)],
+                        child: LeaderboardMyTeamView(state: state),
                       )
                     ])),
         );
