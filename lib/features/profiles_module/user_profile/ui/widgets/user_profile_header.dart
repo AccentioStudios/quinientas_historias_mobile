@@ -94,18 +94,19 @@ class _UserDivision extends StatelessWidget {
               const Text('Mi nivel: ',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               SvgPicture.asset(
-                getDivisionBadge(user?.division?.level),
+                getDivisionBadge(user?.division?.current.level),
                 height: 30,
                 width: 30,
               ),
-              Text(getDivisionName(user?.division?.level)),
+              Text(getDivisionName(user?.division?.current.level)),
             ],
           ),
           Row(
             children: <Widget>[
               Flexible(
                   child: PercentageProgressBar(
-                backgroundColor: getDivisionColor(user!.division?.level),
+                backgroundColor:
+                    getDivisionColor(user!.division?.current.level),
                 completedPercentage: getPercentageCompleted(user!),
               )),
               Padding(
@@ -127,11 +128,11 @@ class _UserDivision extends StatelessWidget {
   }
 
   int getPointsLeft(User user) {
-    return (user.division!.scoreToAchieve! - user.score!);
+    return (user.division!.next.scoreToAchieve - user.score!);
   }
 
   int getPercentageCompleted(User user) {
-    return ((user.score! / user.division!.scoreToAchieve!) * 100).toInt();
+    return ((user.score! / user.division!.next.scoreToAchieve) * 100).toInt();
   }
 
   String getDivisionBadge(int? level) {

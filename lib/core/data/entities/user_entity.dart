@@ -3,6 +3,7 @@ import 'package:quinientas_historias/core/data/entities/story_entity.dart';
 
 import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/team_entity.dart';
+import 'division_entity.dart';
 
 part 'user_entity.g.dart';
 
@@ -36,10 +37,10 @@ class User {
   final int? streak;
   final int? readed;
   final int? score;
-  final UserDivision? division;
   final List<Story>? favoriteStories;
   final School? school;
   final Team? team;
+  final UserDivision? division;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
@@ -56,9 +57,9 @@ enum UserType {
 
 @JsonSerializable()
 class UserDivision {
-  UserDivision({required this.level, this.scoreToAchieve});
-  final int level;
-  final int? scoreToAchieve;
+  UserDivision({required this.current, required this.next});
+  final Division current;
+  final Division next;
 
   factory UserDivision.fromJson(Map<String, dynamic> json) =>
       _$UserDivisionFromJson(json);

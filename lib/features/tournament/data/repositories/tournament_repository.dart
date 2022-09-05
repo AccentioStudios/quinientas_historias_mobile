@@ -11,7 +11,7 @@ class TournamentRepository with ApiService {
 
   Stream<LeaderboardFilterModel> getLeaderboard(
       int pageKey, String filter) async* {
-    yield* appApi.get('v1/leaderboard', parameters: {
+    yield* appApi.get('v1/leaderboard', queryParameters: {
       'filter': filter,
     }).handleJson(mapper: (json) => LeaderboardFilterModel.fromJson(json));
   }

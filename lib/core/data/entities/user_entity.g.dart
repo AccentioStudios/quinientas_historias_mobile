@@ -41,10 +41,10 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'streak': instance.streak,
       'readed': instance.readed,
       'score': instance.score,
-      'division': instance.division,
       'favoriteStories': instance.favoriteStories,
       'school': instance.school,
       'team': instance.team,
+      'division': instance.division,
     };
 
 const _$UserTypeEnumMap = {
@@ -55,12 +55,12 @@ const _$UserTypeEnumMap = {
 };
 
 UserDivision _$UserDivisionFromJson(Map<String, dynamic> json) => UserDivision(
-      level: json['level'] as int,
-      scoreToAchieve: json['scoreToAchieve'] as int?,
+      current: Division.fromJson(json['current'] as Map<String, dynamic>),
+      next: Division.fromJson(json['next'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserDivisionToJson(UserDivision instance) =>
     <String, dynamic>{
-      'level': instance.level,
-      'scoreToAchieve': instance.scoreToAchieve,
+      'current': instance.current,
+      'next': instance.next,
     };

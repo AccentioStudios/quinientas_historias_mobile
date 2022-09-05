@@ -16,7 +16,7 @@ class Invite {
   final UserType invitedType;
   final bool accepted;
 
-  factory Invite.fromJson(Map<String, dynamic> json) => _$InvitesFromJson(json);
+  factory Invite.fromJson(Map<String, dynamic> json) => _$InviteFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InvitesToJson(this);
+  Map<String, dynamic> toJson() => _$InviteToJson(this);
 }

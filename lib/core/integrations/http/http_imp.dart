@@ -19,11 +19,11 @@ class HttpImp implements HttpHelper {
 
   @override
   Future<HttpResponse> get(String path,
-      {Map<String, dynamic>? parameters}) async {
+      {Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
           await SecureStorageHelper.getSavedAccessToken();
-      final Uri uri = _buildUri(path, parameters);
+      final Uri uri = _buildUri(path, queryParameters);
       final response = await http.get(
         uri,
         headers: {
@@ -41,13 +41,13 @@ class HttpImp implements HttpHelper {
 
   @override
   Future<HttpResponse> post(String path,
-      {Object? data, Map<String, dynamic>? parameters}) async {
+      {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
           await SecureStorageHelper.getSavedAccessToken();
 
       final response = await http
-          .post(_buildUri(path, parameters),
+          .post(_buildUri(path, queryParameters),
               headers: {
                 HttpHeaders.contentTypeHeader: 'application/json',
                 HttpHeaders.accessControlAllowOriginHeader: '*',
@@ -68,13 +68,13 @@ class HttpImp implements HttpHelper {
 
   @override
   Future<HttpResponse> put(String path,
-      {Object? data, Map<String, dynamic>? parameters}) async {
+      {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
           await SecureStorageHelper.getSavedAccessToken();
 
       final response = await http
-          .put(_buildUri(path, parameters),
+          .put(_buildUri(path, queryParameters),
               headers: {
                 HttpHeaders.contentTypeHeader: 'application/json',
                 if (savedAccessToken != null)
@@ -90,12 +90,13 @@ class HttpImp implements HttpHelper {
 
   @override
   Future<HttpResponse> delete(String path,
-      {Map<String, dynamic>? parameters}) async {
+      {Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
           await SecureStorageHelper.getSavedAccessToken();
 
-      final response = await http.get(_buildUri(path, parameters), headers: {
+      final response =
+          await http.get(_buildUri(path, queryParameters), headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         if (savedAccessToken != null)
           HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken',
@@ -106,11 +107,15 @@ class HttpImp implements HttpHelper {
     }
   }
 
-  Uri _buildUri(String path, Map<String, dynamic>? parameters) {
-    if (https) {
-      return Uri.https(hostUrl, path, parameters);
+  Uri _buildUri(String path, Map<String, dynamic>? queryParameters) {
+    try {
+      if (https) {
+        return Uri.https(hostUrl, path, queryParameters);
+      }
+      return Uri.http(hostUrl, path, queryParameters);
+    } catch (error) {
+      rethrow;
     }
-    return Uri.http(hostUrl, path, parameters);
   }
 
   _handleHttpError(Object error) {
