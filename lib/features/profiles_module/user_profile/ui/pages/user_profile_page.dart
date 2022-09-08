@@ -6,8 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
 
+import '../../../../../core/failures/failures.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/constants.dart';
+import '../widgets/user_division_card.dart';
 import '../widgets/user_profile_cards.dart';
 import '../widgets/user_profile_favorites.dart';
 import '../widgets/user_profile_header.dart';
@@ -35,15 +37,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
         return Scaffold(
           appBar: AppBar(
             actions: [
-              TextButton.icon(
-                onPressed: () {},
-                icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
-                label: Text(
-                  'Editar Perfil',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              if (state.isMyProfile)
+                TextButton.icon(
+                  onPressed: () {},
+                  icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
+                  label: Text(
+                    'Editar Perfil',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
                 ),
-              ),
               const SizedBox(width: 8),
             ],
             elevation: 0,
@@ -56,22 +59,34 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : ListView(
-                    physics: const BouncingScrollPhysics(),
-                    children: <Widget>[
-                      const SizedBox(height: Constants.space21),
-                      UserProfileHeader(
-                        user: state.user!,
-                      ),
-                      const SizedBox(height: Constants.space16),
-                      UserCards(
-                        state: state,
-                      ),
-                      UserFavorites(
-                        state: state,
+                : state.error is NotFoundFailure
+                    ? const Center(
+                        child: Text(
+                          'El usuario no existe\n:\'c',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20),
+                        ),
                       )
-                    ],
-                  ),
+                    : ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: <Widget>[
+                          const SizedBox(height: Constants.space21),
+                          UserProfileHeader(
+                            state: state,
+                          ),
+                          const SizedBox(height: Constants.space41),
+                          UserDivisionCard(
+                            state: state,
+                          ),
+                          const SizedBox(height: Constants.space16),
+                          UserCards(
+                            state: state,
+                          ),
+                          UserFavorites(
+                            state: state,
+                          )
+                        ],
+                      ),
           ),
         );
       },
@@ -85,6 +100,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
         completer.complete();
       },
       onError: (error) {
+        if (error is NotFoundFailure) {
+          return completer.completeError(error);
+        }
         widget.handleError<bool>(context, error,
             btnLabel: 'Intentar nuevamente',
             linkBtnLabel: 'Volver al home', linkBtnOnTap: () {

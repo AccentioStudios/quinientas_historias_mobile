@@ -11,6 +11,10 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team(
       name: json['name'] as String,
       avatarUrl: json['avatarUrl'] as String?,
       score: json['score'] as int?,
+      readed: json['readed'] as int?,
+      school: json['school'] == null
+          ? null
+          : School.fromJson(json['school'] as Map<String, dynamic>),
       leaderboard: (json['leaderboard'] as List<dynamic>?)
           ?.map((e) => LeaderboardModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,5 +25,7 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'name': instance.name,
       'avatarUrl': instance.avatarUrl,
       'score': instance.score,
+      'readed': instance.readed,
+      'school': instance.school,
       'leaderboard': instance.leaderboard,
     };

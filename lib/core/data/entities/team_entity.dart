@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/data/models/leaderboard_model.dart';
+
+import '../models/leaderboard_model.dart';
+import 'school_entity.dart';
 
 part 'team_entity.g.dart';
 
@@ -10,6 +12,8 @@ class Team {
     required this.name,
     this.avatarUrl,
     this.score,
+    this.readed,
+    this.school,
     this.leaderboard,
   });
 
@@ -19,6 +23,8 @@ class Team {
   final String name;
   final String? avatarUrl;
   final int? score;
+  final int? readed;
+  final School? school;
   final List<LeaderboardModel>? leaderboard;
 
   Map<String, dynamic> toJson() => _$TeamToJson(this);

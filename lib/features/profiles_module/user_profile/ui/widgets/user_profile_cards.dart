@@ -4,7 +4,12 @@ import 'package:quinientas_historias/core/ui/widgets/big_chip.dart';
 import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 import 'package:quinientas_historias/core/ui/widgets/single_chip.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
+import 'package:quinientas_historias/features/profiles_module/school_profile/school_profile_provider.dart';
 
+import '../../../../../core/data/entities/school_entity.dart';
+import '../../../../../core/data/entities/team_entity.dart';
+import '../../../../../core/routes/routes.dart';
+import '../../../team_profile/team_profile_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
 
 class UserCards extends StatelessWidget {
@@ -17,28 +22,46 @@ class UserCards extends StatelessWidget {
     return PaddingColumn(
       padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
       children: <Widget>[
-        _UserPointsRowTop(
-          points: state.user?.score ?? 0,
-          favorites: state.user?.favoriteStories?.length ?? 0,
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: SingleChip(
+                primaryLabel: state.user?.score.toString() ?? '0',
+                secondaryLabel: 'Puntos totales',
+                svgIconPath: 'assets/icons/points-outline-icon.svg',
+              ),
+            ),
+            const SizedBox(width: Constants.space18),
+            Expanded(
+                child: SingleChip(
+              primaryLabel:
+                  state.user?.favoriteStories?.length.toString() ?? '0',
+              secondaryLabel: 'Favoritos',
+              svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
+            ))
+          ],
         ),
         const SizedBox(
           height: Constants.space16,
         ),
         Row(
           children: <Widget>[
-            _UserCard(
-              onTap: () {},
-              label: 'Mi equipo',
-              content: state.user?.team?.name ?? '',
-            ),
-            const SizedBox(
-              width: Constants.space18,
-            ),
-            _UserCard(
-              onTap: () {},
-              label: 'Mi escuela',
-              content: state.user?.school?.name ?? '',
-            )
+            if (state.user?.team != null)
+              _UserCard(
+                onTap: () => _navigateToTeamPage(context, state.user?.team),
+                label: state.isMyProfile ? 'Mi equipo' : 'Su equipo',
+                content: state.user?.team?.name ?? '',
+              ),
+            if (state.user?.team != null)
+              const SizedBox(
+                width: Constants.space18,
+              ),
+            if (state.user?.school != null)
+              _UserCard(
+                onTap: () => _navigateToSchoolPage(context, state.user?.school),
+                label: state.isMyProfile ? 'Mi escuela' : 'Su escuela',
+                content: state.user?.school?.name ?? '',
+              )
           ],
         ),
         const SizedBox(
@@ -51,38 +74,29 @@ class UserCards extends StatelessWidget {
       ],
     );
   }
-}
 
-class _UserPointsRowTop extends StatelessWidget {
-  const _UserPointsRowTop({
-    Key? key,
-    required this.points,
-    required this.favorites,
-  }) : super(key: key);
-
-  final int points;
-  final int favorites;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: SingleChip(
-            primaryLabel: points.toString(),
-            secondaryLabel: 'Puntos totales',
-            svgIconPath: 'assets/icons/points-outline-icon.svg',
-          ),
+  void _navigateToTeamPage(BuildContext context, Team? team) {
+    if (team != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.teamProfile,
+        arguments: TeamProfileArguments(
+          team.id,
         ),
-        const SizedBox(width: Constants.space18),
-        Expanded(
-            child: SingleChip(
-          primaryLabel: favorites.toString(),
-          secondaryLabel: 'Favoritos',
-          svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
-        ))
-      ],
-    );
+      );
+    }
+  }
+
+  void _navigateToSchoolPage(BuildContext context, School? school) {
+    if (school != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.schoolProfile,
+        arguments: SchoolProfileArguments(
+          school.id,
+        ),
+      );
+    }
   }
 }
 

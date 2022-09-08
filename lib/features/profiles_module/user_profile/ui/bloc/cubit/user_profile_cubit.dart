@@ -1,7 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 
 import '../../../../../../core/data/entities/user_entity.dart';
+import '../../../../../../core/data/models/jwt_token_model.dart';
+import '../../../../../../core/failures/failures.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/useCases/user_profile_usecases.dart';
 
@@ -17,18 +20,23 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
   final UserProfileUseCases userProfileUseCases;
 
   final int? userId;
-  // if not userId is provided then load user session profile
 
   getUserData({required Function onSuccess, required Function onError}) {
     emit(state.copyWith(isLoading: true));
 
-    userProfileUseCases.getUserProfile(userId).listen((userProfile) {
-      emit(state.copyWith(user: userProfile));
+    userProfileUseCases.getUserProfile(userId).listen((userProfile) async {
+      // Verify if userId is the same as session user
+      emit(state.copyWith(user: userProfile, isLoading: false));
+
+      final JWTTokenModel? sessionData =
+          await SecureStorageHelper.getSessionData();
+      if (sessionData?.userId == userProfile.id) {
+        emit(state.copyWith(isMyProfile: true));
+      }
       onSuccess();
     }, onError: (error) {
+      emit(state.copyWith(error: error, isLoading: false));
       onError(error);
-    }, onDone: () {
-      emit(state.copyWith(isLoading: false));
     }).subscribe(this);
   }
 }

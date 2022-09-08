@@ -1,13 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/data/useCases/team_profile_usecases.dart';
 
 import '../../../../../../core/data/entities/team_entity.dart';
-import '../../../data/models/team_profile_model.dart';
+import '../../../../../../core/mixins/stream_disposable.dart';
+import '../../../data/useCases/team_profile_usecases.dart';
 
-part 'team_profile_state.dart';
 part 'team_profile_cubit.freezed.dart';
+part 'team_profile_state.dart';
 
 class TeamProfileCubit extends Cubit<TeamProfileState> with StreamDisposable {
   TeamProfileCubit({required this.teamId, required this.teamProfileUseCases})
@@ -21,7 +20,7 @@ class TeamProfileCubit extends Cubit<TeamProfileState> with StreamDisposable {
     emit(state.copyWith(isLoading: true));
 
     teamProfileUseCases.getTeamProfile(teamId).listen((team) {
-      emit(state.copyWith(data: team));
+      emit(state.copyWith(team: team));
       onSuccess();
     }, onError: (error) {
       onError(error);

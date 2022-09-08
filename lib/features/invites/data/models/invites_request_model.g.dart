@@ -22,5 +22,6 @@ const _$UserTypeEnumMap = {
   UserType.reader: 'reader',
   UserType.prof: 'prof',
   UserType.captain: 'captain',
+  UserType.admin: 'admin',
   UserType.unknown: 'unknown',
 };

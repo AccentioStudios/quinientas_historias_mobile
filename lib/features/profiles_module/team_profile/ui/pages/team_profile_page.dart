@@ -16,6 +16,7 @@ import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../invites/invites_provider.dart';
+import '../widgets/team_profile_cards_widget.dart';
 
 class TeamProfilePage extends StatefulWidget with ErrorHandling {
   const TeamProfilePage({Key? key}) : super(key: key);
@@ -65,26 +66,21 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : ListView(physics: BouncingScrollPhysics(), children: [
-                      TeamProfileHeaderWidget(state: state),
-                      PaddingColumn(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: Constants.space16),
-                        children: const <Widget>[
-                          Headline(
-                            marginTop: Constants.space41,
-                            label: 'Tablero de posiciones del equipo',
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: Constants.space18,
-                            right: Constants.space18,
-                            bottom: Constants.space21),
-                        child: UserProfileLeaderboardTeamList(state: state),
-                      )
-                    ])),
+                  : ListView(
+                      physics: BouncingScrollPhysics(),
+                      children: [
+                        TeamProfileHeader(
+                          state: state,
+                        ),
+                        const SizedBox(height: Constants.space41),
+                        TeamCards(
+                          state: state,
+                        ),
+                        UserProfileLeaderboardTeamList(
+                          state: state,
+                        ),
+                      ],
+                    )),
         );
       },
     );

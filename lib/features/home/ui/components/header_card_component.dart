@@ -57,10 +57,10 @@ class HeaderCard extends StatelessWidget {
   HeroHeaderDayState getHeroHeaderState() {
     var hour = DateTime.now().hour;
 
-    if (hour < 12) {
+    if (hour >= 07 && hour <= 14) {
       return HeroHeaderDayState.day;
     }
-    if (hour < 17) {
+    if (hour > 14 && hour <= 19) {
       return HeroHeaderDayState.afternoon;
     }
     return HeroHeaderDayState.night;

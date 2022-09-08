@@ -6,8 +6,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 
@@ -56,6 +58,7 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
       shrinkWrap: true,
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
         itemBuilder: (context, item, index) => LeaderboardListItem(
+          onTap: () => navigateToUserProfile(item.user),
           avatarWidget: UserAvatar(
             user: item.user!,
           ),
@@ -134,6 +137,18 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
         return const SizedBox(height: Constants.space12);
       },
     );
+  }
+
+  navigateToUserProfile(User? user) {
+    if (user != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.userProfile,
+        arguments: UserProfileArguments(
+          user.id,
+        ),
+      );
+    }
   }
 
   _fetchPage(int pageKey) {

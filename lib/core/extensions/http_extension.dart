@@ -58,9 +58,9 @@ void _checkFailures(HttpResponse response) {
       case StatusCodes.networkError:
         throw NetworkFailure();
       case StatusCodes.badRequest:
-        throw CommonFailure();
+        throw BadRequestFailure();
       case StatusCodes.notFound:
-        throw CommonFailure();
+        throw NotFoundFailure();
       case StatusCodes.unauthorized:
         if (errorBodyJson != null) {
           throw AuthFailure.fromJson(errorBodyJson);

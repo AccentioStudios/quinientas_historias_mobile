@@ -52,6 +52,8 @@ enum UserType {
   prof,
   @JsonValue('captain')
   captain,
+  @JsonValue('admin')
+  admin,
   unknown,
 }
 

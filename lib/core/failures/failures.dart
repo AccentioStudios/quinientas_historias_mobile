@@ -10,3 +10,7 @@ class HttpHandleFailure extends Failure {
 }
 
 class UnknownFailure extends Failure {}
+
+class BadRequestFailure extends Failure {}
+
+class NotFoundFailure extends Failure {}
