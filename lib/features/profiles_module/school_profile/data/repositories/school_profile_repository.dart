@@ -1,10 +1,12 @@
+import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/integrations/api_service/api_service.dart';
-import '../models/school_profile_model.dart';
 
 class SchoolProfileRepository with ApiService {
-  Stream<SchoolProfile> getSchoolProfile(int schoolId) async* {
+  Stream<School> getSchoolProfile(int? schoolId) async* {
     yield* appApi
-        .get('/v1/school/profile/$schoolId')
-        .handleJson(mapper: (json) => SchoolProfile.fromJson(json));
+        .get('/v1/school/profile',
+            queryParameters:
+                schoolId != null ? {'teamId': schoolId.toString()} : null)
+        .handleJson(mapper: (json) => School.fromJson(json));
   }
 }

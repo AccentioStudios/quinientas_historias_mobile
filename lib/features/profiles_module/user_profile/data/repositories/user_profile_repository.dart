@@ -3,8 +3,10 @@ import '../../../../../core/integrations/api_service/api_service.dart';
 
 class UserProfileRepository with ApiService {
   Stream<User> getUserProfile(int? userId) async* {
-    yield* appApi.get('/v1/users/profile', queryParameters: {
-      'userId': userId.toString()
-    }).handleJson(mapper: (json) => User.fromJson(json));
+    yield* appApi
+        .get('/v1/users/profile',
+            queryParameters:
+                userId != null ? {'userId': userId.toString()} : null)
+        .handleJson(mapper: (json) => User.fromJson(json));
   }
 }
