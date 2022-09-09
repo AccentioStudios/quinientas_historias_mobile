@@ -46,14 +46,15 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   completeStory(
       {Function(SetStoryProgressResponse)? onSuccess, Function? onError}) {
     emit(state.copyWith(loading: true));
+    SetStoryProgressRequest request =
+        SetStoryProgressRequest(progress: 0, storyId: state.story!.id);
 
-    updateProgressOfStory(100, onError: (error) {
+    readingStoryUseCases.completeStory(request).listen((success) {
+      if (onSuccess != null) onSuccess(success);
+    }, onError: (error) {
       if (onError != null) onError(error);
       emit(state.copyWith(loading: false));
-    }, onSuccess: (response) {
-      if (onSuccess != null) onSuccess(response);
-      emit(state.copyWith(loading: false));
-    });
+    }).subscribe(this);
   }
 
   updateProgressOfStory(progress,

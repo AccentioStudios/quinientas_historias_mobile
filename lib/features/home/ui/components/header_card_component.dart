@@ -82,6 +82,7 @@ class _PointsRow extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
+          flex: 1,
           child: SingleChip(
             primaryLabel: points.toString(),
             secondaryLabel: 'Puntos totales',
@@ -90,6 +91,7 @@ class _PointsRow extends StatelessWidget {
         ),
         const SizedBox(width: Constants.space18),
         Expanded(
+          flex: 1,
           child: SingleChip(
             primaryLabel: favorites.toString(),
             secondaryLabel: 'Favoritos',

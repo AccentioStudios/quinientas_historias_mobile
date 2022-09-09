@@ -28,6 +28,11 @@ class ReadingStoryUseCases {
     yield* repository.setStoryProgress(request);
   }
 
+  Stream<SetStoryProgressResponse> completeStory(
+      SetStoryProgressRequest request) async* {
+    yield* repository.completeStory(request);
+  }
+
   Stream<SaveFavoriteResponse> saveFavorite(
       SaveFavoriteRequest request) async* {
     yield* repository.saveFavorite(request);
