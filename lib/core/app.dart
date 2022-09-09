@@ -17,7 +17,6 @@ class Application extends StatelessWidget {
       themeMode: ThemeMode.dark,
       theme: ThemeClass.lightTheme,
       darkTheme: ThemeClass.darkTheme,
-      // home: const LandingProvider()
       routes: Routes.generateRoutes(),
       initialRoute: Routes.landing,
     );

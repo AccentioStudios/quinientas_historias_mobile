@@ -26,6 +26,8 @@ class ThemeClass {
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
+      toolbarTextStyle: TextStyle(color: onReadingBackgroundColor),
+      iconTheme: IconThemeData(color: onReadingBackgroundColor),
     ),
   );
 
@@ -53,6 +55,8 @@ class ThemeClass {
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
+      toolbarTextStyle: TextStyle(color: onBackgroundDarkColor),
+      iconTheme: IconThemeData(color: onBackgroundDarkColor),
     ),
   );
 }

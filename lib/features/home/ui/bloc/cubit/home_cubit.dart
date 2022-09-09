@@ -22,14 +22,14 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
     emit(state.copyWith(loading: true));
     homeUseCases.getDashboard().listen((Dashboard dashboard) {
       emit(state.copyWith(
-          user: dashboard.user,
-          dailyChallenge: dashboard.dailyChallenge,
-          exploreStories: dashboard.exploreStories));
+        user: dashboard.user,
+        dailyChallenge: dashboard.dailyChallenge,
+        exploreStories: dashboard.exploreStories,
+        loading: false,
+      ));
       if (onSuccess != null) onSuccess(dashboard);
     }, onError: (error) {
       if (onError != null) onError(error);
-    }, onDone: () {
-      emit(state.copyWith(loading: false));
     }).subscribe(this);
   }
 

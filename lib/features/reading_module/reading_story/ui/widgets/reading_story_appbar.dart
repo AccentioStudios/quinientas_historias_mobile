@@ -17,7 +17,9 @@ class ReadingStoryAppbar extends StatelessWidget {
       centerTitle: true,
       toolbarHeight: 64,
       title: Text(state.story?.title ?? 'Modo Lectura',
-          style: const TextStyle(fontWeight: FontWeight.bold)),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground)),
       floating: false,
       pinned: true,
       snap: false,

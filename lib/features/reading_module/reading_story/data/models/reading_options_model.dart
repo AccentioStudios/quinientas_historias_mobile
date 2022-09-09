@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,13 +10,13 @@ class ReadingOptions {
     this.fontSizeBase = 1.20,
     this.pTextAlign = TextAlign.justify,
     this.lineHeightBase = 145,
-    this.theme = ReadingTheme.light,
+    this.theme = ThemeMode.light,
   });
 
   final double fontSizeBase;
   final TextAlign pTextAlign;
   final double lineHeightBase;
-  final ReadingTheme theme;
+  final ThemeMode theme;
 
   LineHeight get lineHeight =>
       LineHeight(lineHeightBase / 100.0 * 1.2, units: "%");
@@ -25,12 +25,26 @@ class ReadingOptions {
   FontSize get h2fontSize => FontSize.rem(fontSizeBase + 0.2);
 
   Brightness get brightness =>
-      theme == ReadingTheme.light ? Brightness.light : Brightness.dark;
+      theme == ThemeMode.light ? Brightness.light : Brightness.dark;
+
+  bool get isDarkMode => theme == ThemeMode.dark;
 
   factory ReadingOptions.fromJson(Map<String, dynamic> json) =>
       _$ReadingOptionsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReadingOptionsToJson(this);
-}
 
-enum ReadingTheme { light, dark }
+  ReadingOptions copyWith({
+    double? fontSizeBase,
+    TextAlign? pTextAlign,
+    double? lineHeightBase,
+    ThemeMode? theme,
+  }) {
+    return ReadingOptions(
+      fontSizeBase: fontSizeBase ?? this.fontSizeBase,
+      pTextAlign: pTextAlign ?? this.pTextAlign,
+      lineHeightBase: lineHeightBase ?? this.lineHeightBase,
+      theme: theme ?? this.theme,
+    );
+  }
+}

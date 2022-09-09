@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -29,6 +30,11 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   }
   final ReadingStoryUseCases readingStoryUseCases;
   StreamController<int> progressStreamController = StreamController<int>();
+
+  reloadReadingOptions() {
+    emit(state.copyWith(
+        readingOptions: readingStoryUseCases.loadReadingOptions()));
+  }
 
   load(int storyId, {Function? onSuccess, Function? onError}) {
     emit(state.copyWith(loading: true));
@@ -95,8 +101,17 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
     }
   }
 
-  saveReadingOptions(ReadingOptions newReadingOptions) {
-    emit(state.copyWith(readingOptions: newReadingOptions));
-    readingStoryUseCases.saveReadingOptions(newReadingOptions);
+  switchDarkMode({required bool isDarkMode}) {
+    emit(state.copyWith(
+        readingOptions: state.readingOptions
+            .copyWith(theme: isDarkMode ? ThemeMode.dark : ThemeMode.light)));
+    readingStoryUseCases.saveReadingOptions(state.readingOptions);
+  }
+
+  changeTextSize({required double fontSizeBase}) {
+    emit(state.copyWith(
+        readingOptions:
+            state.readingOptions.copyWith(fontSizeBase: fontSizeBase)));
+    readingStoryUseCases.saveReadingOptions(state.readingOptions);
   }
 }
