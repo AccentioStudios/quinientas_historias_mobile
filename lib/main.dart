@@ -11,10 +11,10 @@ void main() async {
   GlobalKey<NavigatorState>? navigateKey;
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (FeatureFlag.aliceEnabled) {
-    final Alice alice = AliceHelper.instance;
-    navigateKey = alice.getNavigatorKey();
-  }
+  // if (FeatureFlag.aliceEnabled) {
+  final Alice alice = AliceHelper.instance;
+  navigateKey = alice.getNavigatorKey();
+  // }
   SharedPreferencesHelper.init();
   await Firebase.initializeApp();
   runApp(Application(

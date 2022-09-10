@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../failures/auth_failure.dart';
 import '../failures/common_failure.dart';
+import '../failures/failures.dart';
 import '../failures/network_failure.dart';
 import '../routes/routes.dart';
 import '../ui/pages/error_page.dart';
@@ -37,6 +38,16 @@ mixin ErrorHandling on Widget {
 
     if (error is AuthFailure) {
       return _gotoAuthError<T>(context, error.error);
+    }
+
+    if (error is BadRequestFailure) {
+      return _gotoBadRequestError<T>(
+        context,
+        btnLabel: btnLabel,
+        onTap: onTap,
+        linkBtnLabel: linkBtnLabel,
+        linkBtnOnTap: linkBtnOnTap,
+      );
     }
 
     return _gotoCommonError<T>(
@@ -98,6 +109,30 @@ mixin ErrorHandling on Widget {
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(Routes.login);
             }));
+  }
+
+  Future<T?> _gotoBadRequestError<T>(
+    BuildContext context, {
+    String? btnLabel,
+    void Function()? onTap,
+    String? linkBtnLabel,
+    void Function()? linkBtnOnTap,
+  }) {
+    return _showErrorMessage<T>(
+        context,
+        ErrorPage(
+          headline: 'Hubo un error en tu solicitud',
+          message: 'Verifica los datos que mandaste e intenta nuevamente.',
+          btnLabel: btnLabel,
+          onBtnTap: () {
+            if (onTap != null) {
+              return onTap();
+            }
+            Navigator.of(context, rootNavigator: true).pop(true);
+          },
+          linkBtnLabel: linkBtnLabel,
+          linkBtnOnTap: linkBtnOnTap,
+        ));
   }
 
   Future<T?> _gotoAuthError<T>(

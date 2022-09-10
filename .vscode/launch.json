@@ -21,7 +21,7 @@
             "flutterMode": "release",
             "program": "lib/main.dart",
             "args": [
-                "--dart-define=API_URL=",
+                "--dart-define=API_URL=localhost:5000",
                 "--dart-define=JWT_SIGN_KEY=xxxxxx",
 
             ]
