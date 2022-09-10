@@ -62,7 +62,7 @@ class _ReadingStoryOptionsSheetViewState
                       value: textSize,
                       min: 1.20,
                       max: 1.80,
-                      divisions: 5,
+                      divisions: 8,
                     ),
                   ),
                   Text('Aa',
