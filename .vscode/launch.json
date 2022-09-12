@@ -21,9 +21,8 @@
             "flutterMode": "release",
             "program": "lib/main.dart",
             "args": [
-                "--dart-define=API_URL=localhost:5000",
+                "--dart-define=API_URL=500h-dev.accentio.app",
                 "--dart-define=JWT_SIGN_KEY=xxxxxx",
-
             ]
         },
         {

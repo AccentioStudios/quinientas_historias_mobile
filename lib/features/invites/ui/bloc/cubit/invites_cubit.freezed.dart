@@ -19,7 +19,6 @@ mixin _$InvitesState {
   dynamic get isLoading => throw _privateConstructorUsedError;
   dynamic get sendingInvite => throw _privateConstructorUsedError;
   List<Invite> get invites => throw _privateConstructorUsedError;
-  dynamic get emailForm => throw _privateConstructorUsedError;
   dynamic get formValidationError => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
 
@@ -37,7 +36,6 @@ abstract class $InvitesStateCopyWith<$Res> {
       {dynamic isLoading,
       dynamic sendingInvite,
       List<Invite> invites,
-      dynamic emailForm,
       dynamic formValidationError,
       User? user});
 }
@@ -55,7 +53,6 @@ class _$InvitesStateCopyWithImpl<$Res> implements $InvitesStateCopyWith<$Res> {
     Object? isLoading = freezed,
     Object? sendingInvite = freezed,
     Object? invites = freezed,
-    Object? emailForm = freezed,
     Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
@@ -72,10 +69,6 @@ class _$InvitesStateCopyWithImpl<$Res> implements $InvitesStateCopyWith<$Res> {
           ? _value.invites
           : invites // ignore: cast_nullable_to_non_nullable
               as List<Invite>,
-      emailForm: emailForm == freezed
-          ? _value.emailForm
-          : emailForm // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       formValidationError: formValidationError == freezed
           ? _value.formValidationError
           : formValidationError // ignore: cast_nullable_to_non_nullable
@@ -99,7 +92,6 @@ abstract class _$$_InvitesStateCopyWith<$Res>
       {dynamic isLoading,
       dynamic sendingInvite,
       List<Invite> invites,
-      dynamic emailForm,
       dynamic formValidationError,
       User? user});
 }
@@ -120,7 +112,6 @@ class __$$_InvitesStateCopyWithImpl<$Res>
     Object? isLoading = freezed,
     Object? sendingInvite = freezed,
     Object? invites = freezed,
-    Object? emailForm = freezed,
     Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
@@ -132,7 +123,6 @@ class __$$_InvitesStateCopyWithImpl<$Res>
           ? _value._invites
           : invites // ignore: cast_nullable_to_non_nullable
               as List<Invite>,
-      emailForm: emailForm == freezed ? _value.emailForm : emailForm,
       formValidationError: formValidationError == freezed
           ? _value.formValidationError
           : formValidationError,
@@ -151,7 +141,6 @@ class _$_InvitesState implements _InvitesState {
       {this.isLoading = true,
       this.sendingInvite = false,
       final List<Invite> invites = initInvites,
-      this.emailForm = '',
       this.formValidationError = false,
       this.user})
       : _invites = invites;
@@ -172,16 +161,13 @@ class _$_InvitesState implements _InvitesState {
 
   @override
   @JsonKey()
-  final dynamic emailForm;
-  @override
-  @JsonKey()
   final dynamic formValidationError;
   @override
   final User? user;
 
   @override
   String toString() {
-    return 'InvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, emailForm: $emailForm, formValidationError: $formValidationError, user: $user)';
+    return 'InvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, formValidationError: $formValidationError, user: $user)';
   }
 
   @override
@@ -193,7 +179,6 @@ class _$_InvitesState implements _InvitesState {
             const DeepCollectionEquality()
                 .equals(other.sendingInvite, sendingInvite) &&
             const DeepCollectionEquality().equals(other._invites, _invites) &&
-            const DeepCollectionEquality().equals(other.emailForm, emailForm) &&
             const DeepCollectionEquality()
                 .equals(other.formValidationError, formValidationError) &&
             const DeepCollectionEquality().equals(other.user, user));
@@ -205,7 +190,6 @@ class _$_InvitesState implements _InvitesState {
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(sendingInvite),
       const DeepCollectionEquality().hash(_invites),
-      const DeepCollectionEquality().hash(emailForm),
       const DeepCollectionEquality().hash(formValidationError),
       const DeepCollectionEquality().hash(user));
 
@@ -220,7 +204,6 @@ abstract class _InvitesState implements InvitesState {
       {final dynamic isLoading,
       final dynamic sendingInvite,
       final List<Invite> invites,
-      final dynamic emailForm,
       final dynamic formValidationError,
       final User? user}) = _$_InvitesState;
 
@@ -230,8 +213,6 @@ abstract class _InvitesState implements InvitesState {
   dynamic get sendingInvite => throw _privateConstructorUsedError;
   @override
   List<Invite> get invites => throw _privateConstructorUsedError;
-  @override
-  dynamic get emailForm => throw _privateConstructorUsedError;
   @override
   dynamic get formValidationError => throw _privateConstructorUsedError;
   @override

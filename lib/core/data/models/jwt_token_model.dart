@@ -1,39 +1,20 @@
-import 'dart:convert';
-
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quinientas_historias/core/integrations/environments/platform_environments.dart';
 
+import '../entities/user_entity.dart';
+
+part 'jwt_token_model.g.dart';
+
+@JsonSerializable()
 class JWTTokenModel {
   JWTTokenModel({
-    this.accessToken,
-    this.userId,
-    this.firstName,
-    this.lastName,
-    this.schoolId,
-    this.teamId,
-    this.type,
+    required this.accessToken,
+    required this.user,
   });
 
   final String? accessToken;
-
-  final int? userId;
-  final String? firstName;
-  final String? lastName;
-  final int? schoolId;
-  final int? teamId;
-  final String? type;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'accessToken': accessToken,
-      'userId': userId,
-      'firstName': firstName,
-      'lastName': lastName,
-      'schoolId': schoolId,
-      'teamId': teamId,
-      'type': type,
-    };
-  }
+  final User user;
 
   factory JWTTokenModel.decode(Map<String, dynamic> map) {
     try {
@@ -41,36 +22,18 @@ class JWTTokenModel {
 
       String accessToken = map['accessToken'].toString();
       final jwt = JWT.verify(accessToken, SecretKey(jwtSignKey));
-      final jwtData = jwt.payload['data'];
+      final jwtUserData = jwt.payload['data'];
 
       return JWTTokenModel(
-        accessToken: accessToken,
-        userId: jwtData['userId']?.toInt(),
-        firstName: jwtData['firstName'],
-        lastName: jwtData['lastName'],
-        schoolId: jwtData['schoolId']?.toInt(),
-        teamId: jwtData['teamId']?.toInt(),
-        type: jwtData['type'],
-      );
+          accessToken: accessToken,
+          user: User.fromJson(jwtUserData as Map<String, dynamic>));
     } catch (error) {
       rethrow;
     }
   }
 
-  factory JWTTokenModel.fromMap(Map<String, dynamic> map) {
-    return JWTTokenModel(
-      accessToken: map['accessToken'],
-      userId: map['userId']?.toInt(),
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      schoolId: map['schoolId']?.toInt(),
-      teamId: map['teamId']?.toInt(),
-      type: map['type'],
-    );
-  }
+  factory JWTTokenModel.fromJson(Map<String, dynamic> json) =>
+      _$JWTTokenModelFromJson(json);
 
-  String toJson() => json.encode(toMap());
-
-  factory JWTTokenModel.fromJson(String source) =>
-      JWTTokenModel.fromMap(json.decode(source));
+  Map<String, dynamic> toJson() => _$JWTTokenModelToJson(this);
 }

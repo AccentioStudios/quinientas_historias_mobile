@@ -143,7 +143,7 @@ class HttpImp implements HttpHelper {
   @override
   void setAuth(JWTTokenModel jwtToken) {
     if (jwtToken.accessToken != null) {
-      final String jwtJson = jwtToken.toJson();
+      final String jwtJson = jsonEncode(jwtToken.toJson());
       const secureStorage = FlutterSecureStorage();
       secureStorage.deleteAll();
       secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);
