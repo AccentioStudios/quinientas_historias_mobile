@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$InvitesState {
   dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get sendingInvite => throw _privateConstructorUsedError;
+  List<Invite> get invites => throw _privateConstructorUsedError;
+  dynamic get formValidationError => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +32,12 @@ abstract class $InvitesStateCopyWith<$Res> {
   factory $InvitesStateCopyWith(
           InvitesState value, $Res Function(InvitesState) then) =
       _$InvitesStateCopyWithImpl<$Res>;
-  $Res call({dynamic isLoading, User? user});
+  $Res call(
+      {dynamic isLoading,
+      dynamic sendingInvite,
+      List<Invite> invites,
+      dynamic formValidationError,
+      User? user});
 }
 
 /// @nodoc
@@ -43,12 +51,27 @@ class _$InvitesStateCopyWithImpl<$Res> implements $InvitesStateCopyWith<$Res> {
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? sendingInvite = freezed,
+    Object? invites = freezed,
+    Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      sendingInvite: sendingInvite == freezed
+          ? _value.sendingInvite
+          : sendingInvite // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      invites: invites == freezed
+          ? _value.invites
+          : invites // ignore: cast_nullable_to_non_nullable
+              as List<Invite>,
+      formValidationError: formValidationError == freezed
+          ? _value.formValidationError
+          : formValidationError // ignore: cast_nullable_to_non_nullable
               as dynamic,
       user: user == freezed
           ? _value.user
@@ -65,7 +88,12 @@ abstract class _$$_InvitesStateCopyWith<$Res>
           _$_InvitesState value, $Res Function(_$_InvitesState) then) =
       __$$_InvitesStateCopyWithImpl<$Res>;
   @override
-  $Res call({dynamic isLoading, User? user});
+  $Res call(
+      {dynamic isLoading,
+      dynamic sendingInvite,
+      List<Invite> invites,
+      dynamic formValidationError,
+      User? user});
 }
 
 /// @nodoc
@@ -82,10 +110,22 @@ class __$$_InvitesStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? sendingInvite = freezed,
+    Object? invites = freezed,
+    Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
     return _then(_$_InvitesState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
+      sendingInvite:
+          sendingInvite == freezed ? _value.sendingInvite : sendingInvite,
+      invites: invites == freezed
+          ? _value._invites
+          : invites // ignore: cast_nullable_to_non_nullable
+              as List<Invite>,
+      formValidationError: formValidationError == freezed
+          ? _value.formValidationError
+          : formValidationError,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -97,17 +137,37 @@ class __$$_InvitesStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_InvitesState implements _InvitesState {
-  const _$_InvitesState({this.isLoading = false, this.user});
+  const _$_InvitesState(
+      {this.isLoading = true,
+      this.sendingInvite = false,
+      final List<Invite> invites = initInvites,
+      this.formValidationError = false,
+      this.user})
+      : _invites = invites;
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
+  @JsonKey()
+  final dynamic sendingInvite;
+  final List<Invite> _invites;
+  @override
+  @JsonKey()
+  List<Invite> get invites {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_invites);
+  }
+
+  @override
+  @JsonKey()
+  final dynamic formValidationError;
+  @override
   final User? user;
 
   @override
   String toString() {
-    return 'InvitesState(isLoading: $isLoading, user: $user)';
+    return 'InvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, formValidationError: $formValidationError, user: $user)';
   }
 
   @override
@@ -116,6 +176,11 @@ class _$_InvitesState implements _InvitesState {
         (other.runtimeType == runtimeType &&
             other is _$_InvitesState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
+            const DeepCollectionEquality()
+                .equals(other.sendingInvite, sendingInvite) &&
+            const DeepCollectionEquality().equals(other._invites, _invites) &&
+            const DeepCollectionEquality()
+                .equals(other.formValidationError, formValidationError) &&
             const DeepCollectionEquality().equals(other.user, user));
   }
 
@@ -123,6 +188,9 @@ class _$_InvitesState implements _InvitesState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
+      const DeepCollectionEquality().hash(sendingInvite),
+      const DeepCollectionEquality().hash(_invites),
+      const DeepCollectionEquality().hash(formValidationError),
       const DeepCollectionEquality().hash(user));
 
   @JsonKey(ignore: true)
@@ -132,11 +200,21 @@ class _$_InvitesState implements _InvitesState {
 }
 
 abstract class _InvitesState implements InvitesState {
-  const factory _InvitesState({final dynamic isLoading, final User? user}) =
-      _$_InvitesState;
+  const factory _InvitesState(
+      {final dynamic isLoading,
+      final dynamic sendingInvite,
+      final List<Invite> invites,
+      final dynamic formValidationError,
+      final User? user}) = _$_InvitesState;
 
   @override
   dynamic get isLoading => throw _privateConstructorUsedError;
+  @override
+  dynamic get sendingInvite => throw _privateConstructorUsedError;
+  @override
+  List<Invite> get invites => throw _privateConstructorUsedError;
+  @override
+  dynamic get formValidationError => throw _privateConstructorUsedError;
   @override
   User? get user => throw _privateConstructorUsedError;
   @override

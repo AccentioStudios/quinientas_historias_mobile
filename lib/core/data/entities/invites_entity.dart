@@ -14,7 +14,7 @@ class Invite {
   final int id;
   final String invitedEmail;
   final UserType invitedType;
-  final bool accepted;
+  final int accepted;
 
   factory Invite.fromJson(Map<String, dynamic> json) => _$InviteFromJson(json);
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:alice/core/alice_http_extensions.dart';
@@ -142,7 +143,7 @@ class HttpImp implements HttpHelper {
   @override
   void setAuth(JWTTokenModel jwtToken) {
     if (jwtToken.accessToken != null) {
-      final String jwtJson = jwtToken.toJson();
+      final String jwtJson = jsonEncode(jwtToken.toJson());
       const secureStorage = FlutterSecureStorage();
       secureStorage.deleteAll();
       secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);

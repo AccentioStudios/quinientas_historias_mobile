@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:quinientas_historias/core/helpers/shared_preferences_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,15 +15,18 @@ import '../models/set_story_progress_response.dart';
 class ReadingStoryRepository with ApiService {
   void saveReadingOptions(ReadingOptions newOptions) {
     final instance = SharedPreferencesHelper.instance;
-    instance.setString('readingOptions', newOptions.toJson().toString());
+    instance.setString('readingOptions', json.encode(newOptions.toJson()));
   }
 
   ReadingOptions loadReadingOptions() {
     final instance = SharedPreferencesHelper.instance;
     final String? readingOptions = instance.getString('readingOptions');
     if (readingOptions != null) {
-      return ReadingOptions.fromJson(
-          instance.getString('readingOptions') as Map<String, dynamic>);
+      try {
+        return ReadingOptions.fromJson(json.decode(readingOptions));
+      } catch (error) {
+        return ReadingOptions();
+      }
     }
     return ReadingOptions();
   }
@@ -36,6 +41,13 @@ class ReadingStoryRepository with ApiService {
       SetStoryProgressRequest request) async* {
     yield* appApi
         .post('v1/stories/setProgress', data: request.toJson())
+        .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));
+  }
+
+  Stream<SetStoryProgressResponse> completeStory(
+      SetStoryProgressRequest request) async* {
+    yield* appApi
+        .post('v1/stories/completeStory', data: request.toJson())
         .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));
   }
 

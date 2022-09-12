@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../features/reading_module/data/models/author_model.dart';
+import 'user_entity.dart';
 
 part 'story_entity.g.dart';
 
@@ -20,7 +19,7 @@ class Story {
   factory Story.fromJson(Map<String, dynamic> json) => _$StoryFromJson(json);
   final int id;
   final String title;
-  final Author? author;
+  final User? author;
   final String? coverUrl;
   final String? coverColor;
   final String? content;
@@ -31,7 +30,7 @@ class Story {
   Story copyWith({
     int? id,
     String? title,
-    Author? author,
+    User? author,
     String? coverUrl,
     String? coverColor,
     String? content,

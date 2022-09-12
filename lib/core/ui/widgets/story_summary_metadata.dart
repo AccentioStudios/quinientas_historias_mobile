@@ -22,10 +22,10 @@ class StorySummaryMetadata extends StatelessWidget {
             label: 'Leídas',
             value: readNumber.toString(),
           ),
-          const VerticalDivider(
+          VerticalDivider(
             width: 32,
             thickness: 2,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             endIndent: 25,
           ),
           _RowItem(
@@ -59,7 +59,10 @@ class _RowItem extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-                  width: 16, height: 16, child: SvgPicture.asset(svgIconPath)),
+                  width: 16,
+                  height: 16,
+                  child: SvgPicture.asset(svgIconPath,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
               const SizedBox(width: 6),
               Text(label,
                   style: TextStyle(

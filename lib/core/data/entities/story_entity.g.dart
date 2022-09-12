@@ -11,7 +11,7 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       title: json['title'] as String,
       author: json['author'] == null
           ? null
-          : Author.fromJson(json['author'] as Map<String, dynamic>),
+          : User.fromJson(json['author'] as Map<String, dynamic>),
       coverUrl: json['coverUrl'] as String?,
       coverColor: json['coverColor'] as String?,
       content: json['content'] as String?,

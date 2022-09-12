@@ -1,15 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 
 import '../../../../../../core/data/entities/user_entity.dart';
 import '../../../../../../core/data/models/jwt_token_model.dart';
-import '../../../../../../core/failures/failures.dart';
+import '../../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/useCases/user_profile_usecases.dart';
 
-part 'user_profile_state.dart';
 part 'user_profile_cubit.freezed.dart';
+part 'user_profile_state.dart';
 
 class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
   UserProfileCubit({
@@ -30,7 +29,7 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
 
       final JWTTokenModel? sessionData =
           await SecureStorageHelper.getSessionData();
-      if (sessionData?.userId == userProfile.id) {
+      if (sessionData?.user.id == userProfile.id) {
         emit(state.copyWith(isMyProfile: true));
       }
       onSuccess();

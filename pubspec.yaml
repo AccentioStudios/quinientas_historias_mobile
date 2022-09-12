@@ -42,6 +42,7 @@ dependencies:
       url: https://github.com/juniorise/page_turn
       ref: master
   pin_code_fields: ^7.4.0
+  rive: ^0.9.1
   rxdart: ^0.27.4
   shared_preferences: ^2.0.15
   skeleton_text: ^3.0.0

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/ui/widgets/user_avatar.dart';
 
+import '../../data/entities/user_entity.dart';
 import '../../utils/constants.dart';
 
 class AuthorNameChip extends StatelessWidget {
-  const AuthorNameChip({Key? key, required this.name}) : super(key: key);
-  final String? name;
+  const AuthorNameChip({Key? key, this.author}) : super(key: key);
+  final User? author;
   @override
   Widget build(BuildContext context) {
-    return name == null
+    return author == null
         ? const SizedBox.shrink()
         : FittedBox(
             child: Container(
+              height: 37,
               padding: const EdgeInsets.symmetric(
                 horizontal: Constants.space8,
                 vertical: Constants.space8,
@@ -20,18 +23,23 @@ class AuthorNameChip extends StatelessWidget {
                 borderRadius: Constants.borderRadius23,
               ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(''),
+                  if (author?.avatarUrl != null)
+                    SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: UserAvatar(
+                        user: author!,
+                        height: 25,
+                        width: 25,
+                      ),
                     ),
-                  ),
                   const SizedBox(
                     width: Constants.space12,
                   ),
-                  Text(name!),
+                  Text(author?.firstName ?? ''),
                 ],
               ),
             ),

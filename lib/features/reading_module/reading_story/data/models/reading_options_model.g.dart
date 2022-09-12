@@ -12,8 +12,8 @@ ReadingOptions _$ReadingOptionsFromJson(Map<String, dynamic> json) =>
       pTextAlign: $enumDecodeNullable(_$TextAlignEnumMap, json['pTextAlign']) ??
           TextAlign.justify,
       lineHeightBase: (json['lineHeightBase'] as num?)?.toDouble() ?? 145,
-      theme: $enumDecodeNullable(_$ReadingThemeEnumMap, json['theme']) ??
-          ReadingTheme.light,
+      theme: $enumDecodeNullable(_$ThemeModeEnumMap, json['theme']) ??
+          ThemeMode.light,
     );
 
 Map<String, dynamic> _$ReadingOptionsToJson(ReadingOptions instance) =>
@@ -21,7 +21,7 @@ Map<String, dynamic> _$ReadingOptionsToJson(ReadingOptions instance) =>
       'fontSizeBase': instance.fontSizeBase,
       'pTextAlign': _$TextAlignEnumMap[instance.pTextAlign],
       'lineHeightBase': instance.lineHeightBase,
-      'theme': _$ReadingThemeEnumMap[instance.theme],
+      'theme': _$ThemeModeEnumMap[instance.theme],
     };
 
 const _$TextAlignEnumMap = {
@@ -33,7 +33,8 @@ const _$TextAlignEnumMap = {
   TextAlign.end: 'end',
 };
 
-const _$ReadingThemeEnumMap = {
-  ReadingTheme.light: 'light',
-  ReadingTheme.dark: 'dark',
+const _$ThemeModeEnumMap = {
+  ThemeMode.system: 'system',
+  ThemeMode.light: 'light',
+  ThemeMode.dark: 'dark',
 };

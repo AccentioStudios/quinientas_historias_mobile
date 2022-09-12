@@ -16,9 +16,11 @@ class SummaryStory extends StatelessWidget {
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: Constants.space21),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 AuthorNameChip(
-                  name: story!.author?.firstName,
+                  author: story!.author,
                 ),
                 const SizedBox(height: Constants.space18),
                 StorySummaryMetadata(

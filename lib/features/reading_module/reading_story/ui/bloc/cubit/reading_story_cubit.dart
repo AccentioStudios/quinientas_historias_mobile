@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -30,6 +31,11 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   final ReadingStoryUseCases readingStoryUseCases;
   StreamController<int> progressStreamController = StreamController<int>();
 
+  reloadReadingOptions() {
+    emit(state.copyWith(
+        readingOptions: readingStoryUseCases.loadReadingOptions()));
+  }
+
   load(int storyId, {Function? onSuccess, Function? onError}) {
     emit(state.copyWith(loading: true));
     readingStoryUseCases.loadStory(storyId).listen((storyProgress) {
@@ -46,14 +52,15 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   completeStory(
       {Function(SetStoryProgressResponse)? onSuccess, Function? onError}) {
     emit(state.copyWith(loading: true));
+    SetStoryProgressRequest request =
+        SetStoryProgressRequest(progress: 0, storyId: state.story!.id);
 
-    updateProgressOfStory(100, onError: (error) {
+    readingStoryUseCases.completeStory(request).listen((success) {
+      if (onSuccess != null) onSuccess(success);
+    }, onError: (error) {
       if (onError != null) onError(error);
       emit(state.copyWith(loading: false));
-    }, onSuccess: (response) {
-      if (onSuccess != null) onSuccess(response);
-      emit(state.copyWith(loading: false));
-    });
+    }).subscribe(this);
   }
 
   updateProgressOfStory(progress,
@@ -94,8 +101,17 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
     }
   }
 
-  saveReadingOptions(ReadingOptions newReadingOptions) {
-    emit(state.copyWith(readingOptions: newReadingOptions));
-    readingStoryUseCases.saveReadingOptions(newReadingOptions);
+  switchDarkMode({required bool isDarkMode}) {
+    emit(state.copyWith(
+        readingOptions: state.readingOptions
+            .copyWith(theme: isDarkMode ? ThemeMode.dark : ThemeMode.light)));
+    readingStoryUseCases.saveReadingOptions(state.readingOptions);
+  }
+
+  changeTextSize({required double fontSizeBase}) {
+    emit(state.copyWith(
+        readingOptions:
+            state.readingOptions.copyWith(fontSizeBase: fontSizeBase)));
+    readingStoryUseCases.saveReadingOptions(state.readingOptions);
   }
 }

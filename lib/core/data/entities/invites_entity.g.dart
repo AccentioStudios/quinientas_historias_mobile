@@ -10,7 +10,7 @@ Invite _$InviteFromJson(Map<String, dynamic> json) => Invite(
       id: json['id'] as int,
       invitedEmail: json['invitedEmail'] as String,
       invitedType: $enumDecode(_$UserTypeEnumMap, json['invitedType']),
-      accepted: json['accepted'] as bool,
+      accepted: json['accepted'] as int,
     );
 
 Map<String, dynamic> _$InviteToJson(Invite instance) => <String, dynamic>{

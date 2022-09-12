@@ -4,18 +4,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/constants.dart';
 
 class ThemedTextFormField extends StatelessWidget {
-  const ThemedTextFormField({
-    Key? key,
-    this.hintText,
-    this.prefixIconSvgPath,
-    this.keyboardType,
-    required this.controller,
-    this.obscureText = false,
-    this.enabled,
-    this.autofocus = false,
-    this.errorText,
-    this.onChanged,
-  }) : super(key: key);
+  const ThemedTextFormField(
+      {Key? key,
+      this.hintText,
+      this.prefixIconSvgPath,
+      this.keyboardType,
+      required this.controller,
+      this.obscureText = false,
+      this.enabled,
+      this.autofocus = false,
+      this.errorText,
+      this.onChanged,
+      this.focusNode})
+      : super(key: key);
 
   final String? hintText;
   final String? prefixIconSvgPath;
@@ -26,9 +27,11 @@ class ThemedTextFormField extends StatelessWidget {
   final bool autofocus;
   final String? errorText;
   final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       autofocus: autofocus,
       keyboardType: keyboardType,
       obscureText: obscureText,
