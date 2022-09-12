@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../failures/auth_failure.dart';
+import '../failures/bad_request_failure.dart';
 import '../failures/common_failure.dart';
 import '../failures/failures.dart';
-import '../failures/network_failure.dart';
 import '../routes/routes.dart';
 import '../ui/pages/error_page.dart';
 

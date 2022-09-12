@@ -1,16 +1,20 @@
-abstract class Failure implements Exception {}
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
 
-class HttpHandleFailure extends Failure {
-  HttpHandleFailure({
-    this.error,
-    this.stackTrace,
-  });
+part 'failures.g.dart';
+
+@JsonSerializable()
+class Failure implements Exception {
+  Failure({this.message, this.error, this.statusCode});
+  final String? message;
   final Object? error;
-  final StackTrace? stackTrace;
+  final StatusCodes? statusCode;
+
+  factory Failure.fromJson(Map<String, dynamic> json) =>
+      _$FailureFromJson(json);
+  Map<String, dynamic> toJson() => _$FailureToJson(this);
 }
 
 class UnknownFailure extends Failure {}
 
-class BadRequestFailure extends Failure {}
-
-class NotFoundFailure extends Failure {}
+class NetworkFailure extends Failure {}

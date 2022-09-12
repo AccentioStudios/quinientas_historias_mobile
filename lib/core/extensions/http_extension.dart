@@ -4,8 +4,8 @@ import '../data/models/http_response_model.dart';
 import '../failures/auth_failure.dart';
 import '../failures/common_failure.dart';
 import '../failures/failures.dart';
+import '../failures/http_handle_failure.dart';
 import '../failures/iforgot_failure.dart';
-import '../failures/network_failure.dart';
 import '../failures/status_codes.dart';
 
 typedef HttpResponseMapper<T> = T Function(Object);
@@ -58,6 +58,9 @@ void _checkFailures(HttpResponse response) {
       case StatusCodes.networkError:
         throw NetworkFailure();
       case StatusCodes.badRequest:
+        if (errorBodyJson != null) {
+          throw BadRequestFailure.fromJson(errorBodyJson);
+        }
         throw BadRequestFailure();
       case StatusCodes.notFound:
         throw NotFoundFailure();

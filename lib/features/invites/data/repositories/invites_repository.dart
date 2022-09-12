@@ -8,9 +8,7 @@ class InvitesRepository with ApiService {
   Stream<void> sendInvite(InvitesRequest request) async* {
     yield* appApi
         .post('/v1/invites/send', data: json.encode(request.toJson()))
-        .handle(mapper: (Object data) {
-      print(json);
-    });
+        .handle(mapper: (Object data) {});
   }
 
   Stream<List<Invite>> getInvitations() async* {
