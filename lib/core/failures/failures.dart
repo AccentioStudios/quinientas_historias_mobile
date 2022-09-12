@@ -4,17 +4,51 @@ import 'package:quinientas_historias/core/failures/status_codes.dart';
 part 'failures.g.dart';
 
 @JsonSerializable()
-class Failure implements Exception {
-  Failure({this.message, this.error, this.statusCode});
+class HttpFailure implements Exception {
+  HttpFailure(
+      {this.message, this.error, this.statusCode = StatusCodes.unknown});
   final String? message;
-  final Object? error;
+  final FailureType? error;
   final StatusCodes? statusCode;
 
-  factory Failure.fromJson(Map<String, dynamic> json) =>
-      _$FailureFromJson(json);
-  Map<String, dynamic> toJson() => _$FailureToJson(this);
+  factory HttpFailure.fromJson(Map<String, dynamic> json) =>
+      _$HttpFailureFromJson(json);
+  Map<String, dynamic> toJson() => _$HttpFailureToJson(this);
 }
 
-class UnknownFailure extends Failure {}
+enum FailureType {
+  // Fields Failures Type
+  @JsonValue('email-error')
+  email,
+  @JsonValue('password-error')
+  password,
 
-class NetworkFailure extends Failure {}
+  // Auth Failures Type
+  @JsonValue('must-update-password')
+  mustUpdatePassword,
+  @JsonValue('unauthorized')
+  unauthorized,
+  @JsonValue('invalid-access-token')
+  invalidAccessToken,
+
+  //IForgot Failures Type
+  @JsonValue('iforgot-send-code-issue')
+  sendCodeIssue,
+  @JsonValue('iforgot-invalid-token')
+  invalidToken,
+  @JsonValue('iforgot-invalid-code')
+  invalidCode,
+  @JsonValue('iforgot-code-expired')
+  codeExpired,
+
+  //Invites Failures Type
+  @JsonValue('invite-bad-request')
+
+  // Others
+  @JsonValue('http-handle-error')
+  httpHandleError,
+  @JsonValue('network-error')
+  networkError,
+  @JsonValue('unknown')
+  unknown,
+}

@@ -1,31 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'http_response_model.dart';
+part of 'response_wrapper.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HttpResponse _$HttpResponseFromJson(Map<String, dynamic> json) => HttpResponse(
-      body: json['body'] as String?,
+ResponseWrapper _$ResponseWrapperFromJson(Map<String, dynamic> json) =>
+    ResponseWrapper(
+      response: json['response'] as Object,
       statusCode:
           $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']) ??
               StatusCodes.unknown,
-      headers: (json['headers'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
-      stackTrace: json['stackTrace'],
     );
 
-Map<String, dynamic> _$HttpResponseToJson(HttpResponse instance) =>
+Map<String, dynamic> _$ResponseWrapperToJson(ResponseWrapper instance) =>
     <String, dynamic>{
-      'body': instance.body,
+      'response': instance.response,
       'statusCode': _$StatusCodesEnumMap[instance.statusCode],
-      'headers': instance.headers,
-      'stackTrace': instance.stackTrace,
     };
 
 const _$StatusCodesEnumMap = {
+  StatusCodes.clientException: 'clientException',
+  StatusCodes.formatException: 'formatException',
   StatusCodes.networkError: 'networkError',
   StatusCodes.unknown: 'unknown',
   StatusCodes.ok: 200,

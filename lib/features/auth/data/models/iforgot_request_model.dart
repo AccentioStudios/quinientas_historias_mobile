@@ -5,25 +5,29 @@ class IForgotRequest {
     this.email,
     this.code,
     this.token,
-    this.newPassword,
+    this.password,
+    this.passwordConfirmation,
   });
 
   final String? email;
   final String? code;
   final String? token;
-  final String? newPassword;
+  final String? password;
+  final String? passwordConfirmation;
 
   IForgotRequest copyWith({
     String? email,
     String? code,
     String? token,
-    String? newPassword,
+    String? password,
+    String? passwordConfirmation,
   }) {
     return IForgotRequest(
       email: email ?? this.email,
       code: code ?? this.code,
       token: token ?? this.token,
-      newPassword: newPassword ?? this.newPassword,
+      password: password ?? this.password,
+      passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
     );
   }
 
@@ -32,7 +36,8 @@ class IForgotRequest {
       'email': email,
       'code': code,
       'token': token,
-      'newPassword': newPassword,
+      'password': password,
+      'passwordConfirmation': passwordConfirmation,
     };
   }
 
@@ -41,7 +46,8 @@ class IForgotRequest {
       email: map['email'],
       code: map['code'],
       token: map['token'],
-      newPassword: map['newPassword'],
+      password: map['password'],
+      passwordConfirmation: map['passwordConfirmation'],
     );
   }
 
@@ -52,7 +58,7 @@ class IForgotRequest {
 
   @override
   String toString() {
-    return 'IForgotRequest(email: $email, code: $code, token: $token, newPassword: $newPassword)';
+    return 'IForgotRequest(email: $email, code: $code, token: $token, password: $password)';
   }
 
   @override
@@ -63,7 +69,8 @@ class IForgotRequest {
         other.email == email &&
         other.code == code &&
         other.token == token &&
-        other.newPassword == newPassword;
+        other.password == password &&
+        other.passwordConfirmation == passwordConfirmation;
   }
 
   @override
@@ -71,6 +78,7 @@ class IForgotRequest {
     return email.hashCode ^
         code.hashCode ^
         token.hashCode ^
-        newPassword.hashCode;
+        password.hashCode ^
+        passwordConfirmation.hashCode;
   }
 }

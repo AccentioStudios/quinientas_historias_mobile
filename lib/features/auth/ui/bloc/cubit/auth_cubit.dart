@@ -2,9 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/data/models/jwt_token_model.dart';
-import '../../../../../core/failures/auth_failure.dart';
-import '../../../../../core/failures/common_failure.dart';
-import '../../../../../core/failures/iforgot_failure.dart';
+import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/models/iforgot_request_model.dart';
 import '../../../data/models/login_model.dart';
@@ -23,26 +21,26 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
   void login(LoginModel login,
       {required Function onError, required void Function() onSuccess}) {
-    emit(state.copyWith(loading: true, authFailure: null));
+    emit(state.copyWith(loading: true, httpFailure: null));
 
     authUseCases.login(login).listen((JWTTokenModel authModel) {
       if (authModel.accessToken != null) {
         if (authModel.accessToken!.isNotEmpty) {
           return onSuccess();
         } else {
-          onError(CommonFailure(
+          onError(HttpFailure(
               message:
                   'Hubo un problema al recuperar los datos, intenta nuevamente'));
         }
       } else {
-        onError(CommonFailure(
+        onError(HttpFailure(
             message:
                 'Hubo un problema al recuperar los datos, intenta nuevamente'));
       }
     }, onError: (error) {
-      if (error is AuthFailure) {
-        emit(state.copyWith(authFailure: error));
-        if (error.error == AuthFailureType.mustUpdatePassword) {
+      if (error is HttpFailure) {
+        emit(state.copyWith(httpFailure: error));
+        if (error.error == FailureType.mustUpdatePassword) {
           onError(error);
         }
       } else {
@@ -74,9 +72,9 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
     if (state.code.length < 4) {
       if (onError != null) {
-        onError(IForgotFailure(
+        onError(HttpFailure(
             message: 'Introduce el codigo de verificacíon.',
-            error: IForgotFailureType.invalidCode));
+            error: FailureType.invalidCode));
         emit(state.copyWith(loading: false));
         return;
       }
@@ -98,12 +96,13 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     }).subscribe(this);
   }
 
-  void createNewPassword(String newPassword,
+  void createNewPassword(String newPassword, String passwordConfirmation,
       {required Function()? onSuccess, required Function? onError}) {
     emit(state.copyWith(loading: true));
 
     final request = IForgotRequest(
-        newPassword: newPassword,
+        password: newPassword,
+        passwordConfirmation: passwordConfirmation,
         email: state.email,
         code: state.code,
         token: state.token);

@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$UserProfileState {
-  dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get isMyProfile => throw _privateConstructorUsedError;
-  dynamic get error => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isMyProfile => throw _privateConstructorUsedError;
+  HttpFailure? get httpFailure => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,7 +32,7 @@ abstract class $UserProfileStateCopyWith<$Res> {
           UserProfileState value, $Res Function(UserProfileState) then) =
       _$UserProfileStateCopyWithImpl<$Res>;
   $Res call(
-      {dynamic isLoading, dynamic isMyProfile, dynamic error, User? user});
+      {bool isLoading, bool isMyProfile, HttpFailure? httpFailure, User? user});
 }
 
 /// @nodoc
@@ -48,22 +48,22 @@ class _$UserProfileStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = freezed,
     Object? isMyProfile = freezed,
-    Object? error = freezed,
+    Object? httpFailure = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool,
       isMyProfile: isMyProfile == freezed
           ? _value.isMyProfile
           : isMyProfile // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      error: error == freezed
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool,
+      httpFailure: httpFailure == freezed
+          ? _value.httpFailure
+          : httpFailure // ignore: cast_nullable_to_non_nullable
+              as HttpFailure?,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,7 @@ abstract class _$$_UserProfileStateCopyWith<$Res>
       __$$_UserProfileStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {dynamic isLoading, dynamic isMyProfile, dynamic error, User? user});
+      {bool isLoading, bool isMyProfile, HttpFailure? httpFailure, User? user});
 }
 
 /// @nodoc
@@ -98,13 +98,22 @@ class __$$_UserProfileStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = freezed,
     Object? isMyProfile = freezed,
-    Object? error = freezed,
+    Object? httpFailure = freezed,
     Object? user = freezed,
   }) {
     return _then(_$_UserProfileState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      isMyProfile: isMyProfile == freezed ? _value.isMyProfile : isMyProfile,
-      error: error == freezed ? _value.error : error,
+      isLoading: isLoading == freezed
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMyProfile: isMyProfile == freezed
+          ? _value.isMyProfile
+          : isMyProfile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      httpFailure: httpFailure == freezed
+          ? _value.httpFailure
+          : httpFailure // ignore: cast_nullable_to_non_nullable
+              as HttpFailure?,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -119,24 +128,24 @@ class _$_UserProfileState implements _UserProfileState {
   const _$_UserProfileState(
       {this.isLoading = true,
       this.isMyProfile = false,
-      this.error = null,
+      this.httpFailure = null,
       this.user});
 
   @override
   @JsonKey()
-  final dynamic isLoading;
+  final bool isLoading;
   @override
   @JsonKey()
-  final dynamic isMyProfile;
+  final bool isMyProfile;
   @override
   @JsonKey()
-  final dynamic error;
+  final HttpFailure? httpFailure;
   @override
   final User? user;
 
   @override
   String toString() {
-    return 'UserProfileState(isLoading: $isLoading, isMyProfile: $isMyProfile, error: $error, user: $user)';
+    return 'UserProfileState(isLoading: $isLoading, isMyProfile: $isMyProfile, httpFailure: $httpFailure, user: $user)';
   }
 
   @override
@@ -147,7 +156,8 @@ class _$_UserProfileState implements _UserProfileState {
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality()
                 .equals(other.isMyProfile, isMyProfile) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
+            const DeepCollectionEquality()
+                .equals(other.httpFailure, httpFailure) &&
             const DeepCollectionEquality().equals(other.user, user));
   }
 
@@ -156,7 +166,7 @@ class _$_UserProfileState implements _UserProfileState {
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(isMyProfile),
-      const DeepCollectionEquality().hash(error),
+      const DeepCollectionEquality().hash(httpFailure),
       const DeepCollectionEquality().hash(user));
 
   @JsonKey(ignore: true)
@@ -167,17 +177,17 @@ class _$_UserProfileState implements _UserProfileState {
 
 abstract class _UserProfileState implements UserProfileState {
   const factory _UserProfileState(
-      {final dynamic isLoading,
-      final dynamic isMyProfile,
-      final dynamic error,
+      {final bool isLoading,
+      final bool isMyProfile,
+      final HttpFailure? httpFailure,
       final User? user}) = _$_UserProfileState;
 
   @override
-  dynamic get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   @override
-  dynamic get isMyProfile => throw _privateConstructorUsedError;
+  bool get isMyProfile => throw _privateConstructorUsedError;
   @override
-  dynamic get error => throw _privateConstructorUsedError;
+  HttpFailure? get httpFailure => throw _privateConstructorUsedError;
   @override
   User? get user => throw _privateConstructorUsedError;
   @override

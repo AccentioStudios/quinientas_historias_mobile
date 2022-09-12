@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/failures/auth_failure.dart';
+import '../../../../core/failures/failures.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/big_button.dart';
@@ -91,8 +91,8 @@ class _LoginFormState extends State<_LoginForm> {
                 prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
                 keyboardType: TextInputType.emailAddress,
                 enabled: !state.loading,
-                errorText: state.authFailure?.error == AuthFailureType.email
-                    ? state.authFailure?.message
+                errorText: state.httpFailure?.error == FailureType.email
+                    ? state.httpFailure?.message
                     : null,
               ),
               const SizedBox(height: Constants.space18),
@@ -103,8 +103,8 @@ class _LoginFormState extends State<_LoginForm> {
                 keyboardType: TextInputType.text,
                 obscureText: true,
                 enabled: !state.loading,
-                errorText: state.authFailure?.error == AuthFailureType.password
-                    ? state.authFailure?.message
+                errorText: state.httpFailure?.error == FailureType.password
+                    ? state.httpFailure?.message
                     : null,
               ),
               const SizedBox(height: Constants.space18),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
 
-import '../../../../core/failures/iforgot_failure.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
@@ -100,20 +100,20 @@ class _NewPasswordForm extends StatefulWidget with ErrorHandling {
 
 class _NewPasswordFormState extends State<_NewPasswordForm> {
   late TextEditingController newPasswordController;
-  late TextEditingController confirmNewPasswordController;
+  late TextEditingController passwordConfirmationController;
   String? errorMessage;
 
   @override
   void initState() {
     super.initState();
     newPasswordController = TextEditingController();
-    confirmNewPasswordController = TextEditingController();
+    passwordConfirmationController = TextEditingController();
   }
 
   @override
   void dispose() {
     newPasswordController.dispose();
-    confirmNewPasswordController.dispose();
+    passwordConfirmationController.dispose();
     super.dispose();
   }
 
@@ -153,7 +153,7 @@ class _NewPasswordFormState extends State<_NewPasswordForm> {
               ),
               const SizedBox(height: Constants.space18),
               ThemedTextFormField(
-                controller: confirmNewPasswordController,
+                controller: passwordConfirmationController,
                 hintText: 'Confirmar contraseña',
                 prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
                 keyboardType: TextInputType.text,
@@ -167,7 +167,8 @@ class _NewPasswordFormState extends State<_NewPasswordForm> {
                 text: 'Continuar',
                 isLoading: state.loading,
                 onPressed: () {
-                  _navigateToNext(newPasswordController.text);
+                  _navigateToNext(newPasswordController.text,
+                      passwordConfirmationController.text);
                 },
               ),
               const SizedBox(height: Constants.space21),
@@ -178,20 +179,20 @@ class _NewPasswordFormState extends State<_NewPasswordForm> {
     );
   }
 
-  void _navigateToNext(String newPassword) {
+  void _navigateToNext(String newPassword, String passwordConfirmation) {
     setState(() {
       errorMessage = null;
     });
 
-    BlocProvider.of<AuthCubit>(context).createNewPassword(newPassword,
-        onSuccess: () {
+    BlocProvider.of<AuthCubit>(context)
+        .createNewPassword(newPassword, passwordConfirmation, onSuccess: () {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => const NewPasswordSuccessPage(),
         ),
       );
     }, onError: (error) {
-      if (error is IForgotFailure) {
+      if (error.statusCode == StatusCodes.iforgotError) {
         setState(() {
           errorMessage = error.message;
         });

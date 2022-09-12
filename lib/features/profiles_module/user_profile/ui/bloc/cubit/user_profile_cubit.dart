@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/failures/failures.dart';
 
 import '../../../../../../core/data/entities/user_entity.dart';
 import '../../../../../../core/data/models/jwt_token_model.dart';
@@ -21,7 +22,7 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
   final int? userId;
 
   getUserData({required Function onSuccess, required Function onError}) {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, httpFailure: null));
 
     userProfileUseCases.getUserProfile(userId).listen((userProfile) async {
       // Verify if userId is the same as session user
@@ -34,9 +35,9 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
       }
       onSuccess();
       emit(state.copyWith(isLoading: false));
-    }, onError: (error) {
-      emit(state.copyWith(error: error, isLoading: false));
-      onError(error);
+    }, onError: (httpFailure) {
+      emit(state.copyWith(httpFailure: httpFailure, isLoading: false));
+      onError(httpFailure);
     }).subscribe(this);
   }
 }

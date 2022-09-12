@@ -6,19 +6,39 @@ part of 'failures.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Failure _$FailureFromJson(Map<String, dynamic> json) => Failure(
+HttpFailure _$HttpFailureFromJson(Map<String, dynamic> json) => HttpFailure(
       message: json['message'] as String?,
-      error: json['error'],
-      statusCode: $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']),
+      error: $enumDecodeNullable(_$FailureTypeEnumMap, json['error']),
+      statusCode:
+          $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']) ??
+              StatusCodes.unknown,
     );
 
-Map<String, dynamic> _$FailureToJson(Failure instance) => <String, dynamic>{
+Map<String, dynamic> _$HttpFailureToJson(HttpFailure instance) =>
+    <String, dynamic>{
       'message': instance.message,
-      'error': instance.error,
+      'error': _$FailureTypeEnumMap[instance.error],
       'statusCode': _$StatusCodesEnumMap[instance.statusCode],
     };
 
+const _$FailureTypeEnumMap = {
+  FailureType.email: 'email-error',
+  FailureType.password: 'password-error',
+  FailureType.mustUpdatePassword: 'must-update-password',
+  FailureType.unauthorized: 'unauthorized',
+  FailureType.invalidAccessToken: 'invalid-access-token',
+  FailureType.sendCodeIssue: 'iforgot-send-code-issue',
+  FailureType.invalidToken: 'iforgot-invalid-token',
+  FailureType.invalidCode: 'iforgot-invalid-code',
+  FailureType.codeExpired: 'iforgot-code-expired',
+  FailureType.httpHandleError: 'http-handle-error',
+  FailureType.networkError: 'network-error',
+  FailureType.unknown: 'unknown',
+};
+
 const _$StatusCodesEnumMap = {
+  StatusCodes.clientException: 'clientException',
+  StatusCodes.formatException: 'formatException',
   StatusCodes.networkError: 'networkError',
   StatusCodes.unknown: 'unknown',
   StatusCodes.ok: 200,

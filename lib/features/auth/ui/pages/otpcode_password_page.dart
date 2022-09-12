@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
 
-import '../../../../core/failures/iforgot_failure.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/link_button.dart';
@@ -228,7 +228,7 @@ class _OtpCodeFormState extends State<_OtpCodeForm> {
         startTimer();
       });
     }, onError: (error) {
-      if (error is IForgotFailure) {
+      if (error.statusCodes == StatusCodes.iforgotError) {
         setState(() {
           errorMessage = error.message;
         });
@@ -273,7 +273,7 @@ class _OtpCodeFormState extends State<_OtpCodeForm> {
         ),
       );
     }, onError: (error) {
-      if (error is IForgotFailure) {
+      if (error.statusCodes == StatusCodes.iforgotError) {
         setState(() {
           errorMessage = error.message;
         });
