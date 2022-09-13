@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>167564851917-dbpmeua0qdocdlt249rh5sl3ekkm2h1g.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.167564851917-dbpmeua0qdocdlt249rh5sl3ekkm2h1g</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBrBwCGtoNgZFSQZWxRgQL21S2lEqCc_qA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>167564851917</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.quinientasHistorias</string>
+	<key>PROJECT_ID</key>
+	<string>historias-25985</string>
+	<key>STORAGE_BUCKET</key>
+	<string>historias-25985.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:167564851917:ios:1e7fce085df8ef690ac784</string>
+</dict>
+</plist>
