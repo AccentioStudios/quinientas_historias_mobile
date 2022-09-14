@@ -5,7 +5,7 @@ mixin FormValidation {
     return regex.hasMatch(s);
   }
 
-  bool _isNumeric(String s) {
+  bool isNumeric(String s) {
     final result = double.tryParse(s) != null;
     return result;
   }

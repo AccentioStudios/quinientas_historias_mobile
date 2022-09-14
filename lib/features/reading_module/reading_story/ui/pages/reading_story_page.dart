@@ -5,18 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
-import 'package:quinientas_historias/core/theme/theme.dart';
-import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/data/models/reading_options_model.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/ui/pages/reading_story_options_sheet_view.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/ui/pages/reading_story_success_page.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/ui/widgets/reading_story_appbar.dart';
 
+import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
+import '../../../../../core/theme/theme.dart';
+import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/custom_icon_button.dart';
 import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
+import '../widgets/reading_story_appbar.dart';
+import 'reading_story_options_sheet_view.dart';
+import 'reading_story_success_page.dart';
 
 class ReadingStoryPage extends StatefulWidget
     with ErrorHandling, SheetMessages {

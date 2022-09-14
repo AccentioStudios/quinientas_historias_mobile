@@ -1,15 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 
 import '../../../../../core/data/entities/tournament_entity.dart';
 import '../../../../../core/data/models/leaderboard_model.dart';
 import '../../../../../core/data/models/list_page.dart';
-import '../../../../../core/failures/failures.dart';
+import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/useCases/tournament_usecases.dart';
 
-part 'tournament_state.dart';
 part 'tournament_cubit.freezed.dart';
+part 'tournament_state.dart';
 
 class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
   TournamentCubit({required this.tournamentUseCases})

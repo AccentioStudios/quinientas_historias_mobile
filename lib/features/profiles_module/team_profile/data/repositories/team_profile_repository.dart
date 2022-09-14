@@ -1,5 +1,5 @@
 import '../../../../../core/data/entities/team_entity.dart';
-import '../../../../../core/integrations/api_service/api_service.dart';
+import '../../../../../core/integrations/api_service.dart';
 
 class TeamProfileRepository with ApiService {
   Stream<Team> getTeamProfile(int? teamId) async* {

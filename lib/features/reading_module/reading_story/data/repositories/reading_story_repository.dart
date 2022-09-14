@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:quinientas_historias/core/helpers/shared_preferences_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/data/models/save_favorite_request.dart';
 import '../../../../../core/data/models/save_favorite_response.dart';
-import '../../../../../core/integrations/api_service/api_service.dart';
-
+import '../../../../../core/helpers/shared_preferences_helper.dart';
+import '../../../../../core/integrations/api_service.dart';
 import '../models/reading_options_model.dart';
 import '../models/set_story_progress_request.dart';
 import '../models/set_story_progress_response.dart';

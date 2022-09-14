@@ -14,6 +14,10 @@ class HttpFailure implements Exception {
   factory HttpFailure.fromJson(Map<String, dynamic> json) =>
       _$HttpFailureFromJson(json);
   Map<String, dynamic> toJson() => _$HttpFailureToJson(this);
+
+  @override
+  String toString() =>
+      'HttpFailure: $message, error: $error, statusCode: $statusCode';
 }
 
 enum FailureType {
@@ -42,7 +46,8 @@ enum FailureType {
   codeExpired,
 
   //Invites Failures Type
-  @JsonValue('invite-bad-request')
+  @JsonValue('user-already-invited')
+  userAlreadyInvited,
 
   // Others
   @JsonValue('http-handle-error')

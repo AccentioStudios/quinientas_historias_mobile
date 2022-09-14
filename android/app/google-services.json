@@ -29,6 +29,13 @@
             {
               "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "167564851917-dbpmeua0qdocdlt249rh5sl3ekkm2h1g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.quinientasHistorias"
+              }
             }
           ]
         }

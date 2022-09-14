@@ -9,8 +9,6 @@ part of 'leaderboard_model.dart';
 LeaderboardFilterModel _$LeaderboardFilterModelFromJson(
         Map<String, dynamic> json) =>
     LeaderboardFilterModel(
-      tournament:
-          Tournament.fromJson(json['tournament'] as Map<String, dynamic>),
       leaderboard: (json['leaderboard'] as List<dynamic>)
           .map((e) => LeaderboardModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,7 +17,6 @@ LeaderboardFilterModel _$LeaderboardFilterModelFromJson(
 Map<String, dynamic> _$LeaderboardFilterModelToJson(
         LeaderboardFilterModel instance) =>
     <String, dynamic>{
-      'tournament': instance.tournament,
       'leaderboard': instance.leaderboard,
     };
 
@@ -35,8 +32,10 @@ LeaderboardModel _$LeaderboardModelFromJson(Map<String, dynamic> json) =>
       school: json['school'] == null
           ? null
           : School.fromJson(json['school'] as Map<String, dynamic>),
-      changePosition: LeaderboardChangePosition.fromJson(
-          json['changePosition'] as Map<String, dynamic>),
+      changePosition: json['changePosition'] == null
+          ? null
+          : LeaderboardChangePosition.fromJson(
+              json['changePosition'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LeaderboardModelToJson(LeaderboardModel instance) =>

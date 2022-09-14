@@ -6,13 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-import '../../data/models/jwt_token_model.dart';
-import '../../failures/failures.dart';
-import '../../failures/status_codes.dart';
-import '../../helpers/alice_helper.dart';
-import '../../helpers/http_helper.dart';
-import '../../helpers/secure_storage_helper.dart';
-import '../environments/platform_environments.dart';
+import '../data/models/jwt_token_model.dart';
+import '../failures/failures.dart';
+import '../failures/status_codes.dart';
+import '../helpers/alice_helper.dart';
+import '../helpers/http_helper.dart';
+import '../helpers/secure_storage_helper.dart';
+import 'platform_environments.dart';
 
 class HttpImp implements HttpHelper {
   HttpImp({required this.hostUrl, this.https = PlatformEnvironment.https});
@@ -23,15 +23,14 @@ class HttpImp implements HttpHelper {
   Future<Response> get(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      String? savedAccessToken =
-          await SecureStorageHelper.getSavedAccessToken();
+      JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
       final Uri uri = _buildUri(path, queryParameters);
       final response = await http.get(
         uri,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          if (savedAccessToken != null)
-            HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+          if (sessionData != null)
+            HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}'
         },
       ).interceptWithAlice(AliceHelper.instance);
       return response;
@@ -44,9 +43,7 @@ class HttpImp implements HttpHelper {
   Future<Response> post(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
-      String? savedAccessToken =
-          await SecureStorageHelper.getSavedAccessToken();
-
+      JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
       final response = await http
           .post(_buildUri(path, queryParameters),
               headers: {
@@ -55,8 +52,9 @@ class HttpImp implements HttpHelper {
                 HttpHeaders.accessControlAllowMethodsHeader:
                     'GET, POST, DELETE, HEAD, OPTIONS',
                 HttpHeaders.accessControlAllowCredentialsHeader: 'true',
-                if (savedAccessToken != null)
-                  HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+                if (sessionData != null)
+                  HttpHeaders.authorizationHeader:
+                      'Bearer ${sessionData.accessToken}'
               },
               body: data)
           .interceptWithAlice(AliceHelper.instance);
@@ -71,15 +69,15 @@ class HttpImp implements HttpHelper {
   Future<Response> put(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
-      String? savedAccessToken =
-          await SecureStorageHelper.getSavedAccessToken();
+      JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
 
       final response = await http
           .put(_buildUri(path, queryParameters),
               headers: {
                 HttpHeaders.contentTypeHeader: 'application/json',
-                if (savedAccessToken != null)
-                  HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
+                if (sessionData != null)
+                  HttpHeaders.authorizationHeader:
+                      'Bearer ${sessionData.accessToken}'
               },
               body: data)
           .interceptWithAlice(AliceHelper.instance);
@@ -93,14 +91,13 @@ class HttpImp implements HttpHelper {
   Future<Response> delete(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      String? savedAccessToken =
-          await SecureStorageHelper.getSavedAccessToken();
+      JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
 
       final response =
           await http.get(_buildUri(path, queryParameters), headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
-        if (savedAccessToken != null)
-          HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken',
+        if (sessionData != null)
+          HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}',
       }).interceptWithAlice(AliceHelper.instance);
       return response;
     } catch (e) {

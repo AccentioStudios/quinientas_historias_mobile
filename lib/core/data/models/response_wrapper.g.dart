@@ -31,6 +31,5 @@ const _$StatusCodesEnumMap = {
   StatusCodes.fordbidden: 403,
   StatusCodes.notFound: 404,
   StatusCodes.internalServerError: 500,
-  StatusCodes.mustUpdatePassword: 451,
   StatusCodes.iforgotError: 452,
 };

@@ -1,6 +1,6 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/integrations/environments/platform_environments.dart';
+import 'package:quinientas_historias/core/integrations/platform_environments.dart';
 
 import '../entities/user_entity.dart';
 
@@ -9,7 +9,7 @@ part 'jwt_token_model.g.dart';
 @JsonSerializable()
 class JWTTokenModel {
   JWTTokenModel({
-    required this.accessToken,
+    this.accessToken,
     required this.user,
   });
 

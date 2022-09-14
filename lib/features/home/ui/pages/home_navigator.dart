@@ -108,7 +108,6 @@ class _HomeNavigatorState extends State<HomeNavigator> {
           Navigator.of(context).pushNamed(Routes.config);
           return;
         case ActiveOptionAppButtonBar.none:
-          // TODO: Handle this case.
           return;
       }
     }

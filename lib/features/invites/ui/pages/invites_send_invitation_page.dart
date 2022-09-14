@@ -8,6 +8,7 @@ import 'package:quinientas_historias/features/invites/ui/bloc/cubit/invites_cubi
 import 'package:rive/rive.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
+import '../../../../core/failures/failures.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
@@ -26,6 +27,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
   late TextEditingController emailController;
   late PageController pageController;
   late FocusNode emailFocus;
+  String? emailFieldErrorMessage;
   int currentPage = 0;
 
   @override
@@ -81,6 +83,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
             },
             children: [
               _EnterEmailPageOne(
+                errorText: emailFieldErrorMessage,
                 emailController: emailController,
                 emailFocus: emailFocus,
                 onChanged: (text) {
@@ -109,7 +112,16 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
           email: emailController.text,
           type: widget.typeUserToInvite,
         ),
-        onSuccess: () {}, onError: (error) {
+        onSuccess: () {}, onError: (HttpFailure error) {
+      if (error.error == FailureType.userAlreadyInvited) {
+        setState(() {
+          emailFieldErrorMessage = error.message;
+        });
+        pageController.animateToPage(0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOutCubic);
+        return;
+      }
       widget.handleError(context, error, onTap: () {
         Navigator.of(context).pop(true);
         Navigator.of(context).pop(true);
@@ -241,15 +253,17 @@ class _SendEmailPageTwo extends StatelessWidget {
 }
 
 class _EnterEmailPageOne extends StatelessWidget {
-  const _EnterEmailPageOne(
-      {Key? key,
-      required this.emailFocus,
-      required this.emailController,
-      required this.onChanged})
-      : super(key: key);
+  const _EnterEmailPageOne({
+    Key? key,
+    required this.emailFocus,
+    required this.emailController,
+    required this.onChanged,
+    this.errorText,
+  }) : super(key: key);
   final TextEditingController emailController;
   final FocusNode emailFocus;
   final void Function(String)? onChanged;
+  final String? errorText;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -263,6 +277,7 @@ class _EnterEmailPageOne extends StatelessWidget {
           fontSize: 24,
         ),
         ThemedTextFormField(
+          errorText: errorText,
           autofocus: true,
           focusNode: emailFocus,
           controller: emailController,
