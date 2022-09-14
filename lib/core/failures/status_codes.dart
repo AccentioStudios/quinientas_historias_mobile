@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum StatusCodes {
+  clientException,
+  formatException,
   networkError,
   unknown,
   @JsonValue(200)

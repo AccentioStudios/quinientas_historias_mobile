@@ -1,25 +1,25 @@
-import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
+import 'package:http/http.dart';
 
-import '../data/models/http_response_model.dart';
+import '../data/models/jwt_token_model.dart';
 
 abstract class HttpHelper {
-  Future<HttpResponse> get(
+  Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<HttpResponse> post(
+  Future<Response> post(
     String path, {
     Object? data,
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<HttpResponse> delete(
+  Future<Response> delete(
     String path, {
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<HttpResponse> put(
+  Future<Response> put(
     String path, {
     Object? data,
     Map<String, dynamic>? queryParameters,

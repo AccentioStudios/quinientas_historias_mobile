@@ -1,9 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:quinientas_historias/features/profiles_module/team_profile/team_profile_provider.dart';
 
+import '../../../../core/data/entities/team_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
@@ -53,6 +56,7 @@ class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
       shrinkWrap: true,
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
         itemBuilder: (context, item, index) => LeaderboardListItem(
+          onTap: () => navigateToTeamProfile(item.team),
           avatarWidget: CircleAvatar(
             backgroundImage: NetworkImage(item.team?.avatarUrl ?? ''),
           ),
@@ -111,6 +115,18 @@ class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
         return const SizedBox(height: Constants.space12);
       },
     );
+  }
+
+  navigateToTeamProfile(Team? team) {
+    if (team != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.teamProfile,
+        arguments: TeamProfileArguments(
+          team.id,
+        ),
+      );
+    }
   }
 
   _fetchPage(int pageKey) {

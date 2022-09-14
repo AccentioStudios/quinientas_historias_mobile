@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../failures/auth_failure.dart';
-import '../failures/common_failure.dart';
 import '../failures/failures.dart';
-import '../failures/network_failure.dart';
+import '../failures/status_codes.dart';
 import '../routes/routes.dart';
 import '../ui/pages/error_page.dart';
 
@@ -16,31 +14,21 @@ mixin ErrorHandling on Widget {
 
   Future<T?> handleError<T>(
     BuildContext context,
-    Object error, {
+    HttpFailure httpFailure, {
     String? btnLabel,
     void Function()? onTap,
     String? linkBtnLabel,
     void Function()? linkBtnOnTap,
   }) async {
-    if (error is NetworkFailure) {
+    if (httpFailure.statusCode == StatusCodes.networkError) {
       return _gotoNetworkError<T>(context, onTap);
     }
-    if (error is CommonFailure) {
-      return _gotoCommonError<T>(
-        context,
-        CommonFailure(),
-        btnLabel: btnLabel,
-        onTap: onTap,
-        linkBtnLabel: linkBtnLabel,
-        linkBtnOnTap: linkBtnOnTap,
-      );
+
+    if (httpFailure.statusCode == StatusCodes.unauthorized) {
+      return _gotoAuthError<T>(context, httpFailure.error);
     }
 
-    if (error is AuthFailure) {
-      return _gotoAuthError<T>(context, error.error);
-    }
-
-    if (error is BadRequestFailure) {
+    if (httpFailure.statusCode == StatusCodes.badRequest) {
       return _gotoBadRequestError<T>(
         context,
         btnLabel: btnLabel,
@@ -52,7 +40,7 @@ mixin ErrorHandling on Widget {
 
     return _gotoCommonError<T>(
       context,
-      CommonFailure(),
+      HttpFailure(),
       btnLabel: btnLabel,
       onTap: onTap,
       linkBtnLabel: linkBtnLabel,
@@ -62,7 +50,7 @@ mixin ErrorHandling on Widget {
 
   Future<T?> _gotoCommonError<T>(
     BuildContext context,
-    CommonFailure error, {
+    HttpFailure httpFailure, {
     String? btnLabel,
     void Function()? onTap,
     String? linkBtnLabel,
@@ -135,9 +123,8 @@ mixin ErrorHandling on Widget {
         ));
   }
 
-  Future<T?> _gotoAuthError<T>(
-      BuildContext context, AuthFailureType? errorType) {
-    if (errorType == AuthFailureType.mustUpdatePassword) {
+  Future<T?> _gotoAuthError<T>(BuildContext context, FailureType? errorType) {
+    if (errorType == FailureType.mustUpdatePassword) {
       return _showErrorMessage<T>(
           context,
           ErrorPage(

@@ -5,6 +5,7 @@ import 'package:quinientas_historias/core/mixins/stream_disposable.dart';
 import '../../../../../core/data/entities/tournament_entity.dart';
 import '../../../../../core/data/models/leaderboard_model.dart';
 import '../../../../../core/data/models/list_page.dart';
+import '../../../../../core/failures/failures.dart';
 import '../../../data/useCases/tournament_usecases.dart';
 
 part 'tournament_state.dart';
@@ -27,7 +28,7 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
     }).subscribe(this);
   }
 
-  getCurrentTournament({Function? onSuccess, Function(Object)? onError}) async {
+  getCurrentTournament({Function? onSuccess, Function? onError}) async {
     emit(state.copyWith(tournamentIsLoading: true, tournament: null));
     await Future.delayed(const Duration(seconds: 2));
 

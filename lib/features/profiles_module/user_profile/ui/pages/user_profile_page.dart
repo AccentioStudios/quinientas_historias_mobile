@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/failures/failures.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
 
-import '../../../../../core/failures/failures.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/constants.dart';
 import '../widgets/user_division_card.dart';
@@ -59,7 +60,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : state.error is NotFoundFailure
+                : state.httpFailure?.statusCode == StatusCodes.notFound
                     ? const Center(
                         child: Text(
                           'El usuario no existe\n:\'c',
@@ -100,7 +101,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         completer.complete();
       },
       onError: (error) {
-        if (error is NotFoundFailure) {
+        if (error.statusCode == StatusCodes.notFound) {
           return completer.completeError(error);
         }
         widget.handleError<bool>(context, error,

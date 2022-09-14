@@ -4,24 +4,22 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
 
 import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/data/entities/team_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
-import '../../../../core/failures/auth_failure.dart';
 import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
-import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
 import '../../../../core/ui/widgets/buttom_bar.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../invites/invites_provider.dart';
 import '../../../profiles_module/school_profile/school_profile_provider.dart';
 import '../../../profiles_module/team_profile/team_profile_provider.dart';
 import '../../../profiles_module/user_profile/user_profile_provider.dart';
@@ -246,7 +244,7 @@ class _HomePageState extends State<HomePage> {
       }
       completer.complete();
     }, onError: (error) async {
-      if (error is AuthFailure) {
+      if (error.statusCode == StatusCodes.unauthorized) {
         logout();
       }
       widget.handleError<bool>(context, error,

@@ -4,10 +4,11 @@ import 'dart:io';
 import 'package:alice/core/alice_http_extensions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
-import '../../data/models/http_response_model.dart';
 import '../../data/models/jwt_token_model.dart';
-import '../../exceptions/http_request_exception.dart';
+import '../../failures/failures.dart';
+import '../../failures/status_codes.dart';
 import '../../helpers/alice_helper.dart';
 import '../../helpers/http_helper.dart';
 import '../../helpers/secure_storage_helper.dart';
@@ -19,7 +20,7 @@ class HttpImp implements HttpHelper {
   final bool https;
 
   @override
-  Future<HttpResponse> get(String path,
+  Future<Response> get(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
@@ -33,15 +34,14 @@ class HttpImp implements HttpHelper {
             HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken'
         },
       ).interceptWithAlice(AliceHelper.instance);
-      HttpResponse httpResponse = _buildHttpResponse(response);
-      return httpResponse;
+      return response;
     } catch (e) {
-      return _buildHttpResponseWithError(_handleHttpError(e));
+      throw _handleHttpError(e);
     }
   }
 
   @override
-  Future<HttpResponse> post(String path,
+  Future<Response> post(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
@@ -61,14 +61,14 @@ class HttpImp implements HttpHelper {
               body: data)
           .interceptWithAlice(AliceHelper.instance);
 
-      return _buildHttpResponse(response);
+      return response;
     } catch (e) {
-      return _buildHttpResponseWithError(_handleHttpError(e));
+      throw _handleHttpError(e);
     }
   }
 
   @override
-  Future<HttpResponse> put(String path,
+  Future<Response> put(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
@@ -83,14 +83,14 @@ class HttpImp implements HttpHelper {
               },
               body: data)
           .interceptWithAlice(AliceHelper.instance);
-      return _buildHttpResponse(response);
+      return response;
     } catch (e) {
-      return _buildHttpResponseWithError(_handleHttpError(e));
+      throw _handleHttpError(e);
     }
   }
 
   @override
-  Future<HttpResponse> delete(String path,
+  Future<Response> delete(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
       String? savedAccessToken =
@@ -102,9 +102,9 @@ class HttpImp implements HttpHelper {
         if (savedAccessToken != null)
           HttpHeaders.authorizationHeader: 'Bearer $savedAccessToken',
       }).interceptWithAlice(AliceHelper.instance);
-      return _buildHttpResponse(response);
+      return response;
     } catch (e) {
-      return _buildHttpResponseWithError(_handleHttpError(e));
+      throw _handleHttpError(e);
     }
   }
 
@@ -120,25 +120,39 @@ class HttpImp implements HttpHelper {
   }
 
   _handleHttpError(Object error) {
+    if (error is SocketException) {
+      return HttpFailure(
+          message: error.message,
+          error: FailureType.networkError,
+          statusCode: StatusCodes.networkError);
+    }
+
     if (error is http.ClientException && error.message.isNotEmpty) {
-      return HttpRequestException(500, error.message, error);
+      return HttpFailure(
+          message: error.message,
+          error: FailureType.httpHandleError,
+          statusCode: StatusCodes.clientException);
     }
     if (error is FormatException) {
-      return HttpRequestException(500, error.message, error);
+      return HttpFailure(
+          message: error.message,
+          error: FailureType.httpHandleError,
+          statusCode: StatusCodes.formatException);
     }
 
-    return HttpRequestException(null, 'Unknown error', error as Exception);
+    return HttpFailure(
+        error: FailureType.httpHandleError, statusCode: StatusCodes.unknown);
   }
 
-  HttpResponse _buildHttpResponse(http.Response response) {
-    return HttpResponse(
-      headers: response.headers,
-    ).parse(response);
-  }
+  // HttpResponse _buildHttpResponse(http.Response response) {
+  //   return HttpResponse(
+  //     headers: response.headers,
+  //   ).parse(response);
+  // }
 
-  HttpResponse _buildHttpResponseWithError(HttpRequestException error) {
-    return HttpResponse().parse(error);
-  }
+  // HttpResponse _buildHttpResponseWithError(HttpRequestException error) {
+  //   return HttpResponse().parse(error);
+  // }
 
   @override
   void setAuth(JWTTokenModel jwtToken) {
