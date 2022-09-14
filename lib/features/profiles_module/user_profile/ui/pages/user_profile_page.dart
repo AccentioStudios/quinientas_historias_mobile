@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/failures/failures.dart';
-import 'package:quinientas_historias/core/failures/status_codes.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/ui/bloc/cubit/user_profile_cubit.dart';
 
+import '../../../../../core/failures/status_codes.dart';
+import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/constants.dart';
+import '../bloc/cubit/user_profile_cubit.dart';
 import '../widgets/user_division_card.dart';
 import '../widgets/user_profile_cards.dart';
 import '../widgets/user_profile_favorites.dart';

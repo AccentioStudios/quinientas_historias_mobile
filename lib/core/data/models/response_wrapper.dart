@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart';
 
 import '../../failures/status_codes.dart';
 

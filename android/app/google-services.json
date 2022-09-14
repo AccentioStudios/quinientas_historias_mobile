@@ -29,35 +29,13 @@
             {
               "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
               "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:167564851917:android:50fd10a9fc5628d20ac784",
-        "android_client_info": {
-          "package_name": "com.accentiostudios.quinientas_historias"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAlgQVIg4dkwRwDGs-enN6Zta0eeR3zgO4"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
+            },
             {
-              "client_id": "167564851917-05sbi8tvnhf3frdud3a6vcfn5vgjoi1s.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "167564851917-dbpmeua0qdocdlt249rh5sl3ekkm2h1g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.quinientasHistorias"
+              }
             }
           ]
         }

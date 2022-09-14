@@ -1,5 +1,5 @@
 import '../../../../core/data/models/jwt_token_model.dart';
-import '../../../../core/integrations/api_service/api_service.dart';
+import '../../../../core/integrations/api_service.dart';
 import '../models/iforgot_request_model.dart';
 import '../models/iforgot_response_model.dart';
 import '../models/login_model.dart';

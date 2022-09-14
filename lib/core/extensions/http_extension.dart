@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:http/http.dart';
 
 import '../data/models/response_wrapper.dart';
@@ -55,46 +56,19 @@ void _checkFailures(ResponseWrapper wrapper) {
   if (httpStatus != StatusCodes.ok) {
     Map<String, dynamic>? errorBodyJson =
         json.decode((wrapper.response as Response).body);
+
     if (errorBodyJson != null) {
-      throw HttpFailure.fromJson(errorBodyJson);
+      final failure = HttpFailure.fromJson(errorBodyJson);
+
+      FirebaseAnalytics.instance.logEvent(
+        name: failure.error.toString(),
+        parameters: {
+          "statusCode": failure.statusCode.toString(),
+          "message": failure.message,
+        },
+      );
+      throw failure;
     }
     throw HttpFailure(statusCode: httpStatus);
-
-    // switch (httpStatus) {
-    //   case StatusCodes.networkError:
-    //     throw NetworkFailure();
-    //   case StatusCodes.badRequest:
-    //     if (errorBodyJson != null) {
-    //       throw Failure.fromJson(errorBodyJson);
-    //     }
-    //     throw BadRequestFailure();
-    //   case StatusCodes.notFound:
-    //     throw NotFoundFailure();
-    //   case StatusCodes.unauthorized:
-    //     if (errorBodyJson != null) {
-    //       throw AuthFailure.fromJson(errorBodyJson);
-    //     }
-    //     throw AuthFailure();
-    //   case StatusCodes.internalServerError:
-    //     if (errorBodyJson != null) {
-    //       throw CommonFailure.fromJson(errorBodyJson);
-    //     }
-    //     throw CommonFailure();
-
-    //   case StatusCodes.iforgotError:
-    //     if (errorBodyJson != null) {
-    //       throw IForgotFailure.fromJson(errorBodyJson);
-    //     }
-    //     throw IForgotFailure();
-
-    //   case StatusCodes.mustUpdatePassword:
-    //     if (errorBodyJson != null) {
-    //       throw AuthFailure.fromJson(errorBodyJson);
-    //     }
-    //     throw AuthFailure(error: AuthFailureType.mustUpdatePassword);
-
-    //   default:
-    //     throw UnknownFailure();
-    // }
   }
 }

@@ -31,6 +31,7 @@ const _$FailureTypeEnumMap = {
   FailureType.invalidToken: 'iforgot-invalid-token',
   FailureType.invalidCode: 'iforgot-invalid-code',
   FailureType.codeExpired: 'iforgot-code-expired',
+  FailureType.userAlreadyInvited: 'user-already-invited',
   FailureType.httpHandleError: 'http-handle-error',
   FailureType.networkError: 'network-error',
   FailureType.unknown: 'unknown',
@@ -47,6 +48,5 @@ const _$StatusCodesEnumMap = {
   StatusCodes.fordbidden: 403,
   StatusCodes.notFound: 404,
   StatusCodes.internalServerError: 500,
-  StatusCodes.mustUpdatePassword: 451,
   StatusCodes.iforgotError: 452,
 };

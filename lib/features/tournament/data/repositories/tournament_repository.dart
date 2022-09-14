@@ -1,4 +1,4 @@
-import '../../../../../core/integrations/api_service/api_service.dart';
+import '../../../../core/integrations/api_service.dart';
 import '../../../../core/data/entities/tournament_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 

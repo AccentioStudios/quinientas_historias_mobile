@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../helpers/device_info_helper.dart';
+import '../helpers/device_info_helper.dart';
 
 class DeviceInfo implements DeviceInfoHelper {
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
