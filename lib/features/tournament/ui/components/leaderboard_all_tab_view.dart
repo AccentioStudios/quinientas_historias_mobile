@@ -45,6 +45,7 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
   bool get wantKeepAlive => false;
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return PagedListView.separated(
       physics: const BouncingScrollPhysics(),
@@ -90,23 +91,12 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
               ],
             ),
           ),
-          trailingWidget: TournamentPositionArrow(
-            number: item.changePosition.number,
-            arrowPositionDirection: item.changePosition.type,
-          ),
-          // product: product,
-          // onTap: (product) {
-          //   _openProductDetails(context, product, widget.cubit);
-          // },
+          // trailingWidget: TournamentPositionArrow(
+          //   number: item.changePosition.number,
+          //   arrowPositionDirection: item.changePosition.type,
+          // ),
         ),
-        // firstPageErrorIndicatorBuilder: (context) => ErrorIndicator(
-        //   error: _pagingController.error,
-        //   onTryAgain: () => _pagingController.refresh(),
-        // ),
-        // noItemsFoundIndicatorBuilder: (context) =>
-        //     EmptyListIndicator(),
       ),
-      // itemBuilder: (context, index) => const LeaderboardListItem(),
       separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: Constants.space12);
       },

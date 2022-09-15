@@ -1,16 +1,15 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/data/entities/school_entity.dart';
-import 'package:quinientas_historias/core/data/entities/team_entity.dart';
-import 'package:quinientas_historias/core/data/entities/tournament_entity.dart';
-import 'package:quinientas_historias/core/data/entities/user_entity.dart';
+
+import '../entities/school_entity.dart';
+import '../entities/team_entity.dart';
+import '../entities/user_entity.dart';
 
 part 'leaderboard_model.g.dart';
 
 @JsonSerializable()
 class LeaderboardFilterModel {
-  LeaderboardFilterModel({required this.tournament, required this.leaderboard});
+  LeaderboardFilterModel({required this.leaderboard});
 
-  final Tournament tournament;
   final List<LeaderboardModel> leaderboard;
 
   factory LeaderboardFilterModel.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +25,7 @@ class LeaderboardModel {
     this.user,
     this.team,
     this.school,
-    required this.changePosition,
+    this.changePosition,
   });
 
   factory LeaderboardModel.fromJson(Map<String, dynamic> json) =>
@@ -36,7 +35,7 @@ class LeaderboardModel {
   final User? user;
   final Team? team;
   final School? school;
-  final LeaderboardChangePosition changePosition;
+  final LeaderboardChangePosition? changePosition;
 
   Map<String, dynamic> toJson() => _$LeaderboardModelToJson(this);
 }

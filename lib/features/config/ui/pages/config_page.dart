@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../core/integrations/device_info/device_info.dart';
+import '../../../../core/integrations/device_info.dart';
 import '../../../../core/routes/routes.dart';
 
 class ConfigPage extends StatelessWidget {

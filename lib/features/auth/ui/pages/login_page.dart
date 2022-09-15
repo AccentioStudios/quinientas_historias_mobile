@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/mixins/error_handling.dart';
@@ -147,12 +148,19 @@ class _LoginFormState extends State<_LoginForm> {
     BlocProvider.of<AuthCubit>(context).login(
         LoginModel(
             email: emailAddressLoginController.text,
-            password: passwordLoginController.text),
-        onSuccess: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
-        },
-        onError: (error) => widget.handleError(context, error));
+            password: passwordLoginController.text), onSuccess: () {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+    }, onError: (HttpFailure error) {
+      if (error.statusCode == StatusCodes.unauthorized) {
+        if (error.error == FailureType.email ||
+            error.error == FailureType.password) {
+          // Let this UI show the error type
+          return;
+        }
+      }
+      widget.handleError(context, error);
+    });
   }
 }
 

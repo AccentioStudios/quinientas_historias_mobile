@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../../../../core/integrations/api_service/api_service.dart';
+import '../../../../core/integrations/api_service.dart';
 import '../../../../core/data/entities/invites_entity.dart';
 import '../models/invites_request_model.dart';
 

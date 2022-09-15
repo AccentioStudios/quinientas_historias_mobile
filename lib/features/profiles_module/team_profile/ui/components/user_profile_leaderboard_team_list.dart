@@ -104,10 +104,10 @@ class UserProfileLeaderboardTeamList extends StatelessWidget {
                   ],
                 ),
               ),
-              trailingWidget: TournamentPositionArrow(
-                number: list[index].changePosition.number,
-                arrowPositionDirection: list[index].changePosition.type,
-              ),
+              // trailingWidget: TournamentPositionArrow(
+              //   number: list[index].changePosition.number,
+              //   arrowPositionDirection: list[index].changePosition.type,
+              // ),
             );
           },
         ),

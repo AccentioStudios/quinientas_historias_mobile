@@ -13,8 +13,6 @@ import 'package:quinientas_historias/features/profiles_module/team_profile/ui/wi
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
-import '../../../../../core/ui/widgets/headline.dart';
-import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../invites/invites_provider.dart';
 import '../widgets/team_profile_cards_widget.dart';
 
