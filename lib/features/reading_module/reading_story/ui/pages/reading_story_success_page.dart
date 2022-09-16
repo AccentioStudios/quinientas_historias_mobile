@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/custom_render.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
-import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
-import 'package:quinientas_historias/core/ui/widgets/single_chip.dart';
+import 'package:quinientas_historias/core/ui/widgets/percentage_progress_bar.dart';
 import 'package:quinientas_historias/core/ui/widgets/story_cover.dart';
-import 'package:quinientas_historias/core/utils/colors.dart';
+import 'package:quinientas_historias/core/ui/widgets/user_avatar.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
-import 'package:quinientas_historias/features/profiles_module/user_profile/ui/widgets/user_profile_avatar.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/data/models/jwt_token_model.dart';
+import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
-import '../../reading_story_provider.dart';
-import '../widgets/reading_story_appbar.dart';
+import '../../../../../core/utils/colors.dart';
 
-class ReadingStorySuccessPage extends StatelessWidget {
+class ReadingStorySuccessPage extends StatefulWidget {
   const ReadingStorySuccessPage({
     Key? key,
     required this.points,
     required this.recomendedStories,
+    required this.sessionData,
   }) : super(key: key);
 
   final int? points;
   final List<Story>? recomendedStories;
+  final JWTTokenModel? sessionData;
+
+  @override
+  State<ReadingStorySuccessPage> createState() =>
+      _ReadingStorySuccessPageState();
+}
+
+class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // var state = context.read<ReadingStoryCubit>().state;
@@ -42,7 +52,7 @@ class ReadingStorySuccessPage extends StatelessWidget {
                     height: 450,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: RadialGradient(
+                      gradient: const RadialGradient(
                         center: Alignment(0, -0.3),
                         colors: [
                           Color.fromRGBO(8, 69, 136, 1),
@@ -53,27 +63,24 @@ class ReadingStorySuccessPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundColor: Colors.lightBlue,
-                      ),
-                      SizedBox(
+                      UserAvatar(user: widget.sessionData!.user),
+                      const SizedBox(
                         height: Constants.space21,
                       ),
-                      Text(
+                      const Text(
                         "Completaste una lectura",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: Constants.space12,
                       ),
-                      Text(
+                      const Text(
                         "¡Sigue así!",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w700),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: Constants.space16,
                       ),
                       FittedBox(
@@ -83,11 +90,12 @@ class ReadingStorySuccessPage extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: Constants.borderRadius18,
                               border: Border.all(
-                                  color: Color.fromRGBO(105, 251, 203, 1))),
+                                  color:
+                                      const Color.fromRGBO(105, 251, 203, 1))),
                           child: InkWell(
                             borderRadius: Constants.borderRadius18,
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: Constants.space12,
                                 vertical: Constants.space8,
                               ),
@@ -97,14 +105,15 @@ class ReadingStorySuccessPage extends StatelessWidget {
                                     SvgPicture.asset(
                                       'assets/icons/points-icon.svg',
                                       height: Constants.space16,
-                                      color: Color.fromRGBO(105, 251, 203, 1),
+                                      color: const Color.fromRGBO(
+                                          105, 251, 203, 1),
                                     ),
-                                    Text(' + $points ',
-                                        style: TextStyle(
+                                    Text(' + ${widget.points} ',
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Color.fromRGBO(
                                                 105, 251, 203, 1))),
-                                    Text(
+                                    const Text(
                                       'Puntos',
                                       style: TextStyle(
                                         color: Color.fromRGBO(105, 251, 203, 1),
@@ -115,10 +124,10 @@ class ReadingStorySuccessPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: Constants.space41,
                       ),
-                      Text(
+                      const Text(
                         'Escoge tu siguiente lectura: ',
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
@@ -126,8 +135,60 @@ class ReadingStorySuccessPage extends StatelessWidget {
                   )
                 ],
               ),
+              GridView.count(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                crossAxisSpacing: Constants.space16,
+                childAspectRatio: 145 / 147,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  if (widget.recomendedStories != null)
+                    ...widget.recomendedStories!.map(
+                        (story) => StoryCover(story: story, onTap: () => {}))
+                ],
+              ),
+              //PercentageProgressBar(),
+              Text("Faltan para completar tu reto diario"),
+              Expanded(child: Container()),
+              BigButton(
+                  text: 'Volver al home',
+                  svgIconPath: 'assets/icons/home-outline-icon.svg',
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed(Routes.homeNavigator);
+                  }),
+              SizedBox(
+                height: Constants.space21,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-              /*Text(
+  Color getDivisionColor(int? level) {
+    if (level == 1) {
+      return division1Color;
+    }
+    if (level == 2) {
+      return division2Color;
+    }
+    if (level == 3) {
+      return division3Color;
+    }
+    if (level == 4) {
+      return division4Color;
+    }
+    if (level == 5) {
+      return division5Color;
+    }
+
+    return Colors.transparent;
+  }
+}
+
+ /*Text(
                 'Success Page: Points $points',
               ),
               SizedBox(
@@ -144,29 +205,3 @@ class ReadingStorySuccessPage extends StatelessWidget {
                     Navigator.of(context, rootNavigator: true)
                         .pushNamed(Routes.homeNavigator);
                   })*/
-              GridView.count(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                crossAxisSpacing: Constants.space16,
-                childAspectRatio: 145 / 147,
-                crossAxisCount: 2,
-                children: <Widget>[
-                  if (recomendedStories != null)
-                    ...recomendedStories!.map(
-                        (story) => StoryCover(story: story, onTap: () => {}))
-                ],
-              ),
-              BigButton(
-                  text: 'Volver al home',
-                  svgIconPath: 'assets/icons/home-outline-icon.svg',
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed(Routes.homeNavigator);
-                  }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
