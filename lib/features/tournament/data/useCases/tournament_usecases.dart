@@ -15,8 +15,8 @@ class TournamentUseCases {
       int pageKey, String filter) async* {
     yield* repository.getLeaderboard(pageKey, filter).map((model) {
       return ListPage<LeaderboardModel>(
-        grandTotalCount: model.leaderboard.length,
-        itemList: model.leaderboard,
+        grandTotalCount: model.length,
+        itemList: model,
       );
     });
   }

@@ -30,6 +30,7 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
 
       final JWTTokenModel? sessionData =
           await SecureStorageHelper.getSessionData();
+
       if (sessionData?.user.id == userProfile.id) {
         emit(state.copyWith(isMyProfile: true));
       }

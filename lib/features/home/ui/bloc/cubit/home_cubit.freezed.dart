@@ -16,9 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
-  User? get user => throw _privateConstructorUsedError;
-  DailyChallenge? get dailyChallenge => throw _privateConstructorUsedError;
-  List<Story> get exploreStories => throw _privateConstructorUsedError;
+  Dashboard? get dashboard => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,11 +28,7 @@ mixin _$HomeState {
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
-  $Res call(
-      {User? user,
-      DailyChallenge? dailyChallenge,
-      List<Story> exploreStories,
-      bool loading});
+  $Res call({Dashboard? dashboard, bool loading});
 }
 
 /// @nodoc
@@ -47,24 +41,14 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? user = freezed,
-    Object? dailyChallenge = freezed,
-    Object? exploreStories = freezed,
+    Object? dashboard = freezed,
     Object? loading = freezed,
   }) {
     return _then(_value.copyWith(
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
-      dailyChallenge: dailyChallenge == freezed
-          ? _value.dailyChallenge
-          : dailyChallenge // ignore: cast_nullable_to_non_nullable
-              as DailyChallenge?,
-      exploreStories: exploreStories == freezed
-          ? _value.exploreStories
-          : exploreStories // ignore: cast_nullable_to_non_nullable
-              as List<Story>,
+      dashboard: dashboard == freezed
+          ? _value.dashboard
+          : dashboard // ignore: cast_nullable_to_non_nullable
+              as Dashboard?,
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -79,11 +63,7 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _$_HomeState value, $Res Function(_$_HomeState) then) =
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {User? user,
-      DailyChallenge? dailyChallenge,
-      List<Story> exploreStories,
-      bool loading});
+  $Res call({Dashboard? dashboard, bool loading});
 }
 
 /// @nodoc
@@ -98,24 +78,14 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? user = freezed,
-    Object? dailyChallenge = freezed,
-    Object? exploreStories = freezed,
+    Object? dashboard = freezed,
     Object? loading = freezed,
   }) {
     return _then(_$_HomeState(
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
-      dailyChallenge: dailyChallenge == freezed
-          ? _value.dailyChallenge
-          : dailyChallenge // ignore: cast_nullable_to_non_nullable
-              as DailyChallenge?,
-      exploreStories: exploreStories == freezed
-          ? _value._exploreStories
-          : exploreStories // ignore: cast_nullable_to_non_nullable
-              as List<Story>,
+      dashboard: dashboard == freezed
+          ? _value.dashboard
+          : dashboard // ignore: cast_nullable_to_non_nullable
+              as Dashboard?,
       loading: loading == freezed
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
@@ -127,32 +97,17 @@ class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  const _$_HomeState(
-      {this.user,
-      this.dailyChallenge,
-      final List<Story> exploreStories = const [],
-      this.loading = false})
-      : _exploreStories = exploreStories;
+  const _$_HomeState({this.dashboard, this.loading = false});
 
   @override
-  final User? user;
-  @override
-  final DailyChallenge? dailyChallenge;
-  final List<Story> _exploreStories;
-  @override
-  @JsonKey()
-  List<Story> get exploreStories {
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_exploreStories);
-  }
-
+  final Dashboard? dashboard;
   @override
   @JsonKey()
   final bool loading;
 
   @override
   String toString() {
-    return 'HomeState(user: $user, dailyChallenge: $dailyChallenge, exploreStories: $exploreStories, loading: $loading)';
+    return 'HomeState(dashboard: $dashboard, loading: $loading)';
   }
 
   @override
@@ -160,20 +115,14 @@ class _$_HomeState implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_HomeState &&
-            const DeepCollectionEquality().equals(other.user, user) &&
-            const DeepCollectionEquality()
-                .equals(other.dailyChallenge, dailyChallenge) &&
-            const DeepCollectionEquality()
-                .equals(other._exploreStories, _exploreStories) &&
+            const DeepCollectionEquality().equals(other.dashboard, dashboard) &&
             const DeepCollectionEquality().equals(other.loading, loading));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(dailyChallenge),
-      const DeepCollectionEquality().hash(_exploreStories),
+      const DeepCollectionEquality().hash(dashboard),
       const DeepCollectionEquality().hash(loading));
 
   @JsonKey(ignore: true)
@@ -183,18 +132,11 @@ class _$_HomeState implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState(
-      {final User? user,
-      final DailyChallenge? dailyChallenge,
-      final List<Story> exploreStories,
-      final bool loading}) = _$_HomeState;
+  const factory _HomeState({final Dashboard? dashboard, final bool loading}) =
+      _$_HomeState;
 
   @override
-  User? get user => throw _privateConstructorUsedError;
-  @override
-  DailyChallenge? get dailyChallenge => throw _privateConstructorUsedError;
-  @override
-  List<Story> get exploreStories => throw _privateConstructorUsedError;
+  Dashboard? get dashboard => throw _privateConstructorUsedError;
   @override
   bool get loading => throw _privateConstructorUsedError;
   @override
