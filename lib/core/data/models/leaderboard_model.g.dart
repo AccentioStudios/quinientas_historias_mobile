@@ -6,20 +6,6 @@ part of 'leaderboard_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LeaderboardFilterModel _$LeaderboardFilterModelFromJson(
-        Map<String, dynamic> json) =>
-    LeaderboardFilterModel(
-      leaderboard: (json['leaderboard'] as List<dynamic>)
-          .map((e) => LeaderboardModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$LeaderboardFilterModelToJson(
-        LeaderboardFilterModel instance) =>
-    <String, dynamic>{
-      'leaderboard': instance.leaderboard,
-    };
-
 LeaderboardModel _$LeaderboardModelFromJson(Map<String, dynamic> json) =>
     LeaderboardModel(
       position: json['position'] as int,

@@ -7,18 +7,6 @@ import '../entities/user_entity.dart';
 part 'leaderboard_model.g.dart';
 
 @JsonSerializable()
-class LeaderboardFilterModel {
-  LeaderboardFilterModel({required this.leaderboard});
-
-  final List<LeaderboardModel> leaderboard;
-
-  factory LeaderboardFilterModel.fromJson(Map<String, dynamic> json) =>
-      _$LeaderboardFilterModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LeaderboardFilterModelToJson(this);
-}
-
-@JsonSerializable()
 class LeaderboardModel {
   LeaderboardModel({
     required this.position,

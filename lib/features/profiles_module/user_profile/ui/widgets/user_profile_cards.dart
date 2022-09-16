@@ -33,12 +33,20 @@ class UserCards extends StatelessWidget {
             ),
             const SizedBox(width: Constants.space18),
             Expanded(
-                child: SingleChip(
-              primaryLabel:
-                  state.user?.favoriteStories?.length.toString() ?? '0',
-              secondaryLabel: 'Favoritos',
-              svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
-            ))
+              child: SingleChip(
+                primaryLabel: state.user?.readed.toString() ?? '0',
+                secondaryLabel: 'Lecturas',
+                svgIconPath: 'assets/icons/book-open-outline-icon.svg',
+              ),
+            ),
+            // Expanded(
+            //   child: SingleChip(
+            //     primaryLabel:
+            //         state.user?.favoriteStories?.length.toString() ?? '0',
+            //     secondaryLabel: 'Favoritos',
+            //     svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
+            //   ),
+            // ),
           ],
         ),
         const SizedBox(
@@ -68,7 +76,7 @@ class UserCards extends StatelessWidget {
           height: Constants.space16,
         ),
         _UserPointsRowBottom(
-          reads: state.user?.readed ?? 0,
+          favoritos: state.user?.favoriteStories?.length ?? 0,
           streak: state.user?.streak ?? 0,
         )
       ],
@@ -103,11 +111,11 @@ class UserCards extends StatelessWidget {
 class _UserPointsRowBottom extends StatelessWidget {
   const _UserPointsRowBottom({
     Key? key,
-    required this.reads,
+    required this.favoritos,
     required this.streak,
   }) : super(key: key);
 
-  final int reads;
+  final int favoritos;
   final int streak;
 
   @override
@@ -116,9 +124,9 @@ class _UserPointsRowBottom extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: SingleChip(
-            primaryLabel: reads.toString(),
-            secondaryLabel: 'Lecturas Totales',
-            svgIconPath: 'assets/icons/book-open-outline-icon.svg',
+            primaryLabel: favoritos.toString(),
+            secondaryLabel: 'Favoritos',
+            svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
           ),
         ),
         const SizedBox(width: Constants.space18),
