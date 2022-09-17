@@ -45,16 +45,20 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
           child: Column(
             children: <Widget>[
               Stack(
-                alignment: Alignment.center,
+                alignment: (widget.points != null)
+                    ? Alignment.topCenter
+                    : Alignment.center,
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 450,
+                    height: (widget.points != null) ? 375 : 500,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: const RadialGradient(
-                        center: Alignment(0, -0.3),
-                        colors: [
+                      gradient: RadialGradient(
+                        center: (widget.points != null)
+                            ? const Alignment(0, -0.3)
+                            : const Alignment(0, 0),
+                        colors: const [
                           Color.fromRGBO(8, 69, 136, 1),
                           Color.fromRGBO(16, 28, 41, 1)
                         ],
@@ -63,7 +67,14 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                   ),
                   Column(
                     children: [
-                      UserAvatar(user: widget.sessionData!.user),
+                      const SizedBox(
+                        height: Constants.space41,
+                      ),
+                      UserAvatar(
+                        user: widget.sessionData!.user,
+                        height: 110,
+                        width: 110,
+                      ),
                       const SizedBox(
                         height: Constants.space21,
                       ),
@@ -83,108 +94,110 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                       const SizedBox(
                         height: Constants.space16,
                       ),
-                      FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
+                      if (widget.points != null)
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                                borderRadius: Constants.borderRadius18,
+                                border: Border.all(
+                                    color: const Color.fromRGBO(
+                                        105, 251, 203, 1))),
+                            child: InkWell(
                               borderRadius: Constants.borderRadius18,
-                              border: Border.all(
-                                  color:
-                                      const Color.fromRGBO(105, 251, 203, 1))),
-                          child: InkWell(
-                            borderRadius: Constants.borderRadius18,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: Constants.space12,
-                                vertical: Constants.space8,
-                              ),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/points-icon.svg',
-                                      height: Constants.space16,
-                                      color: const Color.fromRGBO(
-                                          105, 251, 203, 1),
-                                    ),
-                                    Text(' + ${widget.points} ',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromRGBO(
-                                                105, 251, 203, 1))),
-                                    const Text(
-                                      'Puntos',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(105, 251, 203, 1),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Constants.space12,
+                                  vertical: Constants.space8,
+                                ),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/points-icon.svg',
+                                        height: Constants.space16,
+                                        color: const Color.fromRGBO(
+                                            105, 251, 203, 1),
                                       ),
-                                    )
-                                  ]),
+                                      Text(' + ${widget.points} ',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromRGBO(
+                                                  105, 251, 203, 1))),
+                                      const Text(
+                                        'Puntos',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(105, 251, 203, 1),
+                                        ),
+                                      )
+                                    ]),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: Constants.space41,
-                      ),
-                      const Text(
-                        'Escoge tu siguiente lectura: ',
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
+                      if (widget.points != null)
+                        const Padding(
+                          padding: EdgeInsets.only(top: Constants.space41),
+                          child: Text(
+                            'Escoge tu siguiente lectura: ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16),
+                          ),
+                        ),
                     ],
-                  )
+                  ),
                 ],
               ),
-              GridView.count(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                crossAxisSpacing: Constants.space16,
-                childAspectRatio: 145 / 147,
-                crossAxisCount: 2,
-                children: <Widget>[
-                  if (widget.recomendedStories != null)
-                    ...widget.recomendedStories!.map(
-                        (story) => StoryCover(story: story, onTap: () => {}))
-                ],
-              ),
-              //PercentageProgressBar(),
-              Text("Faltan para completar tu reto diario"),
+              if (widget.points != null)
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: Constants.space41,
+                      right: Constants.space41,
+                      bottom: Constants.space12),
+                  child: GridView.count(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    crossAxisSpacing: Constants.space16,
+                    childAspectRatio: 109 / 147,
+                    crossAxisCount: 2,
+                    children: <Widget>[
+                      if (widget.recomendedStories != null)
+                        ...widget.recomendedStories!.map((story) =>
+                            StoryCover(story: story, onTap: () => {}))
+                    ],
+                  ),
+                ),
+              if (widget.points != null)
+                const Padding(
+                  padding: EdgeInsets.only(
+                      left: 100,
+                      right: 100,
+                      top: Constants.space12,
+                      bottom: Constants.space8),
+                  child: PercentageProgressBar(
+                    backgroundColor: division1Color,
+                  ),
+                ),
+              if (widget.points != null)
+                const Text("Faltan para completar tu reto diario"),
               Expanded(child: Container()),
-              BigButton(
-                  text: 'Volver al home',
-                  svgIconPath: 'assets/icons/home-outline-icon.svg',
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed(Routes.homeNavigator);
-                  }),
-              SizedBox(
-                height: Constants.space21,
-              )
+              Padding(
+                padding: const EdgeInsets.all(Constants.space21),
+                child: BigButton(
+                    text: 'Volver al home',
+                    svgIconPath: 'assets/icons/home-outline-icon.svg',
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(Routes.homeNavigator);
+                    }),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Color getDivisionColor(int? level) {
-    if (level == 1) {
-      return division1Color;
-    }
-    if (level == 2) {
-      return division2Color;
-    }
-    if (level == 3) {
-      return division3Color;
-    }
-    if (level == 4) {
-      return division4Color;
-    }
-    if (level == 5) {
-      return division5Color;
-    }
-
-    return Colors.transparent;
   }
 }
 
