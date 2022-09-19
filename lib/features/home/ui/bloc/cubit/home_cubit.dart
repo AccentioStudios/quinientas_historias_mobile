@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/data/entities/daily_challenge_entity.dart';
-import '../../../../../core/data/entities/story_entity.dart';
-import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../../data/useCases/home_usecases.dart';
@@ -22,9 +20,7 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
     emit(state.copyWith(loading: true));
     homeUseCases.getDashboard().listen((Dashboard dashboard) {
       emit(state.copyWith(
-        user: dashboard.user,
-        dailyChallenge: dashboard.dailyChallenge,
-        exploreStories: dashboard.exploreStories,
+        dashboard: dashboard,
         loading: false,
       ));
       if (onSuccess != null) onSuccess(dashboard);
@@ -34,6 +30,7 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
   }
 
   void saveDailyChallenge(DailyChallenge dailyChallenge) {
-    emit(state.copyWith(dailyChallenge: dailyChallenge));
+    emit(state.copyWith(
+        dashboard: state.dashboard?.copyWith(dailyChallenge: dailyChallenge)));
   }
 }

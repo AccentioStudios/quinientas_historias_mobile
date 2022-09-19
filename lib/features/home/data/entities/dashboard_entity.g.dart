@@ -16,10 +16,14 @@ Dashboard _$DashboardFromJson(Map<String, dynamic> json) => Dashboard(
               ?.map((e) => Story.fromJson(e as Map<String, dynamic>))
               .toList() ??
           initialExploreStories,
+      teamRank: json['teamRank'] as int?,
+      schoolRank: json['schoolRank'] as int?,
     );
 
 Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
       'user': instance.user,
       'dailyChallenge': instance.dailyChallenge,
       'exploreStories': instance.exploreStories,
+      'teamRank': instance.teamRank,
+      'schoolRank': instance.schoolRank,
     };

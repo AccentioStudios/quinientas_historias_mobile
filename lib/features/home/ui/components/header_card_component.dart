@@ -31,7 +31,7 @@ class HeaderCard extends StatelessWidget {
       ),
       child: Column(children: [
         HomeAppBar(
-          user: state.user,
+          user: state.dashboard?.user,
           onTap: userProfileOnTap,
         ),
         PaddingColumn(
@@ -41,12 +41,12 @@ class HeaderCard extends StatelessWidget {
             HeroHeader(
               dayState: getHeroHeaderState(),
               onTap: dailyChallengeOnTap,
-              dailyChallenge: state.dailyChallenge,
+              dailyChallenge: state.dashboard?.dailyChallenge,
             ),
             const SizedBox(height: Constants.space18),
             _PointsRow(
-              points: state.user?.score ?? 0,
-              favorites: state.user?.favoriteStories?.length ?? 0,
+              points: state.dashboard?.user.score ?? 0,
+              readed: state.dashboard?.user.readed ?? 0,
             )
           ],
         ),
@@ -71,11 +71,11 @@ class _PointsRow extends StatelessWidget {
   const _PointsRow({
     Key? key,
     required this.points,
-    required this.favorites,
+    required this.readed,
   }) : super(key: key);
 
   final int points;
-  final int favorites;
+  final int readed;
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +93,9 @@ class _PointsRow extends StatelessWidget {
         Expanded(
           flex: 1,
           child: SingleChip(
-            primaryLabel: favorites.toString(),
-            secondaryLabel: 'Favoritos',
-            svgIconPath: 'assets/icons/bookmark-icon.svg',
+            primaryLabel: readed.toString(),
+            secondaryLabel: 'Lecturas',
+            svgIconPath: 'assets/icons/book-open-icon.svg',
           ),
         ),
       ],

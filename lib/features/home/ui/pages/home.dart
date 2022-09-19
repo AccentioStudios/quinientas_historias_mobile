@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          body: state.loading && state.user == null
+          body: state.loading && state.dashboard?.user == null
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                       HeaderCard(
                         state: state,
                         userProfileOnTap: () {
-                          _navigateToMyProfilePage(state.user);
+                          _navigateToMyProfilePage(state.dashboard?.user);
                         },
                         dailyChallengeOnTap: () {
                           _navigateToDailyChallengePage(context, state, cubit);
@@ -85,28 +85,34 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              HomePositionsChip(
-                                onTap: () {
-                                  _navigateToMyTeamPage(state.user?.team);
-                                },
-                                label: 'Mi equipo',
-                                position: '8',
-                                content: state.user?.team?.name ?? '',
-                                arrowLeaderBoard: const ArrowLeaderBoard(
-                                  number: 2,
-                                ),
-                              ),
+                              if (state.dashboard != null)
+                                if (state.dashboard!.user.team != null)
+                                  HomePositionsChip(
+                                    onTap: () {
+                                      _navigateToMyTeamPage(
+                                          state.dashboard?.user.team);
+                                    },
+                                    label: 'Mi equipo',
+                                    position:
+                                        state.dashboard!.teamRank.toString(),
+                                    content:
+                                        state.dashboard?.user.team?.name ?? '',
+                                  ),
                               const SizedBox(width: Constants.space18),
-                              HomePositionsChip(
-                                onTap: () {
-                                  _navigateToMySchoolPage(state.user?.school);
-                                },
-                                label: 'Mi escuela',
-                                position: '4',
-                                content: state.user?.school?.name ?? '',
-                                arrowLeaderBoard:
-                                    const ArrowLeaderBoard(number: 1),
-                              ),
+                              if (state.dashboard != null)
+                                if (state.dashboard!.user.school != null)
+                                  HomePositionsChip(
+                                    onTap: () {
+                                      _navigateToMySchoolPage(
+                                          state.dashboard?.user.school);
+                                    },
+                                    label: 'Mi escuela',
+                                    position:
+                                        state.dashboard!.schoolRank.toString(),
+                                    content:
+                                        state.dashboard?.user.school?.name ??
+                                            '',
+                                  ),
                             ],
                           ),
                           Headline(
@@ -114,23 +120,27 @@ class _HomePageState extends State<HomePage> {
                             linkText: 'Ver más',
                             onTap: () {},
                           ),
-                          GridView.count(
-                            padding: EdgeInsets.zero,
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            crossAxisSpacing: Constants.space12,
-                            mainAxisSpacing: Constants.space12,
-                            childAspectRatio: 109 / 147,
-                            crossAxisCount: 3,
-                            children: [
-                              ...state.exploreStories.map((story) => StoryCover(
-                                    story: story,
-                                    onTap: () {
-                                      _navigateToStoryPage(context, story);
-                                    },
-                                  )),
-                            ],
-                          )
+                          if (state.dashboard != null)
+                            if (state.dashboard?.exploreStories != null)
+                              GridView.count(
+                                padding: EdgeInsets.zero,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                crossAxisSpacing: Constants.space12,
+                                mainAxisSpacing: Constants.space12,
+                                childAspectRatio: 109 / 147,
+                                crossAxisCount: 3,
+                                children: [
+                                  ...state.dashboard!.exploreStories
+                                      .map((story) => StoryCover(
+                                            story: story,
+                                            onTap: () {
+                                              _navigateToStoryPage(
+                                                  context, story);
+                                            },
+                                          )),
+                                ],
+                              )
                         ],
                       ),
                       const SizedBox(height: Constants.space41 + 70)
@@ -200,7 +210,7 @@ class _HomePageState extends State<HomePage> {
         settings: const RouteSettings(name: Routes.dailyChallenge),
         builder: (context) => DailyChallangeProvider(
               homeCubit: cubit,
-              dailyChallenge: state.dailyChallenge,
+              dailyChallenge: state.dashboard?.dailyChallenge,
               softGenerateNewChallenge: softGenerateNewChallenge,
               forceGenerateNewChallenge: forceGenerateNewChallenge,
             )));
@@ -273,14 +283,14 @@ class HomePositionsChip extends StatelessWidget {
       required this.label,
       required this.content,
       required this.position,
-      required this.arrowLeaderBoard,
+      this.arrowLeaderBoard,
       this.onTap})
       : super(key: key);
 
   final String label;
   final String content;
   final String position;
-  final ArrowLeaderBoard arrowLeaderBoard;
+  final ArrowLeaderBoard? arrowLeaderBoard;
   final GestureTapCallback? onTap;
   @override
   Widget build(BuildContext context) {
@@ -300,7 +310,7 @@ class HomePositionsChip extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-            arrowLeaderBoard
+            if (arrowLeaderBoard != null) arrowLeaderBoard!
           ],
         ),
         secondary: Padding(
