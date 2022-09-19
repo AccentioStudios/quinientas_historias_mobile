@@ -19,18 +19,20 @@ class SchoolProfilePage extends StatefulWidget with ErrorHandling {
 }
 
 class _SchoolProfilePageState extends State<SchoolProfilePage> {
-  // @override
-  // void didChangeDependencies() {
-  //   getSchoolData();
-  //   super.didChangeDependencies();
-  // }
+  @override
+  void didChangeDependencies() {
+    getSchoolData();
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SchoolProfileCubit, SchoolProfileState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            elevation: 0,
+          ),
           body: RefreshIndicator(
               onRefresh: () async {
                 getSchoolData();
@@ -49,9 +51,9 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
                         SchoolCards(
                           state: state,
                         ),
-                        // TeamsProfileLeaderboardTeamList(
-                        //   state: state,
-                        // ),
+                        TeamsProfileLeaderboardTeamList(
+                          state: state,
+                        ),
                       ],
                     )),
         );

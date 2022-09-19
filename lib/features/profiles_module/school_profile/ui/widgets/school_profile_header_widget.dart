@@ -20,18 +20,17 @@ class SchoolProfileHeader extends StatelessWidget {
           children: [
             const SizedBox(height: Constants.space21),
             SchoolProfileAvatar(
-              team: state.data,
+              school: state.data,
               canEdit: state.canEdit,
               editOnPressed: () {},
             ),
             const SizedBox(height: Constants.space21),
-            const Align(
+            Align(
               alignment: Alignment.center,
               child: Text(
-                // state.data?.name ?? '',
-                "Colegio Prueba",
+                state.data?.name ?? '',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
@@ -46,12 +45,12 @@ class SchoolProfileHeader extends StatelessWidget {
 class SchoolProfileAvatar extends StatelessWidget {
   const SchoolProfileAvatar(
       {Key? key,
-      required this.team,
-      this.canEdit = false,
+      required this.school,
+      required this.canEdit,
       required this.editOnPressed})
       : super(key: key);
 
-  final School? team;
+  final School? school;
   final bool canEdit;
   final void Function()? editOnPressed;
 
@@ -65,7 +64,7 @@ class SchoolProfileAvatar extends StatelessWidget {
           height: 140,
           child: CircleAvatar(
             radius: 68,
-            backgroundImage: NetworkImage(team?.avatarUrl ?? ''),
+            backgroundImage: NetworkImage(school?.avatarUrl ?? ''),
           ),
         ),
         if (canEdit == true)

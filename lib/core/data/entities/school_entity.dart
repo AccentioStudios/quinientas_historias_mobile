@@ -11,8 +11,8 @@ class School {
     required this.name,
     this.score,
     this.avatarUrl,
-    this.readings,
-    this.teams,
+    this.readed,
+    this.leaderboard,
   });
 
   factory School.fromJson(Map<String, dynamic> json) => _$SchoolFromJson(json);
@@ -21,8 +21,8 @@ class School {
   final String name;
   final int? score;
   final String? avatarUrl;
-  final int? readings;
-  final List<LeaderboardModel>? teams;
+  final int? readed;
+  final List<LeaderboardModel>? leaderboard;
 
   Map<String, dynamic> toJson() => _$SchoolToJson(this);
 }

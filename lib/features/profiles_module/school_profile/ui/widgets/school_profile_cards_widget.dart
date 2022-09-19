@@ -17,7 +17,7 @@ class SchoolCards extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: SingleChip(
-                primaryLabel: "15000", //state.data?.score.toString() ?? '0',
+                primaryLabel: state.data?.score.toString() ?? '0',
                 secondaryLabel: 'Puntos escuela',
                 svgIconPath: 'assets/icons/points-outline-icon.svg',
               ),
@@ -25,7 +25,7 @@ class SchoolCards extends StatelessWidget {
             const SizedBox(width: Constants.space18),
             Expanded(
               child: SingleChip(
-                primaryLabel: "500", //state.data?.readings.toString() ?? '0',
+                primaryLabel: state.data?.readed.toString() ?? '0',
                 secondaryLabel: 'Lecturas totales',
                 svgIconPath: 'assets/icons/book-open-outline-icon.svg',
               ),

@@ -46,7 +46,7 @@ class TeamProfileAvatar extends StatelessWidget {
   const TeamProfileAvatar(
       {Key? key,
       required this.team,
-      this.canEdit = false,
+      required this.canEdit,
       required this.editOnPressed})
       : super(key: key);
   final Team? team;
@@ -65,7 +65,7 @@ class TeamProfileAvatar extends StatelessWidget {
             backgroundImage: NetworkImage(team?.avatarUrl ?? ''),
           ),
         ),
-        if (true)
+        if (canEdit == true)
           Container(
               decoration: const BoxDecoration(
                   shape: BoxShape.circle, color: Color(0xff385775)),

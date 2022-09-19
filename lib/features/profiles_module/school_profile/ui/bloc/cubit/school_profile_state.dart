@@ -6,5 +6,6 @@ class SchoolProfileState with _$SchoolProfileState {
     @Default(false) isLoading,
     @Default(false) canEdit,
     School? data,
+    User? user,
   }) = _SchoolProfileState;
 }

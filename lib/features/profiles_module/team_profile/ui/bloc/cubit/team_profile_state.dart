@@ -8,5 +8,6 @@ class TeamProfileState with _$TeamProfileState {
     @Default(false) isMyTeam,
     @Default(null) error,
     Team? team,
+    User? user,
   }) = _TeamProfileState;
 }
