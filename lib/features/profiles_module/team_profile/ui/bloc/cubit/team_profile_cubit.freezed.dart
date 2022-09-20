@@ -21,6 +21,7 @@ mixin _$TeamProfileState {
   dynamic get isMyTeam => throw _privateConstructorUsedError;
   dynamic get error => throw _privateConstructorUsedError;
   Team? get team => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TeamProfileStateCopyWith<TeamProfileState> get copyWith =>
@@ -37,7 +38,8 @@ abstract class $TeamProfileStateCopyWith<$Res> {
       dynamic canEdit,
       dynamic isMyTeam,
       dynamic error,
-      Team? team});
+      Team? team,
+      User? user});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$TeamProfileStateCopyWithImpl<$Res>
     Object? isMyTeam = freezed,
     Object? error = freezed,
     Object? team = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
@@ -78,6 +81,10 @@ class _$TeamProfileStateCopyWithImpl<$Res>
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
               as Team?,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -94,7 +101,8 @@ abstract class _$$_TeamProfileStateCopyWith<$Res>
       dynamic canEdit,
       dynamic isMyTeam,
       dynamic error,
-      Team? team});
+      Team? team,
+      User? user});
 }
 
 /// @nodoc
@@ -115,6 +123,7 @@ class __$$_TeamProfileStateCopyWithImpl<$Res>
     Object? isMyTeam = freezed,
     Object? error = freezed,
     Object? team = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$_TeamProfileState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
@@ -125,6 +134,10 @@ class __$$_TeamProfileStateCopyWithImpl<$Res>
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
               as Team?,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as User?,
     ));
   }
 }
@@ -137,7 +150,8 @@ class _$_TeamProfileState implements _TeamProfileState {
       this.canEdit = false,
       this.isMyTeam = false,
       this.error = null,
-      this.team});
+      this.team,
+      this.user});
 
   @override
   @JsonKey()
@@ -153,10 +167,12 @@ class _$_TeamProfileState implements _TeamProfileState {
   final dynamic error;
   @override
   final Team? team;
+  @override
+  final User? user;
 
   @override
   String toString() {
-    return 'TeamProfileState(isLoading: $isLoading, canEdit: $canEdit, isMyTeam: $isMyTeam, error: $error, team: $team)';
+    return 'TeamProfileState(isLoading: $isLoading, canEdit: $canEdit, isMyTeam: $isMyTeam, error: $error, team: $team, user: $user)';
   }
 
   @override
@@ -168,7 +184,8 @@ class _$_TeamProfileState implements _TeamProfileState {
             const DeepCollectionEquality().equals(other.canEdit, canEdit) &&
             const DeepCollectionEquality().equals(other.isMyTeam, isMyTeam) &&
             const DeepCollectionEquality().equals(other.error, error) &&
-            const DeepCollectionEquality().equals(other.team, team));
+            const DeepCollectionEquality().equals(other.team, team) &&
+            const DeepCollectionEquality().equals(other.user, user));
   }
 
   @override
@@ -178,7 +195,8 @@ class _$_TeamProfileState implements _TeamProfileState {
       const DeepCollectionEquality().hash(canEdit),
       const DeepCollectionEquality().hash(isMyTeam),
       const DeepCollectionEquality().hash(error),
-      const DeepCollectionEquality().hash(team));
+      const DeepCollectionEquality().hash(team),
+      const DeepCollectionEquality().hash(user));
 
   @JsonKey(ignore: true)
   @override
@@ -192,7 +210,8 @@ abstract class _TeamProfileState implements TeamProfileState {
       final dynamic canEdit,
       final dynamic isMyTeam,
       final dynamic error,
-      final Team? team}) = _$_TeamProfileState;
+      final Team? team,
+      final User? user}) = _$_TeamProfileState;
 
   @override
   dynamic get isLoading => throw _privateConstructorUsedError;
@@ -204,6 +223,8 @@ abstract class _TeamProfileState implements TeamProfileState {
   dynamic get error => throw _privateConstructorUsedError;
   @override
   Team? get team => throw _privateConstructorUsedError;
+  @override
+  User? get user => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_TeamProfileStateCopyWith<_$_TeamProfileState> get copyWith =>

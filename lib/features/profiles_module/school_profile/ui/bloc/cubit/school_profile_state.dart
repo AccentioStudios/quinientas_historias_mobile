@@ -4,6 +4,8 @@ part of 'school_profile_cubit.dart';
 class SchoolProfileState with _$SchoolProfileState {
   const factory SchoolProfileState({
     @Default(false) isLoading,
-    SchoolProfile? data,
+    @Default(false) canEdit,
+    School? data,
+    User? user,
   }) = _SchoolProfileState;
 }

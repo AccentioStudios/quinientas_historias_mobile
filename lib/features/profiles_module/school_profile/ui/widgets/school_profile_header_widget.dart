@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 
-import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/utils/constants.dart';
-import '../bloc/cubit/team_profile_cubit.dart';
+import '../bloc/cubit/school_profile_cubit.dart';
 
-class TeamProfileHeader extends StatelessWidget {
-  const TeamProfileHeader({Key? key, required this.state}) : super(key: key);
+class SchoolProfileHeader extends StatelessWidget {
+  const SchoolProfileHeader({Key? key, required this.state}) : super(key: key);
 
-  final TeamProfileState state;
+  final SchoolProfileState state;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class TeamProfileHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           children: [
             const SizedBox(height: Constants.space21),
-            TeamProfileAvatar(
-              team: state.team,
+            SchoolProfileAvatar(
+              school: state.data,
               canEdit: state.canEdit,
               editOnPressed: () {},
             ),
@@ -28,7 +28,7 @@ class TeamProfileHeader extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Text(
-                state.team?.name ?? '',
+                state.data?.name ?? '',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20,
@@ -42,16 +42,18 @@ class TeamProfileHeader extends StatelessWidget {
   }
 }
 
-class TeamProfileAvatar extends StatelessWidget {
-  const TeamProfileAvatar(
+class SchoolProfileAvatar extends StatelessWidget {
+  const SchoolProfileAvatar(
       {Key? key,
-      required this.team,
+      required this.school,
       required this.canEdit,
       required this.editOnPressed})
       : super(key: key);
-  final Team? team;
+
+  final School? school;
   final bool canEdit;
   final void Function()? editOnPressed;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -62,7 +64,7 @@ class TeamProfileAvatar extends StatelessWidget {
           height: 140,
           child: CircleAvatar(
             radius: 68,
-            backgroundImage: NetworkImage(team?.avatarUrl ?? ''),
+            backgroundImage: NetworkImage(school?.avatarUrl ?? ''),
           ),
         ),
         if (canEdit == true)
