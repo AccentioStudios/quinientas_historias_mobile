@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
+import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/theme/theme.dart';
@@ -135,7 +137,8 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         sliver: SliverToBoxAdapter(
                           child: BigButton(
                             onPressed: () {
-                              completeReading();
+                              completeReading(
+                                  context.read<ReadingStoryCubit>());
                             },
                             text: 'Terminar Lectura',
                             svgIconPath:
@@ -208,14 +211,16 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
         .add(progressValue);
   }
 
-  void completeReading() {
-    context.read<ReadingStoryCubit>().progressStreamController.close();
-    context.read<ReadingStoryCubit>().completeStory(
+  void completeReading(ReadingStoryCubit cubit) async {
+    JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
+    cubit.progressStreamController.close();
+    cubit.completeStory(
         onSuccess: (response) {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => ReadingStorySuccessPage(
               points: response.points,
               recomendedStories: response.recomendedStories,
+              sessionData: sessionData,
             ),
           ));
         },
