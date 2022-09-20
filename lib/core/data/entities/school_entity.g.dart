@@ -11,6 +11,10 @@ School _$SchoolFromJson(Map<String, dynamic> json) => School(
       name: json['name'] as String,
       score: json['score'] as int?,
       avatarUrl: json['avatarUrl'] as String?,
+      readed: json['readed'] as int?,
+      leaderboard: (json['leaderboard'] as List<dynamic>?)
+          ?.map((e) => LeaderboardModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SchoolToJson(School instance) => <String, dynamic>{
@@ -18,4 +22,6 @@ Map<String, dynamic> _$SchoolToJson(School instance) => <String, dynamic>{
       'name': instance.name,
       'score': instance.score,
       'avatarUrl': instance.avatarUrl,
+      'readed': instance.readed,
+      'leaderboard': instance.leaderboard,
     };

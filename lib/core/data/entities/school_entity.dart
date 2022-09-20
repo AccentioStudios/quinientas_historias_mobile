@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../models/leaderboard_model.dart';
+
 part 'school_entity.g.dart';
 
 @JsonSerializable()
@@ -9,6 +11,8 @@ class School {
     required this.name,
     this.score,
     this.avatarUrl,
+    this.readed,
+    this.leaderboard,
   });
 
   factory School.fromJson(Map<String, dynamic> json) => _$SchoolFromJson(json);
@@ -17,6 +21,8 @@ class School {
   final String name;
   final int? score;
   final String? avatarUrl;
+  final int? readed;
+  final List<LeaderboardModel>? leaderboard;
 
   Map<String, dynamic> toJson() => _$SchoolToJson(this);
 }
