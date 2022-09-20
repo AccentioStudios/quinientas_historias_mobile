@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:quinientas_historias/core/data/models/leaderboard_model.dart';
-
 import '../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';

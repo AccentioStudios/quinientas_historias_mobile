@@ -8,13 +8,14 @@ import 'package:flutter/material.dart';
 import 'core/app.dart';
 import 'core/helpers/alice_helper.dart';
 import 'core/helpers/shared_preferences_helper.dart';
+import 'core/integrations/remote_config_service.dart';
 import 'core/utils/constants.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     GlobalKey<NavigatorState>? navigateKey;
     WidgetsFlutterBinding.ensureInitialized();
-    SharedPreferencesHelper.init();
+    await SharedPreferencesHelper.init();
 
     if (FeatureFlag.aliceEnabled) {
       final Alice alice = AliceHelper.instance;
@@ -22,6 +23,8 @@ void main() async {
     }
 
     await Firebase.initializeApp();
+    await RemoteConfigService.init();
+
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     runApp(Application(
       navigatorKey: navigateKey,
