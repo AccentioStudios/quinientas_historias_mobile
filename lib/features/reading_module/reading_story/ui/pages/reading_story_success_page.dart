@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/percentage_progress_bar.dart';
-import 'package:quinientas_historias/core/ui/widgets/story_cover.dart';
-import 'package:quinientas_historias/core/ui/widgets/user_avatar.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/models/jwt_token_model.dart';
-import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
+import '../../../../../core/ui/widgets/percentage_progress_bar.dart';
+import '../../../../../core/ui/widgets/story_cover.dart';
+import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../../core/utils/colors.dart';
+import '../../../../../core/utils/constants.dart';
 
 class ReadingStorySuccessPage extends StatefulWidget {
   const ReadingStorySuccessPage({
@@ -37,7 +36,6 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
 
   @override
   Widget build(BuildContext context) {
-    // var state = context.read<ReadingStoryCubit>().state;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -200,21 +198,3 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
     );
   }
 }
-
- /*Text(
-                'Success Page: Points $points',
-              ),
-              SizedBox(
-                height: Constants.space12,
-              ),
-              if (recomendedStories != null)
-                ...recomendedStories!
-                    .map((story) => Text(story.title))
-                    .toList(),
-              BigButton(
-                  text: 'Volver al home',
-                  svgIconPath: 'assets/icons/home-outline-icon.svg',
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed(Routes.homeNavigator);
-                  })*/

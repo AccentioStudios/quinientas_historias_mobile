@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/failures/failures.dart';
-import 'package:quinientas_historias/core/integrations/remote_config_service.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
 
+import '../../../core/integrations/remote_config_service.dart';
+import '../../../core/mixins/error_handling.dart';
 import '../../../core/routes/routes.dart';
 import '../../../core/ui/pages/error_page.dart';
 
