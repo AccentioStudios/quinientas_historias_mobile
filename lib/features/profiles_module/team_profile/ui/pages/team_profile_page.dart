@@ -13,7 +13,7 @@ import 'package:quinientas_historias/features/profiles_module/team_profile/ui/wi
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
-import '../../../../invites/invites_provider.dart';
+import '../../../../invites/send/send_invite_provider.dart';
 import '../widgets/team_profile_cards_widget.dart';
 
 class TeamProfilePage extends StatefulWidget with ErrorHandling {
@@ -47,7 +47,7 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true)
                       .push(MaterialPageRoute(
-                          builder: (_) => const InvitesProvider(
+                          builder: (_) => const SendInviteProvider(
                                 typeUserToInvite: UserType.reader,
                               )));
                 },

@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
-import 'package:quinientas_historias/core/utils/colors.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
-import 'package:quinientas_historias/features/invites/ui/bloc/cubit/invites_cubit.dart';
-import 'package:quinientas_historias/features/invites/ui/pages/invites_send_invitation_page.dart';
+import 'package:quinientas_historias/features/invites/send/ui/bloc/cubit/send_invites_cubit.dart';
 
-import '../../../../core/data/entities/invites_entity.dart';
-import '../../../../core/data/entities/user_entity.dart';
-import '../../../../core/ui/widgets/big_button.dart';
+import '../../../../../core/data/entities/invites_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/mixins/error_handling.dart';
+import '../../../../../core/ui/widgets/big_button.dart';
+import '../../../../../core/utils/colors.dart';
+import '../../../../../core/utils/constants.dart';
+import 'invites_send_invitation_page.dart';
 
-class InvitesPage extends StatefulWidget with ErrorHandling {
-  const InvitesPage({Key? key, required this.typeUserToInvite})
+class SendInvitesPage extends StatefulWidget with ErrorHandling {
+  const SendInvitesPage({Key? key, required this.typeUserToInvite})
       : super(key: key);
 
   final UserType typeUserToInvite;
 
   @override
-  State<InvitesPage> createState() => _InvitesPageState();
+  State<SendInvitesPage> createState() => _SendInvitesPageState();
 }
 
-class _InvitesPageState extends State<InvitesPage> {
+class _SendInvitesPageState extends State<SendInvitesPage> {
   @override
   void didChangeDependencies() {
     getInvitations(context);
@@ -30,7 +30,7 @@ class _InvitesPageState extends State<InvitesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InvitesCubit, InvitesState>(
+    return BlocBuilder<SendInvitesCubit, SendInvitesState>(
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
@@ -94,7 +94,7 @@ class _InvitesPageState extends State<InvitesPage> {
   }
 
   void getInvitations(BuildContext context) {
-    context.read<InvitesCubit>().getInvitations(
+    context.read<SendInvitesCubit>().getInvitations(
         onSuccess: () {},
         onError: (error) => widget.handleError(context, error, onTap: () {
               Navigator.of(context).pop();
@@ -106,7 +106,7 @@ class _InvitesPageState extends State<InvitesPage> {
     Navigator.of(context)
         .push<bool>(MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-                  value: context.read<InvitesCubit>(),
+                  value: context.read<SendInvitesCubit>(),
                   child: InvitesSendInvitationPage(
                     typeUserToInvite: widget.typeUserToInvite,
                   ),

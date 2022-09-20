@@ -1,21 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../../core/data/entities/user_entity.dart';
+import '../../../../../../core/mixins/form_validation.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
-import '../../../../../core/data/entities/invites_entity.dart';
-import '../../../../../core/mixins/form_validation.dart';
-import '../../../data/models/invites_request_model.dart';
-import '../../../data/useCases/invites_usecases.dart';
+import '../../../../data/models/invites_request_model.dart';
+import '../../../../data/useCases/invites_usecases.dart';
 
-part 'invites_cubit.freezed.dart';
-part 'invites_state.dart';
+part 'send_invites_cubit.freezed.dart';
+part 'send_invites_state.dart';
 
-class InvitesCubit extends Cubit<InvitesState>
+class SendInvitesCubit extends Cubit<SendInvitesState>
     with StreamDisposable, FormValidation {
-  InvitesCubit({
+  SendInvitesCubit({
     required this.invitesUseCases,
-  }) : super(const InvitesState());
+  }) : super(const SendInvitesState());
 
   final InvitesUseCases invitesUseCases;
 

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uni_links/uni_links.dart';
 
 import '../../../core/integrations/remote_config_service.dart';
 import '../../../core/mixins/error_handling.dart';
 import '../../../core/routes/routes.dart';
-import '../../../core/ui/pages/error_page.dart';
+import '../../../core/ui/pages/common_page_layout.dart';
+import '../../invites/received/received_invite_provider.dart';
 
 class LandingPage extends StatefulWidget with ErrorHandling {
   const LandingPage({Key? key}) : super(key: key);
@@ -14,6 +18,8 @@ class LandingPage extends StatefulWidget with ErrorHandling {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  Uri? _initialUri;
+  bool _initialURILinkHandled = false;
   late GlobalKey<NavigatorState> landingNavigatorKey;
 
   @override
@@ -29,15 +35,6 @@ class _LandingPageState extends State<LandingPage> {
       body: Center(
         child: CircularProgressIndicator(),
       ),
-      // body: Navigator(
-      //   key: landingNavigatorKey,
-      //   initialRoute: Routes.home,
-      //   onGenerateRoute: (routeSettings) {
-      //     final String pageName = routeSettings.name ?? '';
-      //     final WidgetBuilder? builder = routeBuilders[pageName];
-      //     return MaterialPageRoute(builder: (context) => builder!(context));
-      //   },
-      // ),
     );
   }
 
@@ -52,13 +49,53 @@ class _LandingPageState extends State<LandingPage> {
     return response;
   }
 
+  Future<void> _initURIHandler() async {
+    // 1
+    if (!_initialURILinkHandled) {
+      _initialURILinkHandled = true;
+      // 2
+      try {
+        // 3
+        final initialURI = await getInitialUri();
+        // 4
+        if (initialURI != null) {
+          debugPrint("Initial URI received $initialURI");
+          setState(() {
+            _initialUri = initialURI;
+          });
+          _navigateToRouteFromDeepLink(initialURI);
+        } else {
+          debugPrint("Null Initial URI received");
+        }
+      } on PlatformException {
+        // 5
+        debugPrint("Failed to receive initial uri");
+      } on FormatException catch (err) {
+        // 6
+        debugPrint('Malformed Initial URI received $err');
+      }
+    }
+  }
+
+  void _navigateToRouteFromDeepLink(Uri? uri) async {
+    if (uri != null) {
+      if (uri.queryParameters.keys.contains('email') &&
+          uri.queryParameters.keys.contains('invite')) {
+        ReceivedInviteProvider.open(context,
+            email: uri.queryParameters['email'] ?? '',
+            code: uri.queryParameters['invite'] ?? '');
+      }
+    }
+    return;
+  }
+
   Future<void> initCheckings() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_checkMaintenanceMode()) {
         Navigator.push<void>(
             context,
             MaterialPageRoute<void>(
-                builder: (context) => const ErrorPage(
+                builder: (context) => const CommonPageLayout(
                       headline: 'Volveremos pronto',
                       message:
                           'Nuestro equipo esta trabajando fuertemente\npara hacer todavia mejor tu experiencia, volveremos lo mas rápido posible!, lo prometemos.',
@@ -68,6 +105,12 @@ class _LandingPageState extends State<LandingPage> {
                     )));
         return;
       }
+
+      await _initURIHandler();
+      if (_initialUri != null) {
+        return;
+      }
+      if (!mounted) return;
 
       if (await _checkAccessToken()) {
         Navigator.of(context, rootNavigator: true)
@@ -80,7 +123,6 @@ class _LandingPageState extends State<LandingPage> {
         Navigator.of(context, rootNavigator: true)
             .pushReplacementNamed(Routes.login);
       }
-      // Add Your Code here.
     });
   }
 }

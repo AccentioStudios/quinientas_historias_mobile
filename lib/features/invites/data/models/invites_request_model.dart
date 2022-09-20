@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 
 part 'invites_request_model.g.dart';
 

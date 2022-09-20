@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
 import '../routes/routes.dart';
-import '../ui/pages/error_page.dart';
+import '../ui/pages/common_page_layout.dart';
 
 mixin ErrorHandling on Widget {
   Future<T?> _showErrorMessage<T>(BuildContext context, Widget page) {
@@ -58,7 +58,7 @@ mixin ErrorHandling on Widget {
   }) {
     return _showErrorMessage<T>(
         context,
-        ErrorPage(
+        CommonPageLayout(
           btnLabel: btnLabel,
           onBtnTap: () {
             if (onTap != null) {
@@ -75,7 +75,7 @@ mixin ErrorHandling on Widget {
       [void Function()? onTap]) {
     return _showErrorMessage<T>(
         context,
-        ErrorPage(
+        CommonPageLayout(
             headline: 'What!?',
             message:
                 'Hay un problema de conexion a internet. Parece que alguién se llevó la conexión a internet ☹',
@@ -108,7 +108,7 @@ mixin ErrorHandling on Widget {
   }) {
     return _showErrorMessage<T>(
         context,
-        ErrorPage(
+        CommonPageLayout(
           headline: 'Hubo un error en tu solicitud',
           message: 'Verifica los datos que mandaste e intenta nuevamente.',
           btnLabel: btnLabel,
@@ -127,7 +127,7 @@ mixin ErrorHandling on Widget {
     if (errorType == FailureType.mustUpdatePassword) {
       return _showErrorMessage<T>(
           context,
-          ErrorPage(
+          CommonPageLayout(
             headline: 'Es necesario que restaures tu contraseña',
             message:
                 'Para poder iniciar sesion es necesario que crees una nueva contraseña.',
@@ -142,7 +142,7 @@ mixin ErrorHandling on Widget {
     }
     return _showErrorMessage<T>(
         context,
-        ErrorPage(
+        CommonPageLayout(
           headline: 'You shall not pass!!',
           message:
               'No reconocemos que tengas acceso aquí, intenta iniciar sesión nuevamente con los permisos correctos.',

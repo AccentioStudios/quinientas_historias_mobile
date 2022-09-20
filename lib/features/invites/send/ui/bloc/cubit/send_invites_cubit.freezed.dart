@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'invites_cubit.dart';
+part of 'send_invites_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$InvitesState {
+mixin _$SendInvitesState {
   dynamic get isLoading => throw _privateConstructorUsedError;
   dynamic get sendingInvite => throw _privateConstructorUsedError;
   List<Invite> get invites => throw _privateConstructorUsedError;
@@ -23,15 +23,15 @@ mixin _$InvitesState {
   User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $InvitesStateCopyWith<InvitesState> get copyWith =>
+  $SendInvitesStateCopyWith<SendInvitesState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InvitesStateCopyWith<$Res> {
-  factory $InvitesStateCopyWith(
-          InvitesState value, $Res Function(InvitesState) then) =
-      _$InvitesStateCopyWithImpl<$Res>;
+abstract class $SendInvitesStateCopyWith<$Res> {
+  factory $SendInvitesStateCopyWith(
+          SendInvitesState value, $Res Function(SendInvitesState) then) =
+      _$SendInvitesStateCopyWithImpl<$Res>;
   $Res call(
       {dynamic isLoading,
       dynamic sendingInvite,
@@ -41,12 +41,13 @@ abstract class $InvitesStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$InvitesStateCopyWithImpl<$Res> implements $InvitesStateCopyWith<$Res> {
-  _$InvitesStateCopyWithImpl(this._value, this._then);
+class _$SendInvitesStateCopyWithImpl<$Res>
+    implements $SendInvitesStateCopyWith<$Res> {
+  _$SendInvitesStateCopyWithImpl(this._value, this._then);
 
-  final InvitesState _value;
+  final SendInvitesState _value;
   // ignore: unused_field
-  final $Res Function(InvitesState) _then;
+  final $Res Function(SendInvitesState) _then;
 
   @override
   $Res call({
@@ -82,11 +83,11 @@ class _$InvitesStateCopyWithImpl<$Res> implements $InvitesStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_InvitesStateCopyWith<$Res>
-    implements $InvitesStateCopyWith<$Res> {
-  factory _$$_InvitesStateCopyWith(
-          _$_InvitesState value, $Res Function(_$_InvitesState) then) =
-      __$$_InvitesStateCopyWithImpl<$Res>;
+abstract class _$$_SendInvitesStateCopyWith<$Res>
+    implements $SendInvitesStateCopyWith<$Res> {
+  factory _$$_SendInvitesStateCopyWith(
+          _$_SendInvitesState value, $Res Function(_$_SendInvitesState) then) =
+      __$$_SendInvitesStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {dynamic isLoading,
@@ -97,15 +98,15 @@ abstract class _$$_InvitesStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_InvitesStateCopyWithImpl<$Res>
-    extends _$InvitesStateCopyWithImpl<$Res>
-    implements _$$_InvitesStateCopyWith<$Res> {
-  __$$_InvitesStateCopyWithImpl(
-      _$_InvitesState _value, $Res Function(_$_InvitesState) _then)
-      : super(_value, (v) => _then(v as _$_InvitesState));
+class __$$_SendInvitesStateCopyWithImpl<$Res>
+    extends _$SendInvitesStateCopyWithImpl<$Res>
+    implements _$$_SendInvitesStateCopyWith<$Res> {
+  __$$_SendInvitesStateCopyWithImpl(
+      _$_SendInvitesState _value, $Res Function(_$_SendInvitesState) _then)
+      : super(_value, (v) => _then(v as _$_SendInvitesState));
 
   @override
-  _$_InvitesState get _value => super._value as _$_InvitesState;
+  _$_SendInvitesState get _value => super._value as _$_SendInvitesState;
 
   @override
   $Res call({
@@ -115,7 +116,7 @@ class __$$_InvitesStateCopyWithImpl<$Res>
     Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
-    return _then(_$_InvitesState(
+    return _then(_$_SendInvitesState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
       sendingInvite:
           sendingInvite == freezed ? _value.sendingInvite : sendingInvite,
@@ -136,8 +137,8 @@ class __$$_InvitesStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_InvitesState implements _InvitesState {
-  const _$_InvitesState(
+class _$_SendInvitesState implements _SendInvitesState {
+  const _$_SendInvitesState(
       {this.isLoading = true,
       this.sendingInvite = false,
       final List<Invite> invites = initInvites,
@@ -167,14 +168,14 @@ class _$_InvitesState implements _InvitesState {
 
   @override
   String toString() {
-    return 'InvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, formValidationError: $formValidationError, user: $user)';
+    return 'SendInvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, formValidationError: $formValidationError, user: $user)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InvitesState &&
+            other is _$_SendInvitesState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality()
                 .equals(other.sendingInvite, sendingInvite) &&
@@ -195,17 +196,17 @@ class _$_InvitesState implements _InvitesState {
 
   @JsonKey(ignore: true)
   @override
-  _$$_InvitesStateCopyWith<_$_InvitesState> get copyWith =>
-      __$$_InvitesStateCopyWithImpl<_$_InvitesState>(this, _$identity);
+  _$$_SendInvitesStateCopyWith<_$_SendInvitesState> get copyWith =>
+      __$$_SendInvitesStateCopyWithImpl<_$_SendInvitesState>(this, _$identity);
 }
 
-abstract class _InvitesState implements InvitesState {
-  const factory _InvitesState(
+abstract class _SendInvitesState implements SendInvitesState {
+  const factory _SendInvitesState(
       {final dynamic isLoading,
       final dynamic sendingInvite,
       final List<Invite> invites,
       final dynamic formValidationError,
-      final User? user}) = _$_InvitesState;
+      final User? user}) = _$_SendInvitesState;
 
   @override
   dynamic get isLoading => throw _privateConstructorUsedError;
@@ -219,6 +220,6 @@ abstract class _InvitesState implements InvitesState {
   User? get user => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$$_InvitesStateCopyWith<_$_InvitesState> get copyWith =>
+  _$$_SendInvitesStateCopyWith<_$_SendInvitesState> get copyWith =>
       throw _privateConstructorUsedError;
 }

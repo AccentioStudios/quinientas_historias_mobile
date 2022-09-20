@@ -26,6 +26,7 @@ void main() async {
     await RemoteConfigService.init();
 
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
     runApp(Application(
       navigatorKey: navigateKey,
     ));

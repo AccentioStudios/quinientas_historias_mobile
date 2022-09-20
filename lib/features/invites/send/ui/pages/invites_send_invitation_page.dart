@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
-import 'package:quinientas_historias/features/invites/ui/bloc/cubit/invites_cubit.dart';
 import 'package:rive/rive.dart';
 
-import '../../../../core/data/entities/user_entity.dart';
-import '../../../../core/failures/failures.dart';
-import '../../../../core/ui/widgets/big_button.dart';
-import '../../../../core/ui/widgets/padding_column.dart';
-import '../../../../core/ui/widgets/themed_text_form_field.dart';
-import '../../data/models/invites_request_model.dart';
+import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/failures/failures.dart';
+import '../../../../../core/mixins/error_handling.dart';
+import '../../../../../core/ui/widgets/big_button.dart';
+import '../../../../../core/ui/widgets/headline.dart';
+import '../../../../../core/ui/widgets/padding_column.dart';
+import '../../../../../core/ui/widgets/themed_text_form_field.dart';
+import '../../../../../core/utils/constants.dart';
+import '../../../data/models/invites_request_model.dart';
+import '../bloc/cubit/send_invites_cubit.dart';
 
 class InvitesSendInvitationPage extends StatefulWidget with ErrorHandling {
   const InvitesSendInvitationPage({Key? key, required this.typeUserToInvite})
@@ -48,7 +48,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InvitesCubit, InvitesState>(
+    return BlocBuilder<SendInvitesCubit, SendInvitesState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -87,7 +87,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
                 emailController: emailController,
                 emailFocus: emailFocus,
                 onChanged: (text) {
-                  context.read<InvitesCubit>().validateForm(text);
+                  context.read<SendInvitesCubit>().validateForm(text);
                 },
               ),
               _SendEmailPageTwo(
@@ -107,7 +107,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
     if (emailFocus.hasFocus) {
       emailFocus.unfocus();
     }
-    context.read<InvitesCubit>().sendInvite(
+    context.read<SendInvitesCubit>().sendInvite(
         InvitesRequest(
           email: emailController.text,
           type: widget.typeUserToInvite,
@@ -143,7 +143,7 @@ class _SendEmailPageTwo extends StatelessWidget {
     required this.emailController,
   }) : super(key: key);
 
-  final InvitesState state;
+  final SendInvitesState state;
   final String email;
   final PageController pageController;
   final TextEditingController emailController;
@@ -240,7 +240,7 @@ class _SendEmailPageTwo extends StatelessWidget {
     );
   }
 
-  Widget getIcon(InvitesState state) {
+  Widget getIcon(SendInvitesState state) {
     if (state.sendingInvite) {
       return const RiveAnimation.asset('assets/images/sending-animation.riv');
     }
