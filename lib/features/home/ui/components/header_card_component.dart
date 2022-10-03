@@ -94,7 +94,7 @@ class _PointsRow extends StatelessWidget {
           flex: 1,
           child: SingleChip(
             primaryLabel: readed.toString(),
-            secondaryLabel: 'Lecturas',
+            secondaryLabel: 'Lecturas totales',
             svgIconPath: 'assets/icons/book-open-icon.svg',
           ),
         ),

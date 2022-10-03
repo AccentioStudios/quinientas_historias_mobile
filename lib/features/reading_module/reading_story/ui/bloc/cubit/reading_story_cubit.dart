@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/story_ratings_entity.dart';
+import 'package:quinientas_historias/core/data/models/rate_story_request.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../core/data/entities/story_entity.dart';
@@ -40,7 +42,10 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
     emit(state.copyWith(loading: true));
     readingStoryUseCases.loadStory(storyId).listen((storyProgress) {
       emit(state.copyWith(
-          story: storyProgress.story, storyProgress: storyProgress.progress));
+        story: storyProgress.story,
+        storyProgress: storyProgress.progress,
+        myRating: storyProgress.myRating,
+      ));
       if (onSuccess != null) onSuccess();
     }, onError: (error) {
       if (onError != null) onError(error);
@@ -50,10 +55,13 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   }
 
   completeStory(
-      {Function(SetStoryProgressResponse)? onSuccess, Function? onError}) {
+      {Function(SetStoryProgressResponse)? onSuccess,
+      Function? onError}) async {
     emit(state.copyWith(loading: true));
     SetStoryProgressRequest request =
         SetStoryProgressRequest(progress: 0, storyId: state.story!.id);
+
+    await Future.delayed(const Duration(seconds: 1));
 
     readingStoryUseCases.completeStory(request).listen((success) {
       if (onSuccess != null) onSuccess(success);
@@ -98,6 +106,17 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
       }, onDone: () {
         emit(state.copyWith(saveFavoriteloading: false));
       }).subscribe(this);
+    }
+  }
+
+  rateStory(RateStoryRequest request,
+      {required Function onSuccess, required Function onError}) async {
+    if (state.story != null) {
+      readingStoryUseCases.rateStory(request).listen((response) {
+        onSuccess();
+      }, onError: (error) {
+        onError(error);
+      }, onDone: () {}).subscribe(this);
     }
   }
 

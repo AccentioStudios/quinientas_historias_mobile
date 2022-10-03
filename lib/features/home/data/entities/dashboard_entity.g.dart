@@ -18,6 +18,9 @@ Dashboard _$DashboardFromJson(Map<String, dynamic> json) => Dashboard(
           initialExploreStories,
       teamRank: json['teamRank'] as int?,
       schoolRank: json['schoolRank'] as int?,
+      tournament: json['tournament'] == null
+          ? null
+          : Tournament.fromJson(json['tournament'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
@@ -26,4 +29,5 @@ Map<String, dynamic> _$DashboardToJson(Dashboard instance) => <String, dynamic>{
       'exploreStories': instance.exploreStories,
       'teamRank': instance.teamRank,
       'schoolRank': instance.schoolRank,
+      'tournament': instance.tournament,
     };

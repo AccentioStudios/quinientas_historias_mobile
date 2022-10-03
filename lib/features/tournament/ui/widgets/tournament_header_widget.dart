@@ -89,8 +89,8 @@ class TournamentHeaderWidget extends StatelessWidget {
   }
 
   int calculatePercentageTournament(Tournament tournament) {
-    var initDate = tournament.initDate;
-    var endDate = tournament.endDate;
+    var initDate = tournament.createdAt;
+    var endDate = tournament.endsAt;
     var today = DateTime.now();
 
     var from = DateTime(initDate.year, initDate.month, initDate.day);
@@ -106,7 +106,7 @@ class TournamentHeaderWidget extends StatelessWidget {
   }
 
   int getTournamentDayLeft(Tournament tournament) {
-    var endDate = tournament.endDate;
+    var endDate = tournament.endsAt;
     var today = DateTime.now();
     var to = DateTime(endDate.year, endDate.month, endDate.day);
 

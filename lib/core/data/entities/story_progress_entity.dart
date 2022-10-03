@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/story_ratings_entity.dart';
 
 import 'story_entity.dart';
 
@@ -10,6 +11,7 @@ class StoryProgress {
     required this.status,
     required this.progress,
     required this.story,
+    this.myRating,
   });
 
   factory StoryProgress.fromJson(Map<String, dynamic> json) =>
@@ -20,6 +22,7 @@ class StoryProgress {
   @Default(0)
   int progress;
   final Story story;
+  final StoryRatings? myRating;
 
   Map<String, dynamic> toJson() => _$StoryProgressToJson(this);
 }

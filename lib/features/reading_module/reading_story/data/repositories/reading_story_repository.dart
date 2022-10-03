@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import '../../../../../core/data/entities/story_progress_entity.dart';
+import '../../../../../core/data/models/rate_story_request.dart';
+import '../../../../../core/data/models/rate_story_response.dart';
 import '../../../../../core/data/models/save_favorite_request.dart';
 import '../../../../../core/data/models/save_favorite_response.dart';
 import '../../../../../core/helpers/shared_preferences_helper.dart';
@@ -53,5 +55,11 @@ class ReadingStoryRepository with ApiService {
     yield* appApi
         .post('v1/stories/saveFavorite', data: request.toJson())
         .handleJson(mapper: (data) => SaveFavoriteResponse.fromMap(data));
+  }
+
+  Stream<RateStoryResponse> rateStory(RateStoryRequest request) async* {
+    yield* appApi
+        .post('v1/stories/rate', data: request.toJson())
+        .handleJson(mapper: (data) => RateStoryResponse.fromMap(data));
   }
 }

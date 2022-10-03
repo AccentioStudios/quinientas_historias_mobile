@@ -21,6 +21,7 @@ mixin _$ReadingStoryState {
   bool get saveFavoriteloading => throw _privateConstructorUsedError;
   int get storyProgress => throw _privateConstructorUsedError;
   Story? get story => throw _privateConstructorUsedError;
+  StoryRatings? get myRating => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReadingStoryStateCopyWith<ReadingStoryState> get copyWith =>
@@ -37,7 +38,8 @@ abstract class $ReadingStoryStateCopyWith<$Res> {
       bool loading,
       bool saveFavoriteloading,
       int storyProgress,
-      Story? story});
+      Story? story,
+      StoryRatings? myRating});
 }
 
 /// @nodoc
@@ -56,6 +58,7 @@ class _$ReadingStoryStateCopyWithImpl<$Res>
     Object? saveFavoriteloading = freezed,
     Object? storyProgress = freezed,
     Object? story = freezed,
+    Object? myRating = freezed,
   }) {
     return _then(_value.copyWith(
       readingOptions: readingOptions == freezed
@@ -78,6 +81,10 @@ class _$ReadingStoryStateCopyWithImpl<$Res>
           ? _value.story
           : story // ignore: cast_nullable_to_non_nullable
               as Story?,
+      myRating: myRating == freezed
+          ? _value.myRating
+          : myRating // ignore: cast_nullable_to_non_nullable
+              as StoryRatings?,
     ));
   }
 }
@@ -94,7 +101,8 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
       bool loading,
       bool saveFavoriteloading,
       int storyProgress,
-      Story? story});
+      Story? story,
+      StoryRatings? myRating});
 }
 
 /// @nodoc
@@ -115,6 +123,7 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
     Object? saveFavoriteloading = freezed,
     Object? storyProgress = freezed,
     Object? story = freezed,
+    Object? myRating = freezed,
   }) {
     return _then(_$_ReadingStoryState(
       readingOptions: readingOptions == freezed
@@ -137,6 +146,10 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
           ? _value.story
           : story // ignore: cast_nullable_to_non_nullable
               as Story?,
+      myRating: myRating == freezed
+          ? _value.myRating
+          : myRating // ignore: cast_nullable_to_non_nullable
+              as StoryRatings?,
     ));
   }
 }
@@ -149,7 +162,8 @@ class _$_ReadingStoryState implements _ReadingStoryState {
       this.loading = false,
       this.saveFavoriteloading = false,
       this.storyProgress = 0,
-      this.story});
+      this.story,
+      this.myRating});
 
   @override
   final ReadingOptions readingOptions;
@@ -164,10 +178,12 @@ class _$_ReadingStoryState implements _ReadingStoryState {
   final int storyProgress;
   @override
   final Story? story;
+  @override
+  final StoryRatings? myRating;
 
   @override
   String toString() {
-    return 'ReadingStoryState(readingOptions: $readingOptions, loading: $loading, saveFavoriteloading: $saveFavoriteloading, storyProgress: $storyProgress, story: $story)';
+    return 'ReadingStoryState(readingOptions: $readingOptions, loading: $loading, saveFavoriteloading: $saveFavoriteloading, storyProgress: $storyProgress, story: $story, myRating: $myRating)';
   }
 
   @override
@@ -182,7 +198,8 @@ class _$_ReadingStoryState implements _ReadingStoryState {
                 .equals(other.saveFavoriteloading, saveFavoriteloading) &&
             const DeepCollectionEquality()
                 .equals(other.storyProgress, storyProgress) &&
-            const DeepCollectionEquality().equals(other.story, story));
+            const DeepCollectionEquality().equals(other.story, story) &&
+            const DeepCollectionEquality().equals(other.myRating, myRating));
   }
 
   @override
@@ -192,7 +209,8 @@ class _$_ReadingStoryState implements _ReadingStoryState {
       const DeepCollectionEquality().hash(loading),
       const DeepCollectionEquality().hash(saveFavoriteloading),
       const DeepCollectionEquality().hash(storyProgress),
-      const DeepCollectionEquality().hash(story));
+      const DeepCollectionEquality().hash(story),
+      const DeepCollectionEquality().hash(myRating));
 
   @JsonKey(ignore: true)
   @override
@@ -207,7 +225,8 @@ abstract class _ReadingStoryState implements ReadingStoryState {
       final bool loading,
       final bool saveFavoriteloading,
       final int storyProgress,
-      final Story? story}) = _$_ReadingStoryState;
+      final Story? story,
+      final StoryRatings? myRating}) = _$_ReadingStoryState;
 
   @override
   ReadingOptions get readingOptions => throw _privateConstructorUsedError;
@@ -219,6 +238,8 @@ abstract class _ReadingStoryState implements ReadingStoryState {
   int get storyProgress => throw _privateConstructorUsedError;
   @override
   Story? get story => throw _privateConstructorUsedError;
+  @override
+  StoryRatings? get myRating => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingStoryStateCopyWith<_$_ReadingStoryState> get copyWith =>

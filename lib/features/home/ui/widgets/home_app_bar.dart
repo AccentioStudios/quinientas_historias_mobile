@@ -12,10 +12,12 @@ class HomeAppBar extends StatelessWidget {
     Key? key,
     this.user,
     this.onTap,
+    this.hideStreak = false,
   }) : super(key: key);
 
   final User? user;
   final GestureTapCallback? onTap;
+  final bool hideStreak;
   @override
   Widget build(BuildContext context) {
     const TextStyle userNameTextStyle =
@@ -38,9 +40,10 @@ class HomeAppBar extends StatelessWidget {
               user: user,
             ),
           ),
-          _UserStreak(
-            streakNumber: user?.streak ?? 0,
-          ),
+          if (!hideStreak)
+            _UserStreak(
+              streakNumber: user?.streak ?? 0,
+            ),
         ],
       ),
     );

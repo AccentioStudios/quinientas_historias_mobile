@@ -2,6 +2,8 @@ import 'package:quinientas_historias/core/data/models/save_favorite_request.dart
 import 'package:quinientas_historias/features/reading_module/reading_story/data/models/set_story_progress_request.dart';
 
 import '../../../../../core/data/entities/story_progress_entity.dart';
+import '../../../../../core/data/models/rate_story_request.dart';
+import '../../../../../core/data/models/rate_story_response.dart';
 import '../../../../../core/data/models/save_favorite_response.dart';
 import '../models/reading_options_model.dart';
 import '../models/set_story_progress_response.dart';
@@ -36,5 +38,9 @@ class ReadingStoryUseCases {
   Stream<SaveFavoriteResponse> saveFavorite(
       SaveFavoriteRequest request) async* {
     yield* repository.saveFavorite(request);
+  }
+
+  Stream<RateStoryResponse> rateStory(RateStoryRequest request) async* {
+    yield* repository.rateStory(request);
   }
 }

@@ -5,10 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
+import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
-import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/theme/theme.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
@@ -16,11 +15,11 @@ import '../../../../../core/ui/widgets/custom_icon_button.dart';
 import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
 import '../widgets/reading_story_appbar.dart';
+import 'rate_story_sheet_view.dart';
 import 'reading_story_options_sheet_view.dart';
 import 'reading_story_success_page.dart';
 
-class ReadingStoryPage extends StatefulWidget
-    with ErrorHandling, SheetMessages {
+class ReadingStoryPage extends StatefulWidget with ErrorHandling {
   const ReadingStoryPage({Key? key, required this.storyId}) : super(key: key);
   final int storyId;
 
@@ -53,14 +52,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   bool systemOverlaysAreVisible = false;
-
-  // static double fontSizeBase = 1.20;
-  // FontSize fontSize = FontSize.rem(fontSizeBase);
-  // TextAlign pTextAlign = TextAlign.justify;
-  // FontSize h1fontSize = FontSize.rem(fontSizeBase + 0.4);
-  // FontSize h2fontSize = FontSize.rem(fontSizeBase + 0.2);
-  // LineHeight lineHeight = LineHeight.percent(145);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
@@ -137,8 +128,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         sliver: SliverToBoxAdapter(
                           child: BigButton(
                             onPressed: () {
-                              completeReading(
-                                  context.read<ReadingStoryCubit>());
+                              openRateStorySheet(context, state);
                             },
                             text: 'Terminar Lectura',
                             svgIconPath:
@@ -173,6 +163,31 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
         child: const ReadingStoryOptionsSheetView(),
       ),
     );
+  }
+
+  void openRateStorySheet(BuildContext context, ReadingStoryState state) {
+    showModalBottomSheet<bool>(
+      elevation: 0,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
+      ),
+      builder: (_) => BlocProvider.value(
+        value: context.read<ReadingStoryCubit>(),
+        child: RateStorySheetView(
+          state: state,
+        ),
+      ),
+    ).then((saved) {
+      if (saved == true) {
+        completeReading(context.read<ReadingStoryCubit>());
+      }
+    });
   }
 
   void changeUIToImmersive() {

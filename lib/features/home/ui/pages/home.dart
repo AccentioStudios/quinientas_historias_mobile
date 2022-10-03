@@ -4,29 +4,20 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/failures/status_codes.dart';
 
-import '../../../../core/data/entities/school_entity.dart';
-import '../../../../core/data/entities/story_entity.dart';
-import '../../../../core/data/entities/team_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
+import '../../../../core/failures/status_codes.dart';
 import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/arrow_leaderboard.dart';
 import '../../../../core/ui/widgets/big_chip.dart';
 import '../../../../core/ui/widgets/buttom_bar.dart';
-import '../../../../core/ui/widgets/headline.dart';
-import '../../../../core/ui/widgets/padding_column.dart';
-import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../profiles_module/school_profile/school_profile_provider.dart';
-import '../../../profiles_module/team_profile/team_profile_provider.dart';
-import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
-import '../../../reading_module/reading_story/reading_story_provider.dart';
 import '../bloc/cubit/home_cubit.dart';
-import '../components/header_card_component.dart';
+import 'home_layout.dart';
+import 'home_prof_layout.dart';
 
 class HomePage extends StatefulWidget with ErrorHandling, SheetMessages {
   const HomePage({Key? key}) : super(key: key);
@@ -51,7 +42,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeCubit cubit = BlocProvider.of<HomeCubit>(context);
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
@@ -63,140 +53,12 @@ class _HomePageState extends State<HomePage> {
                   onRefresh: () async {
                     await getDashboard(context);
                   },
-                  child: ListView(
-                    padding: const EdgeInsets.only(top: 0),
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      HeaderCard(
-                        state: state,
-                        userProfileOnTap: () {
-                          _navigateToMyProfilePage(state.dashboard?.user);
-                        },
-                        dailyChallengeOnTap: () {
-                          _navigateToDailyChallengePage(context, state, cubit);
-                        },
-                      ),
-                      const SizedBox(height: Constants.space21),
-                      PaddingColumn(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space18),
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              if (state.dashboard != null)
-                                if (state.dashboard!.user.team != null)
-                                  HomePositionsChip(
-                                    onTap: () {
-                                      _navigateToMyTeamPage(
-                                          state.dashboard?.user.team);
-                                    },
-                                    label: 'Mi equipo',
-                                    position:
-                                        state.dashboard!.teamRank.toString(),
-                                    content:
-                                        state.dashboard?.user.team?.name ?? '',
-                                  ),
-                              const SizedBox(width: Constants.space18),
-                              if (state.dashboard != null)
-                                if (state.dashboard!.user.school != null)
-                                  HomePositionsChip(
-                                    onTap: () {
-                                      _navigateToMySchoolPage(
-                                          state.dashboard?.user.school);
-                                    },
-                                    label: 'Mi escuela',
-                                    position:
-                                        state.dashboard!.schoolRank.toString(),
-                                    content:
-                                        state.dashboard?.user.school?.name ??
-                                            '',
-                                  ),
-                            ],
-                          ),
-                          Headline(
-                            label: 'Explorar Lecturas',
-                            linkText: 'Ver más',
-                            onTap: () {},
-                          ),
-                          if (state.dashboard != null)
-                            if (state.dashboard?.exploreStories != null)
-                              GridView.count(
-                                padding: EdgeInsets.zero,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                crossAxisSpacing: Constants.space12,
-                                mainAxisSpacing: Constants.space12,
-                                childAspectRatio: 109 / 147,
-                                crossAxisCount: 3,
-                                children: [
-                                  ...state.dashboard!.exploreStories
-                                      .map((story) => StoryCover(
-                                            story: story,
-                                            onTap: () {
-                                              _navigateToStoryPage(
-                                                  context, story);
-                                            },
-                                          )),
-                                ],
-                              )
-                        ],
-                      ),
-                      const SizedBox(height: Constants.space41 + 70)
-                    ],
-                  ),
-                ),
+                  child: state.dashboard!.user.type == UserType.prof
+                      ? HomeProfLayout(state: state)
+                      : HomeLayout(state: state)),
         );
       },
     );
-  }
-
-  void _navigateToMySchoolPage(School? mySchool) {
-    if (mySchool != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.schoolProfile,
-        arguments: SchoolProfileArguments(
-          mySchool.id,
-        ),
-      );
-    }
-  }
-
-  void _navigateToMyTeamPage(Team? myTeam) {
-    if (myTeam != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.teamProfile,
-        arguments: TeamProfileArguments(
-          myTeam.id,
-        ),
-      );
-    }
-  }
-
-  void _navigateToMyProfilePage(User? myUser) {
-    if (myUser != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.userProfile,
-        arguments: UserProfileArguments(
-          myUser.id,
-        ),
-      );
-    }
-  }
-
-  void _navigateToStoryPage(
-    BuildContext context,
-    Story story,
-  ) {
-    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-        builder: (_) => ReadingStoryProvider(
-              homeCubit: BlocProvider.of<HomeCubit>(context),
-              storyId: story.id,
-            )));
   }
 
   void _navigateToDailyChallengePage(

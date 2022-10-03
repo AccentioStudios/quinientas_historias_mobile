@@ -8,5 +8,6 @@ class ReadingStoryState with _$ReadingStoryState {
     @Default(false) bool saveFavoriteloading,
     @Default(0) int storyProgress,
     Story? story,
+    StoryRatings? myRating,
   }) = _ReadingStoryState;
 }

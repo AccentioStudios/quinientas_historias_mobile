@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/tournament_entity.dart';
 
 import '../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
@@ -15,12 +16,14 @@ class Dashboard {
       this.dailyChallenge,
       this.exploreStories = initialExploreStories,
       this.teamRank,
-      this.schoolRank});
+      this.schoolRank,
+      this.tournament});
   final User user;
   final DailyChallenge? dailyChallenge;
   final List<Story> exploreStories;
   final int? teamRank;
   final int? schoolRank;
+  final Tournament? tournament;
 
   factory Dashboard.fromJson(Map<String, dynamic> json) =>
       _$DashboardFromJson(json);
@@ -32,6 +35,7 @@ class Dashboard {
     List<Story>? exploreStories,
     int? teamRank,
     int? schoolRank,
+    Tournament? tournament,
   }) {
     return Dashboard(
       user: user ?? this.user,
@@ -39,6 +43,7 @@ class Dashboard {
       exploreStories: exploreStories ?? this.exploreStories,
       teamRank: teamRank ?? this.teamRank,
       schoolRank: schoolRank ?? this.schoolRank,
+      tournament: tournament ?? this.tournament,
     );
   }
 }

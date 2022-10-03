@@ -11,6 +11,9 @@ StoryProgress _$StoryProgressFromJson(Map<String, dynamic> json) =>
       status: $enumDecode(_$StoryStatusEnumMap, json['status']),
       progress: json['progress'] as int,
       story: Story.fromJson(json['story'] as Map<String, dynamic>),
+      myRating: json['myRating'] == null
+          ? null
+          : StoryRatings.fromJson(json['myRating'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$StoryProgressToJson(StoryProgress instance) =>
@@ -18,6 +21,7 @@ Map<String, dynamic> _$StoryProgressToJson(StoryProgress instance) =>
       'status': _$StoryStatusEnumMap[instance.status],
       'progress': instance.progress,
       'story': instance.story,
+      'myRating': instance.myRating,
     };
 
 const _$StoryStatusEnumMap = {
