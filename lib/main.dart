@@ -15,6 +15,8 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     GlobalKey<NavigatorState>? navigateKey;
     WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+
     await SharedPreferencesHelper.init();
 
     if (FeatureFlag.aliceEnabled) {
@@ -22,7 +24,6 @@ void main() async {
       navigateKey = alice.getNavigatorKey();
     }
 
-    await Firebase.initializeApp();
     await RemoteConfigService.init();
 
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;

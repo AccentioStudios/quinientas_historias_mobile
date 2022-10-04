@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '167564851917',
     projectId: 'historias-25985',
     storageBucket: 'historias-25985.appspot.com',
-    iosClientId: '167564851917-jr4d2aanbtj5dpjvh0efailtv19vau7o.apps.googleusercontent.com',
+    iosClientId:
+        '167564851917-jr4d2aanbtj5dpjvh0efailtv19vau7o.apps.googleusercontent.com',
     iosBundleId: 'com.accentiostudios.quinientas',
   );
 }
