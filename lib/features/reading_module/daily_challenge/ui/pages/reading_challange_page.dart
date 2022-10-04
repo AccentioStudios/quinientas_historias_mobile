@@ -74,19 +74,23 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
               title: const Text('Mis Lecturas Diarias',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               actions: [
-                IconButton(
-                  iconSize: 24,
+                TextButton.icon(
+                  label: Text(
+                    state.data.diceCount.toString(),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 16,
+                    ),
+                  ),
                   onPressed: () {
-                    widget.showGenerateNewChallengeMessage(context, (generate) {
+                    widget.showGenerateNewChallengeMessage(context, state.data,
+                        (generate) {
                       if (generate == true) {
-                        getData(
-                          forceGenerateNewChallenge: true,
-                        );
+                        rollTheDice();
                       }
                     });
                   },
-                  icon: SvgPicture.asset(
-                      'assets/icons/refresh-challenge-icon.svg'),
+                  icon: SvgPicture.asset('assets/icons/dice-outline-icon.svg'),
                 )
               ],
             ),
@@ -182,6 +186,14 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
         );
       },
     );
+  }
+
+  void rollTheDice() {
+    context.read<DailyChallengeCubit>().rollTheDice(
+        onSuccess: (dailyChallenge) {
+          context.read<HomeCubit>().saveDailyChallenge(dailyChallenge);
+        },
+        onError: (error) => widget.handleError(context, error));
   }
 
   Future<dynamic> getData({

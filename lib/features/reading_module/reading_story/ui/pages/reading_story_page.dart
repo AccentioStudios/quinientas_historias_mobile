@@ -234,7 +234,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => ReadingStorySuccessPage(
               points: response.points,
-              recomendedStories: response.recomendedStories,
+              dailyChallenge: response.dailyChallenge,
               sessionData: sessionData,
             ),
           ));

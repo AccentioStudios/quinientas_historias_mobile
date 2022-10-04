@@ -71,10 +71,10 @@ class HomeLayout extends StatelessWidget {
                     ),
               ],
             ),
-            Headline(
+            const Headline(
               label: 'Explorar Lecturas',
-              linkText: 'Ver más',
-              onTap: () {},
+              // linkText: 'Ver más',
+              // onTap: () {},
             ),
             if (state.dashboard != null)
               if (state.dashboard?.exploreStories != null)

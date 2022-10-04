@@ -29,6 +29,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       division: json['division'] == null
           ? null
           : UserDivision.fromJson(json['division'] as Map<String, dynamic>),
+      diceCount: json['diceCount'] as int?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -45,6 +46,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'school': instance.school,
       'team': instance.team,
       'division': instance.division,
+      'diceCount': instance.diceCount,
     };
 
 const _$UserTypeEnumMap = {

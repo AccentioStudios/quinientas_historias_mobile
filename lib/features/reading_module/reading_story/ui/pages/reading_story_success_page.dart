@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
+import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../reading_story_provider.dart';
 
 class ReadingStorySuccessPage extends StatefulWidget {
   const ReadingStorySuccessPage({
     Key? key,
     required this.points,
-    required this.recomendedStories,
+    this.recomended,
+    this.dailyChallenge,
     required this.sessionData,
   }) : super(key: key);
 
   final int? points;
-  final List<Story>? recomendedStories;
+  final List<Story>? recomended;
+  final DailyChallenge? dailyChallenge;
   final JWTTokenModel? sessionData;
 
   @override
@@ -47,7 +52,7 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
             child: Column(
               children: <Widget>[
                 Stack(
-                  alignment: (widget.points != null)
+                  alignment: (widget.dailyChallenge != null)
                       ? Alignment.topCenter
                       : Alignment.center,
                   children: [
@@ -140,7 +145,7 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                               ),
                             ),
                           ),
-                        if (widget.points != null)
+                        if (widget.dailyChallenge != null)
                           const Padding(
                             padding: EdgeInsets.only(top: Constants.space41),
                             child: Text(
@@ -166,35 +171,57 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                       childAspectRatio: 109 / 147,
                       crossAxisCount: 2,
                       children: <Widget>[
-                        if (widget.recomendedStories != null)
-                          ...widget.recomendedStories!.map((story) =>
-                              StoryCover(story: story, onTap: () => {}))
+                        if (widget.dailyChallenge != null)
+                          ...widget.dailyChallenge!.challenge
+                              .map((storyProgress) => StoryCover(
+                                    story: storyProgress.story,
+                                    onTap: () => _navigateToStoryPage(
+                                        context, storyProgress.story),
+                                  ))
                       ],
                     ),
                   ),
-                if (widget.points != null)
-                  const Padding(
-                    padding: EdgeInsets.only(
-                        left: 100,
-                        right: 100,
-                        top: Constants.space12,
-                        bottom: Constants.space8),
-                    child: PercentageProgressBar(
-                      backgroundColor: division1Color,
-                    ),
+                if (widget.dailyChallenge != null)
+                  SizedBox(
+                    width: 145,
+                    child: PaddingColumn(
+                        padding: const EdgeInsets.only(top: Constants.space12),
+                        children: <Widget>[
+                          PercentageProgressBar(
+                            completedPercentage: calculatePercentage(
+                                widget.dailyChallenge?.count,
+                                widget.dailyChallenge?.readed),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            '${widget.dailyChallenge?.readed} de ${widget.dailyChallenge?.count} leidos',
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                          ),
+                        ]),
                   ),
-                if (widget.points != null)
-                  const Text("Faltan para completar tu reto diario"),
                 Expanded(child: Container()),
-                Padding(
+                PaddingColumn(
                   padding: const EdgeInsets.all(Constants.space21),
-                  child: BigButton(
-                      text: 'Volver al home',
-                      svgIconPath: 'assets/icons/home-outline-icon.svg',
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true)
-                            .pushNamed(Routes.homeNavigator);
-                      }),
+                  children: [
+                    BigButton(
+                        text: 'Volver',
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true).pop(true);
+                          Navigator.of(context, rootNavigator: true).pop(true);
+                        }),
+                    const SizedBox(height: Constants.space12),
+                    BigButton(
+                        filled: false,
+                        text: 'Ir al home',
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true)
+                              .pushNamed(Routes.homeNavigator);
+                        }),
+                  ],
                 ),
               ],
             ),
@@ -202,5 +229,25 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
         ),
       ),
     );
+  }
+
+  int calculatePercentage(int? total, int? current) {
+    if (total != null && current != null) {
+      if (total > 0) {
+        return (current * 100 ~/ total).toInt();
+      }
+      return 0;
+    }
+    return 0;
+  }
+
+  void _navigateToStoryPage(
+    BuildContext context,
+    Story story,
+  ) {
+    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+        builder: (_) => ReadingStoryProvider(
+              storyId: story.id,
+            )));
   }
 }

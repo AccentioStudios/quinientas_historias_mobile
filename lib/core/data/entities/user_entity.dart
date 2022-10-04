@@ -23,6 +23,7 @@ class User {
     this.team,
     this.streak,
     this.division,
+    this.diceCount,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -41,6 +42,7 @@ class User {
   final School? school;
   final Team? team;
   final UserDivision? division;
+  final int? diceCount;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }

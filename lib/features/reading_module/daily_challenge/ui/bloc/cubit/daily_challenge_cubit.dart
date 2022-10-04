@@ -18,6 +18,27 @@ class DailyChallengeCubit extends Cubit<DailyChallengeState>
 
   final DailyChallengeUseCases dailyChallengeUseCases;
 
+  void rollTheDice(
+      {Function(DailyChallenge data)? onSuccess, required Function onError}) {
+    emit(state.copyWith(loading: true));
+    dailyChallengeUseCases.rollTheDice().listen((data) {
+      emit(state.copyWith(data: data));
+      if (data.challenge.isNotEmpty) {
+        emit(state.copyWith(
+            storyHovered:
+                data.challenge[_searchIndexCurrentReadingBook()].story));
+      } else {
+        emit(state.copyWith(storyHovered: null));
+      }
+
+      if (onSuccess != null) onSuccess(data);
+    }, onError: (error) {
+      onError(error);
+    }, onDone: () {
+      emit(state.copyWith(loading: false));
+    }).subscribe(this);
+  }
+
   void getData(bool isFromPullRefresh,
       {bool softGenerateNewChallenge = false,
       bool forceGenerateNewChallenge = false,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/entities/daily_challenge_entity.dart';
 import '../ui/widgets/custom_bottom_sheet.dart';
 import '../utils/colors.dart';
 
@@ -52,28 +53,52 @@ mixin SheetMessages on Widget {
     );
   }
 
-  Future<T?> showGenerateNewChallengeMessage<T>(
-      BuildContext context, Function(bool) callback) {
+  Future<T?> showGenerateNewChallengeMessage<T>(BuildContext context,
+      DailyChallenge dailyChallenge, Function(bool) callback) {
     CustomBottomSheetController controller = CustomBottomSheetController();
 
-    return showMessage(
-      context,
-      controller: controller,
-      iconSvgPath: 'assets/icons/refresh-challenge-xl-icon.svg',
-      title: 'Generar nuevo reto diario',
-      content:
-          'Estas seguro que quieres traer nuevas lecturas a tu reto diario? Vas a perder el avance que ya tenías hasta ahora.',
-      btnLabel: 'Generar',
-      btnOnTap: () {
-        controller.closeSheet(true);
-        return callback(true);
-      },
-      secondaryBtnLabel: 'No gracias',
-      secondaryBtnOnTap: () {
-        controller.closeSheet(false);
-        return callback(false);
-      },
-    );
+    if (dailyChallenge.diceCount == 0) {
+      return showMessage(
+        context,
+        height: 300,
+        iconSvgPath: 'assets/icons/dice-outline-xl-icon.svg',
+        title: 'Acabaste todos tus dados',
+        content:
+            '¡Ya no hay más dados!\nEspera unos dias para que vuelvas a tener más.',
+        btnLabel: '¡Ok!',
+      );
+    }
+
+    if (dailyChallenge.count > dailyChallenge.readed) {
+      return showMessage(
+        context,
+        height: 365,
+        controller: controller,
+        iconSvgPath: 'assets/icons/dice-outline-xl-icon.svg',
+        title: 'Tirar los dados',
+        content:
+            'Al tirar los dados vas a generar un nuevo reto aleatorio.\n\nEstas seguro que quieres traer nuevas lecturas a tu reto diario? Vas a perder la lista de historias que tienes ahora.',
+        btnLabel: 'Tirar los dados',
+        btnOnTap: () {
+          controller.closeSheet(true);
+          return callback(true);
+        },
+        secondaryBtnLabel: 'No gracias',
+        secondaryBtnOnTap: () {
+          controller.closeSheet(false);
+          return callback(false);
+        },
+      );
+    } else {
+      return showMessage(
+        context,
+        iconSvgPath: 'assets/icons/dice-outline-xl-icon.svg',
+        title: 'Tirar los dados',
+        content:
+            '¡Completaste tu reto de hoy!\nVuelve mañana para que puedas generar un nuevo reto',
+        btnLabel: '¡Ok!',
+      );
+    }
   }
 
   Future<T?> showInfoAboutStreakMessage<T>(

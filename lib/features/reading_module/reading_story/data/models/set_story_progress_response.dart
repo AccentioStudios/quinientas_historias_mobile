@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
 
 part 'set_story_progress_response.g.dart';
@@ -9,13 +10,15 @@ class SetStoryProgressResponse {
   SetStoryProgressResponse({
     required this.saved,
     this.points,
-    this.recomendedStories,
+    this.dailyChallenge,
+    this.recomended,
     this.errorMessage,
   });
 
   final bool saved;
   final int? points;
-  final List<Story>? recomendedStories;
+  final DailyChallenge? dailyChallenge;
+  final List<Story>? recomended;
   final String? errorMessage;
 
   factory SetStoryProgressResponse.fromJson(Map<String, dynamic> json) =>

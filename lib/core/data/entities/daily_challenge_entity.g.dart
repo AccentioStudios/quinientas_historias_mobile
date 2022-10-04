@@ -16,6 +16,7 @@ DailyChallenge _$DailyChallengeFromJson(Map<String, dynamic> json) =>
           defaultValue,
       hasOldChallengeIncomplete:
           json['hasOldChallengeIncomplete'] as bool? ?? false,
+      diceCount: json['diceCount'] as int?,
     );
 
 Map<String, dynamic> _$DailyChallengeToJson(DailyChallenge instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$DailyChallengeToJson(DailyChallenge instance) =>
       'readed': instance.readed,
       'challenge': instance.challenge,
       'hasOldChallengeIncomplete': instance.hasOldChallengeIncomplete,
+      'diceCount': instance.diceCount,
     };

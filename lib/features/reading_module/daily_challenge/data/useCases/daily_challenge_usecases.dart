@@ -19,4 +19,8 @@ class DailyChallengeUseCases {
       {bool forceGenerateNewChallenge = false}) async* {
     yield* repository.generateNewDailyChallenge(forceGenerateNewChallenge);
   }
+
+  Stream<DailyChallenge> rollTheDice() async* {
+    yield* repository.rollTheDice();
+  }
 }

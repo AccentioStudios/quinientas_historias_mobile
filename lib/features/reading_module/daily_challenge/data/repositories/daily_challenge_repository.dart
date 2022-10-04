@@ -14,4 +14,10 @@ class DailyChallengeRepository with ApiService {
           'force': forceGenerate.toString()
         }).handleJson(mapper: (data) => DailyChallenge.fromJson(data));
   }
+
+  Stream<DailyChallenge> rollTheDice() async* {
+    yield* appApi
+        .get('v1/challenges/rollTheDice')
+        .handleJson(mapper: (data) => DailyChallenge.fromJson(data));
+  }
 }
