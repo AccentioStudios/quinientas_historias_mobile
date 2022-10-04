@@ -1,26 +1,26 @@
-name: Build Flutter Application
+# name: Build Flutter Application
 
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+# on:
+#   push:
+#     branches: ["main"]
+#   pull_request:
+#     branches: ["main"]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2.6.2
-        with:
-          flutter-version: "3.0.1"
-          channel: "stable"
-      - name: Install dependencies
-        run: flutter pub get
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: subosito/flutter-action@v2.6.2
+#         with:
+#           flutter-version: "3.0.1"
+#           channel: "stable"
+#       - name: Install dependencies
+#         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk
+#       - name: Build APK
+#         run: flutter build apk
 
-      # - name: Run tests
-      #   run: flutter test
+#       # - name: Run tests
+#       #   run: flutter test

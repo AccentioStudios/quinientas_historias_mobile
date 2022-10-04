@@ -33,10 +33,17 @@ class HomeProfLayout extends StatelessWidget {
         PaddingColumn(
           padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
           children: [
+            const SizedBox(height: Constants.space21),
             OutlinedCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(state.dashboard!.tournament!.title ??
+                        'Torneo de lectura'),
+                  ),
+                  const SizedBox(height: Constants.space12),
                   PercentageProgressBar(
                     completedPercentage: CalculateThings.percentage(
                         100,
@@ -60,7 +67,6 @@ class HomeProfLayout extends StatelessWidget {
                 _navigateToMySchoolPage(context, state.dashboard?.user.school);
               },
             ),
-            const Text('prof screen'),
           ],
         ),
       ],
