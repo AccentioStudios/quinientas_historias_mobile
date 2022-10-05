@@ -7,7 +7,7 @@ part 'reading_options_model.g.dart';
 @JsonSerializable()
 class ReadingOptions {
   ReadingOptions({
-    this.fontSizeBase = 1.20,
+    this.fontSizeBase = 16,
     this.pTextAlign = TextAlign.justify,
     this.lineHeightBase = 145,
     this.theme = ThemeMode.light,
@@ -20,9 +20,9 @@ class ReadingOptions {
 
   LineHeight get lineHeight =>
       LineHeight(lineHeightBase / 100.0 * 1.2, units: "%");
-  FontSize get fontSize => FontSize(fontSizeBase * 16 - 2, units: "rem");
-  FontSize get h1fontSize => FontSize.rem(fontSizeBase + 0.4);
-  FontSize get h2fontSize => FontSize.rem(fontSizeBase + 0.2);
+  FontSize get fontSize => FontSize(fontSizeBase);
+  FontSize get h1fontSize => fontSize.rem(1.4);
+  FontSize get h2fontSize => fontSize.rem(1.2);
 
   Brightness get brightness =>
       theme == ThemeMode.light ? Brightness.light : Brightness.dark;
@@ -46,5 +46,11 @@ class ReadingOptions {
       lineHeightBase: lineHeightBase ?? this.lineHeightBase,
       theme: theme ?? this.theme,
     );
+  }
+}
+
+extension RemCalculator on FontSize {
+  FontSize rem(double rem) {
+    return FontSize(rem * value);
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
@@ -54,6 +56,9 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   bool systemOverlaysAreVisible = false;
   @override
   Widget build(BuildContext context) {
+    final unescape = HtmlUnescape();
+    const utf8Encoder = Utf8Encoder();
+
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {
         return Theme(
@@ -93,7 +98,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                             style: {
                               "*": Style(
                                 padding: EdgeInsets.zero,
-                                margin: EdgeInsets.zero,
+                                margin: Margins.zero,
                                 letterSpacing: 0.4,
                                 fontFamily: 'Literata',
                                 fontSize: state.readingOptions.fontSize,
@@ -101,26 +106,26 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                               ),
                               "p": Style(
                                 textAlign: state.readingOptions.pTextAlign,
-                                margin: const EdgeInsets.only(bottom: 21),
+                                margin: Margins.only(bottom: 21),
                               ),
                               "h1": Style(
                                 fontSize: state.readingOptions.h1fontSize,
                                 textAlign: TextAlign.center,
-                                margin: const EdgeInsets.only(bottom: 21),
+                                margin: Margins.only(bottom: 21),
                               ),
                               "h2": Style(
                                 fontSize: state.readingOptions.h2fontSize,
                                 textAlign: TextAlign.left,
-                                margin: const EdgeInsets.only(bottom: 21),
+                                margin: Margins.only(bottom: 21),
                               ),
                               "ul": Style(
-                                margin: const EdgeInsets.only(bottom: 21),
+                                margin: Margins.only(bottom: 21),
                               ),
                               "br": Style(
-                                margin: const EdgeInsets.only(bottom: 21),
+                                margin: Margins.only(bottom: 21),
                               ),
                             },
-                            data: state.story?.content,
+                            data: unescape.convert(state.story?.content ?? ''),
                           ),
                         ),
                       ),

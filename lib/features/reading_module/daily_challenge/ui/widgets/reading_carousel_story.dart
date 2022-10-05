@@ -124,21 +124,6 @@ class ReadingCarouselStory extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 18),
-                                        child: Text(
-                                          'Tiempo lectura \n${item.status}',
-                                          style: secondaryTextStyle,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),

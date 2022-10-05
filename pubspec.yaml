@@ -20,9 +20,9 @@ dependencies:
       url: https://github.com/AccentioStudios/custom_nested_scroll_view.git
   dart_jsonwebtoken: ^2.4.1
   device_info_plus: ^3.2.3
-  firebase_core: ^1.24.0
   firebase_analytics: ^9.3.4
   firebase_auth: ^3.3.19
+  firebase_core: ^1.24.0
   firebase_crashlytics: ^2.8.10
   firebase_remote_config: ^2.0.17
   firebase_storage: ^10.2.17
@@ -30,21 +30,19 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_dotenv: ^5.0.2
-  flutter_html: ^3.0.0-alpha.5
+  flutter_html: ^3.0.0-alpha.6
   flutter_math_fork: ^0.6.3+1
   flutter_secure_storage: ^5.0.2
   flutter_svg: ^1.0.0
   fluttertoast: ^8.0.9
   freezed_annotation: ^2.0.3
+  fwfh_text_style: ^2.22.8+1
   google_fonts: ^3.0.1
+  html_unescape: ^2.0.0
   http: ^0.13.4
   image_picker: ^0.8.5+3
   infinite_scroll_pagination: ^3.2.0
   package_info_plus: ^1.4.2
-  page_turn:
-    git:
-      url: https://github.com/juniorise/page_turn
-      ref: master
   pin_code_fields: ^7.4.0
   rive: ^0.9.1
   rxdart: ^0.27.4

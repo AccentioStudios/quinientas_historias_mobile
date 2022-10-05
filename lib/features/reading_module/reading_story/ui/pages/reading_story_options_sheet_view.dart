@@ -43,10 +43,9 @@ class _ReadingStoryOptionsSheetViewState
               Flex(
                 direction: Axis.horizontal,
                 children: [
-                  Text('Aa',
-                      style: TextStyle(
-                          fontSize: FontSize.rem(1.20).size,
-                          fontWeight: FontWeight.bold)),
+                  const Text('Aa',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   Expanded(
                     child: Slider(
                       thumbColor: Theme.of(context).colorScheme.primary,
@@ -60,15 +59,14 @@ class _ReadingStoryOptionsSheetViewState
                         });
                       },
                       value: textSize,
-                      min: 1.20,
-                      max: 1.80,
+                      min: 16,
+                      max: 25,
                       divisions: 8,
                     ),
                   ),
-                  Text('Aa',
-                      style: TextStyle(
-                          fontSize: FontSize.rem(1.80).size,
-                          fontWeight: FontWeight.bold)),
+                  const Text('Aa',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: Constants.space8),

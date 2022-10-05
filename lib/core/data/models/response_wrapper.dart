@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../failures/status_codes.dart';
@@ -21,7 +22,13 @@ class ResponseWrapper {
       );
       return wrapper;
     } catch (err) {
-      rethrow;
+      if (kDebugMode) {
+        print('error at ResponseWrapper parse');
+      }
+      return ResponseWrapper(
+        response: response,
+        statusCode: StatusCodes.unknown,
+      );
     }
   }
 

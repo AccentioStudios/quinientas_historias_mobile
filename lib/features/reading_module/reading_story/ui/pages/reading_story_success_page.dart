@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/data/entities/daily_challenge_entity.dart';
 
+import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/routes/routes.dart';
@@ -10,7 +10,6 @@ import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
-import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../reading_story_provider.dart';
 
