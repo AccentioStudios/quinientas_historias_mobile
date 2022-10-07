@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/useCases/auth_usecases.dart';
 import 'ui/bloc/cubit/auth_cubit.dart';
+import 'ui/pages/forgot_password_page.dart';
 import 'ui/pages/login_page.dart';
 
 class AuthProvider extends StatelessWidget {
@@ -15,6 +16,18 @@ class AuthProvider extends StatelessWidget {
       create: (BuildContext context) =>
           AuthCubit(authUseCases: AuthUseCases(repository: AuthRepository())),
       child: const LoginPage(),
+    );
+  }
+
+  static openIForgot(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (BuildContext context) => AuthCubit(
+              authUseCases: AuthUseCases(repository: AuthRepository())),
+          child: const ForgotPasswordPage(),
+        ),
+      ),
     );
   }
 }

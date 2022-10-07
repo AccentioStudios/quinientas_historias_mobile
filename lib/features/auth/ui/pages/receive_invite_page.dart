@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/failures/status_codes.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../invites/received/received_invite_provider.dart';
 import '../bloc/cubit/auth_cubit.dart';
-import 'otpcode_password_page.dart';
 
-class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+class ReceiveInvitePage extends StatelessWidget with ErrorHandling {
+  const ReceiveInvitePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,8 @@ class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
                   top: 64, left: Constants.space18, right: Constants.space18),
               children: [
                 const SizedBox(height: Constants.space21),
-                SvgPicture.asset('assets/images/forgot-password-image.svg'),
-                const _ForgotPasswordForm(),
+                SvgPicture.asset('assets/images/email-check-image.svg'),
+                const _VerifyCodeForm(),
               ],
             ),
             Align(
@@ -51,39 +51,42 @@ class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
   }
 }
 
-class _ForgotPasswordForm extends StatefulWidget with ErrorHandling {
-  const _ForgotPasswordForm({Key? key}) : super(key: key);
+class _VerifyCodeForm extends StatefulWidget with ErrorHandling {
+  const _VerifyCodeForm({Key? key}) : super(key: key);
 
   @override
-  State<_ForgotPasswordForm> createState() => _ForgotPasswordFormState();
+  State<_VerifyCodeForm> createState() => _VerifyCodeFormState();
 }
 
-class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
+class _VerifyCodeFormState extends State<_VerifyCodeForm> {
+  late TextEditingController inviteCodeController;
   late TextEditingController emailAddressLoginController;
   String? errorMessage;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+    inviteCodeController = TextEditingController();
     emailAddressLoginController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
-      child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) {
-          return Column(
+        padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
+        child: Form(
+          key: formKey,
+          child: Column(
             children: <Widget>[
               const Padding(
                 padding: EdgeInsets.only(left: 5, bottom: 0),
-                child: Headline(label: 'Olvidé mi contraseña'),
+                child: Headline(label: 'Verificar invitación'),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 0, left: 5, right: 5),
                 child: Text(
-                  'No te preocupes, podrás crear una nueva.\nEscribe tu email y recibirás un código de verificación para continuar.',
+                  'Escribe tu email y el código de invitación que recibiste en tu bandeja de email.',
                   style: TextStyle(height: 1.4),
                 ),
               ),
@@ -91,25 +94,46 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
               ThemedTextFormField(
                 controller: emailAddressLoginController,
                 hintText: 'Email',
-                prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
                 keyboardType: TextInputType.emailAddress,
-                enabled: !state.loading,
                 errorText: errorMessage,
+                validator: emailValidator,
+              ),
+              const SizedBox(height: Constants.space18),
+              ThemedTextFormField(
+                controller: inviteCodeController,
+                hintText: 'Codigo de invitación',
+                keyboardType: TextInputType.text,
+                errorText: errorMessage,
+                validator: codeValidator,
               ),
               const SizedBox(height: 30),
               BigButton(
                 elevation: 5,
-                text: 'Restaurar Contraseña',
-                isLoading: state.loading,
+                text: 'Verificar',
                 onPressed: () {
                   _navigateToNext();
                 },
               )
             ],
-          );
-        },
-      ),
-    );
+          ),
+        ));
+  }
+
+  String? emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Requerido.';
+    }
+    if (!validateEmail(value)) {
+      return 'Introduce un e-mail válido';
+    }
+    return null;
+  }
+
+  String? codeValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Requerido.';
+    }
+    return null;
   }
 
   bool validateEmail(String email) {
@@ -117,38 +141,14 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
   }
 
   void _navigateToNext() {
-    setState(() {
-      errorMessage = null;
-    });
-
-    if (!validateEmail(emailAddressLoginController.text)) {
-      setState(() {
-        errorMessage = "Escribe un email válido";
-      });
+    if (!formKey.currentState!.validate()) {
+      Fluttertoast.showToast(msg: 'Verifica los datos e intenta nuevamente.');
       return;
     }
 
-    BlocProvider.of<AuthCubit>(context)
-        .setEmail(emailAddressLoginController.text);
-
-    BlocProvider.of<AuthCubit>(context).resetPassword(onSuccess: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: BlocProvider.of<AuthCubit>(context),
-            child: const OtpCodePasswordPage(),
-          ),
-        ),
-      );
-    }, onError: (error) {
-      if (error.statusCode == StatusCodes.iforgotError) {
-        setState(() {
-          errorMessage = error.message;
-        });
-        return;
-      }
-      widget.handleError(context, error);
-    });
+    ReceivedInviteProvider.open(context,
+        email: emailAddressLoginController.text,
+        code: inviteCodeController.text);
   }
 }
 

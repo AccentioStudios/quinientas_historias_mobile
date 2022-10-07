@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/failures/status_codes.dart';
 
 import '../../../../core/failures/failures.dart';
+import '../../../../core/failures/status_codes.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/big_button.dart';
@@ -14,6 +14,7 @@ import '../../../../core/utils/constants.dart';
 import '../../data/models/login_model.dart';
 import '../bloc/cubit/auth_cubit.dart';
 import 'forgot_password_page.dart';
+import 'receive_invite_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -124,10 +125,29 @@ class _LoginFormState extends State<_LoginForm> {
                 onPressed: () {
                   _navigateToHomeNavigator(context);
                 },
-              )
+              ),
+              const SizedBox(height: Constants.space41),
+              Align(
+                  alignment: Alignment.center,
+                  child: LinkButton(
+                    text: 'Tengo una invitación',
+                    onTap: () =>
+                        state.loading ? null : _navigateToVerifyInvite(context),
+                  )),
             ],
           );
         },
+      ),
+    );
+  }
+
+  void _navigateToVerifyInvite(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BlocProvider.value(
+          value: BlocProvider.of<AuthCubit>(context),
+          child: const ReceiveInvitePage(),
+        ),
       ),
     );
   }

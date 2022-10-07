@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/features/auth/auth_provider.dart';
 
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
@@ -29,6 +30,9 @@ mixin ErrorHandling on Widget {
     }
 
     if (httpFailure.statusCode == StatusCodes.badRequest) {
+      if (httpFailure.error == FailureType.userIsAlreadyRegistered) {
+        return _gotoUserIsAlreadyRegisteredError<T>(context);
+      }
       return _gotoBadRequestError<T>(
         context,
         btnLabel: btnLabel,
@@ -176,6 +180,34 @@ mixin ErrorHandling on Widget {
             Navigator.of(context, rootNavigator: true)
                 .popUntil((route) => route.isFirst);
             Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+          },
+        ));
+  }
+
+  Future<T?> _gotoUserIsAlreadyRegisteredError<T>(
+    BuildContext context, {
+    String? btnLabel,
+    void Function()? onTap,
+  }) {
+    return _showErrorMessage<T>(
+        context,
+        CommonPageLayout(
+          headline: 'El usuario parece que ya existe',
+          message:
+              'Intenta iniciar sesion usando el mismo email que intentaste registrar. En caso de que no te acuerdes de tu contraseña puedes restablecer tu contraseña.',
+          btnLabel: 'Iniciar sesión',
+          svgImagePath: 'assets/images/broken-invitation-image.svg',
+          onBtnTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .popUntil((route) => route.isFirst);
+            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+          },
+          linkBtnLabel: 'Restablecer Contraseña',
+          linkBtnOnTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .popUntil((route) => route.isFirst);
+            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+            AuthProvider.openIForgot(context);
           },
         ));
   }
