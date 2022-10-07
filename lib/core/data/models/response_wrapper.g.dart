@@ -17,7 +17,7 @@ ResponseWrapper _$ResponseWrapperFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ResponseWrapperToJson(ResponseWrapper instance) =>
     <String, dynamic>{
       'response': instance.response,
-      'statusCode': _$StatusCodesEnumMap[instance.statusCode],
+      'statusCode': _$StatusCodesEnumMap[instance.statusCode]!,
     };
 
 const _$StatusCodesEnumMap = {

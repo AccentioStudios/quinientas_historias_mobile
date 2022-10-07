@@ -112,7 +112,8 @@ class _Username extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(user?.firstName ?? '', style: userNameTextStyle),
+            Text('${user?.firstName ?? ''} ${user?.lastName ?? ''}',
+                style: userNameTextStyle),
             Text(formatUserType(user?.type), style: userTypeTextStyle),
           ],
         ),

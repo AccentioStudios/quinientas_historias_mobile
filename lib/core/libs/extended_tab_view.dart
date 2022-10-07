@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+// ignore: unnecessary_import
 import 'package:flutter/physics.dart';
 
 import 'extended_page_view.dart';

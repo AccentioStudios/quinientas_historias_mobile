@@ -111,9 +111,8 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
         InvitesRequest(
           email: emailController.text,
           type: widget.typeUserToInvite,
-        ), onSuccess: () {
-      print('what');
-    }, onError: (HttpFailure error) {
+        ),
+        onSuccess: () {}, onError: (HttpFailure error) {
       if (error.error == FailureType.userAlreadyInvited) {
         setState(() {
           emailFieldErrorMessage = error.message;
@@ -123,9 +122,6 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
             curve: Curves.easeInOutCubic);
         return;
       }
-      pageController.animateToPage(0,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOutCubic);
       widget.handleError(context, error, onTap: () {
         Navigator.of(context).pop(true);
         Navigator.of(context).pop(true);

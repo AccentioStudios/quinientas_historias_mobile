@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/integrations/remote_config_service.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
@@ -24,7 +25,8 @@ class UserProfileHeader extends StatelessWidget {
           editOnPressed: () {},
         ),
         const SizedBox(height: Constants.space18),
-        Text(state.user!.firstName ?? '', style: userNameProfileTextStyle),
+        Text('${state.user!.firstName ?? ''} ${state.user!.lastName ?? ''}',
+            style: userNameProfileTextStyle),
       ],
     );
   }

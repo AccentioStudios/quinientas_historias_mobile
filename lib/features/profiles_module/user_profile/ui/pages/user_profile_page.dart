@@ -84,7 +84,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                           UserFavorites(
                             state: state,
-                          )
+                          ),
                         ],
                       ),
           ),

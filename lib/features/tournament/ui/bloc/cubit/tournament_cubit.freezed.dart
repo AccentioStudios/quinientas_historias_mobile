@@ -142,9 +142,9 @@ abstract class _TournamentState implements TournamentState {
       final Tournament? tournament}) = _$_TournamentState;
 
   @override
-  dynamic get tournamentIsLoading => throw _privateConstructorUsedError;
+  dynamic get tournamentIsLoading;
   @override
-  Tournament? get tournament => throw _privateConstructorUsedError;
+  Tournament? get tournament;
   @override
   @JsonKey(ignore: true)
   _$$_TournamentStateCopyWith<_$_TournamentState> get copyWith =>

@@ -161,11 +161,11 @@ abstract class _ReadingChallangeState implements DailyChallengeState {
       final Story? storyHovered}) = _$_ReadingChallangeState;
 
   @override
-  bool get loading => throw _privateConstructorUsedError;
+  bool get loading;
   @override
-  DailyChallenge get data => throw _privateConstructorUsedError;
+  DailyChallenge get data;
   @override
-  Story? get storyHovered => throw _privateConstructorUsedError;
+  Story? get storyHovered;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingChallangeStateCopyWith<_$_ReadingChallangeState> get copyWith =>

@@ -170,13 +170,13 @@ abstract class _SchoolProfileState implements SchoolProfileState {
       final User? user}) = _$_SchoolProfileState;
 
   @override
-  dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get isLoading;
   @override
-  dynamic get canEdit => throw _privateConstructorUsedError;
+  dynamic get canEdit;
   @override
-  School? get data => throw _privateConstructorUsedError;
+  School? get data;
   @override
-  User? get user => throw _privateConstructorUsedError;
+  User? get user;
   @override
   @JsonKey(ignore: true)
   _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>

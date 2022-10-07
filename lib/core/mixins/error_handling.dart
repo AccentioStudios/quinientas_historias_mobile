@@ -38,6 +38,10 @@ mixin ErrorHandling on Widget {
       );
     }
 
+    if (httpFailure.error == FailureType.inviteNotFound) {
+      return _gotoInviteNotFoundError<T>(context);
+    }
+
     return _gotoCommonError<T>(
       context,
       HttpFailure(),
@@ -150,6 +154,27 @@ mixin ErrorHandling on Widget {
           btnLabel: 'Iniciar sesión',
           onBtnTap: () {
             // Navigator.of(context).popUntil((route) => route.isFirst);
+            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+          },
+        ));
+  }
+
+  Future<T?> _gotoInviteNotFoundError<T>(
+    BuildContext context, {
+    String? btnLabel,
+    void Function()? onTap,
+  }) {
+    return _showErrorMessage<T>(
+        context,
+        CommonPageLayout(
+          headline: 'La invitación no existe',
+          message:
+              'Parece que has recibido una invitación que no existe. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
+          btnLabel: 'Entiendo',
+          svgImagePath: 'assets/images/broken-invitation-image.svg',
+          onBtnTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .popUntil((route) => route.isFirst);
             Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
           },
         ));

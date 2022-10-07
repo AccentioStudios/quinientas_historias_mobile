@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../../../../../core/data/entities/invites_entity.dart';
+import '../../../../../core/failures/failures.dart';
+import '../../../../../core/mixins/error_handling.dart';
+import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/pages/common_page_layout.dart';
+import '../../../../user_managment/user_management_provider.dart';
 import '../cubit/received_invites_cubit.dart';
 
 class ReceivedInvitesPage extends StatefulWidget with ErrorHandling {
@@ -19,10 +24,19 @@ class ReceivedInvitesPage extends StatefulWidget with ErrorHandling {
 class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
   @override
   void didChangeDependencies() {
-    context.read<ReceivedInvitesCubit>().validateCode(widget.email, widget.code,
-        onSuccess: () {},
-        onError: (error) => widget.handleError(context, error));
+    validateCode();
     super.didChangeDependencies();
+  }
+
+  void validateCode() {
+    context.read<ReceivedInvitesCubit>().validateCode(widget.email, widget.code,
+        onSuccess: () {}, onError: (HttpFailure error) {
+      widget.handleError(context, error, onTap: () {
+        const secureStorage = FlutterSecureStorage();
+        secureStorage.deleteAll();
+        Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+      });
+    });
   }
 
   @override
@@ -33,16 +47,39 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : CommonPageLayout(
-                headline:
-                    '${state.whoIsInviting?.firstName} te ha invitado a formar parte del torneo',
-                message:
-                    'Has recibido una invitacion para formar parte del equipo:\n\n${state.team?.name}',
-                svgImagePath: 'assets/images/trophy-image.svg',
-                btnLabel: 'Aceptar invitación',
-                onBtnTap: () {},
-              );
+            : state.invite?.accepted == 0
+                ? CommonPageLayout(
+                    headline:
+                        '${state.invite?.inviter?.firstName} te ha invitado a formar parte del torneo',
+                    message:
+                        'Has recibido una invitacion para formar parte del equipo:\n\n${state.invite?.team?.name} de la escuela ${state.invite?.school?.name}',
+                    svgImagePath: 'assets/images/trophy-image.svg',
+                    btnLabel: 'Aceptar invitación',
+                    onBtnTap: () {
+                      navigateToRegisterUser(context,
+                          invite: state.invite!, code: widget.code);
+                    },
+                  )
+                : CommonPageLayout(
+                    headline: 'Esta invitación ya no es válida',
+                    message:
+                        'Has recibido una invitación para formar parte de un equipo. Sin embargo, parece que ya no es válida o ya fué usada.',
+                    svgImagePath: 'assets/images/broken-invitation-image.svg',
+                    btnLabel: 'Entiendo',
+                    onBtnTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .popUntil((route) => route.isFirst);
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(Routes.login);
+                    },
+                  );
       },
     );
+  }
+
+  navigateToRegisterUser(BuildContext context,
+      {required Invite invite, required String code}) {
+    UserManagementProvider.openRegisterReader(context,
+        invite: invite, code: code);
   }
 }

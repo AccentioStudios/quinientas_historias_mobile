@@ -224,17 +224,17 @@ abstract class _AuthState implements AuthState {
       final String code}) = _$_AuthState;
 
   @override
-  bool get loading => throw _privateConstructorUsedError;
+  bool get loading;
   @override
-  HttpFailure? get httpFailure => throw _privateConstructorUsedError;
+  HttpFailure? get httpFailure;
   @override
-  String get email => throw _privateConstructorUsedError;
+  String get email;
   @override
-  String get password => throw _privateConstructorUsedError;
+  String get password;
   @override
-  String get token => throw _privateConstructorUsedError;
+  String get token;
   @override
-  String get code => throw _privateConstructorUsedError;
+  String get code;
   @override
   @JsonKey(ignore: true)
   _$$_AuthStateCopyWith<_$_AuthState> get copyWith =>

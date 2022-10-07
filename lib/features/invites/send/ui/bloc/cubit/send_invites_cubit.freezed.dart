@@ -209,15 +209,15 @@ abstract class _SendInvitesState implements SendInvitesState {
       final User? user}) = _$_SendInvitesState;
 
   @override
-  dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get isLoading;
   @override
-  dynamic get sendingInvite => throw _privateConstructorUsedError;
+  dynamic get sendingInvite;
   @override
-  List<Invite> get invites => throw _privateConstructorUsedError;
+  List<Invite> get invites;
   @override
-  dynamic get formValidationError => throw _privateConstructorUsedError;
+  dynamic get formValidationError;
   @override
-  User? get user => throw _privateConstructorUsedError;
+  User? get user;
   @override
   @JsonKey(ignore: true)
   _$$_SendInvitesStateCopyWith<_$_SendInvitesState> get copyWith =>

@@ -23,12 +23,6 @@ class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
           children: [
             const Align(
                 alignment: Alignment.topCenter, child: GradientBackground()),
-            AppBar(
-              elevation: 0,
-              toolbarHeight: 64,
-              backgroundColor: Colors.transparent,
-              centerTitle: true,
-            ),
             ListView(
               padding: const EdgeInsets.only(
                   top: 64, left: Constants.space18, right: Constants.space18),
@@ -37,6 +31,12 @@ class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
                 SvgPicture.asset('assets/images/forgot-password-image.svg'),
                 const _ForgotPasswordForm(),
               ],
+            ),
+            AppBar(
+              elevation: 0,
+              toolbarHeight: 64,
+              backgroundColor: Colors.transparent,
+              centerTitle: true,
             ),
           ],
         ),

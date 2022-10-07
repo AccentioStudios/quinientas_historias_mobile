@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:quinientas_historias/core/data/entities/story_entity.dart';
 
 import '../../../../core/data/entities/school_entity.dart';
@@ -45,6 +46,40 @@ class User {
   final int? diceCount;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  User copyWith({
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? avatarUrl,
+    String? email,
+    UserType? type,
+    int? streak,
+    int? readed,
+    int? score,
+    List<Story>? favoriteStories,
+    School? school,
+    Team? team,
+    UserDivision? division,
+    int? diceCount,
+  }) {
+    return User(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      email: email ?? this.email,
+      type: type ?? this.type,
+      streak: streak ?? this.streak,
+      readed: readed ?? this.readed,
+      score: score ?? this.score,
+      favoriteStories: favoriteStories ?? this.favoriteStories,
+      school: school ?? this.school,
+      team: team ?? this.team,
+      division: division ?? this.division,
+      diceCount: diceCount ?? this.diceCount,
+    );
+  }
 }
 
 enum UserType {

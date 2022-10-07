@@ -25,7 +25,7 @@ Invite _$InviteFromJson(Map<String, dynamic> json) => Invite(
 Map<String, dynamic> _$InviteToJson(Invite instance) => <String, dynamic>{
       'id': instance.id,
       'invitedEmail': instance.invitedEmail,
-      'invitedType': _$UserTypeEnumMap[instance.invitedType],
+      'invitedType': _$UserTypeEnumMap[instance.invitedType]!,
       'inviter': instance.inviter,
       'team': instance.team,
       'school': instance.school,

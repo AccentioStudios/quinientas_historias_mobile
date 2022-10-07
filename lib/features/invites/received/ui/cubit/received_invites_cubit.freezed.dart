@@ -16,12 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ReceivedInvitesState {
-  User? get whoIsInviting => throw _privateConstructorUsedError;
-  Team? get team => throw _privateConstructorUsedError;
-  School? get school => throw _privateConstructorUsedError;
-  String get code => throw _privateConstructorUsedError;
   dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get formValidationError => throw _privateConstructorUsedError;
+  Invite? get invite => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReceivedInvitesStateCopyWith<ReceivedInvitesState> get copyWith =>
@@ -33,13 +30,7 @@ abstract class $ReceivedInvitesStateCopyWith<$Res> {
   factory $ReceivedInvitesStateCopyWith(ReceivedInvitesState value,
           $Res Function(ReceivedInvitesState) then) =
       _$ReceivedInvitesStateCopyWithImpl<$Res>;
-  $Res call(
-      {User? whoIsInviting,
-      Team? team,
-      School? school,
-      String code,
-      dynamic isLoading,
-      dynamic formValidationError});
+  $Res call({dynamic isLoading, Invite? invite, String code});
 }
 
 /// @nodoc
@@ -53,38 +44,23 @@ class _$ReceivedInvitesStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? whoIsInviting = freezed,
-    Object? team = freezed,
-    Object? school = freezed,
-    Object? code = freezed,
     Object? isLoading = freezed,
-    Object? formValidationError = freezed,
+    Object? invite = freezed,
+    Object? code = freezed,
   }) {
     return _then(_value.copyWith(
-      whoIsInviting: whoIsInviting == freezed
-          ? _value.whoIsInviting
-          : whoIsInviting // ignore: cast_nullable_to_non_nullable
-              as User?,
-      team: team == freezed
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as Team?,
-      school: school == freezed
-          ? _value.school
-          : school // ignore: cast_nullable_to_non_nullable
-              as School?,
-      code: code == freezed
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      formValidationError: formValidationError == freezed
-          ? _value.formValidationError
-          : formValidationError // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      invite: invite == freezed
+          ? _value.invite
+          : invite // ignore: cast_nullable_to_non_nullable
+              as Invite?,
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -96,13 +72,7 @@ abstract class _$$_ReceivedInvitesStateCopyWith<$Res>
           $Res Function(_$_ReceivedInvitesState) then) =
       __$$_ReceivedInvitesStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {User? whoIsInviting,
-      Team? team,
-      School? school,
-      String code,
-      dynamic isLoading,
-      dynamic formValidationError});
+  $Res call({dynamic isLoading, Invite? invite, String code});
 }
 
 /// @nodoc
@@ -118,34 +88,20 @@ class __$$_ReceivedInvitesStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? whoIsInviting = freezed,
-    Object? team = freezed,
-    Object? school = freezed,
-    Object? code = freezed,
     Object? isLoading = freezed,
-    Object? formValidationError = freezed,
+    Object? invite = freezed,
+    Object? code = freezed,
   }) {
     return _then(_$_ReceivedInvitesState(
-      whoIsInviting: whoIsInviting == freezed
-          ? _value.whoIsInviting
-          : whoIsInviting // ignore: cast_nullable_to_non_nullable
-              as User?,
-      team: team == freezed
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as Team?,
-      school: school == freezed
-          ? _value.school
-          : school // ignore: cast_nullable_to_non_nullable
-              as School?,
+      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
+      invite: invite == freezed
+          ? _value.invite
+          : invite // ignore: cast_nullable_to_non_nullable
+              as Invite?,
       code: code == freezed
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      formValidationError: formValidationError == freezed
-          ? _value.formValidationError
-          : formValidationError,
     ));
   }
 }
@@ -154,32 +110,20 @@ class __$$_ReceivedInvitesStateCopyWithImpl<$Res>
 
 class _$_ReceivedInvitesState implements _ReceivedInvitesState {
   const _$_ReceivedInvitesState(
-      {this.whoIsInviting,
-      this.team,
-      this.school,
-      this.code = '',
-      this.isLoading = true,
-      this.formValidationError = false});
+      {this.isLoading = true, this.invite, this.code = ''});
 
-  @override
-  final User? whoIsInviting;
-  @override
-  final Team? team;
-  @override
-  final School? school;
-  @override
-  @JsonKey()
-  final String code;
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
+  final Invite? invite;
+  @override
   @JsonKey()
-  final dynamic formValidationError;
+  final String code;
 
   @override
   String toString() {
-    return 'ReceivedInvitesState(whoIsInviting: $whoIsInviting, team: $team, school: $school, code: $code, isLoading: $isLoading, formValidationError: $formValidationError)';
+    return 'ReceivedInvitesState(isLoading: $isLoading, invite: $invite, code: $code)';
   }
 
   @override
@@ -187,25 +131,17 @@ class _$_ReceivedInvitesState implements _ReceivedInvitesState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ReceivedInvitesState &&
-            const DeepCollectionEquality()
-                .equals(other.whoIsInviting, whoIsInviting) &&
-            const DeepCollectionEquality().equals(other.team, team) &&
-            const DeepCollectionEquality().equals(other.school, school) &&
-            const DeepCollectionEquality().equals(other.code, code) &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.formValidationError, formValidationError));
+            const DeepCollectionEquality().equals(other.invite, invite) &&
+            const DeepCollectionEquality().equals(other.code, code));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(whoIsInviting),
-      const DeepCollectionEquality().hash(team),
-      const DeepCollectionEquality().hash(school),
-      const DeepCollectionEquality().hash(code),
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(formValidationError));
+      const DeepCollectionEquality().hash(invite),
+      const DeepCollectionEquality().hash(code));
 
   @JsonKey(ignore: true)
   @override
@@ -216,25 +152,16 @@ class _$_ReceivedInvitesState implements _ReceivedInvitesState {
 
 abstract class _ReceivedInvitesState implements ReceivedInvitesState {
   const factory _ReceivedInvitesState(
-      {final User? whoIsInviting,
-      final Team? team,
-      final School? school,
-      final String code,
-      final dynamic isLoading,
-      final dynamic formValidationError}) = _$_ReceivedInvitesState;
+      {final dynamic isLoading,
+      final Invite? invite,
+      final String code}) = _$_ReceivedInvitesState;
 
   @override
-  User? get whoIsInviting => throw _privateConstructorUsedError;
+  dynamic get isLoading;
   @override
-  Team? get team => throw _privateConstructorUsedError;
+  Invite? get invite;
   @override
-  School? get school => throw _privateConstructorUsedError;
-  @override
-  String get code => throw _privateConstructorUsedError;
-  @override
-  dynamic get isLoading => throw _privateConstructorUsedError;
-  @override
-  dynamic get formValidationError => throw _privateConstructorUsedError;
+  String get code;
   @override
   @JsonKey(ignore: true)
   _$$_ReceivedInvitesStateCopyWith<_$_ReceivedInvitesState> get copyWith =>

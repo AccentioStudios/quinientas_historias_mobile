@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/integrations/remote_config_service.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/single_chip.dart';
 import '../../../../core/utils/constants.dart';
@@ -22,7 +23,9 @@ class HeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 290 + MediaQuery.of(context).padding.top,
+      height: _checkDailyChallengeEnabled()
+          ? 290 + MediaQuery.of(context).padding.top
+          : 160 + MediaQuery.of(context).padding.top,
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -33,17 +36,21 @@ class HeaderCard extends StatelessWidget {
         HomeAppBar(
           user: state.dashboard?.user,
           onTap: userProfileOnTap,
+          hideStreak: !_checkUserStreakEnabled(),
         ),
         PaddingColumn(
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           children: [
-            const SizedBox(height: Constants.space12),
-            HeroHeader(
-              dayState: getHeroHeaderState(),
-              onTap: dailyChallengeOnTap,
-              dailyChallenge: state.dashboard?.dailyChallenge,
-            ),
-            const SizedBox(height: Constants.space18),
+            if (_checkDailyChallengeEnabled())
+              const SizedBox(height: Constants.space12),
+            if (_checkDailyChallengeEnabled())
+              HeroHeader(
+                dayState: getHeroHeaderState(),
+                onTap: dailyChallengeOnTap,
+                dailyChallenge: state.dashboard?.dailyChallenge,
+              ),
+            if (_checkDailyChallengeEnabled())
+              const SizedBox(height: Constants.space18),
             _PointsRow(
               points: state.dashboard?.user.score ?? 0,
               readed: state.dashboard?.user.readed ?? 0,
@@ -52,6 +59,18 @@ class HeaderCard extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  bool _checkDailyChallengeEnabled() {
+    final remoteConfig = RemoteConfigService.instance;
+    final bool response = remoteConfig.getBool('daily_challenge_enabled');
+    return response;
+  }
+
+  bool _checkUserStreakEnabled() {
+    final remoteConfig = RemoteConfigService.instance;
+    final bool response = remoteConfig.getBool('user_streak_enabled');
+    return response;
   }
 
   HeroHeaderDayState getHeroHeaderState() {

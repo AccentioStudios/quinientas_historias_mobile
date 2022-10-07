@@ -7,7 +7,7 @@ part 'failures.g.dart';
 class HttpFailure implements Exception {
   HttpFailure(
       {this.message, this.error, this.statusCode = StatusCodes.unknown});
-  final String? message;
+  final dynamic message;
   final FailureType? error;
   final StatusCodes? statusCode;
 
@@ -26,6 +26,8 @@ enum FailureType {
   email,
   @JsonValue('password-error')
   password,
+  @JsonValue('fields-error')
+  fieldsError,
 
   // Auth Failures Type
   @JsonValue('must-update-password')
@@ -34,6 +36,10 @@ enum FailureType {
   unauthorized,
   @JsonValue('invalid-access-token')
   invalidAccessToken,
+
+  // User Register Failures Type
+  @JsonValue('user-is-already-registered')
+  userIsAlreadyRegistered,
 
   //IForgot Failures Type
   @JsonValue('iforgot-send-code-issue')
@@ -48,6 +54,8 @@ enum FailureType {
   //Invites Failures Type
   @JsonValue('user-already-invited')
   userAlreadyInvited,
+  @JsonValue('invite-not-found')
+  inviteNotFound,
 
   // Others
   @JsonValue('http-handle-error')

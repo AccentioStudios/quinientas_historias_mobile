@@ -229,17 +229,17 @@ abstract class _ReadingStoryState implements ReadingStoryState {
       final StoryRatings? myRating}) = _$_ReadingStoryState;
 
   @override
-  ReadingOptions get readingOptions => throw _privateConstructorUsedError;
+  ReadingOptions get readingOptions;
   @override
-  bool get loading => throw _privateConstructorUsedError;
+  bool get loading;
   @override
-  bool get saveFavoriteloading => throw _privateConstructorUsedError;
+  bool get saveFavoriteloading;
   @override
-  int get storyProgress => throw _privateConstructorUsedError;
+  int get storyProgress;
   @override
-  Story? get story => throw _privateConstructorUsedError;
+  Story? get story;
   @override
-  StoryRatings? get myRating => throw _privateConstructorUsedError;
+  StoryRatings? get myRating;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingStoryStateCopyWith<_$_ReadingStoryState> get copyWith =>

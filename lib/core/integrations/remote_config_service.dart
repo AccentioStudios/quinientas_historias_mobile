@@ -15,6 +15,8 @@ class RemoteConfigService {
 
     final defaultRemoteConfigurations = <String, dynamic>{
       'maintenance_mode': false,
+      'user_streak_enabled': true,
+      'daily_challenge_enabled': true,
     };
     instance.setDefaults({...defaultRemoteConfigurations});
 

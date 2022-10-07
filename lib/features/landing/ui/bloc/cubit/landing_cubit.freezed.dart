@@ -119,7 +119,7 @@ abstract class _LandingState implements LandingState {
   const factory _LandingState({final dynamic loading}) = _$_LandingState;
 
   @override
-  dynamic get loading => throw _privateConstructorUsedError;
+  dynamic get loading;
   @override
   @JsonKey(ignore: true)
   _$$_LandingStateCopyWith<_$_LandingState> get copyWith =>

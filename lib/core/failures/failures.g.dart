@@ -7,7 +7,7 @@ part of 'failures.dart';
 // **************************************************************************
 
 HttpFailure _$HttpFailureFromJson(Map<String, dynamic> json) => HttpFailure(
-      message: json['message'] as String?,
+      message: json['message'],
       error: $enumDecodeNullable(_$FailureTypeEnumMap, json['error']),
       statusCode:
           $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']) ??
@@ -24,14 +24,17 @@ Map<String, dynamic> _$HttpFailureToJson(HttpFailure instance) =>
 const _$FailureTypeEnumMap = {
   FailureType.email: 'email-error',
   FailureType.password: 'password-error',
+  FailureType.fieldsError: 'fields-error',
   FailureType.mustUpdatePassword: 'must-update-password',
   FailureType.unauthorized: 'unauthorized',
   FailureType.invalidAccessToken: 'invalid-access-token',
+  FailureType.userIsAlreadyRegistered: 'user-is-already-registered',
   FailureType.sendCodeIssue: 'iforgot-send-code-issue',
   FailureType.invalidToken: 'iforgot-invalid-token',
   FailureType.invalidCode: 'iforgot-invalid-code',
   FailureType.codeExpired: 'iforgot-code-expired',
   FailureType.userAlreadyInvited: 'user-already-invited',
+  FailureType.inviteNotFound: 'invite-not-found',
   FailureType.httpHandleError: 'http-handle-error',
   FailureType.networkError: 'network-error',
   FailureType.unknown: 'unknown',

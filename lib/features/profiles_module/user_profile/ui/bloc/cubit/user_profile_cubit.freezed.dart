@@ -183,13 +183,13 @@ abstract class _UserProfileState implements UserProfileState {
       final User? user}) = _$_UserProfileState;
 
   @override
-  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoading;
   @override
-  bool get isMyProfile => throw _privateConstructorUsedError;
+  bool get isMyProfile;
   @override
-  HttpFailure? get httpFailure => throw _privateConstructorUsedError;
+  HttpFailure? get httpFailure;
   @override
-  User? get user => throw _privateConstructorUsedError;
+  User? get user;
   @override
   @JsonKey(ignore: true)
   _$$_UserProfileStateCopyWith<_$_UserProfileState> get copyWith =>

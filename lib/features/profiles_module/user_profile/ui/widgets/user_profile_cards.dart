@@ -8,6 +8,7 @@ import 'package:quinientas_historias/features/profiles_module/school_profile/sch
 
 import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
+import '../../../../../core/integrations/remote_config_service.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../team_profile/team_profile_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
@@ -39,15 +40,14 @@ class UserCards extends StatelessWidget {
                 svgIconPath: 'assets/icons/book-open-outline-icon.svg',
               ),
             ),
-            // Expanded(
-            //   child: SingleChip(
-            //     primaryLabel:
-            //         state.user?.favoriteStories?.length.toString() ?? '0',
-            //     secondaryLabel: 'Favoritos',
-            //     svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
-            //   ),
-            // ),
           ],
+        ),
+        const SizedBox(
+          height: Constants.space16,
+        ),
+        _UserPointsRowBottom(
+          favoritos: state.user?.favoriteStories?.length ?? 0,
+          streak: state.user?.streak ?? 0,
         ),
         const SizedBox(
           height: Constants.space16,
@@ -72,13 +72,6 @@ class UserCards extends StatelessWidget {
               )
           ],
         ),
-        const SizedBox(
-          height: Constants.space16,
-        ),
-        _UserPointsRowBottom(
-          favoritos: state.user?.favoriteStories?.length ?? 0,
-          streak: state.user?.streak ?? 0,
-        )
       ],
     );
   }
@@ -129,15 +122,22 @@ class _UserPointsRowBottom extends StatelessWidget {
             svgIconPath: 'assets/icons/bookmark-outline-icon.svg',
           ),
         ),
-        const SizedBox(width: Constants.space18),
-        Expanded(
-            child: SingleChip(
-          primaryLabel: streak.toString(),
-          secondaryLabel: 'Racha actual',
-          svgIconPath: 'assets/icons/flame-outline-icon.svg',
-        ))
+        if (_checkUserStreakEnabled()) const SizedBox(width: Constants.space18),
+        if (_checkUserStreakEnabled())
+          Expanded(
+              child: SingleChip(
+            primaryLabel: streak.toString(),
+            secondaryLabel: 'Racha actual',
+            svgIconPath: 'assets/icons/flame-outline-icon.svg',
+          ))
       ],
     );
+  }
+
+  bool _checkUserStreakEnabled() {
+    final remoteConfig = RemoteConfigService.instance;
+    final bool response = remoteConfig.getBool('user_streak_enabled');
+    return response;
   }
 }
 

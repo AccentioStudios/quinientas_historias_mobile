@@ -8,7 +8,7 @@ part of 'reading_options_model.dart';
 
 ReadingOptions _$ReadingOptionsFromJson(Map<String, dynamic> json) =>
     ReadingOptions(
-      fontSizeBase: (json['fontSizeBase'] as num?)?.toDouble() ?? 1.20,
+      fontSizeBase: (json['fontSizeBase'] as num?)?.toDouble() ?? 16,
       pTextAlign: $enumDecodeNullable(_$TextAlignEnumMap, json['pTextAlign']) ??
           TextAlign.justify,
       lineHeightBase: (json['lineHeightBase'] as num?)?.toDouble() ?? 145,
@@ -19,9 +19,9 @@ ReadingOptions _$ReadingOptionsFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ReadingOptionsToJson(ReadingOptions instance) =>
     <String, dynamic>{
       'fontSizeBase': instance.fontSizeBase,
-      'pTextAlign': _$TextAlignEnumMap[instance.pTextAlign],
+      'pTextAlign': _$TextAlignEnumMap[instance.pTextAlign]!,
       'lineHeightBase': instance.lineHeightBase,
-      'theme': _$ThemeModeEnumMap[instance.theme],
+      'theme': _$ThemeModeEnumMap[instance.theme]!,
     };
 
 const _$TextAlignEnumMap = {

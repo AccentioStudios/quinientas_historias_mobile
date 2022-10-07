@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,7 +56,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   @override
   Widget build(BuildContext context) {
     final unescape = HtmlUnescape();
-    const utf8Encoder = Utf8Encoder();
 
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {

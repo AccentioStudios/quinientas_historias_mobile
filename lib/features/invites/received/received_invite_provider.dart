@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../core/data/entities/user_entity.dart';
 import '../data/repositories/invites_repository.dart';
@@ -15,7 +16,6 @@ class ReceivedInviteProvider extends StatelessWidget {
       required this.code})
       : super(key: key);
   final UserType typeUserToInvite;
-
   final String email;
   final String code;
 
@@ -40,6 +40,9 @@ class ReceivedInviteProvider extends StatelessWidget {
         : Navigator.of(context!, rootNavigator: true);
 
     if (navigator != null) {
+      const secureStorage = FlutterSecureStorage();
+      secureStorage.deleteAll();
+
       navigator.push<void>(MaterialPageRoute<void>(
           builder: (context) => ReceivedInviteProvider(
                 code: code,

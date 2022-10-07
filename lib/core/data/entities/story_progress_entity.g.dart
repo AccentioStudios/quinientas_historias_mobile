@@ -18,7 +18,7 @@ StoryProgress _$StoryProgressFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StoryProgressToJson(StoryProgress instance) =>
     <String, dynamic>{
-      'status': _$StoryStatusEnumMap[instance.status],
+      'status': _$StoryStatusEnumMap[instance.status]!,
       'progress': instance.progress,
       'story': instance.story,
       'myRating': instance.myRating,

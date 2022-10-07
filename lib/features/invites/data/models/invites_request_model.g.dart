@@ -15,7 +15,7 @@ InvitesRequest _$InvitesRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$InvitesRequestToJson(InvitesRequest instance) =>
     <String, dynamic>{
       'email': instance.email,
-      'type': _$UserTypeEnumMap[instance.type],
+      'type': _$UserTypeEnumMap[instance.type]!,
     };
 
 const _$UserTypeEnumMap = {

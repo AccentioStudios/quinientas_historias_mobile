@@ -214,17 +214,17 @@ abstract class _TeamProfileState implements TeamProfileState {
       final User? user}) = _$_TeamProfileState;
 
   @override
-  dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get isLoading;
   @override
-  dynamic get canEdit => throw _privateConstructorUsedError;
+  dynamic get canEdit;
   @override
-  dynamic get isMyTeam => throw _privateConstructorUsedError;
+  dynamic get isMyTeam;
   @override
-  dynamic get error => throw _privateConstructorUsedError;
+  dynamic get error;
   @override
-  Team? get team => throw _privateConstructorUsedError;
+  Team? get team;
   @override
-  User? get user => throw _privateConstructorUsedError;
+  User? get user;
   @override
   @JsonKey(ignore: true)
   _$$_TeamProfileStateCopyWith<_$_TeamProfileState> get copyWith =>

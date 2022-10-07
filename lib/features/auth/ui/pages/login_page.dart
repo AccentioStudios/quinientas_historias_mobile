@@ -20,29 +20,28 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            const Align(
-                alignment: Alignment.topCenter, child: GradientBackground()),
-            AppBar(
-              elevation: 0,
-              toolbarHeight: 64,
-              backgroundColor: Colors.transparent,
-              centerTitle: true,
-            ),
-            ListView(
-              padding: const EdgeInsets.only(
-                  top: 64, left: Constants.space18, right: Constants.space18),
-              children: [
-                const SizedBox(height: Constants.space21),
-                SvgPicture.asset('assets/images/login-image.svg'),
-                const _LoginForm(),
-              ],
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              const Align(
+                  alignment: Alignment.topCenter, child: GradientBackground()),
+              ListView(
+                padding: const EdgeInsets.only(
+                    top: 64, left: Constants.space18, right: Constants.space18),
+                children: [
+                  const SizedBox(height: Constants.space21),
+                  SvgPicture.asset('assets/images/login-image.svg'),
+                  const SingleChildScrollView(child: _LoginForm()),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

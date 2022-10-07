@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../../core/data/entities/user_entity.dart';
 import '../../../../../../core/mixins/form_validation.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
+import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../data/models/verify_invite_code_request_model.dart';
@@ -20,30 +21,19 @@ class ReceivedInvitesCubit extends Cubit<ReceivedInvitesState>
 
   final InvitesUseCases invitesUseCases;
 
-  validateForm(String s) {
-    if (!validateEmail(s)) {
-      emit(state.copyWith(formValidationError: true));
-    } else {
-      emit(state.copyWith(formValidationError: false));
-    }
-  }
-
   validateCode(String email, String code,
       {required Function onSuccess, required Function onError}) {
     emit(state.copyWith(isLoading: true, code: code));
     invitesUseCases
         .validateCode(VerifyInviteCodeRequest(code: state.code, email: email))
-        .listen((invites) {
+        .listen((invite) {
       emit(state.copyWith(
         isLoading: false,
-        whoIsInviting: invites.inviter,
-        team: invites.team,
-        school: invites.school,
+        invite: invite,
       ));
       onSuccess();
     }, onError: (error) {
       onError(error);
-      emit(state.copyWith(isLoading: false));
     }).subscribe(this);
   }
 }

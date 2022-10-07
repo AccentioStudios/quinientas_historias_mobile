@@ -41,6 +41,17 @@ mixin SheetMessages on Widget {
     );
   }
 
+  Future<T?> showAddUserAvatarMessage<T>(BuildContext context) {
+    return showMessage(
+      context,
+      height: 350,
+      title: '¡Espera un momento!',
+      content:
+          '¿Estas seguro que quieres crear una cuenta sin foto de perfil?\n\nTener una foto de perfil ayuda a tus compañeros a identificar mejor quien eres.',
+      btnLabel: 'Subir foto',
+    );
+  }
+
   Future<T?> showChallengeNotCompletedMessage<T>(BuildContext context) {
     return showMessage(
       context,

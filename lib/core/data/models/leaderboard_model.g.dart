@@ -44,7 +44,7 @@ Map<String, dynamic> _$LeaderboardChangePositionToJson(
         LeaderboardChangePosition instance) =>
     <String, dynamic>{
       'number': instance.number,
-      'type': _$LeaderboardChangePositionTypeEnumMap[instance.type],
+      'type': _$LeaderboardChangePositionTypeEnumMap[instance.type]!,
     };
 
 const _$LeaderboardChangePositionTypeEnumMap = {

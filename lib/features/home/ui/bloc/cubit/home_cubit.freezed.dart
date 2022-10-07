@@ -136,9 +136,9 @@ abstract class _HomeState implements HomeState {
       _$_HomeState;
 
   @override
-  Dashboard? get dashboard => throw _privateConstructorUsedError;
+  Dashboard? get dashboard;
   @override
-  bool get loading => throw _privateConstructorUsedError;
+  bool get loading;
   @override
   @JsonKey(ignore: true)
   _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>

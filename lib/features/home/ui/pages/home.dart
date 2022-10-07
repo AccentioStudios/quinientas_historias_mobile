@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/failures/status_codes.dart';
+import '../../../../core/integrations/remote_config_service.dart';
 import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
@@ -83,11 +84,17 @@ class _HomePageState extends State<HomePage> {
     secureStorage.deleteAll();
   }
 
+  bool _checkDailyChallengeEnabled() {
+    final remoteConfig = RemoteConfigService.instance;
+    final bool response = remoteConfig.getBool('daily_challenge_enabled');
+    return response;
+  }
+
   Future<dynamic> getDashboard(BuildContext context, {HomeState? state}) {
     var completer = Completer();
     BlocProvider.of<HomeCubit>(context).getDashboard(
         onSuccess: (dashboard) async {
-      if (dashboard.dailyChallenge != null) {
+      if (dashboard.dailyChallenge != null && _checkDailyChallengeEnabled()) {
         if (dashboard.dailyChallenge!.hasOldChallengeIncomplete) {
           bool? userWantsTryAgain =
               await widget.showChallengeNotCompletedMessage<bool>(context);

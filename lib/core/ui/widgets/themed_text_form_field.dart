@@ -15,7 +15,8 @@ class ThemedTextFormField extends StatelessWidget {
       this.autofocus = false,
       this.errorText,
       this.onChanged,
-      this.focusNode})
+      this.focusNode,
+      this.validator})
       : super(key: key);
 
   final String? hintText;
@@ -28,9 +29,13 @@ class ThemedTextFormField extends StatelessWidget {
   final String? errorText;
   final ValueChanged<String>? onChanged;
   final FocusNode? focusNode;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: keyboardType == TextInputType.name
+          ? TextCapitalization.words
+          : TextCapitalization.none,
       focusNode: focusNode,
       autofocus: autofocus,
       keyboardType: keyboardType,
@@ -38,6 +43,7 @@ class ThemedTextFormField extends StatelessWidget {
       controller: controller,
       enabled: enabled,
       onChanged: onChanged,
+      validator: validator,
       decoration: InputDecoration(
         errorText: errorText,
         prefixIcon: prefixIconSvgPath != null
@@ -83,6 +89,10 @@ class ThemedTextFormField extends StatelessWidget {
               BorderSide(color: Theme.of(context).colorScheme.error, width: 1),
           borderRadius: Constants.borderRadius50,
         ),
+        errorStyle: TextStyle(
+            color: Theme.of(context).colorScheme.error,
+            fontSize: 15,
+            overflow: TextOverflow.fade),
         filled: enabled == false ? false : true,
         fillColor: Theme.of(context).colorScheme.primaryContainer,
         hintText: hintText,

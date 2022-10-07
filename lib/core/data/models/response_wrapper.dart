@@ -25,10 +25,7 @@ class ResponseWrapper {
       if (kDebugMode) {
         print('error at ResponseWrapper parse');
       }
-      return ResponseWrapper(
-        response: response,
-        statusCode: StatusCodes.unknown,
-      );
+      return ResponseWrapper(response: response);
     }
   }
 
