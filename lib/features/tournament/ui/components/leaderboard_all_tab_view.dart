@@ -2,9 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../profiles_module/school_profile/school_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 
@@ -53,7 +56,7 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
       shrinkWrap: true,
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
         itemBuilder: (context, item, index) => LeaderboardListItem(
-          onTap: () {},
+          onTap: () => _navigateToSchoolPage(context, item.school),
           avatarWidget: CircleAvatar(
             backgroundImage: NetworkImage(item.school?.avatarUrl ?? ''),
           ),
@@ -101,6 +104,18 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
         return const SizedBox(height: Constants.space12);
       },
     );
+  }
+
+  void _navigateToSchoolPage(BuildContext context, School? mySchool) {
+    if (mySchool != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.schoolProfile,
+        arguments: SchoolProfileArguments(
+          mySchool.id,
+        ),
+      );
+    }
   }
 
   _fetchPage(int pageKey) {
