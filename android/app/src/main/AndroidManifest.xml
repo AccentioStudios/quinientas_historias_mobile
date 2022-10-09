@@ -40,14 +40,12 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="geo" />
 
-                <data android:scheme="http" />
-                <data android:scheme="https" />
+                <data android:scheme="http" android:host="quinientashistorias.page.link" />
+                <data android:scheme="https" android:host="quinientashistorias.page.link" />
 
-                <data android:host="500historias.com" />
-                <data android:host="quinientashistorias.page.link" />
-                <data android:host="links.500h-dev.accentio.app" />
+                <data android:scheme="http" android:host="links.500h-dev.accentio.app" />
+                <data android:scheme="https" android:host="links.500h-dev.accentio.app" />
                 
             </intent-filter>
         </activity>
