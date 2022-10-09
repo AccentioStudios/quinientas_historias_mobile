@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:quinientas_historias/core/failures/status_codes.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
-import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';

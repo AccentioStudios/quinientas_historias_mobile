@@ -1,12 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../../core/data/entities/user_entity.dart';
 import '../../../../../../core/mixins/form_validation.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
 import '../../../../../core/data/entities/invites_entity.dart';
-import '../../../../../core/data/entities/school_entity.dart';
-import '../../../../../core/data/entities/team_entity.dart';
 import '../../../data/models/verify_invite_code_request_model.dart';
 import '../../../data/useCases/invites_usecases.dart';
 
