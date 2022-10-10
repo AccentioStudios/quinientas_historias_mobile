@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:quinientas_historias/core/failures/failures.dart';
 import 'package:quinientas_historias/core/failures/status_codes.dart';
 import 'package:uuid/uuid.dart';
@@ -61,34 +60,28 @@ class UserManagementCubit extends Cubit<UserManagementState>
     XFile? image;
     const Uuid uuid = Uuid();
 
-    //Check Permissions
-    await Permission.photos.request();
-    final PermissionStatus permissionStatus = await Permission.photos.status;
+    final uuidString = uuid.v1();
 
-    if (permissionStatus.isGranted) {
-      final uuidString = uuid.v1();
+    //Select Image
+    image = await imagePicker.pickImage(source: ImageSource.gallery);
 
-      //Select Image
-      image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      emit(state.copyWith(uploadingAvatar: true));
+      final ref = firebaseStorage.ref().child(
+          'usersAvatars/avatar-${state.registerUser?.email}-$uuidString');
 
-      if (image != null) {
-        emit(state.copyWith(uploadingAvatar: true));
-        final ref = firebaseStorage.ref().child(
-            'usersAvatars/avatar-${state.registerUser?.email}-$uuidString');
-
-        if (kIsWeb) {
-          uploadTask = ref.putData(await image.readAsBytes());
-        } else {
-          uploadTask = ref.putFile(io.File(image.path));
-        }
-        final snapshot = await uploadTask.whenComplete(() {});
-
-        emit(state.copyWith(uploadingAvatar: false));
-
-        return Future.value(snapshot);
+      if (kIsWeb) {
+        uploadTask = ref.putData(await image.readAsBytes());
+      } else {
+        uploadTask = ref.putFile(io.File(image.path));
       }
+      final snapshot = await uploadTask.whenComplete(() {});
+
       emit(state.copyWith(uploadingAvatar: false));
+
+      return Future.value(snapshot);
     }
+    emit(state.copyWith(uploadingAvatar: false));
 
     return Future.value(null);
   }

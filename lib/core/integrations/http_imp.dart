@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:alice/core/alice_http_extensions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:quinientas_historias/core/helpers/alice_helper.dart';
 
 import '../data/models/jwt_token_model.dart';
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
-import '../helpers/alice_helper.dart';
 import '../helpers/http_helper.dart';
 import '../helpers/secure_storage_helper.dart';
 import 'platform_environments.dart';
@@ -32,7 +32,10 @@ class HttpImp implements HttpHelper {
           if (sessionData != null)
             HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}'
         },
-      ).interceptWithAlice(AliceHelper.instance);
+      );
+      if (kDebugMode) {
+        AliceHelper.instance.onHttpResponse(response);
+      }
       return response;
     } catch (e) {
       throw _handleHttpError(e);
@@ -44,21 +47,21 @@ class HttpImp implements HttpHelper {
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
       JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
-      final response = await http
-          .post(_buildUri(path, queryParameters),
-              headers: {
-                HttpHeaders.contentTypeHeader: 'application/json',
-                HttpHeaders.accessControlAllowOriginHeader: '*',
-                HttpHeaders.accessControlAllowMethodsHeader:
-                    'GET, POST, DELETE, HEAD, OPTIONS',
-                HttpHeaders.accessControlAllowCredentialsHeader: 'true',
-                if (sessionData != null)
-                  HttpHeaders.authorizationHeader:
-                      'Bearer ${sessionData.accessToken}'
-              },
-              body: data)
-          .interceptWithAlice(AliceHelper.instance);
-
+      final response = await http.post(_buildUri(path, queryParameters),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.accessControlAllowOriginHeader: '*',
+            HttpHeaders.accessControlAllowMethodsHeader:
+                'GET, POST, DELETE, HEAD, OPTIONS',
+            HttpHeaders.accessControlAllowCredentialsHeader: 'true',
+            if (sessionData != null)
+              HttpHeaders.authorizationHeader:
+                  'Bearer ${sessionData.accessToken}'
+          },
+          body: data);
+      if (kDebugMode) {
+        AliceHelper.instance.onHttpResponse(response);
+      }
       return response;
     } catch (e) {
       throw _handleHttpError(e);
@@ -71,16 +74,17 @@ class HttpImp implements HttpHelper {
     try {
       JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
 
-      final response = await http
-          .put(_buildUri(path, queryParameters),
-              headers: {
-                HttpHeaders.contentTypeHeader: 'application/json',
-                if (sessionData != null)
-                  HttpHeaders.authorizationHeader:
-                      'Bearer ${sessionData.accessToken}'
-              },
-              body: data)
-          .interceptWithAlice(AliceHelper.instance);
+      final response = await http.put(_buildUri(path, queryParameters),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            if (sessionData != null)
+              HttpHeaders.authorizationHeader:
+                  'Bearer ${sessionData.accessToken}'
+          },
+          body: data);
+      if (kDebugMode) {
+        AliceHelper.instance.onHttpResponse(response);
+      }
       return response;
     } catch (e) {
       throw _handleHttpError(e);
@@ -98,7 +102,10 @@ class HttpImp implements HttpHelper {
         HttpHeaders.contentTypeHeader: 'application/json',
         if (sessionData != null)
           HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}',
-      }).interceptWithAlice(AliceHelper.instance);
+      });
+      if (kDebugMode) {
+        AliceHelper.instance.onHttpResponse(response);
+      }
       return response;
     } catch (e) {
       throw _handleHttpError(e);
