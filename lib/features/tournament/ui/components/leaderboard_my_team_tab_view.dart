@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -58,87 +59,15 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
       pagingController: _pagingController,
       shrinkWrap: true,
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
-        itemBuilder: (context, item, index) => LeaderboardListItem(
-          onTap: () => navigateToUserProfile(item.user),
-          avatarWidget: UserAvatar(
-            user: item.user!,
-          ),
-          label: Flex(
-            direction: Axis.horizontal,
-            children: [
-              AutoSizeText.rich(
-                TextSpan(
-                  style:
-                      DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '#${item.position} ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(
-                        text: '${item.user?.firstName} ${item.user?.lastName}'),
-                  ],
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              item.user?.type == UserType.captain
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: Constants.space4),
-                      child: SizedBox(
-                        width: 12,
-                        height: 12,
-                        child: SvgPicture.asset('assets/icons/star-icon.svg'),
-                      ),
-                    )
-                  : const SizedBox.shrink()
-            ],
-          ),
-          secondaryLabel: RichText(
-            text: TextSpan(
-              style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '${item.user?.score} ',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-                const TextSpan(text: 'puntos - '),
-                TextSpan(
-                  text: '${item.user?.readed}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary),
-                ),
-                const TextSpan(
-                  text: ' leídos',
-                ),
-              ],
-            ),
-          ),
-          // trailingWidget: TournamentPositionArrow(
-          //   number: item.changePosition.number,
-          //   arrowPositionDirection: item.changePosition.type,
-          // ),
+        itemBuilder: (context, item, index) => UserLeaderboardListItem(
+          user: item.user!,
+          position: item.position,
         ),
       ),
       separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: Constants.space12);
       },
     );
-  }
-
-  navigateToUserProfile(User? user) {
-    if (user != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.userProfile,
-        arguments: UserProfileArguments(
-          user.id,
-        ),
-      );
-    }
   }
 
   _fetchPage(int pageKey) {
@@ -157,6 +86,88 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
       }, onError: (e) {
         _pagingController.error = e;
       });
+    }
+  }
+}
+
+class UserLeaderboardListItem extends StatelessWidget {
+  const UserLeaderboardListItem(
+      {super.key, required this.user, required this.position});
+
+  final User user;
+  final int position;
+
+  @override
+  Widget build(BuildContext context) {
+    return LeaderboardListItem(
+      onTap: () => navigateToUserProfile(context, user),
+      avatarWidget: UserAvatar(
+        user: user,
+      ),
+      label: Flex(
+        direction: Axis.horizontal,
+        children: [
+          AutoSizeText.rich(
+            TextSpan(
+              style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
+              children: <TextSpan>[
+                TextSpan(
+                  text: '#$position ',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '${user.firstName} ${user.lastName}'),
+              ],
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          user.type == UserType.captain
+              ? Padding(
+                  padding: const EdgeInsets.only(left: Constants.space4),
+                  child: SizedBox(
+                    width: 12,
+                    height: 12,
+                    child: SvgPicture.asset('assets/icons/star-icon.svg'),
+                  ),
+                )
+              : const SizedBox.shrink()
+        ],
+      ),
+      secondaryLabel: RichText(
+        text: TextSpan(
+          style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
+          children: <TextSpan>[
+            TextSpan(
+              text: '${user.score} ',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary),
+            ),
+            const TextSpan(text: 'puntos - '),
+            TextSpan(
+              text: '${user.readed}',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary),
+            ),
+            const TextSpan(
+              text: ' leídos',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  navigateToUserProfile(BuildContext context, User? user) {
+    if (user != null) {
+      Navigator.pushNamed(
+        context,
+        Routes.userProfile,
+        arguments: UserProfileArguments(
+          user.id,
+        ),
+      );
     }
   }
 }

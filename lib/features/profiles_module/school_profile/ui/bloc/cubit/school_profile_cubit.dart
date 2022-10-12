@@ -25,9 +25,8 @@ class SchoolProfileCubit extends Cubit<SchoolProfileState>
     final bool canEdit;
     final JWTTokenModel? sessionData =
         await SecureStorageHelper.getSessionData();
-//Comparación para ver si soy profesor + es mi escuela, entonces canEdit = true, hacer lo mismo con TEAMPROFILE
     if (sessionData?.user.type == UserType.prof &&
-        sessionData?.user.school!.id == schoolId) {
+        sessionData?.user.school?.id == schoolId) {
       canEdit = true;
     } else {
       canEdit = false;

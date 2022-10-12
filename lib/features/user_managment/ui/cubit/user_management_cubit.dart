@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'package:bloc/bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,9 +12,10 @@ import 'package:quinientas_historias/core/failures/status_codes.dart';
 import 'package:quinientas_historias/core/theme/theme.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/mixins/form_validation.dart';
 import '../../../../core/mixins/stream_disposable.dart';
-import '../../data/models/register_request_model.dart';
+import '../../data/models/user_management_request_model.dart';
 import '../../data/useCases/user_management_use_cases.dart';
 
 part 'user_management_cubit.freezed.dart';
@@ -29,29 +31,42 @@ class UserManagementCubit extends Cubit<UserManagementState>
 
   void initNewUser(String email, String invitationCode) {
     emit(state.copyWith(
-        registerUser:
-            RegisterUserRequest(email: email, invitationCode: invitationCode)));
+        userManagementRequest: UserManagementRequest(
+            email: email, invitationCode: invitationCode)));
   }
 
-  void saveNewUserChanges({
+  void loadUser(User user) {
+    emit(state.copyWith(
+      userManagementRequest: UserManagementRequest(
+        id: user.id,
+        email: user.email!,
+        firstName: user.firstName!,
+        lastName: user.lastName!,
+        avatarUrl: user.avatarUrl!,
+      ),
+    ));
+  }
+
+  void saveUserManagementRequestChanges({
     String? password,
     String? passwordConfirmation,
     String? firstName,
     String? lastName,
     String? avatarUrl,
   }) {
-    if (state.registerUser != null) {
-      final RegisterUserRequest user = RegisterUserRequest(
-        email: state.registerUser!.email,
-        invitationCode: state.registerUser!.invitationCode,
-        firstName: firstName ?? state.registerUser!.firstName,
-        lastName: lastName ?? state.registerUser!.lastName,
-        avatarUrl: avatarUrl ?? state.registerUser!.avatarUrl,
-        password: password ?? state.registerUser!.password,
-        passwordConfirmation:
-            passwordConfirmation ?? state.registerUser!.passwordConfirmation,
+    if (state.userManagementRequest != null) {
+      final UserManagementRequest user = UserManagementRequest(
+        id: state.userManagementRequest!.id,
+        email: state.userManagementRequest!.email,
+        invitationCode: state.userManagementRequest!.invitationCode,
+        firstName: firstName ?? state.userManagementRequest!.firstName,
+        lastName: lastName ?? state.userManagementRequest!.lastName,
+        avatarUrl: avatarUrl ?? state.userManagementRequest!.avatarUrl,
+        password: password ?? state.userManagementRequest!.password,
+        passwordConfirmation: passwordConfirmation ??
+            state.userManagementRequest!.passwordConfirmation,
       );
-      emit(state.copyWith(registerUser: user));
+      emit(state.copyWith(userManagementRequest: user));
     }
   }
 
@@ -87,21 +102,16 @@ class UserManagementCubit extends Cubit<UserManagementState>
     return Future.value(croppedFile);
   }
 
-  Future<TaskSnapshot?> uploadPhoto() async {
+  Future<TaskSnapshot?> uploadPhoto(CroppedFile? image) async {
     final firebaseStorage = FirebaseStorage.instance;
     UploadTask uploadTask;
-    CroppedFile? image;
     const Uuid uuid = Uuid();
 
     final uuidString = uuid.v1();
 
-    //Select Image
-    image = await pickPhoto();
-
     if (image != null) {
-      emit(state.copyWith(uploadingAvatar: true));
       final ref = firebaseStorage.ref().child(
-          'usersAvatars/avatar-${state.registerUser?.email}-$uuidString');
+          'usersAvatars/avatar-${state.userManagementRequest?.email}-$uuidString');
 
       if (kIsWeb) {
         uploadTask = ref.putData(await image.readAsBytes());
@@ -110,65 +120,99 @@ class UserManagementCubit extends Cubit<UserManagementState>
       }
       final snapshot = await uploadTask.whenComplete(() {});
 
-      emit(state.copyWith(uploadingAvatar: false));
-
       return Future.value(snapshot);
     }
-    emit(state.copyWith(uploadingAvatar: false));
 
     return Future.value(null);
   }
 
+  void handleSaveAvatarMemory(CroppedFile? image) async {
+    if (image != null) {
+      emit(state.copyWith(avatarMemory: image));
+      return;
+    }
+    emit(state.copyWith(avatarMemory: null));
+  }
+
+  Future<bool> handleSaveAvatarUrl() async {
+    if (state.avatarMemory != null) {
+      TaskSnapshot? snapshot = await uploadPhoto(state.avatarMemory);
+      if (snapshot != null) {
+        final avatarUrl = await snapshot.ref.getDownloadURL();
+        saveUserManagementRequestChanges(avatarUrl: avatarUrl);
+        return true;
+      }
+      Fluttertoast.showToast(
+          msg: 'Error al subir el avatar. Intenta nuevamente');
+      return false;
+    }
+    return true;
+  }
+
   void registerNewUser(
       {required Function onSuccess, required Function onError}) async {
-    validateForm();
+    validateRegisterForm();
     if (state.error != null) {
       return;
     }
-
     emit(state.copyWith(isLoading: true, error: null));
-
-    // await Future.delayed(const Duration(seconds: 3));
-
-    // onSuccess();
-    // emit(state.copyWith(isLoading: false, error: null));
-
-    if (state.registerUser != null) {
-      userManagementUseCases.registerUser(state.registerUser!).listen((event) {
-        onSuccess();
-        emit(state.copyWith(isLoading: false, error: null));
-      }, onError: (error) {
-        onError(error);
-        emit(state.copyWith(isLoading: false, error: error));
-      }).subscribe(this);
+    if (await handleSaveAvatarUrl()) {
+      if (state.userManagementRequest != null) {
+        userManagementUseCases
+            .registerUser(state.userManagementRequest!)
+            .listen((event) {
+          onSuccess();
+          emit(state.copyWith(isLoading: false, error: null));
+        }, onError: (error) {
+          onError(error);
+          emit(state.copyWith(isLoading: false, error: error));
+        }).subscribe(this);
+      }
     }
   }
 
-  void validateForm() {
+  void editUser(
+      {required Function onSuccess, required Function onError}) async {
+    emit(state.copyWith(isLoading: true, error: null));
+    if (await handleSaveAvatarUrl()) {
+      if (state.userManagementRequest != null) {
+        userManagementUseCases.editUser(state.userManagementRequest!).listen(
+            (event) {
+          onSuccess();
+          emit(state.copyWith(isLoading: false, error: null));
+        }, onError: (error) {
+          onError(error);
+          emit(state.copyWith(isLoading: false, error: error));
+        }).subscribe(this);
+      }
+    }
+  }
+
+  void validateRegisterForm() {
     bool valid = true;
 
-    if (state.registerUser == null) {
+    if (state.userManagementRequest == null) {
       valid = false;
     }
-    if (state.registerUser?.email == null) {
-      valid = false;
-    }
-
-    if (state.registerUser?.firstName == null) {
+    if (state.userManagementRequest?.email == null) {
       valid = false;
     }
 
-    if (state.registerUser?.lastName == null) {
+    if (state.userManagementRequest?.firstName == null) {
       valid = false;
     }
 
-    if (state.registerUser?.invitationCode == null) {
+    if (state.userManagementRequest?.lastName == null) {
       valid = false;
     }
-    if (state.registerUser?.password == null) {
+
+    if (state.userManagementRequest?.invitationCode == null) {
       valid = false;
     }
-    if (state.registerUser?.passwordConfirmation == null) {
+    if (state.userManagementRequest?.password == null) {
+      valid = false;
+    }
+    if (state.userManagementRequest?.passwordConfirmation == null) {
       valid = false;
     }
 

@@ -4,6 +4,8 @@ part of 'tournament_cubit.dart';
 class TournamentState with _$TournamentState {
   const factory TournamentState({
     @Default(false) tournamentIsLoading,
+    @Default(false) leaderboardIsLoading,
     Tournament? tournament,
+    ListPage<LeaderboardModel>? listPage,
   }) = _TournamentState;
 }

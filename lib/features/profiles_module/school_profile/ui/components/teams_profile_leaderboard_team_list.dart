@@ -21,7 +21,7 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final List<LeaderboardModel>? list = state.data?.leaderboard!;
+    final List<LeaderboardModel>? list = state.data?.leaderboard;
     return PaddingColumn(
       padding: const EdgeInsets.only(
           left: Constants.space16,
@@ -38,13 +38,13 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
           physics: const ScrollPhysics(),
           separatorBuilder: (BuildContext context, int index) =>
               const SizedBox(height: Constants.space12),
-          itemCount: list!.length,
+          itemCount: list?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             return LeaderboardListItem(
-              onTap: () => navigateToTeamProfile(context, list[index].team),
+              onTap: () => navigateToTeamProfile(context, list?[index].team),
               avatarWidget: CircleAvatar(
                 backgroundImage:
-                    NetworkImage(list[index].team?.avatarUrl ?? ''),
+                    NetworkImage(list?[index].team?.avatarUrl ?? ''),
               ),
               label: Flex(
                 direction: Axis.horizontal,
@@ -56,10 +56,10 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
                           .copyWith(fontSize: 15),
                       children: <TextSpan>[
                         TextSpan(
-                          text: '#${list[index].position} ',
+                          text: '#${list?[index].position} ',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        TextSpan(text: '${list[index].team?.name}'),
+                        TextSpan(text: '${list?[index].team?.name}'),
                       ],
                     ),
                     maxLines: 1,
@@ -73,7 +73,7 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
                       DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '${list[index].team?.score} ',
+                      text: '${list?[index].team?.score} ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary),

@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 
 import '../../../../../core/failures/status_codes.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../user_managment/user_management_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
 import '../widgets/user_division_card.dart';
 import '../widgets/user_profile_cards.dart';
@@ -39,7 +41,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
             actions: [
               if (state.isMyProfile)
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    openEditUser(context, state);
+                  },
                   icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
                   label: Text(
                     'Editar Perfil',
@@ -74,10 +78,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           UserProfileHeader(
                             state: state,
                           ),
-                          const SizedBox(height: Constants.space41),
-                          UserDivisionCard(
-                            state: state,
-                          ),
+                          if (state.user?.type == UserType.captain ||
+                              state.user?.type == UserType.reader)
+                            Column(
+                              children: [
+                                const SizedBox(height: Constants.space41),
+                                UserDivisionCard(
+                                  state: state,
+                                ),
+                              ],
+                            ),
                           const SizedBox(height: Constants.space16),
                           UserCards(
                             state: state,
@@ -91,6 +101,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
         );
       },
     );
+  }
+
+  void openEditUser(BuildContext context, UserProfileState state) {
+    UserManagementProvider()
+        .openEditUser(context, user: state.user!)
+        .then((refresh) {
+      if (refresh == true) {
+        getUserData();
+      }
+    });
   }
 
   Future<dynamic> getUserData() {

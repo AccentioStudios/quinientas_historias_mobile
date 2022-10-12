@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-class RegisterUserRequest {
-  RegisterUserRequest({
+class UserManagementRequest {
+  UserManagementRequest({
     required this.email,
+    this.id,
     this.password,
     this.passwordConfirmation,
     this.firstName,
@@ -12,6 +13,7 @@ class RegisterUserRequest {
   });
 
   final String email;
+  final int? id;
   final String? password;
   final String? passwordConfirmation;
   final String? firstName;
@@ -19,8 +21,9 @@ class RegisterUserRequest {
   final String? avatarUrl;
   final String? invitationCode;
 
-  RegisterUserRequest copyWith({
+  UserManagementRequest copyWith({
     String? email,
+    int? id,
     String? password,
     String? passwordConfirmation,
     String? firstName,
@@ -28,8 +31,9 @@ class RegisterUserRequest {
     String? avatarUrl,
     String? invitationCode,
   }) {
-    return RegisterUserRequest(
+    return UserManagementRequest(
       email: email ?? this.email,
+      id: id ?? this.id,
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
       firstName: firstName ?? this.firstName,
@@ -42,6 +46,7 @@ class RegisterUserRequest {
   Map<String, dynamic> toMap() {
     return {
       'email': email,
+      'id': id,
       'password': password,
       'passwordConfirmation': passwordConfirmation,
       'firstName': firstName,
@@ -51,9 +56,10 @@ class RegisterUserRequest {
     };
   }
 
-  factory RegisterUserRequest.fromMap(Map<String, dynamic> map) {
-    return RegisterUserRequest(
+  factory UserManagementRequest.fromMap(Map<String, dynamic> map) {
+    return UserManagementRequest(
       email: map['email'] ?? '',
+      id: map['id']?.toInt(),
       password: map['password'],
       passwordConfirmation: map['passwordConfirmation'],
       firstName: map['firstName'],
@@ -65,20 +71,21 @@ class RegisterUserRequest {
 
   String toJson() => json.encode(toMap());
 
-  factory RegisterUserRequest.fromJson(String source) =>
-      RegisterUserRequest.fromMap(json.decode(source));
+  factory UserManagementRequest.fromJson(String source) =>
+      UserManagementRequest.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'RegisterUserRequest(email: $email, password: $password, passwordConfirmation: $passwordConfirmation, firstName: $firstName, lastName: $lastName, avatarUrl: $avatarUrl, invitationCode: $invitationCode)';
+    return 'UserManagementRequest(email: $email, id: $id, password: $password, passwordConfirmation: $passwordConfirmation, firstName: $firstName, lastName: $lastName, avatarUrl: $avatarUrl, invitationCode: $invitationCode)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is RegisterUserRequest &&
+    return other is UserManagementRequest &&
         other.email == email &&
+        other.id == id &&
         other.password == password &&
         other.passwordConfirmation == passwordConfirmation &&
         other.firstName == firstName &&
@@ -90,6 +97,7 @@ class RegisterUserRequest {
   @override
   int get hashCode {
     return email.hashCode ^
+        id.hashCode ^
         password.hashCode ^
         passwordConfirmation.hashCode ^
         firstName.hashCode ^

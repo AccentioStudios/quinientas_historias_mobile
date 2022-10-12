@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/profiles_module/school_profile/ui/bloc/cubit/school_profile_cubit.dart';
 
@@ -32,6 +33,19 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
+            actions: [
+              if (state.canEdit)
+                TextButton.icon(
+                  onPressed: () {},
+                  icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
+                  label: Text(
+                    'Editar Equipo',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                ),
+              const SizedBox(width: 8),
+            ],
           ),
           body: RefreshIndicator(
               onRefresh: () async {

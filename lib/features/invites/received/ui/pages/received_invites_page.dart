@@ -79,7 +79,7 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
 
   navigateToRegisterUser(BuildContext context,
       {required Invite invite, required String code}) {
-    UserManagementProvider.openRegisterReader(context,
-        invite: invite, code: code);
+    UserManagementProvider()
+        .openRegisterReader(context, invite: invite, code: code);
   }
 }

@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/features/user_managment/data/repositories/user_management_repositories.dart';
-import 'package:quinientas_historias/features/user_managment/data/useCases/user_management_use_cases.dart';
-import 'package:quinientas_historias/features/user_managment/ui/cubit/user_management_cubit.dart';
 
 import '../../core/data/entities/invites_entity.dart';
+import '../../core/data/entities/user_entity.dart';
+import 'data/repositories/user_management_repositories.dart';
+import 'data/useCases/user_management_use_cases.dart';
+import 'ui/cubit/user_management_cubit.dart';
+import 'ui/edit/pages/edit_user_page.dart';
 import 'ui/register/pages/register_reader_page.dart';
 
 class UserManagementProvider {
-  static openRegisterReader(BuildContext context,
+  final cubit = UserManagementCubit(
+    userManagementUseCases: UserManagementUseCases(
+      repository: UserManagementRepository(),
+    ),
+  );
+
+  Future<bool?> openRegisterReader(BuildContext context,
       {required Invite invite, required String code}) {
     const secureStorage = FlutterSecureStorage();
     secureStorage.deleteAll();
 
-    Navigator.of(context, rootNavigator: true).push<void>(
-      MaterialPageRoute<void>(
+    return Navigator.of(context, rootNavigator: true).push<bool>(
+      MaterialPageRoute<bool>(
         builder: (context) => BlocProvider(
-          create: (context) => UserManagementCubit(
-            userManagementUseCases: UserManagementUseCases(
-              repository: UserManagementRepository(),
-            ),
-          ),
+          create: (context) => cubit,
           child: RegisterReaderPage(
             invitationCode: code,
             invite: invite,
@@ -30,17 +34,17 @@ class UserManagementProvider {
       ),
     );
   }
+
+  Future<bool?> openEditUser(BuildContext context, {required User user}) {
+    return Navigator.of(context, rootNavigator: true).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (context) => BlocProvider(
+          create: (context) => cubit,
+          child: EditUserPage(
+            user: user,
+          ),
+        ),
+      ),
+    );
+  }
 }
-
-
-
-
-  // const UserManagementProvider(
-  //     {Key? key,
-  //     this.typeUserToInvite = UserType.reader,
-  //     required this.email,
-  //     required this.code})
-  //     : super(key: key);
-  // final UserType typeUserToInvite;
-  // final String email;
-  // final String code;

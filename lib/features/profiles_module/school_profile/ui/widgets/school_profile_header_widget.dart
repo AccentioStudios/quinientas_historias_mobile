@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 
 import '../../../../../core/ui/widgets/padding_column.dart';
@@ -19,11 +18,7 @@ class SchoolProfileHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           children: [
             const SizedBox(height: Constants.space21),
-            SchoolProfileAvatar(
-              school: state.data,
-              canEdit: state.canEdit,
-              editOnPressed: () {},
-            ),
+            SchoolProfileAvatar(school: state.data),
             const SizedBox(height: Constants.space21),
             Align(
               alignment: Alignment.center,
@@ -43,41 +38,18 @@ class SchoolProfileHeader extends StatelessWidget {
 }
 
 class SchoolProfileAvatar extends StatelessWidget {
-  const SchoolProfileAvatar(
-      {Key? key,
-      required this.school,
-      required this.canEdit,
-      required this.editOnPressed})
-      : super(key: key);
+  const SchoolProfileAvatar({Key? key, required this.school}) : super(key: key);
 
   final School? school;
-  final bool canEdit;
-  final void Function()? editOnPressed;
-
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.bottomEnd,
-      children: [
-        SizedBox(
-          width: 140,
-          height: 140,
-          child: CircleAvatar(
-            radius: 68,
-            backgroundImage: NetworkImage(school?.avatarUrl ?? ''),
-          ),
-        ),
-        if (canEdit == true)
-          Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Color(0xff385775)),
-              child: IconButton(
-                  onPressed: editOnPressed,
-                  icon: Center(
-                    child: SvgPicture.asset(
-                        'assets/icons/camera-outline-icon.svg'),
-                  ))),
-      ],
+    return SizedBox(
+      width: 140,
+      height: 140,
+      child: CircleAvatar(
+        radius: 68,
+        backgroundImage: NetworkImage(school?.avatarUrl ?? ''),
+      ),
     );
   }
 }

@@ -26,8 +26,10 @@ class UserAvatar extends StatelessWidget {
         maxHeight: 140,
       ),
       decoration: BoxDecoration(
-        border: Border.all(
-            width: 2, color: getDivisionColor(user.division?.current.level)),
+        border: user.type == UserType.reader || user.type == UserType.captain
+            ? Border.all(
+                width: 2, color: getDivisionColor(user.division?.current.level))
+            : null,
         shape: BoxShape.circle,
         image: user.avatarUrl != null
             ? DecorationImage(

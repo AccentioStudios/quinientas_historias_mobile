@@ -4,8 +4,8 @@ part of 'user_management_cubit.dart';
 class UserManagementState with _$UserManagementState {
   const factory UserManagementState({
     @Default(false) isLoading,
-    @Default(false) uploadingAvatar,
-    RegisterUserRequest? registerUser,
+    UserManagementRequest? userManagementRequest,
+    CroppedFile? avatarMemory,
     HttpFailure? error,
   }) = _UserManagementState;
 }

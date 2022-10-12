@@ -2,6 +2,7 @@ import 'package:custom_nested_scroll_view/custom_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/libs/extended_tab_view.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/headline.dart';
@@ -43,6 +44,8 @@ class _TournamentPageState extends State<TournamentPage>
   Widget build(BuildContext context) {
     return BlocBuilder<TournamentCubit, TournamentState>(
       builder: (context, state) {
+        final me = state.listPage?.itemList.where((item) => item.user?.id == 1);
+
         return Scaffold(
             body: CustomNestedScrollView(
           physics: const BouncingScrollPhysics(
@@ -72,6 +75,11 @@ class _TournamentPageState extends State<TournamentPage>
               ),
             ),
             LeaderboardTabs(tabController: tabController),
+            // if (me != null)
+            //   UserLeaderboardListItem(
+            //     user: me.user!,
+            //     position: me.position,
+            //   ),
           ],
           body: Builder(
             builder: (context) => ExtendedTabBarView(

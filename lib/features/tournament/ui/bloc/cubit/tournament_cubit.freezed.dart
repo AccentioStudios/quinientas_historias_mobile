@@ -17,7 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TournamentState {
   dynamic get tournamentIsLoading => throw _privateConstructorUsedError;
+  dynamic get leaderboardIsLoading => throw _privateConstructorUsedError;
   Tournament? get tournament => throw _privateConstructorUsedError;
+  ListPage<LeaderboardModel>? get listPage =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TournamentStateCopyWith<TournamentState> get copyWith =>
@@ -29,7 +32,11 @@ abstract class $TournamentStateCopyWith<$Res> {
   factory $TournamentStateCopyWith(
           TournamentState value, $Res Function(TournamentState) then) =
       _$TournamentStateCopyWithImpl<$Res>;
-  $Res call({dynamic tournamentIsLoading, Tournament? tournament});
+  $Res call(
+      {dynamic tournamentIsLoading,
+      dynamic leaderboardIsLoading,
+      Tournament? tournament,
+      ListPage<LeaderboardModel>? listPage});
 }
 
 /// @nodoc
@@ -44,17 +51,27 @@ class _$TournamentStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tournamentIsLoading = freezed,
+    Object? leaderboardIsLoading = freezed,
     Object? tournament = freezed,
+    Object? listPage = freezed,
   }) {
     return _then(_value.copyWith(
       tournamentIsLoading: tournamentIsLoading == freezed
           ? _value.tournamentIsLoading
           : tournamentIsLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      leaderboardIsLoading: leaderboardIsLoading == freezed
+          ? _value.leaderboardIsLoading
+          : leaderboardIsLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       tournament: tournament == freezed
           ? _value.tournament
           : tournament // ignore: cast_nullable_to_non_nullable
               as Tournament?,
+      listPage: listPage == freezed
+          ? _value.listPage
+          : listPage // ignore: cast_nullable_to_non_nullable
+              as ListPage<LeaderboardModel>?,
     ));
   }
 }
@@ -66,7 +83,11 @@ abstract class _$$_TournamentStateCopyWith<$Res>
           _$_TournamentState value, $Res Function(_$_TournamentState) then) =
       __$$_TournamentStateCopyWithImpl<$Res>;
   @override
-  $Res call({dynamic tournamentIsLoading, Tournament? tournament});
+  $Res call(
+      {dynamic tournamentIsLoading,
+      dynamic leaderboardIsLoading,
+      Tournament? tournament,
+      ListPage<LeaderboardModel>? listPage});
 }
 
 /// @nodoc
@@ -83,16 +104,25 @@ class __$$_TournamentStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? tournamentIsLoading = freezed,
+    Object? leaderboardIsLoading = freezed,
     Object? tournament = freezed,
+    Object? listPage = freezed,
   }) {
     return _then(_$_TournamentState(
       tournamentIsLoading: tournamentIsLoading == freezed
           ? _value.tournamentIsLoading
           : tournamentIsLoading,
+      leaderboardIsLoading: leaderboardIsLoading == freezed
+          ? _value.leaderboardIsLoading
+          : leaderboardIsLoading,
       tournament: tournament == freezed
           ? _value.tournament
           : tournament // ignore: cast_nullable_to_non_nullable
               as Tournament?,
+      listPage: listPage == freezed
+          ? _value.listPage
+          : listPage // ignore: cast_nullable_to_non_nullable
+              as ListPage<LeaderboardModel>?,
     ));
   }
 }
@@ -100,17 +130,26 @@ class __$$_TournamentStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_TournamentState implements _TournamentState {
-  const _$_TournamentState({this.tournamentIsLoading = false, this.tournament});
+  const _$_TournamentState(
+      {this.tournamentIsLoading = false,
+      this.leaderboardIsLoading = false,
+      this.tournament,
+      this.listPage});
 
   @override
   @JsonKey()
   final dynamic tournamentIsLoading;
   @override
+  @JsonKey()
+  final dynamic leaderboardIsLoading;
+  @override
   final Tournament? tournament;
+  @override
+  final ListPage<LeaderboardModel>? listPage;
 
   @override
   String toString() {
-    return 'TournamentState(tournamentIsLoading: $tournamentIsLoading, tournament: $tournament)';
+    return 'TournamentState(tournamentIsLoading: $tournamentIsLoading, leaderboardIsLoading: $leaderboardIsLoading, tournament: $tournament, listPage: $listPage)';
   }
 
   @override
@@ -121,14 +160,19 @@ class _$_TournamentState implements _TournamentState {
             const DeepCollectionEquality()
                 .equals(other.tournamentIsLoading, tournamentIsLoading) &&
             const DeepCollectionEquality()
-                .equals(other.tournament, tournament));
+                .equals(other.leaderboardIsLoading, leaderboardIsLoading) &&
+            const DeepCollectionEquality()
+                .equals(other.tournament, tournament) &&
+            const DeepCollectionEquality().equals(other.listPage, listPage));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(tournamentIsLoading),
-      const DeepCollectionEquality().hash(tournament));
+      const DeepCollectionEquality().hash(leaderboardIsLoading),
+      const DeepCollectionEquality().hash(tournament),
+      const DeepCollectionEquality().hash(listPage));
 
   @JsonKey(ignore: true)
   @override
@@ -139,12 +183,18 @@ class _$_TournamentState implements _TournamentState {
 abstract class _TournamentState implements TournamentState {
   const factory _TournamentState(
       {final dynamic tournamentIsLoading,
-      final Tournament? tournament}) = _$_TournamentState;
+      final dynamic leaderboardIsLoading,
+      final Tournament? tournament,
+      final ListPage<LeaderboardModel>? listPage}) = _$_TournamentState;
 
   @override
   dynamic get tournamentIsLoading;
   @override
+  dynamic get leaderboardIsLoading;
+  @override
   Tournament? get tournament;
+  @override
+  ListPage<LeaderboardModel>? get listPage;
   @override
   @JsonKey(ignore: true)
   _$$_TournamentStateCopyWith<_$_TournamentState> get copyWith =>

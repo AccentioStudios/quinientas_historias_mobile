@@ -17,8 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserManagementState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get uploadingAvatar => throw _privateConstructorUsedError;
-  RegisterUserRequest? get registerUser => throw _privateConstructorUsedError;
+  UserManagementRequest? get userManagementRequest =>
+      throw _privateConstructorUsedError;
+  CroppedFile? get avatarMemory => throw _privateConstructorUsedError;
   HttpFailure? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,8 +34,8 @@ abstract class $UserManagementStateCopyWith<$Res> {
       _$UserManagementStateCopyWithImpl<$Res>;
   $Res call(
       {dynamic isLoading,
-      dynamic uploadingAvatar,
-      RegisterUserRequest? registerUser,
+      UserManagementRequest? userManagementRequest,
+      CroppedFile? avatarMemory,
       HttpFailure? error});
 }
 
@@ -50,8 +51,8 @@ class _$UserManagementStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? uploadingAvatar = freezed,
-    Object? registerUser = freezed,
+    Object? userManagementRequest = freezed,
+    Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -59,14 +60,14 @@ class _$UserManagementStateCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      uploadingAvatar: uploadingAvatar == freezed
-          ? _value.uploadingAvatar
-          : uploadingAvatar // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      registerUser: registerUser == freezed
-          ? _value.registerUser
-          : registerUser // ignore: cast_nullable_to_non_nullable
-              as RegisterUserRequest?,
+      userManagementRequest: userManagementRequest == freezed
+          ? _value.userManagementRequest
+          : userManagementRequest // ignore: cast_nullable_to_non_nullable
+              as UserManagementRequest?,
+      avatarMemory: avatarMemory == freezed
+          ? _value.avatarMemory
+          : avatarMemory // ignore: cast_nullable_to_non_nullable
+              as CroppedFile?,
       error: error == freezed
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -84,8 +85,8 @@ abstract class _$$_UserManagementStateCopyWith<$Res>
   @override
   $Res call(
       {dynamic isLoading,
-      dynamic uploadingAvatar,
-      RegisterUserRequest? registerUser,
+      UserManagementRequest? userManagementRequest,
+      CroppedFile? avatarMemory,
       HttpFailure? error});
 }
 
@@ -103,18 +104,20 @@ class __$$_UserManagementStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? uploadingAvatar = freezed,
-    Object? registerUser = freezed,
+    Object? userManagementRequest = freezed,
+    Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_$_UserManagementState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      uploadingAvatar:
-          uploadingAvatar == freezed ? _value.uploadingAvatar : uploadingAvatar,
-      registerUser: registerUser == freezed
-          ? _value.registerUser
-          : registerUser // ignore: cast_nullable_to_non_nullable
-              as RegisterUserRequest?,
+      userManagementRequest: userManagementRequest == freezed
+          ? _value.userManagementRequest
+          : userManagementRequest // ignore: cast_nullable_to_non_nullable
+              as UserManagementRequest?,
+      avatarMemory: avatarMemory == freezed
+          ? _value.avatarMemory
+          : avatarMemory // ignore: cast_nullable_to_non_nullable
+              as CroppedFile?,
       error: error == freezed
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -130,24 +133,23 @@ class _$_UserManagementState
     implements _UserManagementState {
   const _$_UserManagementState(
       {this.isLoading = false,
-      this.uploadingAvatar = false,
-      this.registerUser,
+      this.userManagementRequest,
+      this.avatarMemory,
       this.error});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
-  @JsonKey()
-  final dynamic uploadingAvatar;
+  final UserManagementRequest? userManagementRequest;
   @override
-  final RegisterUserRequest? registerUser;
+  final CroppedFile? avatarMemory;
   @override
   final HttpFailure? error;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserManagementState(isLoading: $isLoading, uploadingAvatar: $uploadingAvatar, registerUser: $registerUser, error: $error)';
+    return 'UserManagementState(isLoading: $isLoading, userManagementRequest: $userManagementRequest, avatarMemory: $avatarMemory, error: $error)';
   }
 
   @override
@@ -156,8 +158,8 @@ class _$_UserManagementState
     properties
       ..add(DiagnosticsProperty('type', 'UserManagementState'))
       ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('uploadingAvatar', uploadingAvatar))
-      ..add(DiagnosticsProperty('registerUser', registerUser))
+      ..add(DiagnosticsProperty('userManagementRequest', userManagementRequest))
+      ..add(DiagnosticsProperty('avatarMemory', avatarMemory))
       ..add(DiagnosticsProperty('error', error));
   }
 
@@ -168,9 +170,9 @@ class _$_UserManagementState
             other is _$_UserManagementState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality()
-                .equals(other.uploadingAvatar, uploadingAvatar) &&
+                .equals(other.userManagementRequest, userManagementRequest) &&
             const DeepCollectionEquality()
-                .equals(other.registerUser, registerUser) &&
+                .equals(other.avatarMemory, avatarMemory) &&
             const DeepCollectionEquality().equals(other.error, error));
   }
 
@@ -178,8 +180,8 @@ class _$_UserManagementState
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(uploadingAvatar),
-      const DeepCollectionEquality().hash(registerUser),
+      const DeepCollectionEquality().hash(userManagementRequest),
+      const DeepCollectionEquality().hash(avatarMemory),
       const DeepCollectionEquality().hash(error));
 
   @JsonKey(ignore: true)
@@ -192,16 +194,16 @@ class _$_UserManagementState
 abstract class _UserManagementState implements UserManagementState {
   const factory _UserManagementState(
       {final dynamic isLoading,
-      final dynamic uploadingAvatar,
-      final RegisterUserRequest? registerUser,
+      final UserManagementRequest? userManagementRequest,
+      final CroppedFile? avatarMemory,
       final HttpFailure? error}) = _$_UserManagementState;
 
   @override
   dynamic get isLoading;
   @override
-  dynamic get uploadingAvatar;
+  UserManagementRequest? get userManagementRequest;
   @override
-  RegisterUserRequest? get registerUser;
+  CroppedFile? get avatarMemory;
   @override
   HttpFailure? get error;
   @override

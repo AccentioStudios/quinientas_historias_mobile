@@ -8,6 +8,7 @@ import 'package:quinientas_historias/features/profiles_module/school_profile/sch
 
 import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/integrations/remote_config_service.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../team_profile/team_profile_provider.dart';
@@ -23,25 +24,27 @@ class UserCards extends StatelessWidget {
     return PaddingColumn(
       padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: SingleChip(
-                primaryLabel: state.user?.score.toString() ?? '0',
-                secondaryLabel: 'Puntos totales',
-                svgIconPath: 'assets/icons/points-outline-icon.svg',
+        if (state.user?.type == UserType.captain ||
+            state.user?.type == UserType.reader)
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: SingleChip(
+                  primaryLabel: state.user?.score.toString() ?? '0',
+                  secondaryLabel: 'Puntos totales',
+                  svgIconPath: 'assets/icons/points-outline-icon.svg',
+                ),
               ),
-            ),
-            const SizedBox(width: Constants.space18),
-            Expanded(
-              child: SingleChip(
-                primaryLabel: state.user?.readed.toString() ?? '0',
-                secondaryLabel: 'Lecturas',
-                svgIconPath: 'assets/icons/book-open-outline-icon.svg',
+              const SizedBox(width: Constants.space18),
+              Expanded(
+                child: SingleChip(
+                  primaryLabel: state.user?.readed.toString() ?? '0',
+                  secondaryLabel: 'Lecturas',
+                  svgIconPath: 'assets/icons/book-open-outline-icon.svg',
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
         const SizedBox(
           height: Constants.space16,
         ),

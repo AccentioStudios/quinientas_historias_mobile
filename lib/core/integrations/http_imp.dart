@@ -29,6 +29,10 @@ class HttpImp implements HttpHelper {
         uri,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.accessControlAllowOriginHeader: '*',
+          HttpHeaders.accessControlAllowMethodsHeader:
+              'GET, POST, DELETE, HEAD, OPTIONS',
+          HttpHeaders.accessControlAllowCredentialsHeader: 'true',
           if (sessionData != null)
             HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}'
         },
@@ -77,6 +81,10 @@ class HttpImp implements HttpHelper {
       final response = await http.put(_buildUri(path, queryParameters),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.accessControlAllowOriginHeader: '*',
+            HttpHeaders.accessControlAllowMethodsHeader:
+                'GET, POST, DELETE, HEAD, OPTIONS',
+            HttpHeaders.accessControlAllowCredentialsHeader: 'true',
             if (sessionData != null)
               HttpHeaders.authorizationHeader:
                   'Bearer ${sessionData.accessToken}'
@@ -100,6 +108,10 @@ class HttpImp implements HttpHelper {
       final response =
           await http.get(_buildUri(path, queryParameters), headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.accessControlAllowOriginHeader: '*',
+        HttpHeaders.accessControlAllowMethodsHeader:
+            'GET, POST, DELETE, HEAD, OPTIONS',
+        HttpHeaders.accessControlAllowCredentialsHeader: 'true',
         if (sessionData != null)
           HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}',
       });

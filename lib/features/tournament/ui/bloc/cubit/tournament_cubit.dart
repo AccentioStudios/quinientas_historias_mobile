@@ -18,12 +18,13 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
   getLeaderboard(int pageKey, String filter,
       {Function(ListPage<LeaderboardModel>)? onSuccess,
       Function(Object)? onError}) async {
-    await Future.delayed(const Duration(seconds: 2));
-
+    emit(state.copyWith(leaderboardIsLoading: true, listPage: null));
     tournamentUseCases.getLeaderboard(pageKey, filter).listen((leaderboard) {
       if (onSuccess != null) onSuccess(leaderboard);
+      emit(state.copyWith(leaderboardIsLoading: false, listPage: leaderboard));
     }, onError: (error) {
       if (onError != null) onError(error);
+      emit(state.copyWith(leaderboardIsLoading: false, listPage: null));
     }).subscribe(this);
   }
 
