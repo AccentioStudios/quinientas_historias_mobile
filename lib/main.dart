@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alice_lightweight/alice.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,9 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     GlobalKey<NavigatorState>? navigateKey;
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     await SharedPreferencesHelper.init();
 

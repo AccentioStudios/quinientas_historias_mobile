@@ -18,7 +18,6 @@ default_platform(:android)
 platform :android do
 
   lane :beta do
-    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
     gradle(
       task: 'assemble',
       build_type: 'Release'

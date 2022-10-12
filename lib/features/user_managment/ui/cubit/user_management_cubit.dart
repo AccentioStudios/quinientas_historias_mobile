@@ -4,9 +4,11 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quinientas_historias/core/failures/failures.dart';
 import 'package:quinientas_historias/core/failures/status_codes.dart';
+import 'package:quinientas_historias/core/theme/theme.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/mixins/form_validation.dart';
@@ -53,17 +55,48 @@ class UserManagementCubit extends Cubit<UserManagementState>
     }
   }
 
-  Future<TaskSnapshot?> uploadPhoto(UserManagementState state) async {
-    final firebaseStorage = FirebaseStorage.instance;
+  Future<CroppedFile?> pickPhoto() async {
     final imagePicker = ImagePicker();
-    UploadTask uploadTask;
     XFile? image;
+
+    image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final CroppedFile? croppedPhoto = await cropPhoto(image);
+      return Future.value(croppedPhoto);
+    }
+
+    return Future.value(null);
+  }
+
+  Future<CroppedFile?> cropPhoto(XFile image) async {
+    final CroppedFile? croppedFile = await ImageCropper()
+        .cropImage(sourcePath: image.path, aspectRatioPresets: [
+      CropAspectRatioPreset.square,
+    ], uiSettings: [
+      AndroidUiSettings(
+        toolbarTitle: 'Cortar imagen',
+        toolbarColor: ThemeClass.darkTheme.colorScheme.primaryContainer,
+        toolbarWidgetColor: ThemeClass.darkTheme.colorScheme.onPrimaryContainer,
+        backgroundColor: ThemeClass.darkTheme.colorScheme.background,
+        activeControlsWidgetColor: ThemeClass.lightTheme.colorScheme.primary,
+      ),
+      IOSUiSettings(
+        title: 'Cortar imagen',
+      ),
+    ]);
+    return Future.value(croppedFile);
+  }
+
+  Future<TaskSnapshot?> uploadPhoto() async {
+    final firebaseStorage = FirebaseStorage.instance;
+    UploadTask uploadTask;
+    CroppedFile? image;
     const Uuid uuid = Uuid();
 
     final uuidString = uuid.v1();
 
     //Select Image
-    image = await imagePicker.pickImage(source: ImageSource.gallery);
+    image = await pickPhoto();
 
     if (image != null) {
       emit(state.copyWith(uploadingAvatar: true));

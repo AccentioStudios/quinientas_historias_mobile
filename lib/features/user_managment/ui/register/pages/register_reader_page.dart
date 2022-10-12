@@ -194,7 +194,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
 
   void handleChooseAvatar(
       UserManagementCubit cubit, UserManagementState state) async {
-    TaskSnapshot? snapshot = await cubit.uploadPhoto(state);
+    TaskSnapshot? snapshot = await cubit.uploadPhoto();
     if (snapshot != null) {
       final avatarUrl = await snapshot.ref.getDownloadURL();
       cubit.saveNewUserChanges(avatarUrl: avatarUrl);

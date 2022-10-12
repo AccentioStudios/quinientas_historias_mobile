@@ -50,6 +50,7 @@ class _LandingPageState extends State<LandingPage> {
 
   Future<void> _initURIHandler() async {
     // 1
+
     if (!_initialURILinkHandled) {
       _initialURILinkHandled = true;
       // 2
@@ -83,8 +84,10 @@ class _LandingPageState extends State<LandingPage> {
         ReceivedInviteProvider.open(context,
             email: uri.queryParameters['email'] ?? '',
             code: uri.queryParameters['invite'] ?? '');
+        return;
       }
     }
+    _navigateToHomeOrLogin();
     return;
   }
 
@@ -111,17 +114,21 @@ class _LandingPageState extends State<LandingPage> {
       }
       if (!mounted) return;
 
-      if (await _checkAccessToken()) {
-        Navigator.of(context, rootNavigator: true)
-            .popUntil((route) => route.isFirst);
-        Navigator.of(context, rootNavigator: true)
-            .pushReplacementNamed(Routes.homeNavigator);
-      } else {
-        Navigator.of(context, rootNavigator: true)
-            .popUntil((route) => route.isFirst);
-        Navigator.of(context, rootNavigator: true)
-            .pushReplacementNamed(Routes.login);
-      }
+      _navigateToHomeOrLogin();
     });
+  }
+
+  void _navigateToHomeOrLogin() async {
+    if (await _checkAccessToken()) {
+      Navigator.of(context, rootNavigator: true)
+          .popUntil((route) => route.isFirst);
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacementNamed(Routes.homeNavigator);
+    } else {
+      Navigator.of(context, rootNavigator: true)
+          .popUntil((route) => route.isFirst);
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacementNamed(Routes.login);
+    }
   }
 }
