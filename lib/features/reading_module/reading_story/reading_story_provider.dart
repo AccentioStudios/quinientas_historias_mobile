@@ -31,4 +31,17 @@ class ReadingStoryProvider extends StatelessWidget {
       ),
     );
   }
+
+  static Future<bool?> openStory(BuildContext context, {required int storyId}) {
+    if (storyId != 0) {
+      return Navigator.of(context).push<bool>(
+        MaterialPageRoute<bool>(
+          builder: (context) => ReadingStoryProvider(
+            storyId: storyId,
+          ),
+        ),
+      );
+    }
+    return Future.value(false);
+  }
 }

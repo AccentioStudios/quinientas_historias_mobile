@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
+import 'package:quinientas_historias/core/ui/widgets/group_avatar.dart';
 
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/data/models/leaderboard_model.dart';
@@ -42,9 +43,9 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
           itemBuilder: (BuildContext context, int index) {
             return LeaderboardListItem(
               onTap: () => navigateToTeamProfile(context, list?[index].team),
-              avatarWidget: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(list?[index].team?.avatarUrl ?? ''),
+              avatarWidget: GroupAvatar(
+                avatarUrl: list?[index].team?.avatarUrl,
+                type: GroupAvatarType.team,
               ),
               label: Flex(
                 direction: Axis.horizontal,

@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -8,11 +7,11 @@ import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
+import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
-import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 
 class LeaderboardMyTeamTabView extends StatefulWidget with ErrorHandling {
   const LeaderboardMyTeamTabView({Key? key, required this.cubit})

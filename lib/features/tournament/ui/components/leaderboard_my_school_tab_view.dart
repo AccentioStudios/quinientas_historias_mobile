@@ -7,6 +7,7 @@ import '../../../../core/data/entities/team_entity.dart';
 import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
+import '../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
@@ -58,8 +59,9 @@ class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
         itemBuilder: (context, item, index) => LeaderboardListItem(
           onTap: () => navigateToTeamProfile(item.team),
-          avatarWidget: CircleAvatar(
-            backgroundImage: NetworkImage(item.team?.avatarUrl ?? ''),
+          avatarWidget: GroupAvatar(
+            avatarUrl: item.team?.avatarUrl,
+            type: GroupAvatarType.team,
           ),
           label: Flex(
             direction: Axis.horizontal,

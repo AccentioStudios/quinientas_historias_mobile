@@ -11,7 +11,7 @@ class AuthUseCases {
   AuthUseCases({required this.repository});
   final AuthRepository repository;
 
-  Stream<JWTTokenModel> login(LoginModel login) async* {
+  Stream<JWTTokenModel> login(AuthRequest login) async* {
     yield* repository.login(login);
   }
 

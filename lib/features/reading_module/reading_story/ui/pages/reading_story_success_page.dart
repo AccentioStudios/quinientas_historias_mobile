@@ -206,19 +206,20 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                 PaddingColumn(
                   padding: const EdgeInsets.all(Constants.space21),
                   children: [
+                    // BigButton(
+                    //     text: 'Volver',
+                    //     onPressed: () {
+                    //       Navigator.of(context, rootNavigator: true).pop(true);
+                    //       Navigator.of(context, rootNavigator: true).pop(true);
+                    //     }),
+                    // const SizedBox(height: Constants.space12),
                     BigButton(
-                        text: 'Volver',
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pop(true);
-                          Navigator.of(context, rootNavigator: true).pop(true);
-                        }),
-                    const SizedBox(height: Constants.space12),
-                    BigButton(
-                        filled: false,
+                        // filled: false,
                         text: 'Ir al home',
                         onPressed: () {
                           Navigator.of(context, rootNavigator: true)
-                              .pushNamed(Routes.homeNavigator);
+                              .pushNamedAndRemoveUntil(Routes.homeNavigator,
+                                  (Route<dynamic> route) => false);
                         }),
                   ],
                 ),

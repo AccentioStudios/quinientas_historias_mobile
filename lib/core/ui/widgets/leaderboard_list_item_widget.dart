@@ -28,39 +28,69 @@ class LeaderboardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedCard(
       onTap: onTap,
+      padding: const EdgeInsets.symmetric(
+          horizontal: Constants.space16, vertical: Constants.space12),
       backgroundColor: brandBlue.withOpacity(0.08),
       border: Border.all(color: Colors.white.withOpacity(0.08)),
-      child: Container(
-        width: double.infinity,
-        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(.08),
-        child: Flex(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
-          children: [
-            Flex(
-              direction: Axis.horizontal,
-              children: [
-                SizedBox(width: 35, child: avatarWidget),
-                const SizedBox(width: Constants.space12),
-                Flex(
-                  direction: Axis.vertical,
-                  mainAxisSize: MainAxisSize.max,
+      child: Column(
+        children: [
+          Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: Constants.space16),
+                child: SizedBox(width: 35, child: avatarWidget),
+              ),
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
+                  children: [
                     label,
-                    secondaryLabel != null
-                        ? secondaryLabel!
-                        : const SizedBox.shrink(),
+                    if (secondaryLabel != null) secondaryLabel!,
                   ],
                 ),
-              ],
-            ),
-            trailingWidget != null ? trailingWidget! : const SizedBox.shrink(),
-          ],
-        ),
+              ),
+              trailingWidget != null
+                  ? trailingWidget!
+                  : const SizedBox.shrink(),
+            ],
+          ),
+        ],
       ),
+      // child: Container(
+      //   width: double.infinity,
+      //   color: Theme.of(context).colorScheme.primaryContainer.withOpacity(.08),
+      //   child: Flex(
+      //     mainAxisSize: MainAxisSize.max,
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     direction: Axis.horizontal,
+      //     children: [
+      //       Flex(
+      //         direction: Axis.horizontal,
+      //         children: [
+      //           // Flexible(child: SizedBox(width: 35, child: avatarWidget)),
+
+      //           Flexible(
+      //             child: Column(
+      //               mainAxisSize: MainAxisSize.max,
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //               children: <Widget>[
+      //                 label,
+      //                 secondaryLabel != null
+      //                     ? secondaryLabel!
+      //                     : const SizedBox.shrink(),
+      //               ],
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       trailingWidget != null ? trailingWidget! : const SizedBox.shrink(),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

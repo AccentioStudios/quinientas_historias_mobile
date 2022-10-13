@@ -17,6 +17,7 @@ import '../../../../core/ui/widgets/buttom_bar.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../reading_module/daily_challenge/daily_challange_provider.dart';
 import '../bloc/cubit/home_cubit.dart';
+import 'home_captain_tier_0_layout.dart';
 import 'home_layout.dart';
 import 'home_prof_layout.dart';
 
@@ -56,7 +57,18 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: state.dashboard!.user.type == UserType.prof
                       ? HomeProfLayout(state: state)
-                      : HomeLayout(state: state)),
+                      : state.dashboard!.user.type == UserType.captain &&
+                              state.dashboard!.user.team == null
+                          ? HomeCaptainTier0Layout(
+                              state: state,
+                              getDashboardFunction: () =>
+                                  getDashboard(context, state: state),
+                            )
+                          : HomeLayout(
+                              state: state,
+                              getDashboardFunction: () =>
+                                  getDashboard(context, state: state),
+                            )),
         );
       },
     );

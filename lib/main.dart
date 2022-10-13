@@ -1,38 +1,41 @@
 import 'dart:async';
 
-import 'package:alice_lightweight/alice.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'core/app.dart';
-import 'core/helpers/alice_helper.dart';
 import 'core/helpers/shared_preferences_helper.dart';
+import 'core/integrations/firebase_messaging_service.dart';
+import 'core/integrations/notification_service.dart';
 import 'core/integrations/remote_config_service.dart';
-import 'core/utils/constants.dart';
+import 'core/routes/routes.dart';
+import 'firebase_options.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
-    GlobalKey<NavigatorState>? navigateKey;
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
+        options: DefaultFirebaseOptions.currentPlatform);
     await SharedPreferencesHelper.init();
-
-    if (FeatureFlag.aliceEnabled) {
-      final Alice alice = AliceHelper.instance;
-      navigateKey = alice.getNavigatorKey();
-    }
-
     await RemoteConfigService.init();
 
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
-    runApp(Application(
-      navigatorKey: navigateKey,
+    runApp(MultiProvider(
+      providers: [
+        Provider<NotificationService>(
+          create: (context) => NotificationService(),
+        ),
+        Provider<FirebaseMessagingService>(
+          create: (context) =>
+              FirebaseMessagingService(context.read<NotificationService>()),
+        ),
+      ],
+      child: Application(
+        navigatorKey: Routes.navigatorKey,
+      ),
     ));
   },
       (error, stack) =>

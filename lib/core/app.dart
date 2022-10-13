@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
 
 import '../features/invites/received/received_invite_provider.dart';
+import 'integrations/firebase_messaging_service.dart';
+import 'integrations/notification_service.dart';
 import 'routes/routes.dart';
 import 'theme/theme.dart';
 
@@ -25,6 +28,8 @@ class _ApplicationState extends State<Application> {
   void initState() {
     super.initState();
     _incomingLinkHandler();
+    initilizeFirebaseMessaging();
+    checkNotifications();
   }
 
   @override
@@ -36,7 +41,6 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: widget.navigatorKey,
       title: '500 Historias',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
@@ -44,7 +48,18 @@ class _ApplicationState extends State<Application> {
       darkTheme: ThemeClass.darkTheme,
       routes: Routes.generateRoutes(),
       initialRoute: Routes.landing,
+      navigatorKey: widget.navigatorKey,
     );
+  }
+
+  initilizeFirebaseMessaging() async {
+    await Provider.of<FirebaseMessagingService>(context, listen: false)
+        .initialize();
+  }
+
+  checkNotifications() async {
+    await Provider.of<NotificationService>(context, listen: false)
+        .checkForNotifications();
   }
 
   void _incomingLinkHandler() {

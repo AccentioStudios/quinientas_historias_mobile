@@ -6,13 +6,11 @@ import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:quinientas_historias/core/failures/failures.dart';
-import 'package:quinientas_historias/core/failures/status_codes.dart';
-import 'package:quinientas_historias/core/theme/theme.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
+import '../../../../core/failures/failures.dart';
+import '../../../../core/failures/status_codes.dart';
 import '../../../../core/mixins/form_validation.dart';
 import '../../../../core/mixins/stream_disposable.dart';
 import '../../data/models/user_management_request_model.dart';
@@ -68,38 +66,6 @@ class UserManagementCubit extends Cubit<UserManagementState>
       );
       emit(state.copyWith(userManagementRequest: user));
     }
-  }
-
-  Future<CroppedFile?> pickPhoto() async {
-    final imagePicker = ImagePicker();
-    XFile? image;
-
-    image = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      final CroppedFile? croppedPhoto = await cropPhoto(image);
-      return Future.value(croppedPhoto);
-    }
-
-    return Future.value(null);
-  }
-
-  Future<CroppedFile?> cropPhoto(XFile image) async {
-    final CroppedFile? croppedFile = await ImageCropper()
-        .cropImage(sourcePath: image.path, aspectRatioPresets: [
-      CropAspectRatioPreset.square,
-    ], uiSettings: [
-      AndroidUiSettings(
-        toolbarTitle: 'Cortar imagen',
-        toolbarColor: ThemeClass.darkTheme.colorScheme.primaryContainer,
-        toolbarWidgetColor: ThemeClass.darkTheme.colorScheme.onPrimaryContainer,
-        backgroundColor: ThemeClass.darkTheme.colorScheme.background,
-        activeControlsWidgetColor: ThemeClass.lightTheme.colorScheme.primary,
-      ),
-      IOSUiSettings(
-        title: 'Cortar imagen',
-      ),
-    ]);
-    return Future.value(croppedFile);
   }
 
   Future<TaskSnapshot?> uploadPhoto(CroppedFile? image) async {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
+import 'package:quinientas_historias/core/utils/colors.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../core/data/models/rate_story_request.dart';
@@ -22,7 +23,7 @@ class RateStorySheetView extends StatefulWidget {
 
 class _RateStorySheetViewState extends State<RateStorySheetView> {
   bool isLoading = false;
-  bool expanded = false;
+  bool expanded = true;
 
   int? niceRating;
   int? qualityRating;
@@ -74,6 +75,7 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
                   RatingInput(
                     initRate: niceRating,
                     label: '¿Que tanto te gustó la historia?',
+                    isRequired: true,
                     onChanged: (rating) {
                       setState(() {
                         niceRating = rating;
@@ -166,9 +168,16 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
   }
 
   void rateStory(BuildContext context, ReadingStoryState state) {
+    if (niceRating == null) {
+      Fluttertoast.showToast(
+          msg: 'Por favor, califica que tanto te gustó la historia');
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
+
     final RateStoryRequest request = RateStoryRequest(
       storyId: state.story!.id,
       niceRating: niceRating,
@@ -192,9 +201,14 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
 
 class RatingInput extends StatefulWidget {
   const RatingInput(
-      {Key? key, this.initRate, required this.label, required this.onChanged})
+      {Key? key,
+      this.initRate,
+      required this.label,
+      required this.onChanged,
+      this.isRequired = false})
       : super(key: key);
   final String label;
+  final bool isRequired;
   final int? initRate;
   final void Function(int rating) onChanged;
 
@@ -215,7 +229,18 @@ class _RatingInputState extends State<RatingInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(widget.label),
+            if (widget.isRequired)
+              const Text(
+                'Obligatorio',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: primaryDarkColor),
+              ),
+          ],
+        ),
         const SizedBox(height: Constants.space8),
         SizedBox(
           width: double.infinity,

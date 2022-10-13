@@ -31,12 +31,16 @@ class UserAvatar extends StatelessWidget {
                 width: 2, color: getDivisionColor(user.division?.current.level))
             : null,
         shape: BoxShape.circle,
-        image: user.avatarUrl != null
+        image: user.avatarUrl != null && user.avatarUrl != ""
             ? DecorationImage(
                 image: NetworkImage(user.avatarUrl!),
                 fit: BoxFit.contain,
               )
-            : null,
+            : const DecorationImage(
+                image: AssetImage(
+                    'assets/images/avatar-user-placeholder-image.jpg'),
+                fit: BoxFit.contain,
+              ),
       ),
     );
   }

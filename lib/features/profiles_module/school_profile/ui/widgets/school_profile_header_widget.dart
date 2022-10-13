@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 
+import '../../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/school_profile_cubit.dart';
@@ -46,9 +47,9 @@ class SchoolProfileAvatar extends StatelessWidget {
     return SizedBox(
       width: 140,
       height: 140,
-      child: CircleAvatar(
-        radius: 68,
-        backgroundImage: NetworkImage(school?.avatarUrl ?? ''),
+      child: GroupAvatar(
+        avatarUrl: school?.avatarUrl,
+        type: GroupAvatarType.school,
       ),
     );
   }

@@ -17,11 +17,13 @@ mixin SheetMessages on Widget {
     Function? secondaryBtnOnTap,
     String? secondaryBtnLabel,
     double height = 320,
+    bool isDismissible = true,
   }) {
     return showModalBottomSheet<T>(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       context: context,
       useRootNavigator: true,
+      isDismissible: isDismissible,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
@@ -48,6 +50,17 @@ mixin SheetMessages on Widget {
       title: '¡Espera un momento!',
       content:
           '¿Estas seguro que quieres crear una cuenta sin foto de perfil?\n\nTener una foto de perfil ayuda a tus compañeros a identificar mejor quien eres.',
+      btnLabel: 'Subir foto',
+    );
+  }
+
+  Future<T?> showAddGroupAvatarMessage<T>(BuildContext context) {
+    return showMessage(
+      context,
+      height: 350,
+      title: '¡Espera un momento!',
+      content:
+          '¿Estas seguro que no quieres una foto en tu equipo?\n\nTener una foto ayuda a tus compañeros a identificar mejor que equipo es.',
       btnLabel: 'Subir foto',
     );
   }
@@ -136,5 +149,18 @@ mixin SheetMessages on Widget {
         title: streakNumber > 0 ? titleStreak : titleNoStreak,
         content: streakNumber > 0 ? contentStreak : contentNoStreak,
         btnLabel: streakNumber > 0 ? btnLabelStreak : btnLabelNoStreak);
+  }
+
+  Future<T?> showInviteReadersMessage<T>(BuildContext context) {
+    return showMessage<T?>(
+      context,
+      height: 300,
+      iconSvgPath: 'assets/images/success-check-image.svg',
+      title: '¡Muy bien!',
+      content:
+          'Has creado tu equipo, ahora invita a tus amigos a formar parte de el.',
+      btnLabel: 'Invitar amigos',
+      isDismissible: false,
+    );
   }
 }

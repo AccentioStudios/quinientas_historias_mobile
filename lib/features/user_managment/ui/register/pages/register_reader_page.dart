@@ -1,8 +1,6 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
@@ -15,6 +13,7 @@ import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../../core/utils/functions.dart';
 import '../../cubit/user_management_cubit.dart';
 import '../../widgets/user_management_user_avatar.dart';
 
@@ -224,7 +223,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
         state.avatarMemory == null) {
       widget.showAddUserAvatarMessage(context).then((value) async {
         if (value != null) {
-          cubit.handleSaveAvatarMemory(await cubit.pickPhoto());
+          cubit.handleSaveAvatarMemory(await pickPhoto());
         }
       });
       return;

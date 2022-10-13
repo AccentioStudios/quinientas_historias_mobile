@@ -24,6 +24,8 @@ abstract class Routes {
   static const String userProfile = '/userProfile';
   static const String config = '/config';
 
+  static GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
+
   static Map<String, WidgetBuilder> generateRoutes() {
     return <String, WidgetBuilder>{
       landing: (context) => const LandingProvider(),

@@ -26,16 +26,15 @@ class AuthorNameChip extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (author?.avatarUrl != null)
-                    SizedBox(
-                      width: 25,
+                  SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: UserAvatar(
+                      user: author!,
                       height: 25,
-                      child: UserAvatar(
-                        user: author!,
-                        height: 25,
-                        width: 25,
-                      ),
+                      width: 25,
                     ),
+                  ),
                   const SizedBox(
                     width: Constants.space12,
                   ),

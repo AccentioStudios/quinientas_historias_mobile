@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/failures/status_codes.dart';
+import '../../../../core/integrations/firebase_messaging_service.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/big_button.dart';
@@ -11,7 +13,6 @@ import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/link_button.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
-import '../../data/models/login_model.dart';
 import '../bloc/cubit/auth_cubit.dart';
 import 'forgot_password_page.dart';
 import 'receive_invite_page.dart';
@@ -163,23 +164,34 @@ class _LoginFormState extends State<_LoginForm> {
     );
   }
 
-  void _navigateToHomeNavigator(BuildContext context) {
+  void _navigateToHomeNavigator(BuildContext context) async {
+    String? firebaseToken =
+        await Provider.of<FirebaseMessagingService>(context, listen: false)
+            .getDeviceFirebaseToken();
+    if (firebaseToken == null) {
+      if (!mounted) return;
+      widget.handleError(context, HttpFailure());
+      return;
+    }
+    if (!mounted) return;
     BlocProvider.of<AuthCubit>(context).login(
-        LoginModel(
-            email: emailAddressLoginController.text,
-            password: passwordLoginController.text), onSuccess: () {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
-    }, onError: (HttpFailure error) {
-      if (error.statusCode == StatusCodes.unauthorized) {
-        if (error.error == FailureType.email ||
-            error.error == FailureType.password) {
-          // Let this UI show the error type
-          return;
-        }
-      }
-      widget.handleError(context, error);
-    });
+        email: emailAddressLoginController.text,
+        password: passwordLoginController.text,
+        firebaseToken: firebaseToken,
+        onSuccess: () {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+        },
+        onError: (HttpFailure error) {
+          if (error.statusCode == StatusCodes.unauthorized) {
+            if (error.error == FailureType.email ||
+                error.error == FailureType.password) {
+              // Let this UI show the error type
+              return;
+            }
+          }
+          widget.handleError(context, error);
+        });
   }
 }
 

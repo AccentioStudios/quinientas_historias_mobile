@@ -22,4 +22,14 @@ class SendInviteProvider extends StatelessWidget {
       ),
     );
   }
+
+  static Future<bool?> open(
+    BuildContext context,
+  ) {
+    return Navigator.of(context).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (context) => const SendInviteProvider(),
+      ),
+    );
+  }
 }

@@ -19,11 +19,21 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
   final AuthUseCases authUseCases;
 
-  void login(LoginModel login,
-      {required Function onError, required void Function() onSuccess}) {
+  void login(
+      {required String email,
+      required String password,
+      required String firebaseToken,
+      required Function onError,
+      required void Function() onSuccess}) {
     emit(state.copyWith(loading: true, httpFailure: null));
 
-    authUseCases.login(login).listen((JWTTokenModel authModel) {
+    final authRequest = AuthRequest(
+      email: email,
+      password: password,
+      firebaseToken: firebaseToken,
+    );
+
+    authUseCases.login(authRequest).listen((JWTTokenModel authModel) {
       if (authModel.accessToken != null) {
         if (authModel.accessToken!.isNotEmpty) {
           return onSuccess();

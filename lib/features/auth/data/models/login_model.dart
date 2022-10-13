@@ -1,30 +1,34 @@
 import 'dart:convert';
 
-class LoginModel {
-  LoginModel({
+class AuthRequest {
+  AuthRequest({
     required this.email,
     required this.password,
+    required this.firebaseToken,
   });
 
   final String email;
   final String password;
+  final String firebaseToken;
 
   Map<String, dynamic> toMap() {
     return {
       'email': email,
       'password': password,
+      'firebaseToken': firebaseToken,
     };
   }
 
-  factory LoginModel.fromMap(Map<String, dynamic> map) {
-    return LoginModel(
+  factory AuthRequest.fromMap(Map<String, dynamic> map) {
+    return AuthRequest(
       email: map['email'] ?? '',
       password: map['password'] ?? '',
+      firebaseToken: map['firebaseToken'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory LoginModel.fromJson(String source) =>
-      LoginModel.fromMap(json.decode(source));
+  factory AuthRequest.fromJson(String source) =>
+      AuthRequest.fromMap(json.decode(source));
 }

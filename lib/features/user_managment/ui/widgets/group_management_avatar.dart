@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quinientas_historias/core/ui/widgets/group_avatar.dart';
 
 import '../../../../core/utils/constants.dart';
 import '../../../../core/utils/functions.dart';
-import '../cubit/user_management_cubit.dart';
+import '../cubit/group_management_cubit.dart';
 
-class RegisterUserAvatar extends StatelessWidget {
-  const RegisterUserAvatar({
+class RegisterGroupAvatar extends StatelessWidget {
+  const RegisterGroupAvatar({
     Key? key,
     required this.state,
+    required this.type,
   }) : super(key: key);
 
-  final UserManagementState state;
+  final GroupManagementState state;
+  final GroupAvatarType type;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -41,23 +44,10 @@ class RegisterUserAvatar extends StatelessWidget {
           SizedBox(
             height: 138,
             width: 138,
-            child: state.userManagementRequest?.avatarUrl != null
-                ? CircleAvatar(
-                    backgroundImage:
-                        state.userManagementRequest?.avatarUrl != null
-                            ? NetworkImage(
-                                state.userManagementRequest?.avatarUrl ?? '')
-                            : null,
-                  )
-                : OverflowBox(
-                    maxHeight: 180,
-                    maxWidth: 180,
-                    child: Transform.translate(
-                      offset: const Offset(-15, -12),
-                      child: SvgPicture.asset(
-                          'assets/images/user-register-avatar-empty-space-image.svg'),
-                    ),
-                  ),
+            child: GroupAvatar(
+              avatarUrl: state.groupManagementRequest?.avatarUrl,
+              type: type,
+            ),
           ),
         Positioned(
           bottom: -10,
@@ -76,7 +66,7 @@ class RegisterUserAvatar extends StatelessWidget {
                   ),
                   onPressed: () async {
                     context
-                        .read<UserManagementCubit>()
+                        .read<GroupManagementCubit>()
                         .handleSaveAvatarMemory(await pickPhoto());
                   },
                   icon: Center(

@@ -87,7 +87,7 @@ class _LandingPageState extends State<LandingPage> {
         return;
       }
     }
-    _navigateToHomeOrLogin();
+    _navigateToNext();
     return;
   }
 
@@ -114,11 +114,11 @@ class _LandingPageState extends State<LandingPage> {
       }
       if (!mounted) return;
 
-      _navigateToHomeOrLogin();
+      _navigateToNext();
     });
   }
 
-  void _navigateToHomeOrLogin() async {
+  void _navigateToNext() async {
     if (await _checkAccessToken()) {
       Navigator.of(context, rootNavigator: true)
           .popUntil((route) => route.isFirst);

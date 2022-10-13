@@ -7,7 +7,7 @@ import '../models/verify_otp_code_request_model.dart';
 import '../models/verify_otp_code_response_model.dart';
 
 class AuthRepository with ApiService {
-  Stream<JWTTokenModel> login(LoginModel login) async* {
+  Stream<JWTTokenModel> login(AuthRequest login) async* {
     yield* appApi.post('v1/auth/login', data: login.toJson()).handleJson(
         mapper: (data) {
       JWTTokenModel authModel = JWTTokenModel.decode(data);

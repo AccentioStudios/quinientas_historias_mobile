@@ -20,8 +20,12 @@ import '../components/header_card_component.dart';
 import 'home.dart';
 
 class HomeLayout extends StatelessWidget {
-  const HomeLayout({Key? key, required this.state}) : super(key: key);
+  const HomeLayout(
+      {Key? key, required this.state, required this.getDashboardFunction})
+      : super(key: key);
   final HomeState state;
+  final Function getDashboardFunction;
+
   @override
   Widget build(BuildContext context) {
     return ListView(
