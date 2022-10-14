@@ -16,7 +16,9 @@ class ThemedTextFormField extends StatelessWidget {
       this.errorText,
       this.onChanged,
       this.focusNode,
-      this.validator})
+      this.validator,
+      this.textInputAction,
+      this.onFieldSubmitted})
       : super(key: key);
 
   final String? hintText;
@@ -30,9 +32,14 @@ class ThemedTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final FocusNode? focusNode;
   final String? Function(String?)? validator;
+  final TextInputAction? textInputAction;
+  final Function(String)? onFieldSubmitted;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted,
+      scrollPadding: const EdgeInsets.only(bottom: 40),
       textCapitalization: keyboardType == TextInputType.name
           ? TextCapitalization.words
           : TextCapitalization.none,

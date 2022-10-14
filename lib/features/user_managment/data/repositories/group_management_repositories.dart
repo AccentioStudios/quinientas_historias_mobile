@@ -13,4 +13,10 @@ class GroupManagementRepository with ApiService {
         .post('/v1/teams/edit', data: request.toJson())
         .handle(mapper: (Object data) {});
   }
+
+  Stream<void> editSchool(GroupManagementRequest request) async* {
+    yield* appApi
+        .post('/v1/schools/edit', data: request.toJson())
+        .handle(mapper: (Object data) {});
+  }
 }

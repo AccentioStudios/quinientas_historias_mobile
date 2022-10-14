@@ -22,7 +22,7 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final List<LeaderboardModel>? list = state.data?.leaderboard;
+    final List<LeaderboardModel>? list = state.school?.leaderboard;
     return PaddingColumn(
       padding: const EdgeInsets.only(
           left: Constants.space16,

@@ -19,12 +19,12 @@ class SchoolProfileHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           children: [
             const SizedBox(height: Constants.space21),
-            SchoolProfileAvatar(school: state.data),
+            SchoolProfileAvatar(school: state.school),
             const SizedBox(height: Constants.space21),
             Align(
               alignment: Alignment.center,
               child: Text(
-                state.data?.name ?? '',
+                state.school?.name ?? '',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20,

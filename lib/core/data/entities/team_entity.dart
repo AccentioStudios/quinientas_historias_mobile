@@ -14,6 +14,7 @@ class Team {
     this.score,
     this.readed,
     this.school,
+    this.canEdit,
     this.leaderboard,
   });
 
@@ -25,6 +26,7 @@ class Team {
   final int? score;
   final int? readed;
   final School? school;
+  final bool? canEdit;
   final List<LeaderboardModel>? leaderboard;
 
   Map<String, dynamic> toJson() => _$TeamToJson(this);

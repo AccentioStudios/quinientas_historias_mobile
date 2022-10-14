@@ -21,6 +21,7 @@ mixin _$TournamentState {
   Tournament? get tournament => throw _privateConstructorUsedError;
   ListPage<LeaderboardModel>? get listPage =>
       throw _privateConstructorUsedError;
+  bool get teamTabShowed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TournamentStateCopyWith<TournamentState> get copyWith =>
@@ -36,7 +37,8 @@ abstract class $TournamentStateCopyWith<$Res> {
       {dynamic tournamentIsLoading,
       dynamic leaderboardIsLoading,
       Tournament? tournament,
-      ListPage<LeaderboardModel>? listPage});
+      ListPage<LeaderboardModel>? listPage,
+      bool teamTabShowed});
 }
 
 /// @nodoc
@@ -54,6 +56,7 @@ class _$TournamentStateCopyWithImpl<$Res>
     Object? leaderboardIsLoading = freezed,
     Object? tournament = freezed,
     Object? listPage = freezed,
+    Object? teamTabShowed = freezed,
   }) {
     return _then(_value.copyWith(
       tournamentIsLoading: tournamentIsLoading == freezed
@@ -72,6 +75,10 @@ class _$TournamentStateCopyWithImpl<$Res>
           ? _value.listPage
           : listPage // ignore: cast_nullable_to_non_nullable
               as ListPage<LeaderboardModel>?,
+      teamTabShowed: teamTabShowed == freezed
+          ? _value.teamTabShowed
+          : teamTabShowed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -87,7 +94,8 @@ abstract class _$$_TournamentStateCopyWith<$Res>
       {dynamic tournamentIsLoading,
       dynamic leaderboardIsLoading,
       Tournament? tournament,
-      ListPage<LeaderboardModel>? listPage});
+      ListPage<LeaderboardModel>? listPage,
+      bool teamTabShowed});
 }
 
 /// @nodoc
@@ -107,6 +115,7 @@ class __$$_TournamentStateCopyWithImpl<$Res>
     Object? leaderboardIsLoading = freezed,
     Object? tournament = freezed,
     Object? listPage = freezed,
+    Object? teamTabShowed = freezed,
   }) {
     return _then(_$_TournamentState(
       tournamentIsLoading: tournamentIsLoading == freezed
@@ -123,6 +132,10 @@ class __$$_TournamentStateCopyWithImpl<$Res>
           ? _value.listPage
           : listPage // ignore: cast_nullable_to_non_nullable
               as ListPage<LeaderboardModel>?,
+      teamTabShowed: teamTabShowed == freezed
+          ? _value.teamTabShowed
+          : teamTabShowed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -131,10 +144,11 @@ class __$$_TournamentStateCopyWithImpl<$Res>
 
 class _$_TournamentState implements _TournamentState {
   const _$_TournamentState(
-      {this.tournamentIsLoading = false,
-      this.leaderboardIsLoading = false,
+      {this.tournamentIsLoading = true,
+      this.leaderboardIsLoading = true,
       this.tournament,
-      this.listPage});
+      this.listPage,
+      this.teamTabShowed = true});
 
   @override
   @JsonKey()
@@ -146,10 +160,13 @@ class _$_TournamentState implements _TournamentState {
   final Tournament? tournament;
   @override
   final ListPage<LeaderboardModel>? listPage;
+  @override
+  @JsonKey()
+  final bool teamTabShowed;
 
   @override
   String toString() {
-    return 'TournamentState(tournamentIsLoading: $tournamentIsLoading, leaderboardIsLoading: $leaderboardIsLoading, tournament: $tournament, listPage: $listPage)';
+    return 'TournamentState(tournamentIsLoading: $tournamentIsLoading, leaderboardIsLoading: $leaderboardIsLoading, tournament: $tournament, listPage: $listPage, teamTabShowed: $teamTabShowed)';
   }
 
   @override
@@ -163,7 +180,9 @@ class _$_TournamentState implements _TournamentState {
                 .equals(other.leaderboardIsLoading, leaderboardIsLoading) &&
             const DeepCollectionEquality()
                 .equals(other.tournament, tournament) &&
-            const DeepCollectionEquality().equals(other.listPage, listPage));
+            const DeepCollectionEquality().equals(other.listPage, listPage) &&
+            const DeepCollectionEquality()
+                .equals(other.teamTabShowed, teamTabShowed));
   }
 
   @override
@@ -172,7 +191,8 @@ class _$_TournamentState implements _TournamentState {
       const DeepCollectionEquality().hash(tournamentIsLoading),
       const DeepCollectionEquality().hash(leaderboardIsLoading),
       const DeepCollectionEquality().hash(tournament),
-      const DeepCollectionEquality().hash(listPage));
+      const DeepCollectionEquality().hash(listPage),
+      const DeepCollectionEquality().hash(teamTabShowed));
 
   @JsonKey(ignore: true)
   @override
@@ -185,7 +205,8 @@ abstract class _TournamentState implements TournamentState {
       {final dynamic tournamentIsLoading,
       final dynamic leaderboardIsLoading,
       final Tournament? tournament,
-      final ListPage<LeaderboardModel>? listPage}) = _$_TournamentState;
+      final ListPage<LeaderboardModel>? listPage,
+      final bool teamTabShowed}) = _$_TournamentState;
 
   @override
   dynamic get tournamentIsLoading;
@@ -195,6 +216,8 @@ abstract class _TournamentState implements TournamentState {
   Tournament? get tournament;
   @override
   ListPage<LeaderboardModel>? get listPage;
+  @override
+  bool get teamTabShowed;
   @override
   @JsonKey(ignore: true)
   _$$_TournamentStateCopyWith<_$_TournamentState> get copyWith =>

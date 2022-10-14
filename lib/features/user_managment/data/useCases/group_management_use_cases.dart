@@ -12,4 +12,8 @@ class GroupManagementUseCases {
   Stream<void> editTeam(GroupManagementRequest request) async* {
     yield* repository.editTeam(request);
   }
+
+  Stream<void> editSchool(GroupManagementRequest request) async* {
+    yield* repository.editSchool(request);
+  }
 }

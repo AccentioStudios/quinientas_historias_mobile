@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/data/entities/school_entity.dart';
+import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
@@ -16,30 +17,28 @@ import '../../../../../core/utils/functions.dart';
 import '../../cubit/group_management_cubit.dart';
 import '../../widgets/group_management_avatar.dart';
 
-class RegisterTeamPage extends StatefulWidget
-    with ErrorHandling, SheetMessages {
-  const RegisterTeamPage({Key? key, required this.school}) : super(key: key);
+class EditSchoolPage extends StatefulWidget with ErrorHandling, SheetMessages {
+  const EditSchoolPage({Key? key, required this.school}) : super(key: key);
   final School school;
+
   @override
-  State<RegisterTeamPage> createState() => _RegisterTeamPageState();
+  State<EditSchoolPage> createState() => _EditSchoolPageState();
 }
 
-class _RegisterTeamPageState extends State<RegisterTeamPage> {
-  late final TextEditingController teamName;
+class _EditSchoolPageState extends State<EditSchoolPage> {
   late final TextEditingController schoolName;
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    teamName = TextEditingController();
     schoolName = TextEditingController(text: widget.school.name);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<GroupManagementCubit>().initNewTeam(widget.school.name);
+    context.read<GroupManagementCubit>().loadSchool(widget.school);
   }
 
   @override
@@ -70,7 +69,7 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
                           ),
                           const Padding(
                             padding: EdgeInsets.only(left: 18),
-                            child: Headline(label: 'Registrar equipo'),
+                            child: Headline(label: 'Editar escuela'),
                           ),
                           if (state.error != null)
                             Column(
@@ -93,27 +92,17 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
                                     prefixIconSvgPath:
                                         'assets/icons/school-outline-icon.svg',
                                     keyboardType: TextInputType.name,
-                                    controller: teamName,
-                                    hintText: 'Nombre del equipo',
-                                    onChanged: (name) =>
-                                        onChangeFields(name: name),
-                                    validator: fieldValidate,
-                                  ),
-                                  const SizedBox(height: Constants.space16),
-                                  ThemedTextFormField(
-                                    prefixIconSvgPath:
-                                        'assets/icons/school-outline-icon.svg',
-                                    enabled: false,
-                                    keyboardType: TextInputType.name,
                                     controller: schoolName,
                                     hintText: 'Nombre de la escuela',
                                     validator: fieldValidate,
+                                    onChanged: (name) =>
+                                        onChangeFields(name: name),
                                   ),
                                 ],
                               )),
                           const SizedBox(height: Constants.space21),
                           BigButton(
-                              text: 'Registrar equipo',
+                              text: 'Guardar cambios',
                               isLoading: state.isLoading,
                               onPressed: () => submit(context, state)),
                         ],
@@ -153,7 +142,7 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
       return;
     }
 
-    cubit.registerNewTeam(onSuccess: () {
+    cubit.editSchool(onSuccess: () {
       Navigator.of(context, rootNavigator: true).pop(true);
     }, onError: (HttpFailure error) {
       widget.handleError(context, error);

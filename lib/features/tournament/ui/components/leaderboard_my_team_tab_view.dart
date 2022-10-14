@@ -12,6 +12,7 @@ import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
+import '../widgets/no_item_found_widget.dart';
 
 class LeaderboardMyTeamTabView extends StatefulWidget with ErrorHandling {
   const LeaderboardMyTeamTabView({Key? key, required this.cubit})
@@ -58,6 +59,8 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
       pagingController: _pagingController,
       shrinkWrap: true,
       builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
+        noItemsFoundIndicatorBuilder: (context) => const NoItemFound(),
+        firstPageErrorIndicatorBuilder: (context) => const PageErrorIndicator(),
         itemBuilder: (context, item, index) => UserLeaderboardListItem(
           user: item.user!,
           position: item.position,

@@ -14,6 +14,7 @@ import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../invites/send/send_invite_provider.dart';
+import '../../../../user_managment/user_management_provider.dart';
 import '../widgets/team_profile_cards_widget.dart';
 
 class TeamProfilePage extends StatefulWidget with ErrorHandling {
@@ -38,21 +39,34 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
           appBar: AppBar(
             elevation: 0,
             actions: <Widget>[
-              TextButton.icon(
-                label: Text(
-                  'Invitar Lectores',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              if (state.team?.canEdit == true)
+                TextButton.icon(
+                  label: Text(
+                    'Invitar Lectores',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                            builder: (_) => const SendInviteProvider(
+                                  typeUserToInvite: UserType.reader,
+                                )));
+                  },
+                  icon: SvgPicture.asset('assets/icons/user-plus.svg'),
                 ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true)
-                      .push(MaterialPageRoute(
-                          builder: (_) => const SendInviteProvider(
-                                typeUserToInvite: UserType.reader,
-                              )));
-                },
-                icon: SvgPicture.asset('assets/icons/user-plus.svg'),
-              ),
+              if (state.team?.canEdit == true)
+                TextButton.icon(
+                  onPressed: () {
+                    openEditTeam(context, state);
+                  },
+                  icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
+                  label: Text(
+                    'Editar Equipo',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                ),
               const SizedBox(width: 8),
             ],
           ),
@@ -82,6 +96,16 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
         );
       },
     );
+  }
+
+  void openEditTeam(BuildContext context, TeamProfileState state) {
+    UserManagementProvider()
+        .openEditTeam(context, team: state.team!)
+        .then((refresh) {
+      if (refresh == true) {
+        getTeamData();
+      }
+    });
   }
 
   Future<dynamic> getTeamData() {

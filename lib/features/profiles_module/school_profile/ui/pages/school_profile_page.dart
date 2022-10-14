@@ -8,6 +8,7 @@ import 'package:quinientas_historias/features/profiles_module/school_profile/ui/
 
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../user_managment/user_management_provider.dart';
 import '../components/teams_profile_leaderboard_team_list.dart';
 import '../widgets/school_profile_cards_widget.dart';
 import '../widgets/school_profile_header_widget.dart';
@@ -34,9 +35,9 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
           appBar: AppBar(
             elevation: 0,
             actions: [
-              if (state.canEdit)
+              if (state.school?.canEdit == true)
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () => openEditTeam(context, state),
                   icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
                   label: Text(
                     'Editar Equipo',
@@ -73,6 +74,16 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
         );
       },
     );
+  }
+
+  void openEditTeam(BuildContext context, SchoolProfileState state) {
+    UserManagementProvider()
+        .openEditSchool(context, school: state.school!)
+        .then((refresh) {
+      if (refresh == true) {
+        getSchoolData();
+      }
+    });
   }
 
   Future<dynamic> getSchoolData() {

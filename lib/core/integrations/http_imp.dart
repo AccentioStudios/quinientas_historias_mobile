@@ -106,7 +106,7 @@ class HttpImp implements HttpHelper {
       JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
 
       final response =
-          await http.get(_buildUri(path, queryParameters), headers: {
+          await http.delete(_buildUri(path, queryParameters), headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.accessControlAllowOriginHeader: '*',
         HttpHeaders.accessControlAllowMethodsHeader:

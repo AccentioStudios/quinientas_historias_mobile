@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/failures/status_codes.dart';
@@ -27,22 +28,40 @@ class LoginPage extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              const Align(
-                  alignment: Alignment.topCenter, child: GradientBackground()),
-              ListView(
-                padding: const EdgeInsets.only(
-                    top: 64, left: Constants.space18, right: Constants.space18),
-                children: [
-                  const SizedBox(height: Constants.space21),
-                  SvgPicture.asset('assets/images/login-image.svg'),
-                  const SingleChildScrollView(child: _LoginForm()),
-                ],
-              ),
-            ],
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                SizedBox(
+                  child: Stack(
+                    children: [
+                      const Align(
+                          alignment: Alignment.topCenter,
+                          child: GradientBackground()),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 60),
+                          child: SizedBox(
+                              width: 170,
+                              height: 150,
+                              child: SvgPicture.asset(
+                                  'assets/images/login-image.svg')),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(
+                            top: 200,
+                            left: Constants.space18,
+                            right: Constants.space18),
+                        child: _LoginForm(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -81,61 +100,67 @@ class _LoginFormState extends State<_LoginForm> {
       padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
-          return Column(
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(left: Constants.space21),
-                child: Headline(label: 'Iniciar sesion'),
-              ),
-              ThemedTextFormField(
-                controller: emailAddressLoginController,
-                hintText: 'Email',
-                prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
-                keyboardType: TextInputType.emailAddress,
-                enabled: !state.loading,
-                errorText: state.httpFailure?.error == FailureType.email
-                    ? state.httpFailure?.message
-                    : null,
-              ),
-              const SizedBox(height: Constants.space18),
-              ThemedTextFormField(
-                controller: passwordLoginController,
-                hintText: 'Password',
-                prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
-                keyboardType: TextInputType.text,
-                obscureText: true,
-                enabled: !state.loading,
-                errorText: state.httpFailure?.error == FailureType.password
-                    ? state.httpFailure?.message
-                    : null,
-              ),
-              const SizedBox(height: Constants.space18),
-              Align(
-                  alignment: Alignment.topRight,
-                  child: LinkButton(
-                    text: 'Olvidé la contraseña',
-                    onTap: () => state.loading
-                        ? null
-                        : _navigateToForgotPassword(context),
-                  )),
-              const SizedBox(height: Constants.space18),
-              BigButton(
-                elevation: 5,
-                text: 'Entrar a 500 Historias',
-                isLoading: state.loading,
-                onPressed: () {
-                  _navigateToHomeNavigator(context);
-                },
-              ),
-              const SizedBox(height: Constants.space41),
-              Align(
-                  alignment: Alignment.center,
-                  child: LinkButton(
-                    text: 'Tengo una invitación',
-                    onTap: () =>
-                        state.loading ? null : _navigateToVerifyInvite(context),
-                  )),
-            ],
+          return Form(
+            child: Column(
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(left: Constants.space21),
+                  child: Headline(label: 'Iniciar sesion'),
+                ),
+                ThemedTextFormField(
+                  controller: emailAddressLoginController,
+                  textInputAction: TextInputAction.next,
+                  hintText: 'Email',
+                  prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
+                  keyboardType: TextInputType.emailAddress,
+                  enabled: !state.loading,
+                  errorText: state.httpFailure?.error == FailureType.email
+                      ? state.httpFailure?.message
+                      : null,
+                ),
+                const SizedBox(height: Constants.space18),
+                ThemedTextFormField(
+                  controller: passwordLoginController,
+                  textInputAction: TextInputAction.go,
+                  hintText: 'Password',
+                  prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                  enabled: !state.loading,
+                  onFieldSubmitted: (text) => _navigateToHomeNavigator(context),
+                  errorText: state.httpFailure?.error == FailureType.password
+                      ? state.httpFailure?.message
+                      : null,
+                ),
+                const SizedBox(height: Constants.space18),
+                Align(
+                    alignment: Alignment.topRight,
+                    child: LinkButton(
+                      text: 'Olvidé la contraseña',
+                      onTap: () => state.loading
+                          ? null
+                          : _navigateToForgotPassword(context),
+                    )),
+                const SizedBox(height: Constants.space18),
+                BigButton(
+                  elevation: 5,
+                  text: 'Entrar a 500 Historias',
+                  isLoading: state.loading,
+                  onPressed: () {
+                    _navigateToHomeNavigator(context);
+                  },
+                ),
+                const SizedBox(height: Constants.space41),
+                Align(
+                    alignment: Alignment.center,
+                    child: LinkButton(
+                      text: 'Tengo una invitación',
+                      onTap: () => state.loading
+                          ? null
+                          : _navigateToVerifyInvite(context),
+                    )),
+              ],
+            ),
           );
         },
       ),

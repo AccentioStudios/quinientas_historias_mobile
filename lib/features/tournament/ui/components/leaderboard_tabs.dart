@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/constants.dart';
+import '../bloc/cubit/tournament_cubit.dart';
 
 class LeaderboardTabs extends StatefulWidget {
-  const LeaderboardTabs({Key? key, required this.tabController})
-      : super(key: key);
-  final TabController tabController;
-
+  const LeaderboardTabs({Key? key, required this.state}) : super(key: key);
+  final TournamentState state;
   @override
   State<LeaderboardTabs> createState() => _LeaderboardTabsState();
 }
@@ -30,13 +29,13 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                   letterSpacing: 0.8),
-              controller: widget.tabController,
-              tabs: const <Widget>[
-                Tab(
-                  text: 'Mi equipo',
-                ),
-                Tab(text: 'Mi escuela'),
-                Tab(text: 'Todos'),
+              tabs: <Widget>[
+                if (widget.state.teamTabShowed)
+                  const Tab(
+                    text: 'Mi equipo',
+                  ),
+                const Tab(text: 'Mi escuela'),
+                const Tab(text: 'Todos'),
               ],
             ),
           ),

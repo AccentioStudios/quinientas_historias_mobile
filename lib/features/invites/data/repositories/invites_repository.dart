@@ -20,6 +20,14 @@ class InvitesRepository with ApiService {
             }).toList());
   }
 
+  Stream<List<Invite>> deleteInvitation(Invite invite) async* {
+    yield* appApi.post('/v1/invites/delete/${invite.id}').handle(
+        mapper: (Object data) =>
+            json.decode(data as String).map<Invite>((dynamic jsonMap) {
+              return Invite.fromJson(jsonMap as Map<String, dynamic>);
+            }).toList());
+  }
+
   Stream<Invite> validateCode(VerifyInviteCodeRequest request) async* {
     yield* appApi
         .post('/v1/invites/verify', data: json.encode(request.toJson()))

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/features/user_managment/ui/edit/pages/edit_school_page.dart';
+import 'package:quinientas_historias/features/user_managment/ui/edit/pages/edit_team_page.dart';
 
 import '../../core/data/entities/invites_entity.dart';
 import '../../core/data/entities/school_entity.dart';
+import '../../core/data/entities/team_entity.dart';
 import '../../core/data/entities/user_entity.dart';
 import 'data/repositories/group_management_repositories.dart';
 import 'data/repositories/user_management_repositories.dart';
@@ -41,6 +44,32 @@ class UserManagementProvider {
       );
     }
     return Future.value(false);
+  }
+
+  Future<bool?> openEditTeam(BuildContext context, {required Team team}) {
+    return Navigator.of(context, rootNavigator: true).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (context) => BlocProvider(
+          create: (context) => groupManagementcubit,
+          child: EditTeamPage(
+            team: team,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<bool?> openEditSchool(BuildContext context, {required School school}) {
+    return Navigator.of(context, rootNavigator: true).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (context) => BlocProvider(
+          create: (context) => groupManagementcubit,
+          child: EditSchoolPage(
+            school: school,
+          ),
+        ),
+      ),
+    );
   }
 
   Future<bool?> openRegisterReader(BuildContext context,

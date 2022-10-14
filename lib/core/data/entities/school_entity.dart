@@ -12,6 +12,7 @@ class School {
     this.score,
     this.avatarUrl,
     this.readed,
+    this.canEdit,
     this.leaderboard,
   });
 
@@ -22,6 +23,8 @@ class School {
   final int? score;
   final String? avatarUrl;
   final int? readed;
+  final bool? canEdit;
+
   final List<LeaderboardModel>? leaderboard;
 
   Map<String, dynamic> toJson() => _$SchoolToJson(this);

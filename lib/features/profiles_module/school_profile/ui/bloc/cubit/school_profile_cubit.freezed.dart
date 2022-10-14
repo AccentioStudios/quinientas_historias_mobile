@@ -17,9 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SchoolProfileState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get canEdit => throw _privateConstructorUsedError;
-  School? get data => throw _privateConstructorUsedError;
-  User? get user => throw _privateConstructorUsedError;
+  School? get school => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SchoolProfileStateCopyWith<SchoolProfileState> get copyWith =>
@@ -31,7 +29,7 @@ abstract class $SchoolProfileStateCopyWith<$Res> {
   factory $SchoolProfileStateCopyWith(
           SchoolProfileState value, $Res Function(SchoolProfileState) then) =
       _$SchoolProfileStateCopyWithImpl<$Res>;
-  $Res call({dynamic isLoading, dynamic canEdit, School? data, User? user});
+  $Res call({dynamic isLoading, School? school});
 }
 
 /// @nodoc
@@ -46,27 +44,17 @@ class _$SchoolProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? canEdit = freezed,
-    Object? data = freezed,
-    Object? user = freezed,
+    Object? school = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      canEdit: canEdit == freezed
-          ? _value.canEdit
-          : canEdit // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
+      school: school == freezed
+          ? _value.school
+          : school // ignore: cast_nullable_to_non_nullable
               as School?,
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }
@@ -78,7 +66,7 @@ abstract class _$$_SchoolProfileStateCopyWith<$Res>
           $Res Function(_$_SchoolProfileState) then) =
       __$$_SchoolProfileStateCopyWithImpl<$Res>;
   @override
-  $Res call({dynamic isLoading, dynamic canEdit, School? data, User? user});
+  $Res call({dynamic isLoading, School? school});
 }
 
 /// @nodoc
@@ -95,21 +83,14 @@ class __$$_SchoolProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? canEdit = freezed,
-    Object? data = freezed,
-    Object? user = freezed,
+    Object? school = freezed,
   }) {
     return _then(_$_SchoolProfileState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      canEdit: canEdit == freezed ? _value.canEdit : canEdit,
-      data: data == freezed
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
+      school: school == freezed
+          ? _value.school
+          : school // ignore: cast_nullable_to_non_nullable
               as School?,
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }
@@ -117,23 +98,17 @@ class __$$_SchoolProfileStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SchoolProfileState implements _SchoolProfileState {
-  const _$_SchoolProfileState(
-      {this.isLoading = false, this.canEdit = false, this.data, this.user});
+  const _$_SchoolProfileState({this.isLoading = false, this.school});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
-  @JsonKey()
-  final dynamic canEdit;
-  @override
-  final School? data;
-  @override
-  final User? user;
+  final School? school;
 
   @override
   String toString() {
-    return 'SchoolProfileState(isLoading: $isLoading, canEdit: $canEdit, data: $data, user: $user)';
+    return 'SchoolProfileState(isLoading: $isLoading, school: $school)';
   }
 
   @override
@@ -142,18 +117,14 @@ class _$_SchoolProfileState implements _SchoolProfileState {
         (other.runtimeType == runtimeType &&
             other is _$_SchoolProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.canEdit, canEdit) &&
-            const DeepCollectionEquality().equals(other.data, data) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            const DeepCollectionEquality().equals(other.school, school));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(canEdit),
-      const DeepCollectionEquality().hash(data),
-      const DeepCollectionEquality().hash(user));
+      const DeepCollectionEquality().hash(school));
 
   @JsonKey(ignore: true)
   @override
@@ -164,19 +135,12 @@ class _$_SchoolProfileState implements _SchoolProfileState {
 
 abstract class _SchoolProfileState implements SchoolProfileState {
   const factory _SchoolProfileState(
-      {final dynamic isLoading,
-      final dynamic canEdit,
-      final School? data,
-      final User? user}) = _$_SchoolProfileState;
+      {final dynamic isLoading, final School? school}) = _$_SchoolProfileState;
 
   @override
   dynamic get isLoading;
   @override
-  dynamic get canEdit;
-  @override
-  School? get data;
-  @override
-  User? get user;
+  School? get school;
   @override
   @JsonKey(ignore: true)
   _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>

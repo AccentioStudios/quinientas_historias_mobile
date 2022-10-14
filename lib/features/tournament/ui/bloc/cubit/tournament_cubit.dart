@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/user_entity.dart';
+import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 
 import '../../../../../core/data/entities/tournament_entity.dart';
 import '../../../../../core/data/models/leaderboard_model.dart';
@@ -15,10 +17,20 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
       : super(const TournamentState());
   final TournamentUseCases tournamentUseCases;
 
+  hideOrShowMyTeamTab() async {
+    final userSession = await SecureStorageHelper.getSessionData();
+    if (userSession?.user.type != UserType.captain &&
+        userSession?.user.type != UserType.reader) {
+      emit(state.copyWith(teamTabShowed: false));
+    }
+  }
+
   getLeaderboard(int pageKey, String filter,
       {Function(ListPage<LeaderboardModel>)? onSuccess,
       Function(Object)? onError}) async {
     emit(state.copyWith(leaderboardIsLoading: true, listPage: null));
+    await Future.delayed(const Duration(milliseconds: 500));
+
     tournamentUseCases.getLeaderboard(pageKey, filter).listen((leaderboard) {
       if (onSuccess != null) onSuccess(leaderboard);
       emit(state.copyWith(leaderboardIsLoading: false, listPage: leaderboard));
@@ -30,9 +42,7 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
 
   getCurrentTournament({Function? onSuccess, Function? onError}) async {
     emit(state.copyWith(tournamentIsLoading: true, tournament: null));
-    await Future.delayed(const Duration(seconds: 2));
-
-    tournamentUseCases.getCurrentTournament().listen((tournament) {
+    tournamentUseCases.getCurrentTournament().listen((tournament) async {
       emit(state.copyWith(tournament: tournament));
       if (onSuccess != null) onSuccess();
     }, onError: (error) {

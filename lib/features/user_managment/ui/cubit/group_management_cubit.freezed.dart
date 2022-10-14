@@ -128,7 +128,9 @@ class __$$_GroupManagementStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_GroupManagementState implements _GroupManagementState {
+class _$_GroupManagementState
+    with DiagnosticableTreeMixin
+    implements _GroupManagementState {
   const _$_GroupManagementState(
       {this.isLoading = false,
       this.groupManagementRequest,
@@ -146,8 +148,20 @@ class _$_GroupManagementState implements _GroupManagementState {
   final HttpFailure? error;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'GroupManagementState(isLoading: $isLoading, groupManagementRequest: $groupManagementRequest, avatarMemory: $avatarMemory, error: $error)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'GroupManagementState'))
+      ..add(DiagnosticsProperty('isLoading', isLoading))
+      ..add(
+          DiagnosticsProperty('groupManagementRequest', groupManagementRequest))
+      ..add(DiagnosticsProperty('avatarMemory', avatarMemory))
+      ..add(DiagnosticsProperty('error', error));
   }
 
   @override

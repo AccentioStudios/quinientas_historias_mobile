@@ -8,6 +8,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:quinientas_historias/features/user_managment/data/useCases/group_management_use_cases.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/data/entities/school_entity.dart';
+import '../../../../core/data/entities/team_entity.dart';
 import '../../../../core/failures/failures.dart';
 import '../../../../core/failures/status_codes.dart';
 import '../../../../core/mixins/form_validation.dart';
@@ -30,6 +32,26 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
   ) {
     emit(state.copyWith(
         groupManagementRequest: GroupManagementRequest(name: schoolName)));
+  }
+
+  void loadTeam(Team team) {
+    emit(state.copyWith(
+      groupManagementRequest: GroupManagementRequest(
+        id: team.id,
+        name: team.name,
+        avatarUrl: team.avatarUrl!,
+      ),
+    ));
+  }
+
+  void loadSchool(School school) {
+    emit(state.copyWith(
+      groupManagementRequest: GroupManagementRequest(
+        id: school.id,
+        name: school.name,
+        avatarUrl: school.avatarUrl!,
+      ),
+    ));
   }
 
   void saveGroupManagementRequestChanges({
@@ -75,6 +97,24 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
       if (state.groupManagementRequest != null) {
         groupManagementUseCases.editTeam(state.groupManagementRequest!).listen(
             (event) {
+          onSuccess();
+          emit(state.copyWith(isLoading: false, error: null));
+        }, onError: (error) {
+          onError(error);
+          emit(state.copyWith(isLoading: false, error: error));
+        }).subscribe(this);
+      }
+    }
+  }
+
+  void editSchool(
+      {required Function onSuccess, required Function onError}) async {
+    emit(state.copyWith(isLoading: true, error: null));
+    if (await handleSaveAvatarUrl()) {
+      if (state.groupManagementRequest != null) {
+        groupManagementUseCases
+            .editSchool(state.groupManagementRequest!)
+            .listen((event) {
           onSuccess();
           emit(state.copyWith(isLoading: false, error: null));
         }, onError: (error) {

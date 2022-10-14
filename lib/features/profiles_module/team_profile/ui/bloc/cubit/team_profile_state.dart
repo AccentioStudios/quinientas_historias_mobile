@@ -4,10 +4,7 @@ part of 'team_profile_cubit.dart';
 class TeamProfileState with _$TeamProfileState {
   const factory TeamProfileState({
     @Default(true) isLoading,
-    @Default(false) canEdit,
-    @Default(false) isMyTeam,
     @Default(null) error,
     Team? team,
-    User? user,
   }) = _TeamProfileState;
 }

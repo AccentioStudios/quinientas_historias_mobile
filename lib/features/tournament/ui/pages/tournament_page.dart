@@ -23,8 +23,6 @@ class TournamentPage extends StatefulWidget with ErrorHandling {
 
 class _TournamentPageState extends State<TournamentPage>
     with TickerProviderStateMixin {
-  late TabController tabController;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -35,8 +33,8 @@ class _TournamentPageState extends State<TournamentPage>
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
     super.initState();
+    context.read<TournamentCubit>().hideOrShowMyTeamTab();
   }
 
   @override
@@ -44,72 +42,74 @@ class _TournamentPageState extends State<TournamentPage>
     return BlocBuilder<TournamentCubit, TournamentState>(
       builder: (context, state) {
         // final me = state.listPage?.itemList.where((item) => item.user?.id == 1);
-
-        return Scaffold(
-            body: CustomNestedScrollView(
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
-          ),
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            CustomSliverOverlapAbsorber(
-              handle: CustomNestedScrollView.sliverOverlapAbsorberHandleFor(
-                  context),
-              sliver: TournamentHeaderWidget(
-                state: state,
-              ),
+        return DefaultTabController(
+          length: state.teamTabShowed ? 3 : 2,
+          child: Scaffold(
+              body: CustomNestedScrollView(
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
             ),
-            const SliverToBoxAdapter(
-              child: PaddingColumn(
-                padding: EdgeInsets.symmetric(horizontal: Constants.space16),
-                children: [
-                  // Headline(
-                  //   marginTop: Constants.space21,
-                  //   label: 'Podio de escuelas',
-                  // ),
-                  Headline(
-                    marginTop: Constants.space21,
-                    label: 'Tablero de posiciones',
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              CustomSliverOverlapAbsorber(
+                handle: CustomNestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context),
+                sliver: TournamentHeaderWidget(
+                  state: state,
+                ),
+              ),
+              const SliverToBoxAdapter(
+                child: PaddingColumn(
+                  padding: EdgeInsets.symmetric(horizontal: Constants.space16),
+                  children: [
+                    // Headline(
+                    //   marginTop: Constants.space21,
+                    //   label: 'Podio de escuelas',
+                    // ),
+                    Headline(
+                      marginTop: Constants.space21,
+                      label: 'Tablero de posiciones',
+                    ),
+                  ],
+                ),
+              ),
+              LeaderboardTabs(state: state),
+              // if (me != null)
+              //   UserLeaderboardListItem(
+              //     user: me.user!,
+              //     position: me.position,
+              //   ),
+            ],
+            body: Builder(
+              builder: (context) => ExtendedTabBarView(
+                physics: const BouncingScrollPhysics(),
+                children: <Widget>[
+                  if (state.teamTabShowed)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Constants.space16),
+                      child: LeaderboardMyTeamTabView(
+                        cubit: context.read<TournamentCubit>(),
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Constants.space16),
+                    child: LeaderboardMySchoolTabView(
+                      cubit: context.read<TournamentCubit>(),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Constants.space16),
+                    child: LeaderboardAllTabView(
+                      cubit: context.read<TournamentCubit>(),
+                    ),
                   ),
                 ],
               ),
             ),
-            LeaderboardTabs(tabController: tabController),
-            // if (me != null)
-            //   UserLeaderboardListItem(
-            //     user: me.user!,
-            //     position: me.position,
-            //   ),
-          ],
-          body: Builder(
-            builder: (context) => ExtendedTabBarView(
-              physics: const BouncingScrollPhysics(),
-              controller: tabController,
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: Constants.space16),
-                  child: LeaderboardMyTeamTabView(
-                    cubit: context.read<TournamentCubit>(),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: Constants.space16),
-                  child: LeaderboardMySchoolTabView(
-                    cubit: context.read<TournamentCubit>(),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: Constants.space16),
-                  child: LeaderboardAllTabView(
-                    cubit: context.read<TournamentCubit>(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ));
+          )),
+        );
       },
     );
   }

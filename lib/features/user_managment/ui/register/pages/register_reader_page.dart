@@ -61,6 +61,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
         context.read<UserManagementCubit>().saveUserManagementRequestChanges;
 
     return Scaffold(
+      appBar: AppBar(elevation: 0),
       body: SafeArea(
         child: BlocBuilder<UserManagementCubit, UserManagementState>(
           builder: (context, state) {
@@ -71,7 +72,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
                 : SingleChildScrollView(
                     child: Column(
                     children: [
-                      const SizedBox(height: 64),
+                      const SizedBox(height: 24),
                       PaddingColumn(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space30),

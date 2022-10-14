@@ -50,4 +50,16 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
       onError(error);
     }).subscribe(this);
   }
+
+  deleteInvitation(Invite invite,
+      {required Function onSuccess, required Function onError}) {
+    emit(state.copyWith(isLoading: true));
+
+    invitesUseCases.deleteInvitation(invite).listen((invites) {
+      emit(state.copyWith(invites: invites, isLoading: false));
+      onSuccess();
+    }, onError: (error) {
+      onError(error);
+    }).subscribe(this);
+  }
 }

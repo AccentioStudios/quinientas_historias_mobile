@@ -84,6 +84,7 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
                     _InvitesList(
                       invites: state.invites,
                       isLoading: state.isLoading,
+                      onDismissed: deleteInvitation,
                     )
                   ],
                 ),
@@ -91,6 +92,12 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
             ));
       },
     );
+  }
+
+  void deleteInvitation(Invite invite) {
+    context.read<SendInvitesCubit>().deleteInvitation(invite,
+        onSuccess: () {},
+        onError: (error) => widget.handleError(context, error));
   }
 
   void getInvitations(BuildContext context) {
@@ -118,10 +125,15 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
 }
 
 class _InvitesList extends StatelessWidget {
-  const _InvitesList({Key? key, required this.invites, required this.isLoading})
+  const _InvitesList(
+      {Key? key,
+      required this.invites,
+      required this.isLoading,
+      required this.onDismissed})
       : super(key: key);
   final List<Invite> invites;
   final bool isLoading;
+  final Function(Invite) onDismissed;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -129,12 +141,16 @@ class _InvitesList extends StatelessWidget {
         if (isLoading) const Center(child: CircularProgressIndicator()),
         if (!isLoading)
           ...invites.map(
-            (item) => ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(item.invitedEmail),
-              trailing: _InvitationStateChip(
-                accepted: item.accepted == 1,
+            (item) => Dismissible(
+              key: Key(item.invitedEmail),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(item.invitedEmail),
+                trailing: _InvitationStateChip(
+                  accepted: item.accepted == 1,
+                ),
               ),
+              onDismissed: (direction) => onDismissed(item),
             ),
           ),
         if (!isLoading) const SizedBox(height: 60 + Constants.space41),

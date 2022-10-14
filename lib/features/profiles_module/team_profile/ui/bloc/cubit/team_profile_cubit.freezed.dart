@@ -17,11 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TeamProfileState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  dynamic get canEdit => throw _privateConstructorUsedError;
-  dynamic get isMyTeam => throw _privateConstructorUsedError;
   dynamic get error => throw _privateConstructorUsedError;
   Team? get team => throw _privateConstructorUsedError;
-  User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TeamProfileStateCopyWith<TeamProfileState> get copyWith =>
@@ -33,13 +30,7 @@ abstract class $TeamProfileStateCopyWith<$Res> {
   factory $TeamProfileStateCopyWith(
           TeamProfileState value, $Res Function(TeamProfileState) then) =
       _$TeamProfileStateCopyWithImpl<$Res>;
-  $Res call(
-      {dynamic isLoading,
-      dynamic canEdit,
-      dynamic isMyTeam,
-      dynamic error,
-      Team? team,
-      User? user});
+  $Res call({dynamic isLoading, dynamic error, Team? team});
 }
 
 /// @nodoc
@@ -54,24 +45,13 @@ class _$TeamProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? canEdit = freezed,
-    Object? isMyTeam = freezed,
     Object? error = freezed,
     Object? team = freezed,
-    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      canEdit: canEdit == freezed
-          ? _value.canEdit
-          : canEdit // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      isMyTeam: isMyTeam == freezed
-          ? _value.isMyTeam
-          : isMyTeam // ignore: cast_nullable_to_non_nullable
               as dynamic,
       error: error == freezed
           ? _value.error
@@ -81,10 +61,6 @@ class _$TeamProfileStateCopyWithImpl<$Res>
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
               as Team?,
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }
@@ -96,13 +72,7 @@ abstract class _$$_TeamProfileStateCopyWith<$Res>
           _$_TeamProfileState value, $Res Function(_$_TeamProfileState) then) =
       __$$_TeamProfileStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {dynamic isLoading,
-      dynamic canEdit,
-      dynamic isMyTeam,
-      dynamic error,
-      Team? team,
-      User? user});
+  $Res call({dynamic isLoading, dynamic error, Team? team});
 }
 
 /// @nodoc
@@ -119,25 +89,16 @@ class __$$_TeamProfileStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? canEdit = freezed,
-    Object? isMyTeam = freezed,
     Object? error = freezed,
     Object? team = freezed,
-    Object? user = freezed,
   }) {
     return _then(_$_TeamProfileState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      canEdit: canEdit == freezed ? _value.canEdit : canEdit,
-      isMyTeam: isMyTeam == freezed ? _value.isMyTeam : isMyTeam,
       error: error == freezed ? _value.error : error,
       team: team == freezed
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
               as Team?,
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
     ));
   }
 }
@@ -146,33 +107,20 @@ class __$$_TeamProfileStateCopyWithImpl<$Res>
 
 class _$_TeamProfileState implements _TeamProfileState {
   const _$_TeamProfileState(
-      {this.isLoading = true,
-      this.canEdit = false,
-      this.isMyTeam = false,
-      this.error = null,
-      this.team,
-      this.user});
+      {this.isLoading = true, this.error = null, this.team});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
   @JsonKey()
-  final dynamic canEdit;
-  @override
-  @JsonKey()
-  final dynamic isMyTeam;
-  @override
-  @JsonKey()
   final dynamic error;
   @override
   final Team? team;
-  @override
-  final User? user;
 
   @override
   String toString() {
-    return 'TeamProfileState(isLoading: $isLoading, canEdit: $canEdit, isMyTeam: $isMyTeam, error: $error, team: $team, user: $user)';
+    return 'TeamProfileState(isLoading: $isLoading, error: $error, team: $team)';
   }
 
   @override
@@ -181,22 +129,16 @@ class _$_TeamProfileState implements _TeamProfileState {
         (other.runtimeType == runtimeType &&
             other is _$_TeamProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.canEdit, canEdit) &&
-            const DeepCollectionEquality().equals(other.isMyTeam, isMyTeam) &&
             const DeepCollectionEquality().equals(other.error, error) &&
-            const DeepCollectionEquality().equals(other.team, team) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            const DeepCollectionEquality().equals(other.team, team));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(canEdit),
-      const DeepCollectionEquality().hash(isMyTeam),
       const DeepCollectionEquality().hash(error),
-      const DeepCollectionEquality().hash(team),
-      const DeepCollectionEquality().hash(user));
+      const DeepCollectionEquality().hash(team));
 
   @JsonKey(ignore: true)
   @override
@@ -207,24 +149,15 @@ class _$_TeamProfileState implements _TeamProfileState {
 abstract class _TeamProfileState implements TeamProfileState {
   const factory _TeamProfileState(
       {final dynamic isLoading,
-      final dynamic canEdit,
-      final dynamic isMyTeam,
       final dynamic error,
-      final Team? team,
-      final User? user}) = _$_TeamProfileState;
+      final Team? team}) = _$_TeamProfileState;
 
   @override
   dynamic get isLoading;
   @override
-  dynamic get canEdit;
-  @override
-  dynamic get isMyTeam;
-  @override
   dynamic get error;
   @override
   Team? get team;
-  @override
-  User? get user;
   @override
   @JsonKey(ignore: true)
   _$$_TeamProfileStateCopyWith<_$_TeamProfileState> get copyWith =>

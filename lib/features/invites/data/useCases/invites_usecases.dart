@@ -15,6 +15,10 @@ class InvitesUseCases {
     yield* repository.getInvitations();
   }
 
+  Stream<List<Invite>> deleteInvitation(Invite invite) async* {
+    yield* repository.deleteInvitation(invite);
+  }
+
   Stream<Invite> validateCode(VerifyInviteCodeRequest request) async* {
     yield* repository.validateCode(request);
   }
