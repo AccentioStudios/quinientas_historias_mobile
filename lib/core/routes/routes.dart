@@ -12,6 +12,7 @@ import '../../features/reading_module/daily_challenge/daily_challange_provider.d
 import '../../features/tournament/tournament_provider.dart';
 
 abstract class Routes {
+  static const String root = '/';
   static const String landing = '/landing';
   static const String login = '/login';
   static const String home = '/home';
@@ -28,6 +29,7 @@ abstract class Routes {
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return <String, WidgetBuilder>{
+      root: (context) => const LandingProvider(),
       landing: (context) => const LandingProvider(),
       login: (context) => const AuthProvider(),
       homeNavigator: (context) => const HomeNavigator(),

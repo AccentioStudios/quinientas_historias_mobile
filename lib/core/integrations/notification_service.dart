@@ -10,9 +10,11 @@ import '../routes/routes.dart';
 class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
   late AndroidNotificationDetails androidDetails;
+  late DarwinNotificationDetails iOSDetails;
 
   NotificationService() {
     localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    _setupDetails();
     _setupNotifications();
   }
 
@@ -27,8 +29,21 @@ class NotificationService {
     tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 
+  _setupDetails() {
+    androidDetails = const AndroidNotificationDetails(
+      '500h_notifications',
+      '500 Historias Notificaciones',
+      channelDescription: 'Canal de notificaciones del app 500 Historias',
+      importance: Importance.max,
+      priority: Priority.max,
+      enableVibration: true,
+    );
+
+    iOSDetails = const DarwinNotificationDetails();
+  }
+
   _initializeNotifications() async {
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const android = AndroidInitializationSettings('@drawable/ic_notification');
     const iOS = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -49,28 +64,20 @@ class NotificationService {
   static notificationTapBackground(NotificationResponse notificationResponse) {
     if (notificationResponse.payload != null) {
       if (notificationResponse.payload!.isNotEmpty) {
-        Navigator.of(Routes.navigatorKey!.currentContext!)
-            .pushNamed(notificationResponse.payload!);
+        // Navigator.of(Routes.navigatorKey!.currentContext!)
+        //     .pushNamed(notificationResponse.payload!);
       }
     }
   }
 
   showLocalNotification(CustomNotification notification) {
-    androidDetails = const AndroidNotificationDetails(
-      '500h_notifications',
-      '500 Historias Notificaciones',
-      channelDescription: 'Canal de notificaciones del app 500 Historias',
-      importance: Importance.max,
-      priority: Priority.max,
-      enableVibration: true,
-    );
-
     localNotificationsPlugin.show(
       notification.id,
       notification.title,
       notification.body,
       NotificationDetails(
         android: androidDetails,
+        iOS: iOSDetails,
       ),
       payload: notification.payload,
     );
