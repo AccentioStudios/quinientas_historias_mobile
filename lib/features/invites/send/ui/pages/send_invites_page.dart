@@ -12,11 +12,16 @@ import '../../../../../core/utils/constants.dart';
 import 'invites_send_invitation_page.dart';
 
 class SendInvitesPage extends StatefulWidget with ErrorHandling {
-  const SendInvitesPage({Key? key, required this.typeUserToInvite})
-      : super(key: key);
+  const SendInvitesPage({
+    Key? key,
+    required this.typeUserToInvite,
+    this.teamId,
+    this.schoolId,
+  }) : super(key: key);
 
   final UserType typeUserToInvite;
-
+  final int? teamId;
+  final int? schoolId;
   @override
   State<SendInvitesPage> createState() => _SendInvitesPageState();
 }
@@ -116,6 +121,8 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
                   value: context.read<SendInvitesCubit>(),
                   child: InvitesSendInvitationPage(
                     typeUserToInvite: widget.typeUserToInvite,
+                    schoolId: widget.schoolId,
+                    teamId: widget.teamId,
                   ),
                 )))
         .then((refresh) {

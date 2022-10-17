@@ -10,12 +10,16 @@ InvitesRequest _$InvitesRequestFromJson(Map<String, dynamic> json) =>
     InvitesRequest(
       email: json['email'] as String,
       type: $enumDecode(_$UserTypeEnumMap, json['type']),
+      teamId: json['teamId'] as int?,
+      schoolId: json['schoolId'] as int?,
     );
 
 Map<String, dynamic> _$InvitesRequestToJson(InvitesRequest instance) =>
     <String, dynamic>{
       'email': instance.email,
       'type': _$UserTypeEnumMap[instance.type]!,
+      'teamId': instance.teamId,
+      'schoolId': instance.schoolId,
     };
 
 const _$UserTypeEnumMap = {

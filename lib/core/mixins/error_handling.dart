@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 import 'package:quinientas_historias/features/auth/auth_provider.dart';
 
 import '../failures/failures.dart';
@@ -142,7 +143,6 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/new-pass-image.svg',
             btnLabel: 'Volver',
             onBtnTap: () {
-              // Navigator.of(context).popUntil((route) => route.isFirst);
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(Routes.login);
             },
@@ -155,9 +155,10 @@ mixin ErrorHandling on Widget {
           message:
               'No reconocemos que tengas acceso aquí, intenta iniciar sesión nuevamente con los permisos correctos.',
           svgImagePath: 'assets/images/hand-left-image.svg',
-          btnLabel: 'Iniciar sesión',
-          onBtnTap: () {
-            // Navigator.of(context).popUntil((route) => route.isFirst);
+          btnLabel: 'Volver',
+          linkBtnLabel: 'Cerrar sesión',
+          linkBtnOnTap: () {
+            SecureStorageHelper.deleteAll();
             Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
           },
         ));

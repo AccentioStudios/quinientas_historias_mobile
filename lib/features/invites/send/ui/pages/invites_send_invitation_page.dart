@@ -15,9 +15,12 @@ import '../../../data/models/invites_request_model.dart';
 import '../bloc/cubit/send_invites_cubit.dart';
 
 class InvitesSendInvitationPage extends StatefulWidget with ErrorHandling {
-  const InvitesSendInvitationPage({Key? key, required this.typeUserToInvite})
+  const InvitesSendInvitationPage(
+      {Key? key, required this.typeUserToInvite, this.teamId, this.schoolId})
       : super(key: key);
   final UserType typeUserToInvite;
+  final int? teamId;
+  final int? schoolId;
   @override
   State<InvitesSendInvitationPage> createState() =>
       _InvitesSendInvitationPageState();
@@ -111,6 +114,8 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
         InvitesRequest(
           email: emailController.text,
           type: widget.typeUserToInvite,
+          teamId: widget.teamId,
+          schoolId: widget.schoolId,
         ),
         onSuccess: () {}, onError: (HttpFailure error) {
       if (error.error == FailureType.userAlreadyInvited) {
@@ -150,93 +155,105 @@ class _SendEmailPageTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: PaddingColumn(
-        padding: const EdgeInsets.symmetric(horizontal: Constants.space30),
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedSize(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOutCubic,
-              child: SizedBox(
-                  height: state.sendingInvite
-                      ? MediaQuery.of(context).size.height / 2 - 200
-                      : 0)),
-          AnimatedContainer(
-            width: state.sendingInvite ? 120 : 100,
-            height: state.sendingInvite ? 120 : 100,
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInOutCubic,
-            child: AnimatedSwitcher(
-              switchInCurve: Curves.easeInOutCubic,
-              switchOutCurve: Curves.easeInOutCubic,
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
-                );
-              },
-              duration: const Duration(milliseconds: 500),
-              child: getIcon(state),
+    return Stack(
+      children: [
+        Positioned(
+          bottom: 0,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 500),
+            opacity: state.sendingInvite ? 0 : 1.0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              color: Colors.transparent,
+              child: PaddingColumn(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: Constants.space16),
+                children: [
+                  SizedBox(
+                    height: 55,
+                    child: BigButton(
+                      elevation: 5,
+                      onPressed: () {
+                        emailController.clear();
+                        pageController.animateToPage(0,
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOutCubic);
+                      },
+                      text: 'Invitar a alguien más',
+                    ),
+                  ),
+                  const SizedBox(height: Constants.space16),
+                  SizedBox(
+                    height: 55,
+                    child: BigButton(
+                      elevation: 5,
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      text: 'Volver',
+                      filled: false,
+                    ),
+                  ),
+                  const SizedBox(height: Constants.space12),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: Constants.space30),
-          Text(
-            state.sendingInvite
-                ? 'Enviando tu increíble\ninvitación'
-                : 'Otro amigo más será parte del torneo!',
-            textAlign: state.sendingInvite ? TextAlign.center : TextAlign.left,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 24, letterSpacing: 0.4),
-          ),
-          if (!state.sendingInvite) const SizedBox(height: Constants.space16),
-          if (!state.sendingInvite)
-            Text(
-              'Enviamos su invitación para\n$email. Solo falta esperar que acepte y formará parte del torneo también.',
-              style: const TextStyle(fontSize: 16, letterSpacing: 0.3),
-            ),
-          if (!state.sendingInvite)
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 3 +
-                  170 +
-                  MediaQuery.of(context).padding.top,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 55,
-                      child: BigButton(
-                        elevation: 5,
-                        onPressed: () {
-                          emailController.clear();
-                          pageController.animateToPage(0,
-                              duration: const Duration(milliseconds: 400),
-                              curve: Curves.easeInOutCubic);
-                        },
-                        text: 'Invitar a alguien más',
-                      ),
-                    ),
-                    const SizedBox(height: Constants.space16),
-                    SizedBox(
-                      height: 55,
-                      child: BigButton(
-                        elevation: 5,
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
-                        },
-                        text: 'Volver',
-                        filled: false,
-                      ),
-                    ),
-                  ],
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: PaddingColumn(
+            padding: const EdgeInsets.symmetric(horizontal: Constants.space30),
+            children: [
+              AnimatedSize(
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeInOutCubic,
+                  child: SizedBox(
+                      height: state.sendingInvite
+                          ? MediaQuery.of(context).size.height / 2 - 200
+                          : 0)),
+              AnimatedContainer(
+                width: state.sendingInvite ? 120 : 100,
+                height: state.sendingInvite ? 120 : 100,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOutCubic,
+                child: AnimatedSwitcher(
+                  switchInCurve: Curves.easeInOutCubic,
+                  switchOutCurve: Curves.easeInOutCubic,
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return ScaleTransition(
+                      scale: animation,
+                      child: child,
+                    );
+                  },
+                  duration: const Duration(milliseconds: 500),
+                  child: getIcon(state),
                 ),
               ),
-            )
-        ],
-      ),
+              const SizedBox(height: Constants.space30),
+              Text(
+                state.sendingInvite
+                    ? 'Enviando tu increíble\ninvitación'
+                    : 'Otro amigo más será parte del torneo!',
+                textAlign:
+                    state.sendingInvite ? TextAlign.center : TextAlign.left,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    letterSpacing: 0.4),
+              ),
+              if (!state.sendingInvite)
+                const SizedBox(height: Constants.space16),
+              if (!state.sendingInvite)
+                Text(
+                  'Enviamos su invitación para\n$email. Solo falta esperar que acepte y formará parte del torneo también.',
+                  style: const TextStyle(fontSize: 16, letterSpacing: 0.3),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

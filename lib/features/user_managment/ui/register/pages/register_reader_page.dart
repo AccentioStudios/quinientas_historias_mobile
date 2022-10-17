@@ -220,7 +220,8 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
       return;
     }
 
-    if (state.userManagementRequest?.avatarUrl == null &&
+    if ((state.userManagementRequest?.avatarUrl == null ||
+            state.userManagementRequest?.avatarUrl == '') &&
         state.avatarMemory == null) {
       widget.showAddUserAvatarMessage(context).then((value) async {
         if (value != null) {

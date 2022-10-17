@@ -16,8 +16,11 @@ import '../bloc/cubit/home_cubit.dart';
 import '../widgets/home_app_bar.dart';
 
 class HomeProfLayout extends StatelessWidget {
-  const HomeProfLayout({Key? key, required this.state}) : super(key: key);
+  const HomeProfLayout(
+      {Key? key, required this.state, required this.getDashboardFunction})
+      : super(key: key);
   final HomeState state;
+  final Function getDashboardFunction;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -35,6 +38,9 @@ class HomeProfLayout extends StatelessWidget {
           children: [
             const SizedBox(height: Constants.space21),
             OutlinedCard(
+              onTap: () {
+                _navigateToTournament(context);
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -60,13 +66,15 @@ class HomeProfLayout extends StatelessWidget {
               ),
             ),
             const SizedBox(height: Constants.space21),
-            SingleChip(
-              primaryLabel: 'Mi escuela',
-              secondaryLabel: 'Escuela Paralelepipedo',
-              onTap: () {
-                _navigateToMySchoolPage(context, state.dashboard?.user.school);
-              },
-            ),
+            if (state.dashboard?.user.school?.name != null)
+              SingleChip(
+                primaryLabel: 'Mi escuela',
+                secondaryLabel: state.dashboard!.user.school!.name,
+                onTap: () {
+                  _navigateToMySchoolPage(
+                      context, state.dashboard?.user.school);
+                },
+              ),
           ],
         ),
       ],
@@ -103,13 +111,13 @@ class HomeProfLayout extends StatelessWidget {
 
   void _navigateToMySchoolPage(BuildContext context, School? mySchool) {
     if (mySchool != null) {
-      Navigator.pushNamed(
+      Navigator.pushNamed<void>(
         context,
         Routes.schoolProfile,
         arguments: SchoolProfileArguments(
           mySchool.id,
         ),
-      );
+      ).then((value) => getDashboardFunction());
     }
   }
 
@@ -123,6 +131,13 @@ class HomeProfLayout extends StatelessWidget {
         ),
       );
     }
+  }
+
+  void _navigateToTournament(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      Routes.tournament,
+    );
   }
 }
 

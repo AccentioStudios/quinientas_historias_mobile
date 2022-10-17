@@ -62,4 +62,10 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
       onError(error);
     }).subscribe(this);
   }
+
+  test1() async {
+    emit(state.copyWith(sendingInvite: true));
+    await Future.delayed(const Duration(seconds: 1));
+    emit(state.copyWith(sendingInvite: false));
+  }
 }

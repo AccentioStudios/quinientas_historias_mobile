@@ -1,0 +1,44 @@
+name: Build Flutter Application
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Keystore Properties (Prod)
+        run: |
+          echo '${{ secrets.ANDROID_KEY_PROPERTIES_BASE64_PROD }}' > key-properties-base64.txt
+          openssl base64 -d -in key-properties-base64.txt -out ${{ github.workspace }}/android/key.properties
+        # run: echo 'storePassword=${{secrets.ANDROID_STORE_PASSWORD_PROD}} keyPassword=${{secrets.ANDROID_KEY_PASSWORD_PROD}} keyAlias=${{secrets.ANDROID_KEY_ALIAS_PROD}}' > ${{ github.workspace }}/android/key.properties
+
+      - name: Get Keystore jks (Prod)
+        run: |
+          echo '${{ secrets.ANDROID_KEY_STORE_BASE64_PROD }}' > keystore-base64.txt
+          openssl base64 -d -in keystore-base64.txt -out ${{ github.workspace }}/android/upload-keystore.jks
+
+      - name: Get Firebase Service Account (Prod)
+        run: |
+          echo '${{ secrets.ANDROID_FIREBASE_SERVICE_ACCOUNT_BASE64_PROD }}' > android_service_account_key_base64.txt
+          openssl base64 -d -in android_service_account_key_base64.txt -out ${{ github.workspace }}/android/service_account_key.json
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7.2"
+      - name: Fastlane Action
+        uses: maierj/fastlane-action@v2.3.0
+        env:
+          API_URL_PROD: ${{ secrets.API_URL_PROD }}
+          JWT_SIGN_KEY_PROD: ${{ secrets.JWT_SIGN_KEY_PROD }}
+        with:
+          lane: "prod"
+
+      # - name: Run tests
+      #   run: flutter test

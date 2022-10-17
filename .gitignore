@@ -1,3 +1,6 @@
+# Google Service Account
+/android/service_account_key.json
+
 # Miscellaneous
 *.class
 *.log

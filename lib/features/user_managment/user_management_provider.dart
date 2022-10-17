@@ -31,11 +31,11 @@ class UserManagementProvider {
     ),
   );
 
-  Future<bool?> openRegisterTeam(BuildContext context,
+  Future<Team?> openRegisterTeam(BuildContext context,
       {required School? school}) {
     if (school != null) {
-      return Navigator.of(context, rootNavigator: true).push<bool>(
-        MaterialPageRoute<bool>(
+      return Navigator.of(context, rootNavigator: true).push<Team>(
+        MaterialPageRoute<Team>(
           builder: (context) => BlocProvider(
             create: (context) => groupManagementcubit,
             child: RegisterTeamPage(school: school),
@@ -43,7 +43,7 @@ class UserManagementProvider {
         ),
       );
     }
-    return Future.value(false);
+    return Future.value(null);
   }
 
   Future<bool?> openEditTeam(BuildContext context, {required Team team}) {

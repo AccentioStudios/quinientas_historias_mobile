@@ -49,8 +49,10 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true)
                         .push(MaterialPageRoute(
-                            builder: (_) => const SendInviteProvider(
+                            builder: (_) => SendInviteProvider(
                                   typeUserToInvite: UserType.reader,
+                                  teamId: state.team?.id,
+                                  schoolId: state.team?.school?.id,
                                 )));
                   },
                   icon: SvgPicture.asset('assets/icons/user-plus.svg'),

@@ -108,11 +108,11 @@ class HomeCaptainTier0Layout extends StatelessWidget with SheetMessages {
   void openRegisterTeam(BuildContext context, School? school) {
     UserManagementProvider()
         .openRegisterTeam(context, school: state.dashboard!.user.school)
-        .then((done) {
-      if (done == true) {
+        .then((newTeam) {
+      if (newTeam != null) {
         showInviteReadersMessage<bool>(context).then((bool? value) {
           if (value == true) {
-            SendInviteProvider.open(context)
+            SendInviteProvider.open(context, teamId: newTeam.id)
                 .then((value) => getDashboardFunction());
           }
           getDashboardFunction();

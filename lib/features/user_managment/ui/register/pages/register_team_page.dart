@@ -143,7 +143,8 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
       return;
     }
 
-    if (state.groupManagementRequest?.avatarUrl == null &&
+    if ((state.groupManagementRequest?.avatarUrl == null ||
+            state.groupManagementRequest?.avatarUrl == '') &&
         state.avatarMemory == null) {
       widget.showAddGroupAvatarMessage(context).then((value) async {
         if (value != null) {
@@ -153,8 +154,8 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
       return;
     }
 
-    cubit.registerNewTeam(onSuccess: () {
-      Navigator.of(context, rootNavigator: true).pop(true);
+    cubit.registerNewTeam(onSuccess: (team) {
+      Navigator.of(context, rootNavigator: true).pop(team);
     }, onError: (HttpFailure error) {
       widget.handleError(context, error);
     });

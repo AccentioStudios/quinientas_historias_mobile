@@ -143,7 +143,8 @@ class _EditTeamPageState extends State<EditTeamPage> {
       return;
     }
 
-    if (state.groupManagementRequest?.avatarUrl == null &&
+    if ((state.groupManagementRequest?.avatarUrl == null ||
+            state.groupManagementRequest?.avatarUrl == '') &&
         state.avatarMemory == null) {
       widget.showAddGroupAvatarMessage(context).then((value) async {
         if (value != null) {

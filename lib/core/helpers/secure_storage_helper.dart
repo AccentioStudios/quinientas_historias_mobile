@@ -27,4 +27,9 @@ class SecureStorageHelper {
 
     return null;
   }
+
+  static deleteAll() {
+    const secureStorage = FlutterSecureStorage();
+    secureStorage.deleteAll();
+  }
 }

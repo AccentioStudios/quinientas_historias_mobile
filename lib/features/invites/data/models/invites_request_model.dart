@@ -9,9 +9,13 @@ class InvitesRequest {
   InvitesRequest({
     required this.email,
     required this.type,
+    this.teamId,
+    this.schoolId,
   });
   final String email;
   final UserType type;
+  final int? teamId;
+  final int? schoolId;
 
   factory InvitesRequest.fromJson(Map<String, dynamic> json) =>
       _$InvitesRequestFromJson(json);

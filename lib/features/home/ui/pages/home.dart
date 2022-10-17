@@ -56,7 +56,11 @@ class _HomePageState extends State<HomePage> {
                     await getDashboard(context);
                   },
                   child: state.dashboard!.user.type == UserType.prof
-                      ? HomeProfLayout(state: state)
+                      ? HomeProfLayout(
+                          state: state,
+                          getDashboardFunction: () =>
+                              getDashboard(context, state: state),
+                        )
                       : state.dashboard!.user.type == UserType.captain &&
                               state.dashboard!.user.team == null
                           ? HomeCaptainTier0Layout(
