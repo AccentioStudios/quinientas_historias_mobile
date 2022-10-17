@@ -32,9 +32,10 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "2.7.2"
+
       - name: Fastlane Action
-        working-directory: ./android
         uses: maierj/fastlane-action@v2.3.0
+        working-directory: ./android
         env:
           API_URL_PROD: ${{ secrets.API_URL_PROD }}
           JWT_SIGN_KEY_PROD: ${{ secrets.JWT_SIGN_KEY_PROD }}
