@@ -49,7 +49,7 @@ jobs:
           channel: "stable"
       - run: flutter packages get
       - run: flutter clean
-      - run: flutter build apk --release --build-number=${{BUILD_NUMBER}} --dart-define=API_URL=${{ secrets.API_URL_DEV_QA }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_DEV_QA }}
+      - run: flutter build apk --release --build-number=${{env.BUILD_NUMBER}} --dart-define=API_URL=${{ secrets.API_URL_DEV_QA }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_DEV_QA }}
 
       - uses: actions/upload-artifact@v3
         with:
