@@ -1,6 +1,9 @@
 # Google Service Account
 /android/service_account_key.json
 
+# Firebase Files
+/android/app/google-services.json
+
 # Miscellaneous
 *.class
 *.log

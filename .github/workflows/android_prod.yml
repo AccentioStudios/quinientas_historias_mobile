@@ -1,10 +1,9 @@
-name: Build and Deploy Android APP (Prod)
+name: Build and Deploy Android APP
+run-name: ${{ github.actor }} triggered
 
 on:
-  push:
-    branches: ["production"]
-  pull_request:
-    branches: ["production"]
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -28,6 +27,11 @@ jobs:
         run: |
           echo '${{ secrets.ANDROID_GOOGLE_SERVICE_ACCOUNT_BASE64_PROD }}' > android_service_account_key_base64.txt
           openssl base64 -d -in android_service_account_key_base64.txt -out ${{ github.workspace }}/android/service_account_key.json
+
+      - name: Get Firebase google_services.json (Dev-QA)
+        run: |
+          echo '${{ secrets.ANDROID_FIREBASE_GOOGLE_SERVICES_BASE64_PROD }}' > google_services_base64.txt
+          openssl base64 -d -in google_services_base64.txt -out ${{ github.workspace }}/android/app/google-services.json
 
       - name: Setting Ruby 2.7.2
         uses: ruby/setup-ruby@v1
