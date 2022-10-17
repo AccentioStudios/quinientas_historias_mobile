@@ -29,13 +29,21 @@ jobs:
           echo '${{ secrets.ANDROID_FIREBASE_SERVICE_ACCOUNT_BASE64_PROD }}' > android_service_account_key_base64.txt
           openssl base64 -d -in android_service_account_key_base64.txt -out ${{ github.workspace }}/android/service_account_key.json
 
-      - uses: ruby/setup-ruby@v1
+      - name: Setting Ruby 2.7.2
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "2.7.2"
+
+      - name: Setting Flutter 3.3.3
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.3"
+          channel: "stable"
 
       - name: Fastlane Action
         uses: maierj/fastlane-action@v2.3.0
         env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
           API_URL_PROD: ${{ secrets.API_URL_PROD }}
           JWT_SIGN_KEY_PROD: ${{ secrets.JWT_SIGN_KEY_PROD }}
         with:

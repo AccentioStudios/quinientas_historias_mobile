@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/failures/status_codes.dart';
