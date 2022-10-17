@@ -36,9 +36,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-
-
-    compileSdkVersion localProperties.getProperty('flutter.compileSdkVersion')
+    compileSdkVersion android-33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -58,8 +56,8 @@ android {
         applicationId "com.accentiostudios.quinientas"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion localProperties.getProperty('flutter.minSdkVersion')
-        targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion')
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
