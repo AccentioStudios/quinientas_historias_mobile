@@ -1,0 +1,50 @@
+name: Build and Deploy Android APP (Dev-QA)
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Keystore Properties (Dev-QA)
+        run: |
+          echo '${{ secrets.ANDROID_KEY_PROPERTIES_BASE64_DEV_QA }}' > key-properties-base64.txt
+          openssl base64 -d -in key-properties-base64.txt -out ${{ github.workspace }}/android/key.properties
+        # run: echo 'storePassword=${{secrets.ANDROID_STORE_PASSWORD_PROD}} keyPassword=${{secrets.ANDROID_KEY_PASSWORD_PROD}} keyAlias=${{secrets.ANDROID_KEY_ALIAS_PROD}}' > ${{ github.workspace }}/android/key.properties
+
+      - name: Get Keystore jks (Dev-QA)
+        run: |
+          echo '${{ secrets.ANDROID_KEY_STORE_BASE64_DEV_QA }}' > keystore-base64.txt
+          openssl base64 -d -in keystore-base64.txt -out ${{ github.workspace }}/android/upload-keystore.jks
+
+      - name: Setting Ruby 2.7.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7.2"
+
+      - name: Setting Java 11
+        uses: actions/setup-java@v3.5.1
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
+      - name: Setting Flutter 3.3.3
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.3.3"
+          channel: "stable"
+      - run: flutter packages get
+      - run: flutter clean
+      - run: flutter build apk --release --build-number=${{github.run_number}} --dart-define=API_URL=${{ secrets.API_URL_DEV_QA }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_DEV_QA }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dev-qa-apk-build-${{github.run_number}}
+          path: build/app/outputs/flutter-apk/app-release.apk

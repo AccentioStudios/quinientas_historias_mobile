@@ -1,4 +1,4 @@
-name: Build and Deploy Android APP
+name: Build and Deploy Android APP (Prod)
 
 on:
   push:
@@ -24,9 +24,9 @@ jobs:
           echo '${{ secrets.ANDROID_KEY_STORE_BASE64_PROD }}' > keystore-base64.txt
           openssl base64 -d -in keystore-base64.txt -out ${{ github.workspace }}/android/upload-keystore.jks
 
-      - name: Get Firebase Service Account (Prod)
+      - name: Get Google Service Account (Prod)
         run: |
-          echo '${{ secrets.ANDROID_FIREBASE_SERVICE_ACCOUNT_BASE64_PROD }}' > android_service_account_key_base64.txt
+          echo '${{ secrets.ANDROID_GOOGLE_SERVICE_ACCOUNT_BASE64_PROD }}' > android_service_account_key_base64.txt
           openssl base64 -d -in android_service_account_key_base64.txt -out ${{ github.workspace }}/android/service_account_key.json
 
       - name: Setting Ruby 2.7.2
