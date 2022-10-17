@@ -1,5 +1,4 @@
 name: Build and Deploy Android APP
-run-name: ${{ github.actor }} triggered
 
 on:
   release:
