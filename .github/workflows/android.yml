@@ -33,14 +33,14 @@ jobs:
         with:
           ruby-version: "2.7.2"
 
-      - uses: maierj/fastlane-action@v2.3.0
       - name: Fastlane Action
-        working-directory: ./android
+        uses: maierj/fastlane-action@v2.3.0
         env:
           API_URL_PROD: ${{ secrets.API_URL_PROD }}
           JWT_SIGN_KEY_PROD: ${{ secrets.JWT_SIGN_KEY_PROD }}
         with:
           lane: "prod"
+          subdirectory: "android"
 
       # - name: Run tests
       #   run: flutter test
