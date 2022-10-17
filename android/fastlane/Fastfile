@@ -11,28 +11,24 @@
 #
 
 # Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+update_fastlane
 
 default_platform(:android)
 
 platform :android do
 
-  desc "Build APK for Production"
+  desc "Build and Deploy AAB for Production"
   lane :prod do
     build_number = number_of_commits()
     api_url = ENV['API_URL_PROD']
     jwt_sign_key = ENV['JWT_SIGN_KEY_PROD']
     github_workspace = ENV['GITHUB_WORKSPACE']
+    github_run_number = ENV['GITHUB_RUN_NUMBER']
     Dir.chdir "../.." do
       sh("flutter", "packages", "get")
       sh("flutter", "clean")
-      sh("flutter", "build", "appbundle", "--release", "--build-number=#{build_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}")
+      sh("flutter", "build", "appbundle", "--release", "--build-number=#{github_run_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}")
     end
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+    upload_to_play_store(track: 'beta', aab: '../build/app/outputs/bundle/release/app-release.aab')
   end
 end
