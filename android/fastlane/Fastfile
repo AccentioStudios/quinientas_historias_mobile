@@ -22,7 +22,7 @@ platform :android do
     build_number = number_of_commits()
     API_URL_PROD = ENV['API_URL_PROD']
     JWT_SIGN_KEY_PROD = ENV['JWT_SIGN_KEY_PROD']
-    Dir.chdir "../.." do
+    Dir.chdir "../../.." do
       sh("flutter", "packages", "get")
       sh("flutter", "clean")
       sh("flutter", "build", "appbundle", "--release", "--build-number=#{build_number}", "--dart-define=API_URL=#{API_URL_PROD}", "--dart-define=JWT_SIGN_KEY=#{JWT_SIGN_KEY_PROD}")
