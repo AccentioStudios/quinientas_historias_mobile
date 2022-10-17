@@ -19,7 +19,6 @@ platform :android do
 
   desc "Build APK for Production"
   lane :prod do
-    setup_ci if ENV['API_URL_PROD']
     build_number = number_of_commits()
     API_URL_PROD = ENV['API_URL_PROD']
     JWT_SIGN_KEY_PROD = ENV['JWT_SIGN_KEY_PROD']
