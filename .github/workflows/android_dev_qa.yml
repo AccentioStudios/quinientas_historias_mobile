@@ -18,8 +18,8 @@ jobs:
       - name: Get Build number
         run: |
           echo "checking count"
-          $count = git log --oneline | wc -l
-          echo $count >> $BUILD_NUMBER
+          $BUILD_NUMBER = git log --oneline | wc -l
+          echo $BUILD_NUMBER
 
       - name: Get Keystore Properties (Dev-QA)
         run: |
