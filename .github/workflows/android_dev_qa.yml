@@ -46,5 +46,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: dev-qa-apk-build-${{github.run_number}}
+          name: dev-qa-apk-build
           path: build/app/outputs/flutter-apk/app-release.apk
