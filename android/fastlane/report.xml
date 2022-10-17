@@ -5,27 +5,27 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0018959">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0014707">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: number_of_commits" time="0.0698589">
+      <testcase classname="fastlane.lanes" name="1: number_of_commits" time="0.0695786">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: flutter packages get" time="7.2251238">
+      <testcase classname="fastlane.lanes" name="2: flutter packages get" time="5.6781979">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: flutter clean" time="7.3766171">
+      <testcase classname="fastlane.lanes" name="3: flutter clean" time="1.6054336">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: flutter build appbundle --release --build-number=142 --dart-define=API_URL= --dart-define=JWT_SIGN_KEY=" time="120.6453351">
+      <testcase classname="fastlane.lanes" name="4: flutter build appbundle --release --build-number=147 --dart-define=API_URL= --dart-define=JWT_SIGN_KEY=" time="97.8320573">
         
       </testcase>
     
