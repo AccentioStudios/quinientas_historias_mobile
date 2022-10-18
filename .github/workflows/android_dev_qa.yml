@@ -56,7 +56,7 @@ jobs:
           API_URL_PROD: ${{ secrets.JWT_SIGN_KEY_DEV_QA }}
           JWT_SIGN_KEY_PROD: ${{ secrets.JWT_SIGN_KEY_DEV_QA }}
           BUILD_NUMBER: ${{env.BUILD_NUMBER}}
-          FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
+          FIREBASE_ANDROID_APP_ID: ${{secrets.FIREBASE_ANDROID_APP_ID}}
           FIREBASE_CLI_TOKEN: ${{secrets.FIREBASE_CLI_TOKEN}}
         with:
           lane: "devqa"

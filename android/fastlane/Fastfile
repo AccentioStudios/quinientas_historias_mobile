@@ -42,7 +42,7 @@ platform :android do
     jwt_sign_key = ENV['JWT_SIGN_KEY_PROD']
     github_workspace = ENV['GITHUB_WORKSPACE']
     build_number = ENV['BUILD_NUMBER']
-    firebase_app_id = ENV['FIREBASE_APP_ID']
+    firebase_app_id = ENV['FIREBASE_ANDROID_APP_ID']
     firebase_token = ENV['FIREBASE_CLI_TOKEN']
     Dir.chdir "../.." do
       sh("flutter", "packages", "get")
