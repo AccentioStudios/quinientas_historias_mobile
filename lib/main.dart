@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'core/app.dart';
 import 'core/helpers/shared_preferences_helper.dart';
+import 'core/integrations/alice_service.dart';
 import 'core/integrations/firebase_messaging_service.dart';
 import 'core/integrations/notification_service.dart';
 import 'core/integrations/remote_config_service.dart';
@@ -14,10 +15,13 @@ import 'core/routes/routes.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
+    GlobalKey<NavigatorState>? navigatorKey = Routes.navigatorKey;
+
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     await SharedPreferencesHelper.init();
     await RemoteConfigService.init();
+    AliceService.init(navigatorKey!);
 
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
@@ -32,7 +36,7 @@ void main() async {
         ),
       ],
       child: Application(
-        navigatorKey: Routes.navigatorKey,
+        navigatorKey: navigatorKey,
       ),
     ));
   },

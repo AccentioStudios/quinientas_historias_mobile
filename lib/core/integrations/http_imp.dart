@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:quinientas_historias/core/helpers/alice_helper.dart';
+import 'package:quinientas_historias/core/integrations/alice_service.dart';
 
 import '../data/models/jwt_token_model.dart';
 import '../failures/failures.dart';
@@ -38,7 +38,7 @@ class HttpImp implements HttpHelper {
         },
       );
       if (kDebugMode) {
-        AliceHelper.instance.onHttpResponse(response);
+        AliceService.instance.onHttpResponse(response);
       }
       return response;
     } catch (e) {
@@ -64,7 +64,7 @@ class HttpImp implements HttpHelper {
           },
           body: data);
       if (kDebugMode) {
-        AliceHelper.instance.onHttpResponse(response);
+        AliceService.instance.onHttpResponse(response);
       }
       return response;
     } catch (e) {
@@ -91,7 +91,7 @@ class HttpImp implements HttpHelper {
           },
           body: data);
       if (kDebugMode) {
-        AliceHelper.instance.onHttpResponse(response);
+        AliceService.instance.onHttpResponse(response);
       }
       return response;
     } catch (e) {
@@ -116,7 +116,7 @@ class HttpImp implements HttpHelper {
           HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}',
       });
       if (kDebugMode) {
-        AliceHelper.instance.onHttpResponse(response);
+        AliceService.instance.onHttpResponse(response);
       }
       return response;
     } catch (e) {

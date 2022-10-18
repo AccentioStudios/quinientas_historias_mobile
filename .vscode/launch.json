@@ -43,7 +43,6 @@
             "args": [
               "--dart-define=API_URL=localhost:5000",
               "--dart-define=JWT_SIGN_KEY=xxxxxx",
-              "--dart-define=https=false",
             ]
           }
     ]

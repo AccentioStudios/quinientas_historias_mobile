@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:quinientas_historias/core/integrations/alice_service.dart';
 
 import '../../../../core/integrations/device_info.dart';
 import '../../../../core/routes/routes.dart';
@@ -28,6 +30,15 @@ class ConfigPage extends StatelessWidget {
             },
           ),
         ),
+        if (kDebugMode)
+          ListTile(
+            onTap: () => AliceService.instance.showInspector(),
+            title: const Text(
+              'Abrir Alice (Debug HTTP requests)',
+            ),
+            subtitle: const Text('Abrir inspector de requests http'),
+            trailing: const Icon(Icons.search),
+          ),
         ListTile(
           onTap: () => logout(context),
           title: Text(

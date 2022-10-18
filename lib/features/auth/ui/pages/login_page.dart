@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:quinientas_historias/core/integrations/alice_service.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/failures/status_codes.dart';
@@ -34,10 +36,14 @@ class LoginPage extends StatelessWidget {
               children: [
                 SizedBox(
                   child: Stack(
+                    clipBehavior: Clip.none,
                     children: [
-                      const Align(
+                      Align(
                           alignment: Alignment.topCenter,
-                          child: GradientBackground()),
+                          child: Transform.translate(
+                            offset: const Offset(0, -45),
+                            child: const GradientBackground(),
+                          )),
                       Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
@@ -51,11 +57,27 @@ class LoginPage extends StatelessWidget {
                       ),
                       const Padding(
                         padding: EdgeInsets.only(
-                            top: 200,
+                            top: 190,
                             left: Constants.space18,
                             right: Constants.space18),
                         child: _LoginForm(),
                       ),
+                      if (kDebugMode)
+                        Positioned(
+                          top: 0,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            child: Row(children: [
+                              TextButton.icon(
+                                  onPressed: () {
+                                    AliceService.instance.showInspector();
+                                  },
+                                  icon: const Icon(Icons.search),
+                                  label: const Text('Alice'))
+                            ]),
+                          ),
+                        ),
                     ],
                   ),
                 ),
