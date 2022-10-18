@@ -50,4 +50,4 @@ jobs:
         with:
           node-version: 16
       - run: npm install firebase-tools -g
-      - run: firebase deploy --token ${{secret.FIREBASE_CLI_TOKEN}}
+      - run: firebase deploy --token ${{secrets.FIREBASE_CLI_TOKEN}}
