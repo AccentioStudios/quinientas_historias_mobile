@@ -18,8 +18,9 @@ jobs:
       - name: Get Build number
         run: |
           echo "checking count"
-          $BUILD_NUMBER = git log --oneline | wc -l
-          echo $BUILD_NUMBER
+          count=$(git log --oneline | wc -l)
+          echo "BUILD_NUMBER=$count" >> $GITHUB_ENV
+          echo $count
 
       - name: Get Keystore Properties (Dev-QA)
         run: |
