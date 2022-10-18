@@ -22,34 +22,15 @@ platform :android do
     api_url = ENV['API_URL_PROD']
     jwt_sign_key = ENV['JWT_SIGN_KEY_PROD']
     github_workspace = ENV['GITHUB_WORKSPACE']
-    github_run_number = ENV['GITHUB_RUN_NUMBER']
+    build_number = ENV['BUILD_NUMBER']
     Dir.chdir "../.." do
       sh("flutter", "packages", "get")
       sh("flutter", "clean")
-      sh("flutter", "build", "appbundle", "--release", "--build-number=#{github_run_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}")
+      sh("flutter", "build", "appbundle", "--release", "--build-number=#{build_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}")
     end
     upload_to_play_store(
       track: 'beta', 
-      version_name: "500h-build-#{github_run_number}",
-      aab: '../build/app/outputs/bundle/release/app-release.aab'
-    )
-  end
-
-
-  desc "Build and Deploy APK for QA (Github Artifact)"
-  lane :prod do
-    api_url = ENV['API_URL_DEV']
-    jwt_sign_key = ENV['JWT_SIGN_KEY_DEV']
-    github_workspace = ENV['GITHUB_WORKSPACE']
-    github_run_number = ENV['GITHUB_RUN_NUMBER']
-    Dir.chdir "../.." do
-      sh("flutter", "packages", "get")
-      sh("flutter", "clean")
-      sh("flutter", "build", "apk", "--release", "--build-number=#{github_run_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}")
-    end
-    upload_to_play_store(
-      track: 'beta', 
-      version_name: "500h-build-#{github_run_number}",
+      version_name: "500h-build-#{build_number}",
       aab: '../build/app/outputs/bundle/release/app-release.aab'
     )
   end
