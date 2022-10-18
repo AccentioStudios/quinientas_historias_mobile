@@ -48,11 +48,25 @@ jobs:
         with:
           flutter-version: "3.3.3"
           channel: "stable"
-      - run: flutter packages get
-      - run: flutter clean
-      - run: flutter build apk --release --build-number=${{env.BUILD_NUMBER}} --dart-define=API_URL=${{ secrets.API_URL_DEV_QA }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_DEV_QA }}
 
-      - uses: actions/upload-artifact@v3
+      - name: Fastlane Action
+        uses: maierj/fastlane-action@v2.3.0
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+          API_URL_PROD: ${{ secrets.JWT_SIGN_KEY_DEV_QA }}
+          JWT_SIGN_KEY_PROD: ${{ secrets.JWT_SIGN_KEY_DEV_QA }}
+          BUILD_NUMBER: ${{env.BUILD_NUMBER}}
+          FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
+          FIREBASE_CLI_TOKEN: ${{secrets.FIREBASE_CLI_TOKEN}}
         with:
-          name: dev-qa-apk-build
-          path: build/app/outputs/flutter-apk/app-release.apk
+          lane: "devqa"
+          subdirectory: "android"
+
+      # - run: flutter packages get
+      # - run: flutter clean
+      # - run: flutter build apk --release --build-number=${{env.BUILD_NUMBER}} --dart-define=API_URL=${{ secrets.API_URL_DEV_QA }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_DEV_QA }}
+
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: dev-qa-apk-build
+      #     path: build/app/outputs/flutter-apk/app-release.apk
