@@ -69,12 +69,15 @@ class LoginPage extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             height: 60,
                             child: Row(children: [
+                              const SizedBox(
+                                width: Constants.space16,
+                              ),
                               TextButton.icon(
                                   onPressed: () {
                                     AliceService.instance.showInspector();
                                   },
                                   icon: const Icon(Icons.search),
-                                  label: const Text('Alice'))
+                                  label: const Text('Alice Inspector'))
                             ]),
                           ),
                         ),
