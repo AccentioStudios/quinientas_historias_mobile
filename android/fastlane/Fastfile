@@ -19,8 +19,8 @@ platform :android do
 
   desc "Build and Deploy AAB for Production (Play Store)"
   lane :prod do
-    api_url = ENV['API_URL_PROD']
-    jwt_sign_key = ENV['JWT_SIGN_KEY_PROD']
+    api_url = ENV['API_URL']
+    jwt_sign_key = ENV['JWT_SIGN_KEY']
     github_workspace = ENV['GITHUB_WORKSPACE']
     build_number = ENV['BUILD_NUMBER']
     Dir.chdir "../.." do
@@ -38,8 +38,8 @@ platform :android do
 
   desc "Build and Deploy App for Dev-QA (Firebase Distribution)"
   lane :devqa do
-    api_url = ENV['API_URL_PROD']
-    jwt_sign_key = ENV['JWT_SIGN_KEY_PROD']
+    api_url = ENV['API_URL']
+    jwt_sign_key = ENV['JWT_SIGN_KEY']
     github_workspace = ENV['GITHUB_WORKSPACE']
     build_number = ENV['BUILD_NUMBER']
     firebase_app_id = ENV['FIREBASE_ANDROID_APP_ID']
