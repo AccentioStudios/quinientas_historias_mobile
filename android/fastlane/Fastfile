@@ -53,6 +53,8 @@ platform :android do
       app: firebase_app_id, 
       firebase_cli_token: firebase_token,
       groups: 'qa',
+      firebase_cli_path: "/usr/local/bin/firebase",
+      android_artifact_path: "../build/app/outputs/bundle/release/app-release.aab",
       android_artifact_type: "AAB"
     )
   end
