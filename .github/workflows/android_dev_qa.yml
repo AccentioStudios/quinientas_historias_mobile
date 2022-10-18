@@ -32,9 +32,9 @@ jobs:
           echo '${{ secrets.ANDROID_KEY_STORE_BASE64_DEV_QA }}' > keystore-base64.txt
           openssl base64 -d -in keystore-base64.txt -out ${{ github.workspace }}/android/upload-keystore.jks
 
-      - name: Get Firebase google_services.json (Dev-QA)
+      - name: Get Firebase google_services.json
         run: |
-          echo '${{ secrets.ANDROID_FIREBASE_GOOGLE_SERVICES_BASE64_DEV_QA }}' > google_services_base64.txt
+          echo '${{ secrets.ANDROID_FIREBASE_GOOGLE_SERVICES_BASE64 }}' > google_services_base64.txt
           openssl base64 -d -in google_services_base64.txt -out ${{ github.workspace }}/android/app/google-services.json
 
       - name: Setting Java 11

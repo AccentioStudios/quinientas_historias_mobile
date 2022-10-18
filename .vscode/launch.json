@@ -15,7 +15,7 @@
             ]
         },
         {
-            "name": "Flutter Release",
+            "name": "Flutter Dev Release",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
@@ -23,6 +23,16 @@
             "args": [
                 "--dart-define=API_URL=500h-dev.accentio.app",
                 "--dart-define=JWT_SIGN_KEY=xxxxxx",
+            ]
+        },
+        {
+            "name": "Flutter Prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=API_URL=appapi.500historias.com",
+                "--dart-define=JWT_SIGN_KEY=fcdd1cc43846c96d684b3da091851837535ab3b5",
             ]
         },
         {

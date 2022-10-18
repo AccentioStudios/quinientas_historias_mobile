@@ -11,13 +11,11 @@ import 'core/integrations/firebase_messaging_service.dart';
 import 'core/integrations/notification_service.dart';
 import 'core/integrations/remote_config_service.dart';
 import 'core/routes/routes.dart';
-import 'firebase_options.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp();
     await SharedPreferencesHelper.init();
     await RemoteConfigService.init();
 
