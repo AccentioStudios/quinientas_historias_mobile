@@ -52,7 +52,7 @@ platform :android do
     firebase_app_distribution(
       app: firebase_app_id, 
       firebase_cli_token: firebase_token,
-      groups: 'qa',
+      groups: 'internal',
       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
       android_artifact_type: "APK"
     )
