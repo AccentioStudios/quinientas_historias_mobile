@@ -34,4 +34,26 @@ platform :android do
       aab: '../build/app/outputs/bundle/release/app-release.aab'
     )
   end
+
+
+  desc "Build and Deploy App for Dev-QA (Firebase Distribution)"
+  lane :devqa do
+    api_url = ENV['API_URL_PROD']
+    jwt_sign_key = ENV['JWT_SIGN_KEY_PROD']
+    github_workspace = ENV['GITHUB_WORKSPACE']
+    build_number = ENV['BUILD_NUMBER']
+    firebase_app_id = ENV['FIREBASE_APP_ID']
+    firebase_token = ENV['FIREBASE_CLI_TOKEN']
+    Dir.chdir "../.." do
+      sh("flutter", "packages", "get")
+      sh("flutter", "clean")
+      sh("flutter", "build", "appbundle", "--release", "--build-number=#{build_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}")
+    end
+    firebase_app_distribution(
+      app: firebase_app_id, 
+      firebase_cli_token: firebase_token
+      groups: "QA"
+      android_artifact_type: "AAB"
+    )
+  end
 end
