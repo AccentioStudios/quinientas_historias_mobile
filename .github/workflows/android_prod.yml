@@ -1,4 +1,4 @@
-name: Build and Deploy Android APP
+name: Build and Deploy Android APP (Prod)
 
 on:
   release:
