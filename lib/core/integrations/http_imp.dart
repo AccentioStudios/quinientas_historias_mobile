@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -37,9 +36,9 @@ class HttpImp implements HttpHelper {
             HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}'
         },
       );
-      if (kDebugMode) {
-        AliceService.instance.onHttpResponse(response);
-      }
+
+      AliceService.instance.onHttpResponse(response);
+
       return response;
     } catch (e) {
       throw _handleHttpError(e);
@@ -63,9 +62,9 @@ class HttpImp implements HttpHelper {
                   'Bearer ${sessionData.accessToken}'
           },
           body: data);
-      if (kDebugMode) {
-        AliceService.instance.onHttpResponse(response);
-      }
+
+      AliceService.instance.onHttpResponse(response);
+
       return response;
     } catch (e) {
       throw _handleHttpError(e);
@@ -90,9 +89,9 @@ class HttpImp implements HttpHelper {
                   'Bearer ${sessionData.accessToken}'
           },
           body: data);
-      if (kDebugMode) {
-        AliceService.instance.onHttpResponse(response);
-      }
+
+      AliceService.instance.onHttpResponse(response);
+
       return response;
     } catch (e) {
       throw _handleHttpError(e);
@@ -115,9 +114,9 @@ class HttpImp implements HttpHelper {
         if (sessionData != null)
           HttpHeaders.authorizationHeader: 'Bearer ${sessionData.accessToken}',
       });
-      if (kDebugMode) {
-        AliceService.instance.onHttpResponse(response);
-      }
+
+      AliceService.instance.onHttpResponse(response);
+
       return response;
     } catch (e) {
       throw _handleHttpError(e);
