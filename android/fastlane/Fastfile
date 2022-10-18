@@ -40,7 +40,6 @@ platform :android do
   lane :devqa do
     api_url = ENV['API_URL']
     jwt_sign_key = ENV['JWT_SIGN_KEY']
-    github_workspace = ENV['GITHUB_WORKSPACE']
     build_number = ENV['BUILD_NUMBER']
     firebase_app_id = ENV['FIREBASE_ANDROID_APP_ID']
     firebase_token = ENV['FIREBASE_CLI_TOKEN']
