@@ -51,7 +51,7 @@ platform :android do
     end
     firebase_app_distribution(
       app: firebase_app_id, 
-      firebase_cli_token: firebase_token
+      firebase_cli_token: firebase_token,
       groups: 'qa',
       android_artifact_type: "AAB"
     )
