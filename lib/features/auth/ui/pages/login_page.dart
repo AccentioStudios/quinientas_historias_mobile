@@ -214,14 +214,14 @@ class _LoginFormState extends State<_LoginForm> {
   }
 
   void _navigateToHomeNavigator(BuildContext context) async {
-    String? firebaseToken =
-        await Provider.of<FirebaseMessagingService>(context, listen: false)
-            .getDeviceFirebaseToken();
-    if (firebaseToken == null) {
-      if (!mounted) return;
-      widget.handleError(context, HttpFailure());
-      return;
+    late String? firebaseToken;
+
+    if (!kIsWeb) {
+      firebaseToken =
+          await Provider.of<FirebaseMessagingService>(context, listen: false)
+              .getDeviceFirebaseToken();
     }
+
     if (!mounted) return;
     BlocProvider.of<AuthCubit>(context).login(
         email: emailAddressLoginController.text,

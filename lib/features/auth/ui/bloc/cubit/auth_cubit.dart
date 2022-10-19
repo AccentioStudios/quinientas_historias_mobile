@@ -22,7 +22,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
   void login(
       {required String email,
       required String password,
-      required String firebaseToken,
+      required String? firebaseToken,
       required Function onError,
       required void Function() onSuccess}) {
     emit(state.copyWith(loading: true, httpFailure: null));

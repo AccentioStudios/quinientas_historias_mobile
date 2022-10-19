@@ -33,12 +33,22 @@ class FirebaseMessagingService {
     FirebaseMessaging.onMessage.listen((message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      // AppleNotification? apple = message.notification?.apple;
+      AppleNotification? apple = message.notification?.apple;
 
       if (notification != null && android != null) {
         _notificationService.showLocalNotification(
           CustomNotification(
             id: android.hashCode,
+            title: notification.title ?? '500 Historias',
+            body: notification.body!,
+            payload: message.data['route'] ?? '',
+          ),
+        );
+      }
+      if (notification != null && apple != null) {
+        _notificationService.showLocalNotification(
+          CustomNotification(
+            id: apple.hashCode,
             title: notification.title ?? '500 Historias',
             body: notification.body!,
             payload: message.data['route'] ?? '',
