@@ -47,6 +47,24 @@
 </head>
 
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAnpurh9rJpDESlWK0Rsc_9iN7hKqJHyrE",
+      authDomain: "historias-25985.firebaseapp.com",
+      projectId: "historias-25985",
+      storageBucket: "historias-25985.appspot.com",
+      messagingSenderId: "167564851917",
+      appId: "1:167564851917:web:efaa9f37d9c112110ac784",
+      measurementId: "G-Q10Y0XXHZT"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
   <script>
     window.addEventListener('load', function (ev) {
       // Download main.dart.js
