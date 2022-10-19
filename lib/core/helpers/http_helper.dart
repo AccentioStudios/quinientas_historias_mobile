@@ -1,7 +1,5 @@
 import 'package:http/http.dart';
 
-import '../data/models/jwt_token_model.dart';
-
 abstract class HttpHelper {
   Future<Response> get(
     String path, {
@@ -24,7 +22,4 @@ abstract class HttpHelper {
     Object? data,
     Map<String, dynamic>? queryParameters,
   });
-
-  void setAuth(JWTTokenModel authModel);
-  void removeAuth();
 }

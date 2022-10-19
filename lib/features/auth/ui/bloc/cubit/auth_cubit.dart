@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/failures/failures.dart';
+import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/models/iforgot_request_model.dart';
 import '../../../data/models/login_model.dart';
@@ -36,6 +37,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     authUseCases.login(authRequest).listen((JWTTokenModel authModel) {
       if (authModel.accessToken != null) {
         if (authModel.accessToken!.isNotEmpty) {
+          SecureStorageHelper.saveSession(authModel);
           return onSuccess();
         } else {
           onError(HttpFailure(

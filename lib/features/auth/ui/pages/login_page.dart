@@ -120,6 +120,10 @@ class _LoginFormState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseMessagingService =
+        Provider.of<FirebaseMessagingService>(context, listen: false);
+
+    final authCubit = context.read<AuthCubit>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
       child: BlocBuilder<AuthCubit, AuthState>(
@@ -151,7 +155,8 @@ class _LoginFormState extends State<_LoginForm> {
                   keyboardType: TextInputType.text,
                   obscureText: true,
                   enabled: !state.loading,
-                  onFieldSubmitted: (text) => _navigateToHomeNavigator(context),
+                  onFieldSubmitted: (text) => _navigateToHomeNavigator(
+                      context, firebaseMessagingService, authCubit),
                   errorText: state.httpFailure?.error == FailureType.password
                       ? state.httpFailure?.message
                       : null,
@@ -171,7 +176,8 @@ class _LoginFormState extends State<_LoginForm> {
                   text: 'Entrar a 500 Historias',
                   isLoading: state.loading,
                   onPressed: () {
-                    _navigateToHomeNavigator(context);
+                    _navigateToHomeNavigator(
+                        context, firebaseMessagingService, authCubit);
                   },
                 ),
                 const SizedBox(height: Constants.space41),
@@ -213,17 +219,22 @@ class _LoginFormState extends State<_LoginForm> {
     );
   }
 
-  void _navigateToHomeNavigator(BuildContext context) async {
-    late String? firebaseToken;
+  void _navigateToHomeNavigator(
+      BuildContext context,
+      FirebaseMessagingService firebaseMessagingService,
+      AuthCubit authCubit) async {
+    String? firebaseToken;
 
     if (!kIsWeb) {
-      firebaseToken =
-          await Provider.of<FirebaseMessagingService>(context, listen: false)
-              .getDeviceFirebaseToken();
+      firebaseToken = await firebaseMessagingService.getDeviceFirebaseToken();
     }
+    //  else {
+    //   firebaseToken = await firebaseMessagingService.getDeviceFirebaseToken(
+    //       vapidKey:
+    //           '');
+    // }
 
-    if (!mounted) return;
-    BlocProvider.of<AuthCubit>(context).login(
+    authCubit.login(
         email: emailAddressLoginController.text,
         password: passwordLoginController.text,
         firebaseToken: firebaseToken,

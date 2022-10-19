@@ -16,13 +16,12 @@ class FirebaseMessagingService {
       sound: true,
       alert: true,
     );
-    getDeviceFirebaseToken();
     _onMessage();
     _onMessageOpenedApp();
   }
 
-  Future<String?> getDeviceFirebaseToken() async {
-    final token = await FirebaseMessaging.instance.getToken();
+  Future<String?> getDeviceFirebaseToken({String? vapidKey}) async {
+    final token = await FirebaseMessaging.instance.getToken(vapidKey: vapidKey);
     debugPrint('=======================================');
     debugPrint('TOKEN: $token');
     debugPrint('=======================================');

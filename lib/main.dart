@@ -20,7 +20,8 @@ void main() async {
     GlobalKey<NavigatorState>? navigatorKey = Routes.navigatorKey;
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     await SharedPreferencesHelper.init();
     await RemoteConfigService.init();
     AliceService.init(navigatorKey!);

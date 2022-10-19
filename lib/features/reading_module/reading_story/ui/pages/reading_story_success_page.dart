@@ -45,9 +45,10 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
         return false;
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            alignment: Alignment.center,
+        body: SingleChildScrollView(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Column(
               children: <Widget>[
                 Stack(

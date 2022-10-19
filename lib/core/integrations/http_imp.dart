@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:quinientas_historias/core/integrations/alice_service.dart';
+import 'alice_service.dart';
 
 import '../data/models/jwt_token_model.dart';
 import '../failures/failures.dart';
@@ -168,21 +166,4 @@ class HttpImp implements HttpHelper {
   // HttpResponse _buildHttpResponseWithError(HttpRequestException error) {
   //   return HttpResponse().parse(error);
   // }
-
-  @override
-  void setAuth(JWTTokenModel jwtToken) {
-    if (jwtToken.accessToken != null) {
-      final String jwtJson = jsonEncode(jwtToken.toJson());
-      const secureStorage = FlutterSecureStorage();
-      secureStorage.deleteAll();
-      secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);
-      secureStorage.write(key: 'userData', value: jwtJson);
-    }
-  }
-
-  @override
-  void removeAuth() {
-    const secureStorage = FlutterSecureStorage();
-    secureStorage.deleteAll();
-  }
 }

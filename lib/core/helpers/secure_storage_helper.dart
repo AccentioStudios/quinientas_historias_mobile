@@ -13,6 +13,16 @@ class SecureStorageHelper {
 
   static const FlutterSecureStorage instance = FlutterSecureStorage();
 
+  static saveSession(JWTTokenModel jwtToken) {
+    if (jwtToken.accessToken != null) {
+      final String jwtJson = jsonEncode(jwtToken.toJson());
+      const secureStorage = FlutterSecureStorage();
+      secureStorage.deleteAll();
+      secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);
+      secureStorage.write(key: 'userData', value: jwtJson);
+    }
+  }
+
   static Future<String?> getSavedAccessToken() {
     return instance.read(key: 'accessToken');
   }

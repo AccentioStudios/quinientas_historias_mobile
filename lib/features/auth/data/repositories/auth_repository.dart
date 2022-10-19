@@ -11,7 +11,6 @@ class AuthRepository with ApiService {
     yield* appApi.post('v1/auth/login', data: login.toJson()).handleJson(
         mapper: (data) {
       JWTTokenModel authModel = JWTTokenModel.decode(data);
-      appApi.setAuth(authModel);
       return authModel;
     });
   }

@@ -52,10 +52,10 @@ jobs:
           distribution: "zulu"
           java-version: "11"
 
-      - name: Setting Flutter 3.3.4
+      - name: Setting Flutter 3.3.5
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.3.4"
+          flutter-version: "3.3.5"
           channel: "stable"
 
       - name: Fastlane Action
