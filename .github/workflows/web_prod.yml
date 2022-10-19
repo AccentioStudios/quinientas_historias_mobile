@@ -20,22 +20,6 @@ jobs:
           echo "BUILD_NUMBER=$count" >> $GITHUB_ENV
           echo $count
 
-      - name: Get dotenv file
-        run: |
-          echo '${{ secrets.WEB_DOTENV_BASE64 }}' > web_dotenv_base64.txt
-          openssl base64 -d -in web_dotenv_base64.txt -out ${{ github.workspace }}/.env
-
-      - name: Setting Ruby 2.7.2
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "2.7.2"
-
-      - name: Setting Java 11
-        uses: actions/setup-java@v3.5.1
-        with:
-          distribution: "zulu"
-          java-version: "11"
-
       - name: Setting Flutter 3.3.4
         uses: subosito/flutter-action@v2
         with:

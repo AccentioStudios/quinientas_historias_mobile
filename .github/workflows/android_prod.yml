@@ -20,10 +20,6 @@ jobs:
           echo "BUILD_NUMBER=$count" >> $GITHUB_ENV
           echo $count
 
-      - name: Create fake dotenv file
-        run: |
-          echo '' > .env
-
       - name: Get Keystore Properties (Prod)
         run: |
           echo '${{ secrets.ANDROID_KEY_PROPERTIES_BASE64_PROD }}' > key-properties-base64.txt
