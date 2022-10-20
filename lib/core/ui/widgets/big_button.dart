@@ -115,7 +115,7 @@ class BigButton extends StatelessWidget {
       if (Theme.of(context).brightness == Brightness.dark) {
         return filled ? onPrimaryDarkColor : primaryDarkColor;
       } else {
-        return filled ? onPrimaryColor : primaryColor;
+        return filled ? onPrimaryColor : onPrimaryColor;
       }
     } else {
       if (Theme.of(context).brightness == Brightness.dark) {

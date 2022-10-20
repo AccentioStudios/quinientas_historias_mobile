@@ -82,74 +82,99 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                     showReadingOptions(context);
                   }),
             ),
-            body: !state.loading
-                ? CustomScrollView(
+            body: state.loading
+                ? const Center(child: CircularProgressIndicator())
+                : ListView(
                     controller: scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      ReadingStoryAppbar(state: state),
-                      SliverPadding(
+                    children: [
+                      ReadingStoryHeader(state: state),
+                      Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space21),
-                        sliver: SliverToBoxAdapter(
-                          child: Html(
-                            style: {
-                              "*": Style(
-                                padding: EdgeInsets.zero,
-                                margin: Margins.zero,
-                                letterSpacing: 0.4,
-                                fontFamily: 'Literata',
-                                fontSize: state.readingOptions.fontSize,
-                                lineHeight: state.readingOptions.lineHeight,
-                              ),
-                              "p": Style(
-                                textAlign: state.readingOptions.pTextAlign,
-                                margin: Margins.only(bottom: 21),
-                              ),
-                              "h1": Style(
-                                fontSize: state.readingOptions.h1fontSize,
-                                textAlign: TextAlign.center,
-                                margin: Margins.only(bottom: 21),
-                              ),
-                              "h2": Style(
-                                fontSize: state.readingOptions.h2fontSize,
-                                textAlign: TextAlign.left,
-                                margin: Margins.only(bottom: 21),
-                              ),
-                              "ul": Style(
-                                margin: Margins.only(bottom: 21),
-                              ),
-                              "br": Style(
-                                margin: Margins.only(bottom: 21),
-                              ),
-                            },
-                            data: unescape.convert(state.story?.content ?? ''),
-                          ),
+                        child: Html(
+                          style: {
+                            "*": Style(
+                              padding: EdgeInsets.zero,
+                              margin: Margins.zero,
+                              letterSpacing: 0.4,
+                              fontFamily: 'Literata',
+                              fontSize: state.readingOptions.fontSize,
+                              lineHeight: state.readingOptions.lineHeight,
+                            ),
+                            "p": Style(
+                              textAlign: state.readingOptions.pTextAlign,
+                              margin: Margins.only(bottom: 21),
+                            ),
+                            "h1": Style(
+                              fontSize: state.readingOptions.h1fontSize,
+                              textAlign: TextAlign.center,
+                              margin: Margins.only(bottom: 21),
+                            ),
+                            "h2": Style(
+                              fontSize: state.readingOptions.h2fontSize,
+                              textAlign: TextAlign.left,
+                              margin: Margins.only(bottom: 21),
+                            ),
+                            "ul": Style(
+                              margin: Margins.only(bottom: 21),
+                            ),
+                            "br": Style(
+                              margin: Margins.only(bottom: 21),
+                            ),
+                          },
+                          data: unescape.convert(state.story?.content ?? ''),
                         ),
                       ),
-                      SliverPadding(
-                        sliver: SliverToBoxAdapter(
-                          child: BigButton(
-                            onPressed: () {
-                              openRateStorySheet(context, state);
-                            },
-                            text: 'Terminar Lectura',
-                            svgIconPath:
-                                'assets/icons/book-open-outline-icon.svg',
-                          ),
-                        ),
+                      const SizedBox(height: 50),
+                      Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space41,
-                            vertical: Constants.space21),
+                            horizontal: Constants.space16),
+                        child: InkWell(
+                          borderRadius: Constants.borderRadius50,
+                          onTap: () {
+                            saveFavorite(context);
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FavoriteBtn(state: state),
+                              Text(
+                                  state.story?.favorited == true
+                                      ? 'Quitar favorito'
+                                      : 'Agregar a favoritos',
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 10),
+                            ],
+                          ),
+                        ),
                       ),
-                      const SliverToBoxAdapter(child: SizedBox(height: 75)),
+                      const SizedBox(height: Constants.space21),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: Constants.space16),
+                        child: BigButton(
+                          onPressed: () {
+                            openRateStorySheet(context, state);
+                          },
+                          text: 'Terminar Lectura',
+                        ),
+                      ),
+                      const SizedBox(height: 100),
                     ],
-                  )
-                : const Center(child: CircularProgressIndicator()),
+                  ),
           ),
         );
       },
     );
+  }
+
+  void saveFavorite(BuildContext context) {
+    context
+        .read<ReadingStoryCubit>()
+        .saveFavorite(onError: (error) => widget.handleError(context, error));
   }
 
   void showReadingOptions(BuildContext context) {
@@ -292,9 +317,6 @@ class _FavoriteBtnState extends State<FavoriteBtn> {
   Widget build(BuildContext context) {
     return CustomIconButton(
       loading: widget.state.saveFavoriteloading,
-      onPressed: () {
-        saveFavorite();
-      },
       icon: widget.state.story?.favorited ?? false
           ? SvgPicture.asset(
               'assets/icons/bookmark-icon.svg',
@@ -305,10 +327,5 @@ class _FavoriteBtnState extends State<FavoriteBtn> {
               color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
     );
-  }
-
-  void saveFavorite() {
-    BlocProvider.of<ReadingStoryCubit>(context)
-        .saveFavorite(onError: (error) => widget.handleError(context, error));
   }
 }
