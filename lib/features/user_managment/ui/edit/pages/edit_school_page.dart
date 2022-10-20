@@ -136,7 +136,8 @@ class _EditSchoolPageState extends State<EditSchoolPage> {
         state.avatarMemory == null) {
       widget.showAddGroupAvatarMessage(context).then((value) async {
         if (value != null) {
-          cubit.handleSaveAvatarMemory(await pickPhoto());
+          cubit.handleSaveAvatarMemory(await pickPhoto(
+              webUiSettings: Constants.getWebUiSettings(context)));
         }
       });
       return;

@@ -15,6 +15,7 @@ class RegisterUserAvatar extends StatelessWidget {
   final UserManagementState state;
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<UserManagementCubit>();
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
@@ -75,9 +76,8 @@ class RegisterUserAvatar extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onSurface),
                   ),
                   onPressed: () async {
-                    context
-                        .read<UserManagementCubit>()
-                        .handleSaveAvatarMemory(await pickPhoto());
+                    cubit.handleSaveAvatarMemory(await pickPhoto(
+                        webUiSettings: Constants.getWebUiSettings(context)));
                   },
                   icon: Center(
                     child: SvgPicture.asset(

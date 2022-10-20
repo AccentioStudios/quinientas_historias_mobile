@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../core/data/entities/user_entity.dart';
+import '../../../core/helpers/secure_storage_helper.dart';
 import '../data/repositories/invites_repository.dart';
 import '../data/useCases/invites_usecases.dart';
 import 'ui/cubit/received_invites_cubit.dart';
@@ -40,8 +40,7 @@ class ReceivedInviteProvider extends StatelessWidget {
         : Navigator.of(context!, rootNavigator: true);
 
     if (navigator != null) {
-      const secureStorage = FlutterSecureStorage();
-      secureStorage.deleteAll();
+      SecureStorageHelper.deleteAll();
 
       navigator.push<void>(MaterialPageRoute<void>(
           builder: (context) => ReceivedInviteProvider(

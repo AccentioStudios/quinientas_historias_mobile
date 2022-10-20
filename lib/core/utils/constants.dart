@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class Constants {
   static double get wideScrenSize => 1500;
@@ -16,6 +17,13 @@ class Constants {
   static const double space21 = 21;
   static const double space30 = 30;
   static const double space41 = 41;
+
+  static WebUiSettings getWebUiSettings(BuildContext context) => WebUiSettings(
+        context: context,
+        enableZoom: true,
+        enableResize: true,
+        mouseWheelZoom: true,
+      );
 }
 
 class FeatureFlag {

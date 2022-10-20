@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/features/user_managment/ui/edit/pages/edit_school_page.dart';
-import 'package:quinientas_historias/features/user_managment/ui/edit/pages/edit_team_page.dart';
 
 import '../../core/data/entities/invites_entity.dart';
 import '../../core/data/entities/school_entity.dart';
 import '../../core/data/entities/team_entity.dart';
 import '../../core/data/entities/user_entity.dart';
+import '../../core/helpers/secure_storage_helper.dart';
 import 'data/repositories/group_management_repositories.dart';
 import 'data/repositories/user_management_repositories.dart';
 import 'data/useCases/group_management_use_cases.dart';
 import 'data/useCases/user_management_use_cases.dart';
 import 'ui/cubit/group_management_cubit.dart';
 import 'ui/cubit/user_management_cubit.dart';
+import 'ui/edit/pages/edit_school_page.dart';
+import 'ui/edit/pages/edit_team_page.dart';
 import 'ui/edit/pages/edit_user_page.dart';
 import 'ui/register/pages/register_reader_page.dart';
 import 'ui/register/pages/register_team_page.dart';
@@ -74,9 +74,7 @@ class UserManagementProvider {
 
   Future<bool?> openRegisterReader(BuildContext context,
       {required Invite invite, required String code}) {
-    const secureStorage = FlutterSecureStorage();
-    secureStorage.deleteAll();
-
+    SecureStorageHelper.deleteAll();
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute<bool>(
         builder: (context) => BlocProvider(

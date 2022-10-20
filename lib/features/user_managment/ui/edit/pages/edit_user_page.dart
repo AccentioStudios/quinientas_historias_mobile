@@ -177,7 +177,8 @@ class _EditUserPageState extends State<EditUserPage> {
         state.avatarMemory == null) {
       widget.showAddUserAvatarMessage(context).then((value) async {
         if (value != null) {
-          cubit.handleSaveAvatarMemory(await pickPhoto());
+          cubit.handleSaveAvatarMemory(await pickPhoto(
+              webUiSettings: Constants.getWebUiSettings(context)));
         }
       });
       return;

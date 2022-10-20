@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
-import 'package:quinientas_historias/features/auth/auth_provider.dart';
 
+import '../../features/auth/auth_provider.dart';
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
+import '../helpers/secure_storage_helper.dart';
 import '../routes/routes.dart';
 import '../ui/pages/common_page_layout.dart';
 
@@ -99,8 +98,7 @@ mixin ErrorHandling on Widget {
             },
             linkBtnLabel: 'Cerrar Sesión',
             linkBtnOnTap: () {
-              const secureStorage = FlutterSecureStorage();
-              secureStorage.deleteAll();
+              SecureStorageHelper.deleteAll();
               Navigator.of(context, rootNavigator: true)
                   .popUntil((route) => route.isFirst);
               Navigator.of(context, rootNavigator: true)

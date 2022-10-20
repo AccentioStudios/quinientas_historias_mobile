@@ -56,6 +56,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   timezone: ^0.9.0
   uni_links: ^0.5.1
+  universal_html: ^2.0.8
   uuid: ^3.0.6
 
 dev_dependencies:

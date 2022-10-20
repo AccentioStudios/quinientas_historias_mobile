@@ -3,20 +3,22 @@ import 'package:image_picker/image_picker.dart';
 
 import '../theme/theme.dart';
 
-Future<CroppedFile?> pickPhoto() async {
+Future<CroppedFile?> pickPhoto({required WebUiSettings webUiSettings}) async {
   final imagePicker = ImagePicker();
   XFile? image;
 
   image = await imagePicker.pickImage(source: ImageSource.gallery);
   if (image != null) {
-    final CroppedFile? croppedPhoto = await cropPhoto(image);
+    final CroppedFile? croppedPhoto =
+        await cropPhoto(image, webUiSettings: webUiSettings);
     return Future.value(croppedPhoto);
   }
 
   return Future.value(null);
 }
 
-Future<CroppedFile?> cropPhoto(XFile image) async {
+Future<CroppedFile?> cropPhoto(XFile image,
+    {required WebUiSettings webUiSettings}) async {
   final CroppedFile? croppedFile = await ImageCropper()
       .cropImage(sourcePath: image.path, aspectRatioPresets: [
     CropAspectRatioPreset.square,
@@ -31,6 +33,7 @@ Future<CroppedFile?> cropPhoto(XFile image) async {
     IOSUiSettings(
       title: 'Cortar imagen',
     ),
+    webUiSettings,
   ]);
   return Future.value(croppedFile);
 }

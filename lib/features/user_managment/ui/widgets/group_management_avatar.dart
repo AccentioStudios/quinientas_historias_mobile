@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/group_avatar.dart';
 
+import '../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../../core/utils/functions.dart';
 import '../cubit/group_management_cubit.dart';
@@ -65,9 +65,10 @@ class RegisterGroupAvatar extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onSurface),
                   ),
                   onPressed: () async {
-                    context
-                        .read<GroupManagementCubit>()
-                        .handleSaveAvatarMemory(await pickPhoto());
+                    context.read<GroupManagementCubit>().handleSaveAvatarMemory(
+                        await pickPhoto(
+                            webUiSettings:
+                                Constants.getWebUiSettings(context)));
                   },
                   icon: Center(
                     child: SvgPicture.asset(

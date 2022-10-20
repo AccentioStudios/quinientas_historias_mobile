@@ -1,5 +1,7 @@
 import 'dart:convert';
+import "package:universal_html/html.dart";
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
 
@@ -15,20 +17,36 @@ class SecureStorageHelper {
 
   static saveSession(JWTTokenModel jwtToken) {
     if (jwtToken.accessToken != null) {
+      deleteAll();
       final String jwtJson = jsonEncode(jwtToken.toJson());
+      if (kIsWeb) {
+        final Storage localStorage = window.localStorage;
+        localStorage['accessToken'] = jwtToken.accessToken!;
+        localStorage['userData'] = jwtJson;
+        return;
+      }
       const secureStorage = FlutterSecureStorage();
-      secureStorage.deleteAll();
       secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);
       secureStorage.write(key: 'userData', value: jwtJson);
     }
   }
 
   static Future<String?> getSavedAccessToken() {
+    if (kIsWeb) {
+      final Storage localStorage = window.localStorage;
+      return Future.value(localStorage['accessToken']);
+    }
     return instance.read(key: 'accessToken');
   }
 
   static Future<JWTTokenModel?> getSessionData() async {
-    final String? userData = await instance.read(key: 'userData');
+    final String? userData;
+    if (kIsWeb) {
+      final Storage localStorage = window.localStorage;
+      userData = localStorage['userData'];
+    } else {
+      userData = await instance.read(key: 'userData');
+    }
 
     if (userData != null) {
       Map<String, dynamic> jsonData = json.decode(userData);
@@ -39,7 +57,13 @@ class SecureStorageHelper {
   }
 
   static deleteAll() {
-    const secureStorage = FlutterSecureStorage();
-    secureStorage.deleteAll();
+    if (kIsWeb) {
+      final Storage localStorage = window.localStorage;
+      localStorage.remove('accessToken');
+      localStorage.remove('userData');
+    } else {
+      const secureStorage = FlutterSecureStorage();
+      secureStorage.deleteAll();
+    }
   }
 }

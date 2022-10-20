@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/failures/failures.dart';
+import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/pages/common_page_layout.dart';
@@ -32,8 +32,7 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
     context.read<ReceivedInvitesCubit>().validateCode(widget.email, widget.code,
         onSuccess: () {}, onError: (HttpFailure error) {
       widget.handleError(context, error, onTap: () {
-        const secureStorage = FlutterSecureStorage();
-        secureStorage.deleteAll();
+        SecureStorageHelper.deleteAll();
         Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
       });
     });

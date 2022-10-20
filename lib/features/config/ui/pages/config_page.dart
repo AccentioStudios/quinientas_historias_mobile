@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/integrations/alice_service.dart';
 
+import '../../../../core/helpers/secure_storage_helper.dart';
+import '../../../../core/integrations/alice_service.dart';
 import '../../../../core/integrations/device_info.dart';
 import '../../../../core/routes/routes.dart';
 
@@ -57,8 +57,7 @@ class ConfigPage extends StatelessWidget {
   }
 
   void logout(BuildContext context) {
-    const secureStorage = FlutterSecureStorage();
-    secureStorage.deleteAll();
+    SecureStorageHelper.deleteAll();
     Navigator.of(context, rootNavigator: true)
         .popUntil((route) => route.isFirst);
     Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);

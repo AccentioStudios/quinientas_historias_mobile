@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/failures/status_codes.dart';
+import '../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../core/integrations/remote_config_service.dart';
 import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/mixins/error_handling.dart';
@@ -96,8 +96,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void logout() {
-    const secureStorage = FlutterSecureStorage();
-    secureStorage.deleteAll();
+    SecureStorageHelper.deleteAll();
   }
 
   bool _checkDailyChallengeEnabled() {

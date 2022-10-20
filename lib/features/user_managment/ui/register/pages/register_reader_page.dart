@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/failures/failures.dart';
+import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
@@ -225,15 +225,15 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
         state.avatarMemory == null) {
       widget.showAddUserAvatarMessage(context).then((value) async {
         if (value != null) {
-          cubit.handleSaveAvatarMemory(await pickPhoto());
+          cubit.handleSaveAvatarMemory(await pickPhoto(
+              webUiSettings: Constants.getWebUiSettings(context)));
         }
       });
       return;
     }
 
     cubit.registerNewUser(onSuccess: () {
-      const secureStorage = FlutterSecureStorage();
-      secureStorage.deleteAll();
+      SecureStorageHelper.deleteAll();
       Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
 
       Fluttertoast.showToast(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uni_links/uni_links.dart';
 
+import '../../../core/helpers/secure_storage_helper.dart';
 import '../../../core/integrations/remote_config_service.dart';
 import '../../../core/mixins/error_handling.dart';
 import '../../../core/routes/routes.dart';
@@ -38,8 +38,8 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<bool> _checkAccessToken() async {
-    const secureStorage = FlutterSecureStorage();
-    return await secureStorage.containsKey(key: 'accessToken');
+    final secureStorage = await SecureStorageHelper.getSavedAccessToken();
+    return secureStorage != null;
   }
 
   bool _checkMaintenanceMode() {
