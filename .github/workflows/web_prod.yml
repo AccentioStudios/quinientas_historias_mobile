@@ -27,7 +27,7 @@ jobs:
           channel: "stable"
       - run: flutter packages get
       - run: flutter clean
-      - run: flutter build web --release --build-number=${{env.BUILD_NUMBER}} --dart-define=API_URL=${{ secrets.API_URL_PROD }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_PROD }}
+      - run: flutter build web --release --build-number=${{env.BUILD_NUMBER}} --dart-define=API_URL=${{ secrets.API_URL_PROD }} --dart-define=JWT_SIGN_KEY=${{ secrets.JWT_SIGN_KEY_PROD }} --dart-define=ENV=prod
 
       - name: Deploying on Firebase Hosting
         uses: actions/setup-node@v3
