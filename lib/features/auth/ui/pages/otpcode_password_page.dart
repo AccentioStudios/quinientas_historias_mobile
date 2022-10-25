@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:quinientas_historias/core/failures/status_codes.dart';
 
+import '../../../../core/failures/failures.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/link_button.dart';
@@ -272,8 +273,8 @@ class _OtpCodeFormState extends State<_OtpCodeForm> {
           ),
         ),
       );
-    }, onError: (error) {
-      if (error.statusCodes == StatusCodes.iforgotError) {
+    }, onError: (HttpFailure error) {
+      if (error.statusCode == StatusCodes.iforgotError) {
         setState(() {
           errorMessage = error.message;
         });

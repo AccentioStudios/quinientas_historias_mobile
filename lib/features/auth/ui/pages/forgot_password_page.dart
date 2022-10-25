@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/failures/status_codes.dart';
 
+import '../../../../core/failures/failures.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
@@ -140,7 +141,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
           ),
         ),
       );
-    }, onError: (error) {
+    }, onError: (HttpFailure error) {
       if (error.statusCode == StatusCodes.iforgotError) {
         setState(() {
           errorMessage = error.message;
