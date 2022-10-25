@@ -32,7 +32,8 @@ mixin _$ReadingStoryState {
 abstract class $ReadingStoryStateCopyWith<$Res> {
   factory $ReadingStoryStateCopyWith(
           ReadingStoryState value, $Res Function(ReadingStoryState) then) =
-      _$ReadingStoryStateCopyWithImpl<$Res>;
+      _$ReadingStoryStateCopyWithImpl<$Res, ReadingStoryState>;
+  @useResult
   $Res call(
       {ReadingOptions readingOptions,
       bool loading,
@@ -43,49 +44,51 @@ abstract class $ReadingStoryStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ReadingStoryStateCopyWithImpl<$Res>
+class _$ReadingStoryStateCopyWithImpl<$Res, $Val extends ReadingStoryState>
     implements $ReadingStoryStateCopyWith<$Res> {
   _$ReadingStoryStateCopyWithImpl(this._value, this._then);
 
-  final ReadingStoryState _value;
   // ignore: unused_field
-  final $Res Function(ReadingStoryState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? readingOptions = freezed,
-    Object? loading = freezed,
-    Object? saveFavoriteloading = freezed,
-    Object? storyProgress = freezed,
+    Object? readingOptions = null,
+    Object? loading = null,
+    Object? saveFavoriteloading = null,
+    Object? storyProgress = null,
     Object? story = freezed,
     Object? myRating = freezed,
   }) {
     return _then(_value.copyWith(
-      readingOptions: readingOptions == freezed
+      readingOptions: null == readingOptions
           ? _value.readingOptions
           : readingOptions // ignore: cast_nullable_to_non_nullable
               as ReadingOptions,
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      saveFavoriteloading: saveFavoriteloading == freezed
+      saveFavoriteloading: null == saveFavoriteloading
           ? _value.saveFavoriteloading
           : saveFavoriteloading // ignore: cast_nullable_to_non_nullable
               as bool,
-      storyProgress: storyProgress == freezed
+      storyProgress: null == storyProgress
           ? _value.storyProgress
           : storyProgress // ignore: cast_nullable_to_non_nullable
               as int,
-      story: story == freezed
+      story: freezed == story
           ? _value.story
           : story // ignore: cast_nullable_to_non_nullable
               as Story?,
-      myRating: myRating == freezed
+      myRating: freezed == myRating
           ? _value.myRating
           : myRating // ignore: cast_nullable_to_non_nullable
               as StoryRatings?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -96,6 +99,7 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
           $Res Function(_$_ReadingStoryState) then) =
       __$$_ReadingStoryStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {ReadingOptions readingOptions,
       bool loading,
@@ -107,46 +111,44 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
 
 /// @nodoc
 class __$$_ReadingStoryStateCopyWithImpl<$Res>
-    extends _$ReadingStoryStateCopyWithImpl<$Res>
+    extends _$ReadingStoryStateCopyWithImpl<$Res, _$_ReadingStoryState>
     implements _$$_ReadingStoryStateCopyWith<$Res> {
   __$$_ReadingStoryStateCopyWithImpl(
       _$_ReadingStoryState _value, $Res Function(_$_ReadingStoryState) _then)
-      : super(_value, (v) => _then(v as _$_ReadingStoryState));
+      : super(_value, _then);
 
-  @override
-  _$_ReadingStoryState get _value => super._value as _$_ReadingStoryState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? readingOptions = freezed,
-    Object? loading = freezed,
-    Object? saveFavoriteloading = freezed,
-    Object? storyProgress = freezed,
+    Object? readingOptions = null,
+    Object? loading = null,
+    Object? saveFavoriteloading = null,
+    Object? storyProgress = null,
     Object? story = freezed,
     Object? myRating = freezed,
   }) {
     return _then(_$_ReadingStoryState(
-      readingOptions: readingOptions == freezed
+      readingOptions: null == readingOptions
           ? _value.readingOptions
           : readingOptions // ignore: cast_nullable_to_non_nullable
               as ReadingOptions,
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      saveFavoriteloading: saveFavoriteloading == freezed
+      saveFavoriteloading: null == saveFavoriteloading
           ? _value.saveFavoriteloading
           : saveFavoriteloading // ignore: cast_nullable_to_non_nullable
               as bool,
-      storyProgress: storyProgress == freezed
+      storyProgress: null == storyProgress
           ? _value.storyProgress
           : storyProgress // ignore: cast_nullable_to_non_nullable
               as int,
-      story: story == freezed
+      story: freezed == story
           ? _value.story
           : story // ignore: cast_nullable_to_non_nullable
               as Story?,
-      myRating: myRating == freezed
+      myRating: freezed == myRating
           ? _value.myRating
           : myRating // ignore: cast_nullable_to_non_nullable
               as StoryRatings?,
@@ -191,29 +193,25 @@ class _$_ReadingStoryState implements _ReadingStoryState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ReadingStoryState &&
-            const DeepCollectionEquality()
-                .equals(other.readingOptions, readingOptions) &&
-            const DeepCollectionEquality().equals(other.loading, loading) &&
-            const DeepCollectionEquality()
-                .equals(other.saveFavoriteloading, saveFavoriteloading) &&
-            const DeepCollectionEquality()
-                .equals(other.storyProgress, storyProgress) &&
-            const DeepCollectionEquality().equals(other.story, story) &&
-            const DeepCollectionEquality().equals(other.myRating, myRating));
+            (identical(other.readingOptions, readingOptions) ||
+                other.readingOptions == readingOptions) &&
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.saveFavoriteloading, saveFavoriteloading) ||
+                other.saveFavoriteloading == saveFavoriteloading) &&
+            (identical(other.storyProgress, storyProgress) ||
+                other.storyProgress == storyProgress) &&
+            (identical(other.story, story) || other.story == story) &&
+            (identical(other.myRating, myRating) ||
+                other.myRating == myRating));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(readingOptions),
-      const DeepCollectionEquality().hash(loading),
-      const DeepCollectionEquality().hash(saveFavoriteloading),
-      const DeepCollectionEquality().hash(storyProgress),
-      const DeepCollectionEquality().hash(story),
-      const DeepCollectionEquality().hash(myRating));
+  int get hashCode => Object.hash(runtimeType, readingOptions, loading,
+      saveFavoriteloading, storyProgress, story, myRating);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ReadingStoryStateCopyWith<_$_ReadingStoryState> get copyWith =>
       __$$_ReadingStoryStateCopyWithImpl<_$_ReadingStoryState>(
           this, _$identity);

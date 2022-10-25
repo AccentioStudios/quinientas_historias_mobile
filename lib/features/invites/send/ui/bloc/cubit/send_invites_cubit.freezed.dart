@@ -31,7 +31,8 @@ mixin _$SendInvitesState {
 abstract class $SendInvitesStateCopyWith<$Res> {
   factory $SendInvitesStateCopyWith(
           SendInvitesState value, $Res Function(SendInvitesState) then) =
-      _$SendInvitesStateCopyWithImpl<$Res>;
+      _$SendInvitesStateCopyWithImpl<$Res, SendInvitesState>;
+  @useResult
   $Res call(
       {dynamic isLoading,
       dynamic sendingInvite,
@@ -41,44 +42,46 @@ abstract class $SendInvitesStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SendInvitesStateCopyWithImpl<$Res>
+class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
     implements $SendInvitesStateCopyWith<$Res> {
   _$SendInvitesStateCopyWithImpl(this._value, this._then);
 
-  final SendInvitesState _value;
   // ignore: unused_field
-  final $Res Function(SendInvitesState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? sendingInvite = freezed,
-    Object? invites = freezed,
-    Object? formValidationError = freezed,
+    Object? isLoading = null,
+    Object? sendingInvite = null,
+    Object? invites = null,
+    Object? formValidationError = null,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      sendingInvite: sendingInvite == freezed
+      sendingInvite: null == sendingInvite
           ? _value.sendingInvite
           : sendingInvite // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      invites: invites == freezed
+      invites: null == invites
           ? _value.invites
           : invites // ignore: cast_nullable_to_non_nullable
               as List<Invite>,
-      formValidationError: formValidationError == freezed
+      formValidationError: null == formValidationError
           ? _value.formValidationError
           : formValidationError // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      user: user == freezed
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -89,6 +92,7 @@ abstract class _$$_SendInvitesStateCopyWith<$Res>
           _$_SendInvitesState value, $Res Function(_$_SendInvitesState) then) =
       __$$_SendInvitesStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {dynamic isLoading,
       dynamic sendingInvite,
@@ -99,35 +103,33 @@ abstract class _$$_SendInvitesStateCopyWith<$Res>
 
 /// @nodoc
 class __$$_SendInvitesStateCopyWithImpl<$Res>
-    extends _$SendInvitesStateCopyWithImpl<$Res>
+    extends _$SendInvitesStateCopyWithImpl<$Res, _$_SendInvitesState>
     implements _$$_SendInvitesStateCopyWith<$Res> {
   __$$_SendInvitesStateCopyWithImpl(
       _$_SendInvitesState _value, $Res Function(_$_SendInvitesState) _then)
-      : super(_value, (v) => _then(v as _$_SendInvitesState));
+      : super(_value, _then);
 
-  @override
-  _$_SendInvitesState get _value => super._value as _$_SendInvitesState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? sendingInvite = freezed,
-    Object? invites = freezed,
-    Object? formValidationError = freezed,
+    Object? isLoading = null,
+    Object? sendingInvite = null,
+    Object? invites = null,
+    Object? formValidationError = null,
     Object? user = freezed,
   }) {
     return _then(_$_SendInvitesState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
+      isLoading: null == isLoading ? _value.isLoading : isLoading,
       sendingInvite:
-          sendingInvite == freezed ? _value.sendingInvite : sendingInvite,
-      invites: invites == freezed
+          null == sendingInvite ? _value.sendingInvite : sendingInvite,
+      invites: null == invites
           ? _value._invites
           : invites // ignore: cast_nullable_to_non_nullable
               as List<Invite>,
-      formValidationError: formValidationError == freezed
+      formValidationError: null == formValidationError
           ? _value.formValidationError
           : formValidationError,
-      user: user == freezed
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
@@ -182,7 +184,7 @@ class _$_SendInvitesState implements _SendInvitesState {
             const DeepCollectionEquality().equals(other._invites, _invites) &&
             const DeepCollectionEquality()
                 .equals(other.formValidationError, formValidationError) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
@@ -192,10 +194,11 @@ class _$_SendInvitesState implements _SendInvitesState {
       const DeepCollectionEquality().hash(sendingInvite),
       const DeepCollectionEquality().hash(_invites),
       const DeepCollectionEquality().hash(formValidationError),
-      const DeepCollectionEquality().hash(user));
+      user);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SendInvitesStateCopyWith<_$_SendInvitesState> get copyWith =>
       __$$_SendInvitesStateCopyWithImpl<_$_SendInvitesState>(this, _$identity);
 }

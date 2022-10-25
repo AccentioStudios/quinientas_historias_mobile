@@ -32,7 +32,8 @@ mixin _$TournamentState {
 abstract class $TournamentStateCopyWith<$Res> {
   factory $TournamentStateCopyWith(
           TournamentState value, $Res Function(TournamentState) then) =
-      _$TournamentStateCopyWithImpl<$Res>;
+      _$TournamentStateCopyWithImpl<$Res, TournamentState>;
+  @useResult
   $Res call(
       {dynamic tournamentIsLoading,
       dynamic leaderboardIsLoading,
@@ -42,44 +43,46 @@ abstract class $TournamentStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TournamentStateCopyWithImpl<$Res>
+class _$TournamentStateCopyWithImpl<$Res, $Val extends TournamentState>
     implements $TournamentStateCopyWith<$Res> {
   _$TournamentStateCopyWithImpl(this._value, this._then);
 
-  final TournamentState _value;
   // ignore: unused_field
-  final $Res Function(TournamentState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tournamentIsLoading = freezed,
-    Object? leaderboardIsLoading = freezed,
+    Object? tournamentIsLoading = null,
+    Object? leaderboardIsLoading = null,
     Object? tournament = freezed,
     Object? listPage = freezed,
-    Object? teamTabShowed = freezed,
+    Object? teamTabShowed = null,
   }) {
     return _then(_value.copyWith(
-      tournamentIsLoading: tournamentIsLoading == freezed
+      tournamentIsLoading: null == tournamentIsLoading
           ? _value.tournamentIsLoading
           : tournamentIsLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      leaderboardIsLoading: leaderboardIsLoading == freezed
+      leaderboardIsLoading: null == leaderboardIsLoading
           ? _value.leaderboardIsLoading
           : leaderboardIsLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      tournament: tournament == freezed
+      tournament: freezed == tournament
           ? _value.tournament
           : tournament // ignore: cast_nullable_to_non_nullable
               as Tournament?,
-      listPage: listPage == freezed
+      listPage: freezed == listPage
           ? _value.listPage
           : listPage // ignore: cast_nullable_to_non_nullable
               as ListPage<LeaderboardModel>?,
-      teamTabShowed: teamTabShowed == freezed
+      teamTabShowed: null == teamTabShowed
           ? _value.teamTabShowed
           : teamTabShowed // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 }
 
@@ -90,6 +93,7 @@ abstract class _$$_TournamentStateCopyWith<$Res>
           _$_TournamentState value, $Res Function(_$_TournamentState) then) =
       __$$_TournamentStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {dynamic tournamentIsLoading,
       dynamic leaderboardIsLoading,
@@ -100,39 +104,37 @@ abstract class _$$_TournamentStateCopyWith<$Res>
 
 /// @nodoc
 class __$$_TournamentStateCopyWithImpl<$Res>
-    extends _$TournamentStateCopyWithImpl<$Res>
+    extends _$TournamentStateCopyWithImpl<$Res, _$_TournamentState>
     implements _$$_TournamentStateCopyWith<$Res> {
   __$$_TournamentStateCopyWithImpl(
       _$_TournamentState _value, $Res Function(_$_TournamentState) _then)
-      : super(_value, (v) => _then(v as _$_TournamentState));
+      : super(_value, _then);
 
-  @override
-  _$_TournamentState get _value => super._value as _$_TournamentState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tournamentIsLoading = freezed,
-    Object? leaderboardIsLoading = freezed,
+    Object? tournamentIsLoading = null,
+    Object? leaderboardIsLoading = null,
     Object? tournament = freezed,
     Object? listPage = freezed,
-    Object? teamTabShowed = freezed,
+    Object? teamTabShowed = null,
   }) {
     return _then(_$_TournamentState(
-      tournamentIsLoading: tournamentIsLoading == freezed
+      tournamentIsLoading: null == tournamentIsLoading
           ? _value.tournamentIsLoading
           : tournamentIsLoading,
-      leaderboardIsLoading: leaderboardIsLoading == freezed
+      leaderboardIsLoading: null == leaderboardIsLoading
           ? _value.leaderboardIsLoading
           : leaderboardIsLoading,
-      tournament: tournament == freezed
+      tournament: freezed == tournament
           ? _value.tournament
           : tournament // ignore: cast_nullable_to_non_nullable
               as Tournament?,
-      listPage: listPage == freezed
+      listPage: freezed == listPage
           ? _value.listPage
           : listPage // ignore: cast_nullable_to_non_nullable
               as ListPage<LeaderboardModel>?,
-      teamTabShowed: teamTabShowed == freezed
+      teamTabShowed: null == teamTabShowed
           ? _value.teamTabShowed
           : teamTabShowed // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -178,11 +180,12 @@ class _$_TournamentState implements _TournamentState {
                 .equals(other.tournamentIsLoading, tournamentIsLoading) &&
             const DeepCollectionEquality()
                 .equals(other.leaderboardIsLoading, leaderboardIsLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.tournament, tournament) &&
-            const DeepCollectionEquality().equals(other.listPage, listPage) &&
-            const DeepCollectionEquality()
-                .equals(other.teamTabShowed, teamTabShowed));
+            (identical(other.tournament, tournament) ||
+                other.tournament == tournament) &&
+            (identical(other.listPage, listPage) ||
+                other.listPage == listPage) &&
+            (identical(other.teamTabShowed, teamTabShowed) ||
+                other.teamTabShowed == teamTabShowed));
   }
 
   @override
@@ -190,12 +193,13 @@ class _$_TournamentState implements _TournamentState {
       runtimeType,
       const DeepCollectionEquality().hash(tournamentIsLoading),
       const DeepCollectionEquality().hash(leaderboardIsLoading),
-      const DeepCollectionEquality().hash(tournament),
-      const DeepCollectionEquality().hash(listPage),
-      const DeepCollectionEquality().hash(teamTabShowed));
+      tournament,
+      listPage,
+      teamTabShowed);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TournamentStateCopyWith<_$_TournamentState> get copyWith =>
       __$$_TournamentStateCopyWithImpl<_$_TournamentState>(this, _$identity);
 }

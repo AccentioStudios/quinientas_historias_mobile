@@ -29,39 +29,42 @@ mixin _$DailyChallengeState {
 abstract class $DailyChallengeStateCopyWith<$Res> {
   factory $DailyChallengeStateCopyWith(
           DailyChallengeState value, $Res Function(DailyChallengeState) then) =
-      _$DailyChallengeStateCopyWithImpl<$Res>;
+      _$DailyChallengeStateCopyWithImpl<$Res, DailyChallengeState>;
+  @useResult
   $Res call({bool loading, DailyChallenge data, Story? storyHovered});
 }
 
 /// @nodoc
-class _$DailyChallengeStateCopyWithImpl<$Res>
+class _$DailyChallengeStateCopyWithImpl<$Res, $Val extends DailyChallengeState>
     implements $DailyChallengeStateCopyWith<$Res> {
   _$DailyChallengeStateCopyWithImpl(this._value, this._then);
 
-  final DailyChallengeState _value;
   // ignore: unused_field
-  final $Res Function(DailyChallengeState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = freezed,
-    Object? data = freezed,
+    Object? loading = null,
+    Object? data = null,
     Object? storyHovered = freezed,
   }) {
     return _then(_value.copyWith(
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as DailyChallenge,
-      storyHovered: storyHovered == freezed
+      storyHovered: freezed == storyHovered
           ? _value.storyHovered
           : storyHovered // ignore: cast_nullable_to_non_nullable
               as Story?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,37 +75,35 @@ abstract class _$$_ReadingChallangeStateCopyWith<$Res>
           $Res Function(_$_ReadingChallangeState) then) =
       __$$_ReadingChallangeStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({bool loading, DailyChallenge data, Story? storyHovered});
 }
 
 /// @nodoc
 class __$$_ReadingChallangeStateCopyWithImpl<$Res>
-    extends _$DailyChallengeStateCopyWithImpl<$Res>
+    extends _$DailyChallengeStateCopyWithImpl<$Res, _$_ReadingChallangeState>
     implements _$$_ReadingChallangeStateCopyWith<$Res> {
   __$$_ReadingChallangeStateCopyWithImpl(_$_ReadingChallangeState _value,
       $Res Function(_$_ReadingChallangeState) _then)
-      : super(_value, (v) => _then(v as _$_ReadingChallangeState));
+      : super(_value, _then);
 
-  @override
-  _$_ReadingChallangeState get _value =>
-      super._value as _$_ReadingChallangeState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = freezed,
-    Object? data = freezed,
+    Object? loading = null,
+    Object? data = null,
     Object? storyHovered = freezed,
   }) {
     return _then(_$_ReadingChallangeState(
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-      data: data == freezed
+      data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as DailyChallenge,
-      storyHovered: storyHovered == freezed
+      storyHovered: freezed == storyHovered
           ? _value.storyHovered
           : storyHovered // ignore: cast_nullable_to_non_nullable
               as Story?,
@@ -134,21 +135,18 @@ class _$_ReadingChallangeState implements _ReadingChallangeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ReadingChallangeState &&
-            const DeepCollectionEquality().equals(other.loading, loading) &&
-            const DeepCollectionEquality().equals(other.data, data) &&
-            const DeepCollectionEquality()
-                .equals(other.storyHovered, storyHovered));
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.storyHovered, storyHovered) ||
+                other.storyHovered == storyHovered));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(loading),
-      const DeepCollectionEquality().hash(data),
-      const DeepCollectionEquality().hash(storyHovered));
+  int get hashCode => Object.hash(runtimeType, loading, data, storyHovered);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ReadingChallangeStateCopyWith<_$_ReadingChallangeState> get copyWith =>
       __$$_ReadingChallangeStateCopyWithImpl<_$_ReadingChallangeState>(
           this, _$identity);

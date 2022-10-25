@@ -29,39 +29,43 @@ mixin _$ReceivedInvitesState {
 abstract class $ReceivedInvitesStateCopyWith<$Res> {
   factory $ReceivedInvitesStateCopyWith(ReceivedInvitesState value,
           $Res Function(ReceivedInvitesState) then) =
-      _$ReceivedInvitesStateCopyWithImpl<$Res>;
+      _$ReceivedInvitesStateCopyWithImpl<$Res, ReceivedInvitesState>;
+  @useResult
   $Res call({dynamic isLoading, Invite? invite, String code});
 }
 
 /// @nodoc
-class _$ReceivedInvitesStateCopyWithImpl<$Res>
+class _$ReceivedInvitesStateCopyWithImpl<$Res,
+        $Val extends ReceivedInvitesState>
     implements $ReceivedInvitesStateCopyWith<$Res> {
   _$ReceivedInvitesStateCopyWithImpl(this._value, this._then);
 
-  final ReceivedInvitesState _value;
   // ignore: unused_field
-  final $Res Function(ReceivedInvitesState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? invite = freezed,
-    Object? code = freezed,
+    Object? code = null,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      invite: invite == freezed
+      invite: freezed == invite
           ? _value.invite
           : invite // ignore: cast_nullable_to_non_nullable
               as Invite?,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,33 +76,32 @@ abstract class _$$_ReceivedInvitesStateCopyWith<$Res>
           $Res Function(_$_ReceivedInvitesState) then) =
       __$$_ReceivedInvitesStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({dynamic isLoading, Invite? invite, String code});
 }
 
 /// @nodoc
 class __$$_ReceivedInvitesStateCopyWithImpl<$Res>
-    extends _$ReceivedInvitesStateCopyWithImpl<$Res>
+    extends _$ReceivedInvitesStateCopyWithImpl<$Res, _$_ReceivedInvitesState>
     implements _$$_ReceivedInvitesStateCopyWith<$Res> {
   __$$_ReceivedInvitesStateCopyWithImpl(_$_ReceivedInvitesState _value,
       $Res Function(_$_ReceivedInvitesState) _then)
-      : super(_value, (v) => _then(v as _$_ReceivedInvitesState));
+      : super(_value, _then);
 
-  @override
-  _$_ReceivedInvitesState get _value => super._value as _$_ReceivedInvitesState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? invite = freezed,
-    Object? code = freezed,
+    Object? code = null,
   }) {
     return _then(_$_ReceivedInvitesState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      invite: invite == freezed
+      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      invite: freezed == invite
           ? _value.invite
           : invite // ignore: cast_nullable_to_non_nullable
               as Invite?,
-      code: code == freezed
+      code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
               as String,
@@ -132,19 +135,17 @@ class _$_ReceivedInvitesState implements _ReceivedInvitesState {
         (other.runtimeType == runtimeType &&
             other is _$_ReceivedInvitesState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.invite, invite) &&
-            const DeepCollectionEquality().equals(other.code, code));
+            (identical(other.invite, invite) || other.invite == invite) &&
+            (identical(other.code, code) || other.code == code));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(invite),
-      const DeepCollectionEquality().hash(code));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(isLoading), invite, code);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ReceivedInvitesStateCopyWith<_$_ReceivedInvitesState> get copyWith =>
       __$$_ReceivedInvitesStateCopyWithImpl<_$_ReceivedInvitesState>(
           this, _$identity);

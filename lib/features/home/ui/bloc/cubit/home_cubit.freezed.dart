@@ -27,33 +27,37 @@ mixin _$HomeState {
 /// @nodoc
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
-      _$HomeStateCopyWithImpl<$Res>;
+      _$HomeStateCopyWithImpl<$Res, HomeState>;
+  @useResult
   $Res call({Dashboard? dashboard, bool loading});
 }
 
 /// @nodoc
-class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
+class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
+    implements $HomeStateCopyWith<$Res> {
   _$HomeStateCopyWithImpl(this._value, this._then);
 
-  final HomeState _value;
   // ignore: unused_field
-  final $Res Function(HomeState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? dashboard = freezed,
-    Object? loading = freezed,
+    Object? loading = null,
   }) {
     return _then(_value.copyWith(
-      dashboard: dashboard == freezed
+      dashboard: freezed == dashboard
           ? _value.dashboard
           : dashboard // ignore: cast_nullable_to_non_nullable
               as Dashboard?,
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 }
 
@@ -63,30 +67,30 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
           _$_HomeState value, $Res Function(_$_HomeState) then) =
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({Dashboard? dashboard, bool loading});
 }
 
 /// @nodoc
-class __$$_HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
+class __$$_HomeStateCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$_HomeState>
     implements _$$_HomeStateCopyWith<$Res> {
   __$$_HomeStateCopyWithImpl(
       _$_HomeState _value, $Res Function(_$_HomeState) _then)
-      : super(_value, (v) => _then(v as _$_HomeState));
+      : super(_value, _then);
 
-  @override
-  _$_HomeState get _value => super._value as _$_HomeState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? dashboard = freezed,
-    Object? loading = freezed,
+    Object? loading = null,
   }) {
     return _then(_$_HomeState(
-      dashboard: dashboard == freezed
+      dashboard: freezed == dashboard
           ? _value.dashboard
           : dashboard // ignore: cast_nullable_to_non_nullable
               as Dashboard?,
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -115,18 +119,17 @@ class _$_HomeState implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_HomeState &&
-            const DeepCollectionEquality().equals(other.dashboard, dashboard) &&
-            const DeepCollectionEquality().equals(other.loading, loading));
+            (identical(other.dashboard, dashboard) ||
+                other.dashboard == dashboard) &&
+            (identical(other.loading, loading) || other.loading == loading));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(dashboard),
-      const DeepCollectionEquality().hash(loading));
+  int get hashCode => Object.hash(runtimeType, dashboard, loading);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>
       __$$_HomeStateCopyWithImpl<_$_HomeState>(this, _$identity);
 }

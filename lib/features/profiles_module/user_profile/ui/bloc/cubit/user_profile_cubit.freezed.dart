@@ -30,45 +30,48 @@ mixin _$UserProfileState {
 abstract class $UserProfileStateCopyWith<$Res> {
   factory $UserProfileStateCopyWith(
           UserProfileState value, $Res Function(UserProfileState) then) =
-      _$UserProfileStateCopyWithImpl<$Res>;
+      _$UserProfileStateCopyWithImpl<$Res, UserProfileState>;
+  @useResult
   $Res call(
       {bool isLoading, bool isMyProfile, HttpFailure? httpFailure, User? user});
 }
 
 /// @nodoc
-class _$UserProfileStateCopyWithImpl<$Res>
+class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     implements $UserProfileStateCopyWith<$Res> {
   _$UserProfileStateCopyWithImpl(this._value, this._then);
 
-  final UserProfileState _value;
   // ignore: unused_field
-  final $Res Function(UserProfileState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? isMyProfile = freezed,
+    Object? isLoading = null,
+    Object? isMyProfile = null,
     Object? httpFailure = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      isMyProfile: isMyProfile == freezed
+      isMyProfile: null == isMyProfile
           ? _value.isMyProfile
           : isMyProfile // ignore: cast_nullable_to_non_nullable
               as bool,
-      httpFailure: httpFailure == freezed
+      httpFailure: freezed == httpFailure
           ? _value.httpFailure
           : httpFailure // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
-      user: user == freezed
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -79,42 +82,41 @@ abstract class _$$_UserProfileStateCopyWith<$Res>
           _$_UserProfileState value, $Res Function(_$_UserProfileState) then) =
       __$$_UserProfileStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {bool isLoading, bool isMyProfile, HttpFailure? httpFailure, User? user});
 }
 
 /// @nodoc
 class __$$_UserProfileStateCopyWithImpl<$Res>
-    extends _$UserProfileStateCopyWithImpl<$Res>
+    extends _$UserProfileStateCopyWithImpl<$Res, _$_UserProfileState>
     implements _$$_UserProfileStateCopyWith<$Res> {
   __$$_UserProfileStateCopyWithImpl(
       _$_UserProfileState _value, $Res Function(_$_UserProfileState) _then)
-      : super(_value, (v) => _then(v as _$_UserProfileState));
+      : super(_value, _then);
 
-  @override
-  _$_UserProfileState get _value => super._value as _$_UserProfileState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? isMyProfile = freezed,
+    Object? isLoading = null,
+    Object? isMyProfile = null,
     Object? httpFailure = freezed,
     Object? user = freezed,
   }) {
     return _then(_$_UserProfileState(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
-      isMyProfile: isMyProfile == freezed
+      isMyProfile: null == isMyProfile
           ? _value.isMyProfile
           : isMyProfile // ignore: cast_nullable_to_non_nullable
               as bool,
-      httpFailure: httpFailure == freezed
+      httpFailure: freezed == httpFailure
           ? _value.httpFailure
           : httpFailure // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
-      user: user == freezed
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
@@ -153,24 +155,22 @@ class _$_UserProfileState implements _UserProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserProfileState &&
-            const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.isMyProfile, isMyProfile) &&
-            const DeepCollectionEquality()
-                .equals(other.httpFailure, httpFailure) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.isMyProfile, isMyProfile) ||
+                other.isMyProfile == isMyProfile) &&
+            (identical(other.httpFailure, httpFailure) ||
+                other.httpFailure == httpFailure) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(isMyProfile),
-      const DeepCollectionEquality().hash(httpFailure),
-      const DeepCollectionEquality().hash(user));
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, isMyProfile, httpFailure, user);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_UserProfileStateCopyWith<_$_UserProfileState> get copyWith =>
       __$$_UserProfileStateCopyWithImpl<_$_UserProfileState>(this, _$identity);
 }

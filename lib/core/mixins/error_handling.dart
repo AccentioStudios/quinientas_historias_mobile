@@ -146,6 +146,39 @@ mixin ErrorHandling on Widget {
             },
           ));
     }
+
+    if (errorType == FailureType.userIsNotActive) {
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline: 'Usuario desactivado',
+            message:
+                'Esta cuenta esta desactivada. Si crees que esto fué un error entra en contacto con nosotros.',
+            svgImagePath: 'assets/images/hand-left-image.svg',
+            btnLabel: 'Entiendo',
+            onBtnTap: () {
+              SecureStorageHelper.deleteAll();
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.login);
+            },
+          ));
+    }
+    if (errorType == FailureType.userIsBanned) {
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline: 'Tu cuenta ha sido bloqueada',
+            message:
+                'Esta cuenta esta bloqueada. Esto normalmente sucede por comportamiento indebido.\n\nSi crees que esto fué un error entra en contacto con nosotros.',
+            svgImagePath: 'assets/images/hand-left-image.svg',
+            btnLabel: 'Entiendo',
+            onBtnTap: () {
+              SecureStorageHelper.deleteAll();
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.login);
+            },
+          ));
+    }
     return _showErrorMessage<T>(
         context,
         CommonPageLayout(

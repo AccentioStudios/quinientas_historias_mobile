@@ -36,6 +36,10 @@ enum FailureType {
   unauthorized,
   @JsonValue('invalid-access-token')
   invalidAccessToken,
+  @JsonValue('user-is-not-active')
+  userIsNotActive,
+  @JsonValue('user-is-banned')
+  userIsBanned,
 
   // User Register Failures Type
   @JsonValue('user-is-already-registered')

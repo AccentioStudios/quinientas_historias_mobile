@@ -28,6 +28,8 @@ const _$FailureTypeEnumMap = {
   FailureType.mustUpdatePassword: 'must-update-password',
   FailureType.unauthorized: 'unauthorized',
   FailureType.invalidAccessToken: 'invalid-access-token',
+  FailureType.userIsNotActive: 'user-is-not-active',
+  FailureType.userIsBanned: 'user-is-banned',
   FailureType.userIsAlreadyRegistered: 'user-is-already-registered',
   FailureType.sendCodeIssue: 'iforgot-send-code-issue',
   FailureType.invalidToken: 'iforgot-invalid-token',

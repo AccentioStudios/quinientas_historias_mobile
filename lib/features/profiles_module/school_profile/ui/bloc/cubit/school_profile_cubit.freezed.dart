@@ -28,34 +28,37 @@ mixin _$SchoolProfileState {
 abstract class $SchoolProfileStateCopyWith<$Res> {
   factory $SchoolProfileStateCopyWith(
           SchoolProfileState value, $Res Function(SchoolProfileState) then) =
-      _$SchoolProfileStateCopyWithImpl<$Res>;
+      _$SchoolProfileStateCopyWithImpl<$Res, SchoolProfileState>;
+  @useResult
   $Res call({dynamic isLoading, School? school});
 }
 
 /// @nodoc
-class _$SchoolProfileStateCopyWithImpl<$Res>
+class _$SchoolProfileStateCopyWithImpl<$Res, $Val extends SchoolProfileState>
     implements $SchoolProfileStateCopyWith<$Res> {
   _$SchoolProfileStateCopyWithImpl(this._value, this._then);
 
-  final SchoolProfileState _value;
   // ignore: unused_field
-  final $Res Function(SchoolProfileState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? school = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      school: school == freezed
+      school: freezed == school
           ? _value.school
           : school // ignore: cast_nullable_to_non_nullable
               as School?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -66,28 +69,27 @@ abstract class _$$_SchoolProfileStateCopyWith<$Res>
           $Res Function(_$_SchoolProfileState) then) =
       __$$_SchoolProfileStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({dynamic isLoading, School? school});
 }
 
 /// @nodoc
 class __$$_SchoolProfileStateCopyWithImpl<$Res>
-    extends _$SchoolProfileStateCopyWithImpl<$Res>
+    extends _$SchoolProfileStateCopyWithImpl<$Res, _$_SchoolProfileState>
     implements _$$_SchoolProfileStateCopyWith<$Res> {
   __$$_SchoolProfileStateCopyWithImpl(
       _$_SchoolProfileState _value, $Res Function(_$_SchoolProfileState) _then)
-      : super(_value, (v) => _then(v as _$_SchoolProfileState));
+      : super(_value, _then);
 
-  @override
-  _$_SchoolProfileState get _value => super._value as _$_SchoolProfileState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? school = freezed,
   }) {
     return _then(_$_SchoolProfileState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      school: school == freezed
+      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      school: freezed == school
           ? _value.school
           : school // ignore: cast_nullable_to_non_nullable
               as School?,
@@ -117,17 +119,16 @@ class _$_SchoolProfileState implements _SchoolProfileState {
         (other.runtimeType == runtimeType &&
             other is _$_SchoolProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality().equals(other.school, school));
+            (identical(other.school, school) || other.school == school));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(school));
+      runtimeType, const DeepCollectionEquality().hash(isLoading), school);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>
       __$$_SchoolProfileStateCopyWithImpl<_$_SchoolProfileState>(
           this, _$identity);

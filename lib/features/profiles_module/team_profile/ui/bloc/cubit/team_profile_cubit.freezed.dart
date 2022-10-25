@@ -29,39 +29,42 @@ mixin _$TeamProfileState {
 abstract class $TeamProfileStateCopyWith<$Res> {
   factory $TeamProfileStateCopyWith(
           TeamProfileState value, $Res Function(TeamProfileState) then) =
-      _$TeamProfileStateCopyWithImpl<$Res>;
+      _$TeamProfileStateCopyWithImpl<$Res, TeamProfileState>;
+  @useResult
   $Res call({dynamic isLoading, dynamic error, Team? team});
 }
 
 /// @nodoc
-class _$TeamProfileStateCopyWithImpl<$Res>
+class _$TeamProfileStateCopyWithImpl<$Res, $Val extends TeamProfileState>
     implements $TeamProfileStateCopyWith<$Res> {
   _$TeamProfileStateCopyWithImpl(this._value, this._then);
 
-  final TeamProfileState _value;
   // ignore: unused_field
-  final $Res Function(TeamProfileState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? error = freezed,
+    Object? isLoading = null,
+    Object? error = null,
     Object? team = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      error: error == freezed
+      error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      team: team == freezed
+      team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
               as Team?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,30 +75,29 @@ abstract class _$$_TeamProfileStateCopyWith<$Res>
           _$_TeamProfileState value, $Res Function(_$_TeamProfileState) then) =
       __$$_TeamProfileStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({dynamic isLoading, dynamic error, Team? team});
 }
 
 /// @nodoc
 class __$$_TeamProfileStateCopyWithImpl<$Res>
-    extends _$TeamProfileStateCopyWithImpl<$Res>
+    extends _$TeamProfileStateCopyWithImpl<$Res, _$_TeamProfileState>
     implements _$$_TeamProfileStateCopyWith<$Res> {
   __$$_TeamProfileStateCopyWithImpl(
       _$_TeamProfileState _value, $Res Function(_$_TeamProfileState) _then)
-      : super(_value, (v) => _then(v as _$_TeamProfileState));
+      : super(_value, _then);
 
-  @override
-  _$_TeamProfileState get _value => super._value as _$_TeamProfileState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
-    Object? error = freezed,
+    Object? isLoading = null,
+    Object? error = null,
     Object? team = freezed,
   }) {
     return _then(_$_TeamProfileState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      error: error == freezed ? _value.error : error,
-      team: team == freezed
+      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      error: null == error ? _value.error : error,
+      team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
               as Team?,
@@ -130,7 +132,7 @@ class _$_TeamProfileState implements _TeamProfileState {
             other is _$_TeamProfileState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality().equals(other.error, error) &&
-            const DeepCollectionEquality().equals(other.team, team));
+            (identical(other.team, team) || other.team == team));
   }
 
   @override
@@ -138,10 +140,11 @@ class _$_TeamProfileState implements _TeamProfileState {
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(error),
-      const DeepCollectionEquality().hash(team));
+      team);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_TeamProfileStateCopyWith<_$_TeamProfileState> get copyWith =>
       __$$_TeamProfileStateCopyWithImpl<_$_TeamProfileState>(this, _$identity);
 }

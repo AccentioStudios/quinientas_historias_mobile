@@ -27,28 +27,32 @@ mixin _$LandingState {
 abstract class $LandingStateCopyWith<$Res> {
   factory $LandingStateCopyWith(
           LandingState value, $Res Function(LandingState) then) =
-      _$LandingStateCopyWithImpl<$Res>;
+      _$LandingStateCopyWithImpl<$Res, LandingState>;
+  @useResult
   $Res call({dynamic loading});
 }
 
 /// @nodoc
-class _$LandingStateCopyWithImpl<$Res> implements $LandingStateCopyWith<$Res> {
+class _$LandingStateCopyWithImpl<$Res, $Val extends LandingState>
+    implements $LandingStateCopyWith<$Res> {
   _$LandingStateCopyWithImpl(this._value, this._then);
 
-  final LandingState _value;
   // ignore: unused_field
-  final $Res Function(LandingState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = freezed,
+    Object? loading = null,
   }) {
     return _then(_value.copyWith(
-      loading: loading == freezed
+      loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-    ));
+    ) as $Val);
   }
 }
 
@@ -59,26 +63,25 @@ abstract class _$$_LandingStateCopyWith<$Res>
           _$_LandingState value, $Res Function(_$_LandingState) then) =
       __$$_LandingStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({dynamic loading});
 }
 
 /// @nodoc
 class __$$_LandingStateCopyWithImpl<$Res>
-    extends _$LandingStateCopyWithImpl<$Res>
+    extends _$LandingStateCopyWithImpl<$Res, _$_LandingState>
     implements _$$_LandingStateCopyWith<$Res> {
   __$$_LandingStateCopyWithImpl(
       _$_LandingState _value, $Res Function(_$_LandingState) _then)
-      : super(_value, (v) => _then(v as _$_LandingState));
+      : super(_value, _then);
 
-  @override
-  _$_LandingState get _value => super._value as _$_LandingState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loading = freezed,
+    Object? loading = null,
   }) {
     return _then(_$_LandingState(
-      loading: loading == freezed ? _value.loading : loading,
+      loading: null == loading ? _value.loading : loading,
     ));
   }
 }
@@ -111,6 +114,7 @@ class _$_LandingState implements _LandingState {
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_LandingStateCopyWith<_$_LandingState> get copyWith =>
       __$$_LandingStateCopyWithImpl<_$_LandingState>(this, _$identity);
 }

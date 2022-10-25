@@ -31,7 +31,8 @@ mixin _$UserManagementState {
 abstract class $UserManagementStateCopyWith<$Res> {
   factory $UserManagementStateCopyWith(
           UserManagementState value, $Res Function(UserManagementState) then) =
-      _$UserManagementStateCopyWithImpl<$Res>;
+      _$UserManagementStateCopyWithImpl<$Res, UserManagementState>;
+  @useResult
   $Res call(
       {dynamic isLoading,
       UserManagementRequest? userManagementRequest,
@@ -40,39 +41,41 @@ abstract class $UserManagementStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UserManagementStateCopyWithImpl<$Res>
+class _$UserManagementStateCopyWithImpl<$Res, $Val extends UserManagementState>
     implements $UserManagementStateCopyWith<$Res> {
   _$UserManagementStateCopyWithImpl(this._value, this._then);
 
-  final UserManagementState _value;
   // ignore: unused_field
-  final $Res Function(UserManagementState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? userManagementRequest = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      userManagementRequest: userManagementRequest == freezed
+      userManagementRequest: freezed == userManagementRequest
           ? _value.userManagementRequest
           : userManagementRequest // ignore: cast_nullable_to_non_nullable
               as UserManagementRequest?,
-      avatarMemory: avatarMemory == freezed
+      avatarMemory: freezed == avatarMemory
           ? _value.avatarMemory
           : avatarMemory // ignore: cast_nullable_to_non_nullable
               as CroppedFile?,
-      error: error == freezed
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -83,6 +86,7 @@ abstract class _$$_UserManagementStateCopyWith<$Res>
           $Res Function(_$_UserManagementState) then) =
       __$$_UserManagementStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {dynamic isLoading,
       UserManagementRequest? userManagementRequest,
@@ -92,33 +96,31 @@ abstract class _$$_UserManagementStateCopyWith<$Res>
 
 /// @nodoc
 class __$$_UserManagementStateCopyWithImpl<$Res>
-    extends _$UserManagementStateCopyWithImpl<$Res>
+    extends _$UserManagementStateCopyWithImpl<$Res, _$_UserManagementState>
     implements _$$_UserManagementStateCopyWith<$Res> {
   __$$_UserManagementStateCopyWithImpl(_$_UserManagementState _value,
       $Res Function(_$_UserManagementState) _then)
-      : super(_value, (v) => _then(v as _$_UserManagementState));
+      : super(_value, _then);
 
-  @override
-  _$_UserManagementState get _value => super._value as _$_UserManagementState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? userManagementRequest = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_$_UserManagementState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      userManagementRequest: userManagementRequest == freezed
+      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      userManagementRequest: freezed == userManagementRequest
           ? _value.userManagementRequest
           : userManagementRequest // ignore: cast_nullable_to_non_nullable
               as UserManagementRequest?,
-      avatarMemory: avatarMemory == freezed
+      avatarMemory: freezed == avatarMemory
           ? _value.avatarMemory
           : avatarMemory // ignore: cast_nullable_to_non_nullable
               as CroppedFile?,
-      error: error == freezed
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
@@ -169,23 +171,24 @@ class _$_UserManagementState
         (other.runtimeType == runtimeType &&
             other is _$_UserManagementState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.userManagementRequest, userManagementRequest) &&
-            const DeepCollectionEquality()
-                .equals(other.avatarMemory, avatarMemory) &&
-            const DeepCollectionEquality().equals(other.error, error));
+            (identical(other.userManagementRequest, userManagementRequest) ||
+                other.userManagementRequest == userManagementRequest) &&
+            (identical(other.avatarMemory, avatarMemory) ||
+                other.avatarMemory == avatarMemory) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(userManagementRequest),
-      const DeepCollectionEquality().hash(avatarMemory),
-      const DeepCollectionEquality().hash(error));
+      userManagementRequest,
+      avatarMemory,
+      error);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_UserManagementStateCopyWith<_$_UserManagementState> get copyWith =>
       __$$_UserManagementStateCopyWithImpl<_$_UserManagementState>(
           this, _$identity);

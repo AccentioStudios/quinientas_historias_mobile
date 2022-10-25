@@ -31,7 +31,8 @@ mixin _$GroupManagementState {
 abstract class $GroupManagementStateCopyWith<$Res> {
   factory $GroupManagementStateCopyWith(GroupManagementState value,
           $Res Function(GroupManagementState) then) =
-      _$GroupManagementStateCopyWithImpl<$Res>;
+      _$GroupManagementStateCopyWithImpl<$Res, GroupManagementState>;
+  @useResult
   $Res call(
       {dynamic isLoading,
       GroupManagementRequest? groupManagementRequest,
@@ -40,39 +41,42 @@ abstract class $GroupManagementStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GroupManagementStateCopyWithImpl<$Res>
+class _$GroupManagementStateCopyWithImpl<$Res,
+        $Val extends GroupManagementState>
     implements $GroupManagementStateCopyWith<$Res> {
   _$GroupManagementStateCopyWithImpl(this._value, this._then);
 
-  final GroupManagementState _value;
   // ignore: unused_field
-  final $Res Function(GroupManagementState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? groupManagementRequest = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: isLoading == freezed
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      groupManagementRequest: groupManagementRequest == freezed
+      groupManagementRequest: freezed == groupManagementRequest
           ? _value.groupManagementRequest
           : groupManagementRequest // ignore: cast_nullable_to_non_nullable
               as GroupManagementRequest?,
-      avatarMemory: avatarMemory == freezed
+      avatarMemory: freezed == avatarMemory
           ? _value.avatarMemory
           : avatarMemory // ignore: cast_nullable_to_non_nullable
               as CroppedFile?,
-      error: error == freezed
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -83,6 +87,7 @@ abstract class _$$_GroupManagementStateCopyWith<$Res>
           $Res Function(_$_GroupManagementState) then) =
       __$$_GroupManagementStateCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {dynamic isLoading,
       GroupManagementRequest? groupManagementRequest,
@@ -92,33 +97,31 @@ abstract class _$$_GroupManagementStateCopyWith<$Res>
 
 /// @nodoc
 class __$$_GroupManagementStateCopyWithImpl<$Res>
-    extends _$GroupManagementStateCopyWithImpl<$Res>
+    extends _$GroupManagementStateCopyWithImpl<$Res, _$_GroupManagementState>
     implements _$$_GroupManagementStateCopyWith<$Res> {
   __$$_GroupManagementStateCopyWithImpl(_$_GroupManagementState _value,
       $Res Function(_$_GroupManagementState) _then)
-      : super(_value, (v) => _then(v as _$_GroupManagementState));
+      : super(_value, _then);
 
-  @override
-  _$_GroupManagementState get _value => super._value as _$_GroupManagementState;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = freezed,
+    Object? isLoading = null,
     Object? groupManagementRequest = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_$_GroupManagementState(
-      isLoading: isLoading == freezed ? _value.isLoading : isLoading,
-      groupManagementRequest: groupManagementRequest == freezed
+      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      groupManagementRequest: freezed == groupManagementRequest
           ? _value.groupManagementRequest
           : groupManagementRequest // ignore: cast_nullable_to_non_nullable
               as GroupManagementRequest?,
-      avatarMemory: avatarMemory == freezed
+      avatarMemory: freezed == avatarMemory
           ? _value.avatarMemory
           : avatarMemory // ignore: cast_nullable_to_non_nullable
               as CroppedFile?,
-      error: error == freezed
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
@@ -170,23 +173,24 @@ class _$_GroupManagementState
         (other.runtimeType == runtimeType &&
             other is _$_GroupManagementState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other.groupManagementRequest, groupManagementRequest) &&
-            const DeepCollectionEquality()
-                .equals(other.avatarMemory, avatarMemory) &&
-            const DeepCollectionEquality().equals(other.error, error));
+            (identical(other.groupManagementRequest, groupManagementRequest) ||
+                other.groupManagementRequest == groupManagementRequest) &&
+            (identical(other.avatarMemory, avatarMemory) ||
+                other.avatarMemory == avatarMemory) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(groupManagementRequest),
-      const DeepCollectionEquality().hash(avatarMemory),
-      const DeepCollectionEquality().hash(error));
+      groupManagementRequest,
+      avatarMemory,
+      error);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_GroupManagementStateCopyWith<_$_GroupManagementState> get copyWith =>
       __$$_GroupManagementStateCopyWithImpl<_$_GroupManagementState>(
           this, _$identity);
