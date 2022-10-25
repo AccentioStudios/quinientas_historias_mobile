@@ -37,6 +37,11 @@ jobs:
           echo '${{ secrets.ANDROID_FIREBASE_GOOGLE_SERVICES_BASE64 }}' > google_services_base64.txt
           openssl base64 -d -in google_services_base64.txt -out ${{ github.workspace }}/android/app/google-services.json
 
+      - name: Setting Ruby 2.7.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7.2"
+
       - name: Setting Java 11
         uses: actions/setup-java@v3.5.1
         with:

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../core/integrations/alice_service.dart';
 import '../../../../core/integrations/device_info.dart';
+import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/routes/routes.dart';
 
 class ConfigPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class ConfigPage extends StatelessWidget {
             },
           ),
         ),
-        if (kDebugMode)
+        if (PlatformEnvironment.env != 'prod')
           ListTile(
             onTap: () => AliceService.instance.showInspector(),
             title: const Text(

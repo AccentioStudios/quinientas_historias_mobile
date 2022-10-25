@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:quinientas_historias/core/integrations/alice_service.dart';
+import 'package:quinientas_historias/core/integrations/platform_environments.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/failures/status_codes.dart';
@@ -62,7 +63,7 @@ class LoginPage extends StatelessWidget {
                             right: Constants.space18),
                         child: _LoginForm(),
                       ),
-                      if (kDebugMode)
+                      if (PlatformEnvironment.env != 'prod')
                         Positioned(
                           top: 0,
                           child: SizedBox(
