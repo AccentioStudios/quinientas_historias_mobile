@@ -168,6 +168,8 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
                                                 passwordConfirmation),
                                     validator:
                                         fieldValidatePasswordConfirmation,
+                                    onFieldSubmitted: (_) =>
+                                        submit(context, state),
                                   ),
                                 ],
                               )),
@@ -190,7 +192,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
     if (value == null || value.isEmpty) {
       return 'Requerido.';
     }
-    if (value.length < 4) {
+    if (value.length < 3) {
       return 'Necesitas introducir un texto mayor';
     }
     return null;

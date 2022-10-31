@@ -151,7 +151,7 @@ class _EditUserPageState extends State<EditUserPage> {
     if (value == null || value.isEmpty) {
       return 'Requerido.';
     }
-    if (value.length < 4) {
+    if (value.length < 3) {
       return 'Necesitas introducir un texto mayor';
     }
     return null;

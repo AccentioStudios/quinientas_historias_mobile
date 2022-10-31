@@ -1,0 +1,117 @@
+import 'dart:async';
+
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/mixins/error_handling.dart';
+import 'package:quinientas_historias/core/ui/widgets/headline.dart';
+import 'package:quinientas_historias/features/invites/send/send_invite_provider.dart';
+import 'package:quinientas_historias/features/invites/send/ui/bloc/cubit/send_invites_cubit.dart';
+
+import '../../../../../core/data/entities/team_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/failures/failures.dart';
+import '../../../../../core/ui/widgets/group_avatar.dart';
+import '../../../../../core/ui/widgets/padding_column.dart';
+import '../../../../../core/utils/constants.dart';
+import '../widgets/team_list_item.dart';
+import 'invites_send_invitation_page.dart';
+
+class ChooseTeamForInvitePage extends StatefulWidget with ErrorHandling {
+  const ChooseTeamForInvitePage({super.key, required this.schoolId});
+  final int schoolId;
+
+  @override
+  State<ChooseTeamForInvitePage> createState() =>
+      _ChooseTeamForInvitePageState();
+}
+
+class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getTeamsFromProf(context.read<SendInvitesCubit>());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SendInvitesCubit>();
+    return RefreshIndicator(
+      onRefresh: () => getTeamsFromProf(cubit),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'Elige el equipo',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        body: SafeArea(child: SingleChildScrollView(
+          child: BlocBuilder<SendInvitesCubit, SendInvitesState>(
+            builder: (context, state) {
+              return state.isLoading
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).viewInsets.top -
+                          80,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  : PaddingColumn(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Constants.space16,
+                          vertical: Constants.space16),
+                      children: [
+                          const Text(
+                            'Selecciona el equipo al que quieres invitar nuevos lectores.\n\nLos equipos listados abajos son los equipos pertenecientes a la escuela donde eres profesor:',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const Headline(label: 'Equipos'),
+                          ...state.profTeams.map(
+                            (team) => Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: Constants.space16),
+                              child: TeamListItem(
+                                  avatarWidget: GroupAvatar(
+                                    avatarUrl: team.avatarUrl,
+                                    type: GroupAvatarType.team,
+                                  ),
+                                  label: AutoSizeText(
+                                    team.name,
+                                    textAlign: TextAlign.left,
+                                    style: DefaultTextStyle.of(context)
+                                        .style
+                                        .copyWith(fontSize: 15),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  onTap: () {
+                                    chooseTeam(context, team);
+                                  }),
+                            ),
+                          ),
+                        ]);
+            },
+          ),
+        )),
+      ),
+    );
+  }
+
+  void chooseTeam(BuildContext context, Team team) {
+    SendInviteProvider.open(context, team: team).then((value) {});
+  }
+
+  Future<void> getTeamsFromProf(SendInvitesCubit cubit) {
+    final completer = Completer();
+    cubit.getTeamsFromProf(onSuccess: () {
+      completer.complete();
+    }, onError: (HttpFailure error) {
+      widget.handleError(context, error);
+      completer.completeError(error);
+    });
+    return completer.future;
+  }
+}

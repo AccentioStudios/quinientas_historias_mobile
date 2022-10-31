@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
+import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/error_handling.dart';
@@ -16,10 +17,10 @@ import '../bloc/cubit/send_invites_cubit.dart';
 
 class InvitesSendInvitationPage extends StatefulWidget with ErrorHandling {
   const InvitesSendInvitationPage(
-      {Key? key, required this.typeUserToInvite, this.teamId, this.schoolId})
+      {Key? key, required this.typeUserToInvite, this.team, this.schoolId})
       : super(key: key);
   final UserType typeUserToInvite;
-  final int? teamId;
+  final Team? team;
   final int? schoolId;
   @override
   State<InvitesSendInvitationPage> createState() =>
@@ -92,6 +93,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
                 onChanged: (text) {
                   context.read<SendInvitesCubit>().validateForm(text);
                 },
+                submit: () => submit(),
               ),
               _SendEmailPageTwo(
                 state: state,
@@ -107,35 +109,37 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
   }
 
   submit() {
-    if (emailFocus.hasFocus) {
-      emailFocus.unfocus();
-    }
-    context.read<SendInvitesCubit>().sendInvite(
-        InvitesRequest(
-          email: emailController.text,
-          type: widget.typeUserToInvite,
-          teamId: widget.teamId,
-          schoolId: widget.schoolId,
-        ),
-        onSuccess: () {}, onError: (HttpFailure error) {
-      if (error.error == FailureType.userAlreadyInvited) {
-        setState(() {
-          emailFieldErrorMessage = error.message;
-        });
-        pageController.animateToPage(0,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOutCubic);
-        return;
+    if (emailController.text.isNotEmpty && currentPage == 0) {
+      if (emailFocus.hasFocus) {
+        emailFocus.unfocus();
       }
-      widget.handleError(context, error, onTap: () {
-        Navigator.of(context).pop(true);
-        Navigator.of(context).pop(true);
+      context.read<SendInvitesCubit>().sendInvite(
+          InvitesRequest(
+            email: emailController.text,
+            type: widget.typeUserToInvite,
+            teamId: widget.team?.id,
+            schoolId: widget.schoolId,
+          ),
+          onSuccess: () {}, onError: (HttpFailure error) {
+        if (error.error == FailureType.userAlreadyInvited) {
+          setState(() {
+            emailFieldErrorMessage = error.message;
+          });
+          pageController.animateToPage(0,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOutCubic);
+          return;
+        }
+        widget.handleError(context, error, onTap: () {
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pop(true);
+        });
       });
-    });
 
-    pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOutCubic);
+      pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOutCubic);
+    }
   }
 }
 
@@ -235,7 +239,7 @@ class _SendEmailPageTwo extends StatelessWidget {
               Text(
                 state.sendingInvite
                     ? 'Enviando tu increíble\ninvitación'
-                    : 'Otro amigo más será parte del torneo!',
+                    : 'Otro más será parte del torneo!',
                 textAlign:
                     state.sendingInvite ? TextAlign.center : TextAlign.left,
                 style: const TextStyle(
@@ -275,11 +279,13 @@ class _EnterEmailPageOne extends StatelessWidget {
     required this.emailFocus,
     required this.emailController,
     required this.onChanged,
+    required this.submit,
     this.errorText,
   }) : super(key: key);
   final TextEditingController emailController;
   final FocusNode emailFocus;
   final void Function(String)? onChanged;
+  final void Function() submit;
   final String? errorText;
   @override
   Widget build(BuildContext context) {
@@ -290,7 +296,7 @@ class _EnterEmailPageOne extends StatelessWidget {
         const Headline(
           marginTop: 0,
           marginBottom: Constants.space30,
-          label: 'Cuál es el e-mail del\namigo que quieres invitar?',
+          label: 'Cuál es el e-mail de la\npersona que quieres invitar?',
           fontSize: 24,
         ),
         ThemedTextFormField(
@@ -302,6 +308,7 @@ class _EnterEmailPageOne extends StatelessWidget {
           prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
           keyboardType: TextInputType.emailAddress,
           onChanged: onChanged,
+          onFieldSubmitted: (text) => submit(),
         )
       ],
     ));

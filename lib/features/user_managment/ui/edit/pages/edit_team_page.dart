@@ -91,7 +91,7 @@ class _EditTeamPageState extends State<EditTeamPage> {
                                 children: [
                                   ThemedTextFormField(
                                     prefixIconSvgPath:
-                                        'assets/icons/school-outline-icon.svg',
+                                        'assets/icons/group-outline-icon.svg',
                                     keyboardType: TextInputType.name,
                                     controller: teamName,
                                     hintText: 'Nombre del equipo',
@@ -130,7 +130,7 @@ class _EditTeamPageState extends State<EditTeamPage> {
     if (value == null || value.isEmpty) {
       return 'Requerido.';
     }
-    if (value.length < 4) {
+    if (value.length < 3) {
       return 'Necesitas introducir un texto mayor';
     }
     return null;

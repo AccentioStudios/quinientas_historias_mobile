@@ -10,6 +10,7 @@ import 'package:quinientas_historias/features/profiles_module/team_profile/ui/bl
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/components/user_profile_leaderboard_team_list.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/widgets/team_profile_header_widget.dart';
 
+import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
@@ -47,13 +48,7 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                         color: Theme.of(context).colorScheme.onSurface),
                   ),
                   onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .push(MaterialPageRoute(
-                            builder: (_) => SendInviteProvider(
-                                  typeUserToInvite: UserType.reader,
-                                  teamId: state.team?.id,
-                                  schoolId: state.team?.school?.id,
-                                )));
+                    openInviteReader(context, state.team);
                   },
                   icon: SvgPicture.asset('assets/icons/user-plus.svg'),
                 ),
@@ -98,6 +93,14 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
         );
       },
     );
+  }
+
+  void openInviteReader(BuildContext context, Team? team) {
+    SendInviteProvider.open(context, team: team).then((refresh) {
+      if (refresh == true) {
+        getTeamData();
+      }
+    });
   }
 
   void openEditTeam(BuildContext context, TeamProfileState state) {

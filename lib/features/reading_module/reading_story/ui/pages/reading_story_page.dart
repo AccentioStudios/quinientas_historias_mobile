@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
@@ -156,8 +157,17 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space16),
                         child: BigButton(
-                          onPressed: () {
-                            openRateStorySheet(context, state);
+                          onPressed: () async {
+                            final session =
+                                await SecureStorageHelper.getSessionData();
+                            if (session?.user.type != UserType.prof &&
+                                session?.user.type != UserType.admin) {
+                              if (!mounted) return;
+                              openRateStorySheet(context, state);
+                              return;
+                            }
+                            if (!mounted) return;
+                            completeReading(context.read<ReadingStoryCubit>());
                           },
                           text: 'Terminar Lectura',
                         ),

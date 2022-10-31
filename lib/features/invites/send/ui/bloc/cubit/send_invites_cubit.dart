@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../../core/data/entities/user_entity.dart';
@@ -40,10 +41,11 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
     }).subscribe(this);
   }
 
-  getInvitations({required Function onSuccess, required Function onError}) {
+  getInvitations(
+      {int? teamId, required Function onSuccess, required Function onError}) {
     emit(state.copyWith(isLoading: true));
 
-    invitesUseCases.getInvitations().listen((invites) {
+    invitesUseCases.getInvitations(teamId: teamId).listen((invites) {
       emit(state.copyWith(invites: invites, isLoading: false));
       onSuccess();
     }, onError: (error) {
@@ -57,6 +59,18 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
 
     invitesUseCases.deleteInvitation(invite).listen((invites) {
       emit(state.copyWith(invites: invites, isLoading: false));
+      onSuccess();
+    }, onError: (error) {
+      onError(error);
+    }).subscribe(this);
+  }
+
+  getTeamsFromProf(
+      {required Function onSuccess, required Function onError}) async {
+    emit(state.copyWith(isLoading: true));
+
+    invitesUseCases.getTeamsFromProf().listen((teams) {
+      emit(state.copyWith(profTeams: teams, isLoading: false));
       onSuccess();
     }, onError: (error) {
       onError(error);

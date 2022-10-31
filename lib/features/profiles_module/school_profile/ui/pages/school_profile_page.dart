@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/profiles_module/school_profile/ui/bloc/cubit/school_profile_cubit.dart';
 
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../components/teams_profile_leaderboard_team_list.dart';
 import '../widgets/school_profile_cards_widget.dart';
@@ -35,6 +38,17 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
           appBar: AppBar(
             elevation: 0,
             actions: [
+              if (state.school?.canEdit == true)
+                TextButton.icon(
+                  onPressed: () =>
+                      openInviteCaptain(context, schoolId: state.school?.id),
+                  icon: SvgPicture.asset('assets/icons/user-plus.svg'),
+                  label: Text(
+                    'Invitar capitanes',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                ),
               if (state.school?.canEdit == true)
                 TextButton.icon(
                   onPressed: () => openEditTeam(context, state),
@@ -74,6 +88,22 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
         );
       },
     );
+  }
+
+  void openInviteCaptain(BuildContext context, {required int? schoolId}) {
+    if (schoolId != null) {
+      SendInviteProvider.open(context,
+              schoolId: schoolId, typeUserToInvite: UserType.captain)
+          .then((refresh) {
+        if (refresh == true) {
+          getSchoolData();
+        }
+      });
+    } else {
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(
+          msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
+    }
   }
 
   void openEditTeam(BuildContext context, SchoolProfileState state) {

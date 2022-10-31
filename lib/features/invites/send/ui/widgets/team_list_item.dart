@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/leaderboard_model.dart';
-import '../../utils/colors.dart';
-import '../../utils/constants.dart';
-import '../../../features/tournament/ui/widgets/tournament_arrow_position_widget.dart';
-import 'outlined_card.dart';
+import '../../../../../core/ui/widgets/outlined_card.dart';
+import '../../../../../core/utils/colors.dart';
+import '../../../../../core/utils/constants.dart';
 
-class LeaderboardListItem extends StatelessWidget {
-  const LeaderboardListItem({
-    Key? key,
+class TeamListItem extends StatelessWidget {
+  const TeamListItem({
+    super.key,
     required this.avatarWidget,
     required this.label,
     this.secondaryLabel,
     this.trailingWidget,
     this.onTap,
-  }) : super(key: key);
-
+  });
   final Widget avatarWidget;
   final Widget label;
   final Widget? secondaryLabel;
@@ -60,41 +57,5 @@ class LeaderboardListItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class TournamentPositionArrow extends StatelessWidget {
-  const TournamentPositionArrow(
-      {Key? key, required this.number, required this.arrowPositionDirection})
-      : super(key: key);
-  final int number;
-  final LeaderboardChangePositionType arrowPositionDirection;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          number.toString(),
-          style: TextStyle(color: buildColor(context, arrowPositionDirection)),
-        ),
-        ArrowPosition(
-          arrowPositionDirection: arrowPositionDirection,
-        )
-      ],
-    );
-  }
-
-  Color buildColor(BuildContext context,
-      LeaderboardChangePositionType arrowPositionDirection) {
-    final lightTheme = Theme.of(context).brightness == Brightness.light;
-    switch (arrowPositionDirection) {
-      case LeaderboardChangePositionType.positive:
-        return lightTheme ? successColor : successDarkColor;
-      case LeaderboardChangePositionType.negative:
-        return lightTheme ? errorColor : errorDarkColor;
-      case LeaderboardChangePositionType.neutral:
-        return lightTheme ? onSurfaceVariantColor : onSurfaceVariantDarkColor;
-    }
   }
 }

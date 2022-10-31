@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/failures/failures.dart';
@@ -48,10 +49,8 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
               )
             : state.invite?.accepted == 0
                 ? CommonPageLayout(
-                    headline:
-                        '${state.invite?.inviter?.firstName} te ha invitado a formar parte del torneo',
-                    message:
-                        'Has recibido una invitacion para formar parte del equipo:\n\n${state.invite?.team?.name} de la escuela ${state.invite?.school?.name}',
+                    headline: getHeader(state.invite),
+                    message: getSubtitle(state.invite),
                     svgImagePath: 'assets/images/trophy-image.svg',
                     btnLabel: 'Aceptar invitación',
                     onBtnTap: () {
@@ -62,7 +61,7 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
                 : CommonPageLayout(
                     headline: 'Esta invitación ya no es válida',
                     message:
-                        'Has recibido una invitación para formar parte de un equipo. Sin embargo, parece que ya no es válida o ya fué usada.',
+                        'Has recibido una invitación para formar parte de 500Historias. Sin embargo, parece que ya no es válida o ya fué usada.',
                     svgImagePath: 'assets/images/broken-invitation-image.svg',
                     btnLabel: 'Entiendo',
                     onBtnTap: () {
@@ -74,6 +73,26 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
                   );
       },
     );
+  }
+
+  String getHeader(Invite? invite) {
+    if (invite?.invitedType == UserType.captain) {
+      return '${invite?.inviter?.firstName} te ha invitado a ser capitán';
+    }
+    if (invite?.invitedType == UserType.reader) {
+      return '${invite?.inviter?.firstName} te ha invitado a formar parte del torneo como lector';
+    }
+    return '${invite?.inviter?.firstName} te ha invitado a formar parte del torneo';
+  }
+
+  String getSubtitle(Invite? invite) {
+    if (invite?.invitedType == UserType.captain) {
+      return 'Has recibido una invitacion para ser capitán y formar tu equipo en la escuela "${invite?.school?.name}"';
+    }
+    if (invite?.invitedType == UserType.reader) {
+      return 'Has recibido una invitacion para formar parte del equipo:\n\n"${invite?.team?.name}" de la escuela "${invite?.school?.name}"';
+    }
+    return 'Has recibido una invitacion para formar parte de 500 Historias';
   }
 
   navigateToRegisterUser(BuildContext context,

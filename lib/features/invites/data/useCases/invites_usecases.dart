@@ -1,3 +1,5 @@
+import 'package:quinientas_historias/core/data/entities/team_entity.dart';
+
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../models/invites_request_model.dart';
 import '../models/verify_invite_code_request_model.dart';
@@ -11,8 +13,8 @@ class InvitesUseCases {
     yield* repository.sendInvite(request);
   }
 
-  Stream<List<Invite>> getInvitations() async* {
-    yield* repository.getInvitations();
+  Stream<List<Invite>> getInvitations({int? teamId}) async* {
+    yield* repository.getInvitations(teamId: teamId);
   }
 
   Stream<List<Invite>> deleteInvitation(Invite invite) async* {
@@ -21,5 +23,9 @@ class InvitesUseCases {
 
   Stream<Invite> validateCode(VerifyInviteCodeRequest request) async* {
     yield* repository.validateCode(request);
+  }
+
+  Stream<List<Team>> getTeamsFromProf() async* {
+    yield* repository.getTeamsFromProf();
   }
 }

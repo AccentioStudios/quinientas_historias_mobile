@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quinientas_historias/core/data/entities/story_ratings_entity.dart';
+import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/core/data/models/rate_story_request.dart';
+import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../core/data/entities/story_entity.dart';
@@ -111,12 +113,16 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
 
   rateStory(RateStoryRequest request,
       {required Function onSuccess, required Function onError}) async {
-    if (state.story != null) {
-      readingStoryUseCases.rateStory(request).listen((response) {
-        onSuccess();
-      }, onError: (error) {
-        onError(error);
-      }, onDone: () {}).subscribe(this);
+    final session = await SecureStorageHelper.getSessionData();
+    if (session?.user.type != UserType.prof &&
+        session?.user.type != UserType.admin) {
+      if (state.story != null) {
+        readingStoryUseCases.rateStory(request).listen((response) {
+          onSuccess();
+        }, onError: (error) {
+          onError(error);
+        }, onDone: () {}).subscribe(this);
+      }
     }
   }
 

@@ -91,7 +91,7 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
                                 children: [
                                   ThemedTextFormField(
                                     prefixIconSvgPath:
-                                        'assets/icons/school-outline-icon.svg',
+                                        'assets/icons/group-outline-icon.svg',
                                     keyboardType: TextInputType.name,
                                     controller: teamName,
                                     hintText: 'Nombre del equipo',
@@ -142,7 +142,6 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
       Fluttertoast.showToast(msg: 'Verifica los datos e intenta nuevamente.');
       return;
     }
-
     if ((state.groupManagementRequest?.avatarUrl == null ||
             state.groupManagementRequest?.avatarUrl == '') &&
         state.avatarMemory == null) {
@@ -154,7 +153,6 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
       });
       return;
     }
-
     cubit.registerNewTeam(onSuccess: (team) {
       Navigator.of(context, rootNavigator: true).pop(team);
     }, onError: (HttpFailure error) {

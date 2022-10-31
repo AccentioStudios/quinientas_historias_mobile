@@ -49,7 +49,7 @@ mixin SheetMessages on Widget {
       height: 350,
       title: '¡Espera un momento!',
       content:
-          '¿Estas seguro que quieres crear una cuenta sin foto de perfil?\n\nTener una foto de perfil ayuda a tus compañeros a identificar mejor quien eres.',
+          'No puedes tener una cuenta sin foto de perfil.\n\nTener una foto de perfil ayuda a tus compañeros a identificar mejor quien eres.',
       btnLabel: 'Subir foto',
     );
   }
@@ -60,7 +60,7 @@ mixin SheetMessages on Widget {
       height: 350,
       title: '¡Espera un momento!',
       content:
-          '¿Estas seguro que no quieres una foto en tu equipo?\n\nTener una foto ayuda a tus compañeros a identificar mejor que equipo es.',
+          'No puede faltar una foto en este perfil.\n\nTener una foto ayuda a tus compañeros a identificar mejor que equipo es.',
       btnLabel: 'Subir foto',
     );
   }

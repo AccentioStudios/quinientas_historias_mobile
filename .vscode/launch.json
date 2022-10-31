@@ -12,6 +12,8 @@
             "args": [
                 "--dart-define=API_URL=500h-dev.accentio.app",
                 "--dart-define=JWT_SIGN_KEY=xxxxxx",
+                "--dart-define=ENV=dev",
+
             ]
         },
         {
@@ -35,6 +37,8 @@
               "--dart-define=API_URL=localhost:5000",
               "--dart-define=JWT_SIGN_KEY=xxxxxx",
               "--dart-define=https=false",
+              "--dart-define=ENV=dev",
+
             ]
           },
           {
@@ -45,6 +49,7 @@
             "args": [
                 "--dart-define=API_URL=appapi.500historias.com",
                 "--dart-define=JWT_SIGN_KEY=fcdd1cc43846c96d684b3da091851837535ab3b5",
+                "--dart-define=ENV=dev",
             ]
         },
     ]

@@ -19,6 +19,7 @@ mixin _$SendInvitesState {
   dynamic get isLoading => throw _privateConstructorUsedError;
   dynamic get sendingInvite => throw _privateConstructorUsedError;
   List<Invite> get invites => throw _privateConstructorUsedError;
+  List<Team> get profTeams => throw _privateConstructorUsedError;
   dynamic get formValidationError => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $SendInvitesStateCopyWith<$Res> {
       {dynamic isLoading,
       dynamic sendingInvite,
       List<Invite> invites,
+      List<Team> profTeams,
       dynamic formValidationError,
       User? user});
 }
@@ -57,6 +59,7 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
     Object? isLoading = null,
     Object? sendingInvite = null,
     Object? invites = null,
+    Object? profTeams = null,
     Object? formValidationError = null,
     Object? user = freezed,
   }) {
@@ -73,6 +76,10 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
           ? _value.invites
           : invites // ignore: cast_nullable_to_non_nullable
               as List<Invite>,
+      profTeams: null == profTeams
+          ? _value.profTeams
+          : profTeams // ignore: cast_nullable_to_non_nullable
+              as List<Team>,
       formValidationError: null == formValidationError
           ? _value.formValidationError
           : formValidationError // ignore: cast_nullable_to_non_nullable
@@ -97,6 +104,7 @@ abstract class _$$_SendInvitesStateCopyWith<$Res>
       {dynamic isLoading,
       dynamic sendingInvite,
       List<Invite> invites,
+      List<Team> profTeams,
       dynamic formValidationError,
       User? user});
 }
@@ -115,6 +123,7 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? sendingInvite = null,
     Object? invites = null,
+    Object? profTeams = null,
     Object? formValidationError = null,
     Object? user = freezed,
   }) {
@@ -126,6 +135,10 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
           ? _value._invites
           : invites // ignore: cast_nullable_to_non_nullable
               as List<Invite>,
+      profTeams: null == profTeams
+          ? _value._profTeams
+          : profTeams // ignore: cast_nullable_to_non_nullable
+              as List<Team>,
       formValidationError: null == formValidationError
           ? _value.formValidationError
           : formValidationError,
@@ -144,9 +157,11 @@ class _$_SendInvitesState implements _SendInvitesState {
       {this.isLoading = true,
       this.sendingInvite = false,
       final List<Invite> invites = initInvites,
+      final List<Team> profTeams = initProfTeams,
       this.formValidationError = false,
       this.user})
-      : _invites = invites;
+      : _invites = invites,
+        _profTeams = profTeams;
 
   @override
   @JsonKey()
@@ -162,6 +177,14 @@ class _$_SendInvitesState implements _SendInvitesState {
     return EqualUnmodifiableListView(_invites);
   }
 
+  final List<Team> _profTeams;
+  @override
+  @JsonKey()
+  List<Team> get profTeams {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_profTeams);
+  }
+
   @override
   @JsonKey()
   final dynamic formValidationError;
@@ -170,7 +193,7 @@ class _$_SendInvitesState implements _SendInvitesState {
 
   @override
   String toString() {
-    return 'SendInvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, formValidationError: $formValidationError, user: $user)';
+    return 'SendInvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, profTeams: $profTeams, formValidationError: $formValidationError, user: $user)';
   }
 
   @override
@@ -183,6 +206,8 @@ class _$_SendInvitesState implements _SendInvitesState {
                 .equals(other.sendingInvite, sendingInvite) &&
             const DeepCollectionEquality().equals(other._invites, _invites) &&
             const DeepCollectionEquality()
+                .equals(other._profTeams, _profTeams) &&
+            const DeepCollectionEquality()
                 .equals(other.formValidationError, formValidationError) &&
             (identical(other.user, user) || other.user == user));
   }
@@ -193,6 +218,7 @@ class _$_SendInvitesState implements _SendInvitesState {
       const DeepCollectionEquality().hash(isLoading),
       const DeepCollectionEquality().hash(sendingInvite),
       const DeepCollectionEquality().hash(_invites),
+      const DeepCollectionEquality().hash(_profTeams),
       const DeepCollectionEquality().hash(formValidationError),
       user);
 
@@ -208,6 +234,7 @@ abstract class _SendInvitesState implements SendInvitesState {
       {final dynamic isLoading,
       final dynamic sendingInvite,
       final List<Invite> invites,
+      final List<Team> profTeams,
       final dynamic formValidationError,
       final User? user}) = _$_SendInvitesState;
 
@@ -217,6 +244,8 @@ abstract class _SendInvitesState implements SendInvitesState {
   dynamic get sendingInvite;
   @override
   List<Invite> get invites;
+  @override
+  List<Team> get profTeams;
   @override
   dynamic get formValidationError;
   @override

@@ -29,6 +29,7 @@ class GroupAvatar extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        border: Border.all(color: Theme.of(context).colorScheme.onBackground),
         image: avatarUrl != null && avatarUrl != ""
             ? DecorationImage(
                 image: Image.network(
