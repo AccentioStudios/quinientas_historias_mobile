@@ -44,7 +44,7 @@ class HomeCaptainTier0Layout extends StatelessWidget with SheetMessages {
             const SizedBox(height: Constants.space21),
             SingleChip(
               primaryLabel: 'Mi escuela',
-              secondaryLabel: 'Escuela Paralelepipedo',
+              secondaryLabel: state.dashboard?.user.school?.name ?? '',
               onTap: () {
                 _navigateToMySchoolPage(context, state.dashboard?.user.school);
               },
