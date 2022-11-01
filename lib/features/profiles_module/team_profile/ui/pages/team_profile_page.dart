@@ -11,7 +11,6 @@ import 'package:quinientas_historias/features/profiles_module/team_profile/ui/co
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/widgets/team_profile_header_widget.dart';
 
 import '../../../../../core/data/entities/team_entity.dart';
-import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../invites/send/send_invite_provider.dart';

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
@@ -30,6 +31,7 @@ class _ApplicationState extends State<Application> {
     _incomingLinkHandler();
     initilizeFirebaseMessaging();
     checkNotifications();
+    FlutterNativeSplash.remove();
   }
 
   @override

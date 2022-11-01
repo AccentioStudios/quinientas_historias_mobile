@@ -3,19 +3,17 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/mixins/error_handling.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/features/invites/send/send_invite_provider.dart';
-import 'package:quinientas_historias/features/invites/send/ui/bloc/cubit/send_invites_cubit.dart';
 
 import '../../../../../core/data/entities/team_entity.dart';
-import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/failures/failures.dart';
+import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/widgets/group_avatar.dart';
+import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../send_invite_provider.dart';
+import '../bloc/cubit/send_invites_cubit.dart';
 import '../widgets/team_list_item.dart';
-import 'invites_send_invitation_page.dart';
 
 class ChooseTeamForInvitePage extends StatefulWidget with ErrorHandling {
   const ChooseTeamForInvitePage({super.key, required this.schoolId});
