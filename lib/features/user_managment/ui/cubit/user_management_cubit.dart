@@ -84,7 +84,7 @@ class UserManagementCubit extends Cubit<UserManagementState>
       } else {
         uploadTask = ref.putFile(io.File(image.path));
       }
-      final snapshot = await uploadTask.whenComplete(() {});
+      final snapshot = (await uploadTask);
 
       return Future.value(snapshot);
     }

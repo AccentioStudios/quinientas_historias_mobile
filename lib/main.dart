@@ -25,6 +25,7 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
     await SharedPreferencesHelper.init();
     await RemoteConfigService.init();
     AliceService.init(navigatorKey!);
