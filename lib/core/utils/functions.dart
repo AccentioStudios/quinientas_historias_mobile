@@ -19,21 +19,27 @@ Future<CroppedFile?> pickPhoto({required WebUiSettings webUiSettings}) async {
 
 Future<CroppedFile?> cropPhoto(XFile image,
     {required WebUiSettings webUiSettings}) async {
-  final CroppedFile? croppedFile = await ImageCropper()
-      .cropImage(sourcePath: image.path, aspectRatioPresets: [
-    CropAspectRatioPreset.square,
-  ], uiSettings: [
-    AndroidUiSettings(
-      toolbarTitle: 'Cortar imagen',
-      toolbarColor: ThemeClass.darkTheme.colorScheme.primaryContainer,
-      toolbarWidgetColor: ThemeClass.darkTheme.colorScheme.onPrimaryContainer,
-      backgroundColor: ThemeClass.darkTheme.colorScheme.background,
-      activeControlsWidgetColor: ThemeClass.lightTheme.colorScheme.primary,
-    ),
-    IOSUiSettings(
-      title: 'Cortar imagen',
-    ),
-    webUiSettings,
-  ]);
+  final CroppedFile? croppedFile = await ImageCropper().cropImage(
+    sourcePath: image.path,
+    cropStyle: CropStyle.circle,
+    compressQuality: 60,
+    compressFormat: ImageCompressFormat.jpg,
+    aspectRatioPresets: [
+      CropAspectRatioPreset.square,
+    ],
+    uiSettings: [
+      AndroidUiSettings(
+        toolbarTitle: 'Cortar imagen',
+        toolbarColor: ThemeClass.darkTheme.colorScheme.primaryContainer,
+        toolbarWidgetColor: ThemeClass.darkTheme.colorScheme.onPrimaryContainer,
+        backgroundColor: ThemeClass.darkTheme.colorScheme.background,
+        activeControlsWidgetColor: ThemeClass.lightTheme.colorScheme.primary,
+      ),
+      IOSUiSettings(
+        title: 'Cortar imagen',
+      ),
+      webUiSettings,
+    ],
+  );
   return Future.value(croppedFile);
 }
