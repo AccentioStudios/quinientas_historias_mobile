@@ -28,8 +28,8 @@ class Constants {
           height: MediaQuery.of(context).size.width.toInt() - 150,
         ),
         viewPort: CroppieViewPort(
-          width: MediaQuery.of(context).size.width.toInt() - 150,
-          height: MediaQuery.of(context).size.width.toInt() - 150,
+          width: MediaQuery.of(context).size.width.toInt() - 160,
+          height: MediaQuery.of(context).size.width.toInt() - 160,
         ),
       );
 }
