@@ -10,6 +10,7 @@ import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
+import '../../../explore/explore_provider.dart';
 import '../../../profiles_module/school_profile/school_profile_provider.dart';
 import '../../../profiles_module/team_profile/team_profile_provider.dart';
 import '../../../profiles_module/user_profile/user_profile_provider.dart';
@@ -75,10 +76,10 @@ class HomeLayout extends StatelessWidget {
                     ),
               ],
             ),
-            const Headline(
+            Headline(
               label: 'Explorar Lecturas',
-              // linkText: 'Ver más',
-              // onTap: () {},
+              linkText: 'Ver más',
+              onTap: () => _navigateToExploreStories(context),
             ),
             if (state.dashboard != null)
               if (state.dashboard?.exploreStories != null)
@@ -105,6 +106,10 @@ class HomeLayout extends StatelessWidget {
         const SizedBox(height: Constants.space41 + 70)
       ],
     );
+  }
+
+  void _navigateToExploreStories(BuildContext context) {
+    ExploreStoriesProvider.open(context);
   }
 
   void _navigateToMySchoolPage(BuildContext context, School? mySchool) {

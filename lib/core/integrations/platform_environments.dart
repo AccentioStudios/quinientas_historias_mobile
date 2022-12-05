@@ -1,4 +1,6 @@
 class PlatformEnvironment {
+  static const String appIdSuffix = String.fromEnvironment('APP_ID_SUFFIX');
+
   static const String apiHostUrl =
       String.fromEnvironment('API_URL', defaultValue: '');
   static const String jwtSignKey =
