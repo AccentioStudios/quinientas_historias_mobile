@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
+import 'package:quinientas_historias/core/integrations/platform_environments.dart';
 
 import 'core/app.dart';
 import 'core/helpers/shared_preferences_helper.dart';
@@ -23,6 +24,7 @@ void main() async {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     await Firebase.initializeApp(
+      name: '500Historias${PlatformEnvironment.appIdSuffix}',
       options: DefaultFirebaseOptions.currentPlatform,
     );
 

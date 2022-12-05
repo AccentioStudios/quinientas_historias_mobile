@@ -32,9 +32,9 @@ jobs:
           echo '${{ secrets.ANDROID_KEY_STORE_BASE64_DEV_QA }}' > keystore-base64.txt
           openssl base64 -d -in keystore-base64.txt -out ${{ github.workspace }}/android/upload-keystore.jks
 
-      - name: Get Firebase google_services.json
+      - name: Get Firebase google_services.json (Dev-QA)
         run: |
-          echo '${{ secrets.ANDROID_FIREBASE_GOOGLE_SERVICES_BASE64 }}' > google_services_base64.txt
+          echo '${{ secrets.ANDROID_FIREBASE_GOOGLE_SERVICES_BASE64_DEV_QA }}' > google_services_base64.txt
           openssl base64 -d -in google_services_base64.txt -out ${{ github.workspace }}/android/app/google-services.json
 
       - name: Setting Ruby 2.7.2
@@ -61,7 +61,7 @@ jobs:
           API_URL: ${{ secrets.API_URL_DEV_QA }}
           JWT_SIGN_KEY: ${{ secrets.JWT_SIGN_KEY_DEV_QA }}
           BUILD_NUMBER: ${{env.BUILD_NUMBER}}
-          FIREBASE_ANDROID_APP_ID: ${{secrets.FIREBASE_ANDROID_APP_ID}}
+          FIREBASE_ANDROID_APP_ID: ${{secrets.FIREBASE_PROJECT_ID_PROD_DEV_QA}}
           FIREBASE_CLI_TOKEN: ${{secrets.FIREBASE_CLI_TOKEN}}
         with:
           lane: "devqa"
