@@ -1,1 +1,3 @@
 #include "Generated.xcconfig"
+#include "Defineapp-defaults.xcconfig"
+#include "Defineapp.xcconfig"
