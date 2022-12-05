@@ -72,11 +72,18 @@ class UserDivisionCard extends StatelessWidget {
   }
 
   int getPointsLeft(User user) {
-    return (user.division!.next.scoreToAchieve - user.score!);
+    if (user.division!.next != null) {
+      return (user.division!.next!.scoreToAchieve - user.score!);
+    }
+    return 0;
   }
 
   int getPercentageCompleted(User user) {
-    return ((user.score! / user.division!.next.scoreToAchieve) * 100).toInt();
+    if (user.division!.next != null) {
+      return ((user.score! / user.division!.next!.scoreToAchieve) * 100)
+          .toInt();
+    }
+    return 100;
   }
 
   String getDivisionBadge(int? level) {

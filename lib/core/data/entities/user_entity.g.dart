@@ -59,7 +59,9 @@ const _$UserTypeEnumMap = {
 
 UserDivision _$UserDivisionFromJson(Map<String, dynamic> json) => UserDivision(
       current: Division.fromJson(json['current'] as Map<String, dynamic>),
-      next: Division.fromJson(json['next'] as Map<String, dynamic>),
+      next: json['next'] == null
+          ? null
+          : Division.fromJson(json['next'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserDivisionToJson(UserDivision instance) =>

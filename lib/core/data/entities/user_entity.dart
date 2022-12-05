@@ -96,9 +96,9 @@ enum UserType {
 
 @JsonSerializable()
 class UserDivision {
-  UserDivision({required this.current, required this.next});
+  UserDivision({required this.current, this.next});
   final Division current;
-  final Division next;
+  final Division? next;
 
   factory UserDivision.fromJson(Map<String, dynamic> json) =>
       _$UserDivisionFromJson(json);
