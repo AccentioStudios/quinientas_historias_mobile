@@ -34,4 +34,4 @@ jobs:
         with:
           node-version: 16
       - run: npm install firebase-tools -g
-      - run: firebase deploy -m "build-${{env.BUILD_NUMBER}}" --token ${{secrets.FIREBASE_CLI_TOKEN}} -P ${{secrets.FIREBASE_PROJECT_ID}} --non-interactive
+      - run: firebase deploy -m "build-${{env.BUILD_NUMBER}}" --token ${{secrets.FIREBASE_CLI_TOKEN}} -P ${{secrets.FIREBASE_PROJECT_ID_PROD}} --non-interactive
