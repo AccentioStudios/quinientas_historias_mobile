@@ -120,11 +120,13 @@ class _LandingPageState extends State<LandingPage> {
 
   void _navigateToNext() async {
     if (await _checkAccessToken()) {
+      if (!mounted) return;
       Navigator.of(context, rootNavigator: true)
           .popUntil((route) => route.isFirst);
       Navigator.of(context, rootNavigator: true)
           .pushReplacementNamed(Routes.homeNavigator);
     } else {
+      if (!mounted) return;
       Navigator.of(context, rootNavigator: true)
           .popUntil((route) => route.isFirst);
       Navigator.of(context, rootNavigator: true)

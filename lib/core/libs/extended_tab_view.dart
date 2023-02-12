@@ -134,16 +134,9 @@ class _ExtendedTabBarViewState extends State<ExtendedTabBarView> {
   bool get _controllerIsValid => _controller?.animation != null;
 
   void _updateTabController() {
-    final TabController? newController =
+    final TabController newController =
         widget.controller ?? DefaultTabController.of(context);
     assert(() {
-      if (newController == null) {
-        throw FlutterError('No TabController for ${widget.runtimeType}.\n'
-            'When creating a ${widget.runtimeType}, you must either provide an explicit '
-            'TabController using the "controller" property, or you must ensure that there '
-            'is a DefaultTabController above the ${widget.runtimeType}.\n'
-            'In this case, there was neither an explicit controller nor a default controller.');
-      }
       return true;
     }());
 

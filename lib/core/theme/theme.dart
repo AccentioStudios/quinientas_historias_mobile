@@ -5,7 +5,6 @@ class ThemeClass {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: readingBackgroundColor,
     primaryColor: primaryColor,
-    backgroundColor: readingBackgroundColor,
     fontFamily: 'Proxima',
     colorScheme: const ColorScheme.light().copyWith(
       primary: primaryColor,
@@ -34,7 +33,6 @@ class ThemeClass {
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: backgroundDarkColor,
     primaryColor: primaryDarkColor,
-    backgroundColor: backgroundDarkColor,
     fontFamily: 'Proxima',
     colorScheme: const ColorScheme.dark().copyWith(
       primary: primaryDarkColor,

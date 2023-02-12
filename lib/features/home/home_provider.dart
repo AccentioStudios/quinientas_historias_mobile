@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/features/home/ui/pages/home2.dart';
 
 import 'data/repositories/home_repository.dart';
 import 'data/useCases/home_usecases.dart';
@@ -14,7 +15,7 @@ class HomeProvider extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) =>
           HomeCubit(homeUseCases: HomeUseCases(repository: HomeRepository())),
-      child: const HomePage(),
+      child: const HomePage2(),
     );
   }
 }

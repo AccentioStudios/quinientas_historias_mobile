@@ -19,7 +19,7 @@ class DeviceInfo implements DeviceInfoHelper {
       }
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await _deviceInfo.androidInfo;
-        return androidInfo.model ?? '';
+        return androidInfo.model;
       } else if (Platform.isIOS) {
         final IosDeviceInfo iosInfo = await _deviceInfo.iosInfo;
         return iosInfo.utsname.machine ?? '';
