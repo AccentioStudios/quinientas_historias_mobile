@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../../../core/data/models/jwt_token_model.dart';
 import '../../../../core/integrations/api_service.dart';
 import '../models/iforgot_request_model.dart';
@@ -8,8 +10,8 @@ import '../models/verify_otp_code_response_model.dart';
 
 class AuthRepository with ApiService {
   Stream<JWTTokenModel> login(AuthRequest login) async* {
-    yield* appApi.post('v1/auth/login', data: login.toJson()).handleJson(
-        mapper: (data) {
+    var data = jsonEncode(login.toJson());
+    yield* appApi.post('v2/auth/login', data: data).handleJson(mapper: (data) {
       JWTTokenModel authModel = JWTTokenModel.decode(data);
       return authModel;
     });

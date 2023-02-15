@@ -7,6 +7,7 @@ import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
 import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
+import 'package:rive/rive.dart';
 
 import '../../../../core/failures/failures.dart';
 import '../../../../core/integrations/alice_service.dart';
@@ -41,37 +42,57 @@ class _LoginPageState extends State<LoginPage> {
       onWillPop: () {
         return Future.value(false);
       },
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          leading: Container(),
-          actions: [
-            TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.help_outline_outlined),
-                label: const Text('Ayuda')),
-            if (PlatformEnvironment.env != 'prod')
-              TextButton.icon(
-                  onPressed: () {
-                    AliceService.instance.showInspector();
-                  },
-                  icon: const Icon(Icons.search),
-                  label: const Text('Abrir Alice Inspector ')),
-          ],
-          elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) {
-                return state.loading
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height - 50,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      )
-                    : IntrinsicHeight(
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          return state.loading
+              ? Scaffold(
+                  body: SafeArea(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          SizedBox(
+                            width: 150,
+                            height: 150,
+                            child: RiveAnimation.asset(
+                                'assets/images/geometric-loading-animation.riv'),
+                          ),
+                          SizedBox(height: Constants.space21),
+                          Text(
+                            'Entrando a 500Historias',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(height: Constants.space21),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : Scaffold(
+                  resizeToAvoidBottomInset: true,
+                  appBar: AppBar(
+                    leading: Container(),
+                    actions: [
+                      TextButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.help_outline_outlined),
+                          label: const Text('Ayuda')),
+                      if (PlatformEnvironment.env != 'prod')
+                        TextButton.icon(
+                            onPressed: () {
+                              AliceService.instance.showInspector();
+                            },
+                            icon: const Icon(Icons.search),
+                            label: const Text('Abrir Alice Inspector ')),
+                    ],
+                    elevation: 0,
+                  ),
+                  body: SingleChildScrollView(
+                    child: SafeArea(
+                      child: IntrinsicHeight(
                         child: PaddingColumn(
                           padding: const EdgeInsets.symmetric(
                               horizontal: Constants.space18),
@@ -117,11 +138,11 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                      );
-              },
-            ),
-          ),
-        ),
+                      ),
+                    ),
+                  ),
+                );
+        },
       ),
     );
   }
@@ -141,14 +162,17 @@ class _LoginPageState extends State<LoginPage> {
     //           '');
     // }
 
-    authCubit.login(
-        firebaseToken: firebaseToken,
-        onSuccess: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
-        },
-        onError: (HttpFailure error) {
-          widget.handleError(context, error);
-        });
+    authCubit.wpOpenIdLogin(onSuccess: (userInfo) {
+      authCubit.loginIntoTelle(
+          firebaseToken: firebaseToken,
+          userInfo: userInfo,
+          onError: (error) => widget.handleError(context, error),
+          onSuccess: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+            Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+          });
+    }, onError: (HttpFailure error) {
+      widget.handleError(context, error);
+    });
   }
 }

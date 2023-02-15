@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'team_profile_cubit.dart';
 
@@ -47,16 +47,16 @@ class _$TeamProfileStateCopyWithImpl<$Res, $Val extends TeamProfileState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? error = null,
+    Object? isLoading = freezed,
+    Object? error = freezed,
     Object? team = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
+      isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -90,13 +90,13 @@ class __$$_TeamProfileStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? error = null,
+    Object? isLoading = freezed,
+    Object? error = freezed,
     Object? team = freezed,
   }) {
     return _then(_$_TeamProfileState(
-      isLoading: null == isLoading ? _value.isLoading : isLoading,
-      error: null == error ? _value.error : error,
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
+      error: freezed == error ? _value.error! : error,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable

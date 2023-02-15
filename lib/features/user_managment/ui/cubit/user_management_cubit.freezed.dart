@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'user_management_cubit.dart';
 
@@ -53,13 +53,13 @@ class _$UserManagementStateCopyWithImpl<$Res, $Val extends UserManagementState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? isLoading = freezed,
     Object? userManagementRequest = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
+      isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -105,13 +105,13 @@ class __$$_UserManagementStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
+    Object? isLoading = freezed,
     Object? userManagementRequest = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
   }) {
     return _then(_$_UserManagementState(
-      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
       userManagementRequest: freezed == userManagementRequest
           ? _value.userManagementRequest
           : userManagementRequest // ignore: cast_nullable_to_non_nullable

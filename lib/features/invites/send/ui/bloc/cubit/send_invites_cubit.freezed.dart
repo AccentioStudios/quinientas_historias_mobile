@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'send_invites_cubit.dart';
 
@@ -56,19 +56,19 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? sendingInvite = null,
+    Object? isLoading = freezed,
+    Object? sendingInvite = freezed,
     Object? invites = null,
     Object? profTeams = null,
-    Object? formValidationError = null,
+    Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
-      isLoading: null == isLoading
+      isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      sendingInvite: null == sendingInvite
+      sendingInvite: freezed == sendingInvite
           ? _value.sendingInvite
           : sendingInvite // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -80,7 +80,7 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
           ? _value.profTeams
           : profTeams // ignore: cast_nullable_to_non_nullable
               as List<Team>,
-      formValidationError: null == formValidationError
+      formValidationError: freezed == formValidationError
           ? _value.formValidationError
           : formValidationError // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -120,17 +120,17 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isLoading = null,
-    Object? sendingInvite = null,
+    Object? isLoading = freezed,
+    Object? sendingInvite = freezed,
     Object? invites = null,
     Object? profTeams = null,
-    Object? formValidationError = null,
+    Object? formValidationError = freezed,
     Object? user = freezed,
   }) {
     return _then(_$_SendInvitesState(
-      isLoading: null == isLoading ? _value.isLoading : isLoading,
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
       sendingInvite:
-          null == sendingInvite ? _value.sendingInvite : sendingInvite,
+          freezed == sendingInvite ? _value.sendingInvite! : sendingInvite,
       invites: null == invites
           ? _value._invites
           : invites // ignore: cast_nullable_to_non_nullable
@@ -139,8 +139,8 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
           ? _value._profTeams
           : profTeams // ignore: cast_nullable_to_non_nullable
               as List<Team>,
-      formValidationError: null == formValidationError
-          ? _value.formValidationError
+      formValidationError: freezed == formValidationError
+          ? _value.formValidationError!
           : formValidationError,
       user: freezed == user
           ? _value.user
@@ -173,6 +173,7 @@ class _$_SendInvitesState implements _SendInvitesState {
   @override
   @JsonKey()
   List<Invite> get invites {
+    if (_invites is EqualUnmodifiableListView) return _invites;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_invites);
   }
@@ -181,6 +182,7 @@ class _$_SendInvitesState implements _SendInvitesState {
   @override
   @JsonKey()
   List<Team> get profTeams {
+    if (_profTeams is EqualUnmodifiableListView) return _profTeams;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_profTeams);
   }

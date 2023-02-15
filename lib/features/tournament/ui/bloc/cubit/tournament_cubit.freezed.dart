@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'tournament_cubit.dart';
 
@@ -55,18 +55,18 @@ class _$TournamentStateCopyWithImpl<$Res, $Val extends TournamentState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tournamentIsLoading = null,
-    Object? leaderboardIsLoading = null,
+    Object? tournamentIsLoading = freezed,
+    Object? leaderboardIsLoading = freezed,
     Object? tournament = freezed,
     Object? listPage = freezed,
     Object? teamTabShowed = null,
   }) {
     return _then(_value.copyWith(
-      tournamentIsLoading: null == tournamentIsLoading
+      tournamentIsLoading: freezed == tournamentIsLoading
           ? _value.tournamentIsLoading
           : tournamentIsLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      leaderboardIsLoading: null == leaderboardIsLoading
+      leaderboardIsLoading: freezed == leaderboardIsLoading
           ? _value.leaderboardIsLoading
           : leaderboardIsLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -113,18 +113,18 @@ class __$$_TournamentStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tournamentIsLoading = null,
-    Object? leaderboardIsLoading = null,
+    Object? tournamentIsLoading = freezed,
+    Object? leaderboardIsLoading = freezed,
     Object? tournament = freezed,
     Object? listPage = freezed,
     Object? teamTabShowed = null,
   }) {
     return _then(_$_TournamentState(
-      tournamentIsLoading: null == tournamentIsLoading
-          ? _value.tournamentIsLoading
+      tournamentIsLoading: freezed == tournamentIsLoading
+          ? _value.tournamentIsLoading!
           : tournamentIsLoading,
-      leaderboardIsLoading: null == leaderboardIsLoading
-          ? _value.leaderboardIsLoading
+      leaderboardIsLoading: freezed == leaderboardIsLoading
+          ? _value.leaderboardIsLoading!
           : leaderboardIsLoading,
       tournament: freezed == tournament
           ? _value.tournament

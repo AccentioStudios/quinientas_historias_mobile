@@ -1,22 +1,21 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openid_client/openid_client_io.dart' as io;
 import 'package:openid_client/openid_client_io.dart';
-import 'package:uuid/uuid.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/data/entities/user_2_entity.dart';
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../data/models/iforgot_request_model.dart';
+import '../../../data/models/login_model.dart';
 import '../../../data/models/verify_otp_code_request_model.dart';
 import '../../../data/useCases/auth_usecases.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
@@ -41,11 +40,34 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     }
 
     // create an authenticator
-    var authenticator = io.Authenticator(client,
-        scopes: scopes,
-        port: 4000,
-        urlLancher: urlLauncher,
-        htmlPage: '<style>*{ backgroundColor: #101C29;} </style>');
+    var authenticator = io.Authenticator(
+      client,
+      scopes: scopes,
+      port: 4000,
+      urlLancher: urlLauncher,
+      htmlPage: '<html>'
+          '<h1>Redireccionando...</h1>'
+          '<script>window.close();</script>'
+          '<style>'
+          'html {'
+          'background-color: #101C29;'
+          'color: white;'
+          'font-family: sans-serif;'
+          'font-size: 0.5rem;'
+          'text-align: center;'
+          'padding: 10px;'
+          '}'
+          'h1 {'
+          'padding: 10px;'
+          'display: flex;'
+          'justify-content: center;'
+          'align-items: center;'
+          'justify-items: center;'
+          'height: 100%;'
+          '}'
+          '</style>'
+          '</html>',
+    );
 
     // starts the authentication
     var c = await authenticator.authorize();
@@ -63,37 +85,74 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     return null;
   }
 
-  void login(
+  void loginIntoTelle(
       {required String? firebaseToken,
+      required UserInfo userInfo,
       required Function onError,
       required void Function() onSuccess}) async {
-    // emit(state.copyWith(loading: true, httpFailure: null));
+    emit(state.copyWith(loading: true, httpFailure: null));
+    // await Future.delayed(const Duration(seconds: 2));
 
+    final authRequest = AuthRequest(
+      user: User2(
+          name: userInfo.name,
+          givenName: userInfo.givenName,
+          familyName: userInfo.familyName,
+          nickname: userInfo.nickname,
+          email: userInfo.email),
+      firebaseToken: firebaseToken,
+    );
+
+    authUseCases.login(authRequest).listen((JWTTokenModel jwtTokenModel) {
+      if (jwtTokenModel.accessToken != null) {
+        if (jwtTokenModel.accessToken!.isNotEmpty) {
+          SecureStorageHelper.saveSession(jwtTokenModel);
+          return onSuccess();
+        } else {
+          onError(HttpFailure(
+              message:
+                  'Hubo un problema al recuperar los datos, intenta nuevamente'));
+        }
+      } else {
+        onError(HttpFailure(
+            message:
+                'Hubo un problema al recuperar los datos, intenta nuevamente'));
+      }
+    }, onError: (error) {
+      if (error is HttpFailure) {
+        emit(state.copyWith(httpFailure: error));
+      }
+      onError(error);
+    }, onDone: () {
+      emit(state.copyWith(loading: false));
+    }).subscribe(this);
+    // SecureStorageHelper.saveSession(JWTTokenModel(
+    //     accessToken: res.accessToken,
+    //     user: User(
+    //         email: user.email,
+    //         firstName: user.name,
+    //         lastName: user.familyName,
+    //         avatarUrl: user.picture.toString())));
+  }
+
+  void wpOpenIdLogin(
+      {required Function onError,
+      required void Function(UserInfo userInfo) onSuccess}) async {
     try {
       const _clientId = 'DXjSKvZOEzjkTffTaIDOJAqazRDrWjSI';
       const _clientSecret = 'qQNZuzYxGGouhHbPbqvcVGqwUkYjVrLx';
       final _issuer = await Issuer.discover(Constants.openIDDiscoverUri);
       const _scopes = <String>['openid'];
       const _logoutUrl = '';
-      var redirectUri = Uri.http('localhost:4000', '/auth/callback');
 
       var client = Client(_issuer, "DXjSKvZOEzjkTffTaIDOJAqazRDrWjSI",
           clientSecret: _clientSecret);
 
       var c = await authenticate(client, scopes: _scopes);
 
-      var res = await c.getTokenResponse();
-      var user = await c.getUserInfo();
+      var userInfo = await c.getUserInfo();
 
-      // emit(state.copyWith(loading: false, httpFailure: null));
-      SecureStorageHelper.saveSession(JWTTokenModel(
-          accessToken: res.accessToken,
-          user: User(
-              email: user.email,
-              firstName: user.name,
-              lastName: user.familyName,
-              avatarUrl: user.picture.toString())));
-      return onSuccess();
+      return onSuccess(userInfo);
     } catch (error) {
       emit(
         state.copyWith(
