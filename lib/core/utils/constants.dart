@@ -17,6 +17,10 @@ class Constants {
   static const double space21 = 21;
   static const double space30 = 30;
   static const double space41 = 41;
+  static const String openIdAuthority = 'press-dev.accentiostudios.com';
+  static const String openIdDiscoverPath =
+      '/wp-json/moserver/DXjSKvZOEzjkTffTaIDOJAqazRDrWjSI';
+  static Uri openIDDiscoverUri = Uri.https(openIdAuthority, openIdDiscoverPath);
 
   static WebUiSettings getWebUiSettings(BuildContext context) => WebUiSettings(
         context: context,

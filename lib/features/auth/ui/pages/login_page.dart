@@ -3,224 +3,130 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:quinientas_historias/core/integrations/alice_service.dart';
-import 'package:quinientas_historias/core/integrations/platform_environments.dart';
+import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
+import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
+import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
+import 'package:quinientas_historias/core/utils/constants.dart';
 
 import '../../../../core/failures/failures.dart';
-import '../../../../core/failures/status_codes.dart';
+import '../../../../core/integrations/alice_service.dart';
 import '../../../../core/integrations/firebase_messaging_service.dart';
+import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
-import '../../../../core/ui/widgets/big_button.dart';
-import '../../../../core/ui/widgets/headline.dart';
-import '../../../../core/ui/widgets/link_button.dart';
-import '../../../../core/ui/widgets/themed_text_form_field.dart';
-import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/auth_cubit.dart';
-import 'forgot_password_page.dart';
-import 'receive_invite_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget with ErrorHandling {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late final FirebaseMessagingService firebaseMessagingService;
+
+  @override
+  void initState() {
+    super.initState();
+    firebaseMessagingService =
+        Provider.of<FirebaseMessagingService>(context, listen: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return WillPopScope(
-      onWillPop: () async {
-        return false;
+      onWillPop: () {
+        return Future.value(false);
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          leading: Container(),
+          actions: [
+            TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.help_outline_outlined),
+                label: const Text('Ayuda')),
+            if (PlatformEnvironment.env != 'prod')
+              TextButton.icon(
+                  onPressed: () {
+                    AliceService.instance.showInspector();
+                  },
+                  icon: const Icon(Icons.search),
+                  label: const Text('Abrir Alice Inspector ')),
+          ],
+          elevation: 0,
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
-            child: Column(
-              children: [
-                SizedBox(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Align(
-                          alignment: Alignment.topCenter,
-                          child: Transform.translate(
-                            offset: const Offset(0, -45),
-                            child: const GradientBackground(),
-                          )),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 60),
-                          child: SizedBox(
-                              width: 170,
-                              height: 150,
-                              child: SvgPicture.asset(
-                                  'assets/images/login-image.svg')),
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return state.loading
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height - 50,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(
-                            top: 190,
-                            left: Constants.space18,
-                            right: Constants.space18),
-                        child: _LoginForm(),
-                      ),
-                      if (PlatformEnvironment.env != 'prod')
-                        Positioned(
-                          top: 0,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 60,
-                            child: Row(children: [
-                              const SizedBox(
-                                width: Constants.space16,
+                      )
+                    : IntrinsicHeight(
+                        child: PaddingColumn(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space18),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 137,
+                              child: Image.asset('assets/images/logo.png'),
+                            ),
+                            const SizedBox(height: Constants.space41),
+                            const Text('¡Bienvenido!',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                            const SizedBox(height: Constants.space21),
+                            const Text(
+                                'Inicia sesión para poder interactuar con la comunidad de 500Historias',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500)),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                    width: 90,
+                                    child: SvgPicture.asset(
+                                        'assets/images/login-image.svg'),
+                                  ),
+                                  BigButton(
+                                    onPressed: () {
+                                      _loginAndNavigateToShell(context,
+                                          firebaseMessagingService, authCubit);
+                                    },
+                                    text: 'Entrar a 500Historias',
+                                  ),
+                                  const SizedBox(height: Constants.space21),
+                                  LinkButton(
+                                      onTap: () {},
+                                      text: 'Tengo una invitacion'),
+                                  const SizedBox(height: Constants.space21),
+                                ],
                               ),
-                              TextButton.icon(
-                                  onPressed: () {
-                                    AliceService.instance.showInspector();
-                                  },
-                                  icon: const Icon(Icons.search),
-                                  label: const Text('Alice Inspector'))
-                            ]),
-                          ),
+                            ),
+                          ],
                         ),
-                    ],
-                  ),
-                ),
-              ],
+                      );
+              },
             ),
           ),
         ),
       ),
     );
   }
-}
 
-class _LoginForm extends StatefulWidget with ErrorHandling {
-  const _LoginForm({Key? key}) : super(key: key);
-
-  @override
-  State<_LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<_LoginForm> {
-  late TextEditingController emailAddressLoginController;
-  late TextEditingController passwordLoginController;
-
-  @override
-  void initState() {
-    super.initState();
-    emailAddressLoginController = TextEditingController();
-    passwordLoginController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    emailAddressLoginController.dispose();
-    passwordLoginController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final firebaseMessagingService =
-        Provider.of<FirebaseMessagingService>(context, listen: false);
-
-    final authCubit = context.read<AuthCubit>();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
-      child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) {
-          return Form(
-            child: Column(
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(left: Constants.space21),
-                  child: Headline(label: 'Iniciar sesion'),
-                ),
-                ThemedTextFormField(
-                  controller: emailAddressLoginController,
-                  textInputAction: TextInputAction.next,
-                  hintText: 'Email',
-                  prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
-                  keyboardType: TextInputType.emailAddress,
-                  enabled: !state.loading,
-                  errorText: state.httpFailure?.error == FailureType.email
-                      ? state.httpFailure?.message
-                      : null,
-                ),
-                const SizedBox(height: Constants.space18),
-                ThemedTextFormField(
-                  controller: passwordLoginController,
-                  textInputAction: TextInputAction.go,
-                  hintText: 'Password',
-                  prefixIconSvgPath: 'assets/icons/lock-outline-icon.svg',
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  enabled: !state.loading,
-                  onFieldSubmitted: (text) => _navigateToHomeNavigator(
-                      context, firebaseMessagingService, authCubit),
-                  errorText: state.httpFailure?.error == FailureType.password
-                      ? state.httpFailure?.message
-                      : null,
-                ),
-                const SizedBox(height: Constants.space18),
-                Align(
-                    alignment: Alignment.topRight,
-                    child: LinkButton(
-                      text: 'Olvidé la contraseña',
-                      onTap: () => state.loading
-                          ? null
-                          : _navigateToForgotPassword(context),
-                    )),
-                const SizedBox(height: Constants.space18),
-                BigButton(
-                  elevation: 5,
-                  text: 'Entrar a 500 Historias',
-                  isLoading: state.loading,
-                  onPressed: () {
-                    _navigateToHomeNavigator(
-                        context, firebaseMessagingService, authCubit);
-                  },
-                ),
-                const SizedBox(height: Constants.space41),
-                Align(
-                    alignment: Alignment.center,
-                    child: LinkButton(
-                      text: 'Tengo una invitación',
-                      onTap: () => state.loading
-                          ? null
-                          : _navigateToVerifyInvite(context),
-                    )),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  void _navigateToVerifyInvite(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => BlocProvider.value(
-          value: BlocProvider.of<AuthCubit>(context),
-          child: const ReceiveInvitePage(),
-        ),
-      ),
-    );
-  }
-
-  void _navigateToForgotPassword(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => BlocProvider.value(
-          value: BlocProvider.of<AuthCubit>(context),
-          child: const ForgotPasswordPage(),
-        ),
-      ),
-    );
-  }
-
-  void _navigateToHomeNavigator(
+  void _loginAndNavigateToShell(
       BuildContext context,
       FirebaseMessagingService firebaseMessagingService,
       AuthCubit authCubit) async {
@@ -236,47 +142,13 @@ class _LoginFormState extends State<_LoginForm> {
     // }
 
     authCubit.login(
-        email: emailAddressLoginController.text,
-        password: passwordLoginController.text,
         firebaseToken: firebaseToken,
         onSuccess: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
           Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
         },
         onError: (HttpFailure error) {
-          if (error.statusCode == StatusCodes.unauthorized) {
-            if (error.error == FailureType.email ||
-                error.error == FailureType.password) {
-              // Let this UI show the error type
-              return;
-            }
-          }
           widget.handleError(context, error);
         });
-  }
-}
-
-class GradientBackground extends StatelessWidget {
-  const GradientBackground({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxHeight: 340),
-      decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors: [
-            const Color(0xff7bffff).withOpacity(0.08),
-            const Color.fromARGB(255, 123, 255, 255).withOpacity(0)
-          ],
-          stops: const <double>[
-            0.0,
-            0.8,
-          ],
-          center: Alignment.center,
-          radius: 0.6,
-        ),
-      ),
-    );
   }
 }

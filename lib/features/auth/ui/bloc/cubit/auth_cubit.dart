@@ -1,14 +1,22 @@
-import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:io';
 
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:openid_client/openid_client_io.dart' as io;
+import 'package:openid_client/openid_client_io.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
+import '../../../../../core/utils/constants.dart';
 import '../../../data/models/iforgot_request_model.dart';
-import '../../../data/models/login_model.dart';
 import '../../../data/models/verify_otp_code_request_model.dart';
 import '../../../data/useCases/auth_usecases.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
@@ -20,43 +28,81 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
   final AuthUseCases authUseCases;
 
-  void login(
-      {required String email,
-      required String password,
-      required String? firebaseToken,
-      required Function onError,
-      required void Function() onSuccess}) {
-    emit(state.copyWith(loading: true, httpFailure: null));
-
-    final authRequest = AuthRequest(
-      email: email,
-      password: password,
-      firebaseToken: firebaseToken,
-    );
-
-    authUseCases.login(authRequest).listen((JWTTokenModel authModel) {
-      if (authModel.accessToken != null) {
-        if (authModel.accessToken!.isNotEmpty) {
-          SecureStorageHelper.saveSession(authModel);
-          return onSuccess();
-        } else {
-          onError(HttpFailure(
-              message:
-                  'Hubo un problema al recuperar los datos, intenta nuevamente'));
-        }
+  Future<Credential> authenticate(Client client,
+      {List<String> scopes = const []}) async {
+    // create a function to open a browser with an url
+    urlLauncher(String url) async {
+      var uri = Uri.parse(url);
+      if (await canLaunchUrl(uri) || Platform.isAndroid) {
+        await launchUrl(uri, mode: LaunchMode.inAppWebView);
       } else {
-        onError(HttpFailure(
-            message:
-                'Hubo un problema al recuperar los datos, intenta nuevamente'));
+        throw 'Could not launch $url';
       }
-    }, onError: (error) {
-      if (error is HttpFailure) {
-        emit(state.copyWith(httpFailure: error));
-      }
-      onError(error);
-    }, onDone: () {
-      emit(state.copyWith(loading: false));
-    }).subscribe(this);
+    }
+
+    // create an authenticator
+    var authenticator = io.Authenticator(client,
+        scopes: scopes,
+        port: 4000,
+        urlLancher: urlLauncher,
+        htmlPage: '<style>*{ backgroundColor: #101C29;} </style>');
+
+    // starts the authentication
+    var c = await authenticator.authorize();
+
+    // close the webview when finished
+    if (Platform.isAndroid || Platform.isIOS) {
+      closeInAppWebView();
+    }
+
+    return c;
+  }
+
+  Future<Credential?> getRedirectResult(Client client,
+      {List<String> scopes = const []}) async {
+    return null;
+  }
+
+  void login(
+      {required String? firebaseToken,
+      required Function onError,
+      required void Function() onSuccess}) async {
+    // emit(state.copyWith(loading: true, httpFailure: null));
+
+    try {
+      const _clientId = 'DXjSKvZOEzjkTffTaIDOJAqazRDrWjSI';
+      const _clientSecret = 'qQNZuzYxGGouhHbPbqvcVGqwUkYjVrLx';
+      final _issuer = await Issuer.discover(Constants.openIDDiscoverUri);
+      const _scopes = <String>['openid'];
+      const _logoutUrl = '';
+      var redirectUri = Uri.http('localhost:4000', '/auth/callback');
+
+      var client = Client(_issuer, "DXjSKvZOEzjkTffTaIDOJAqazRDrWjSI",
+          clientSecret: _clientSecret);
+
+      var c = await authenticate(client, scopes: _scopes);
+
+      var res = await c.getTokenResponse();
+      var user = await c.getUserInfo();
+
+      // emit(state.copyWith(loading: false, httpFailure: null));
+      SecureStorageHelper.saveSession(JWTTokenModel(
+          accessToken: res.accessToken,
+          user: User(
+              email: user.email,
+              firstName: user.name,
+              lastName: user.familyName,
+              avatarUrl: user.picture.toString())));
+      return onSuccess();
+    } catch (error) {
+      emit(
+        state.copyWith(
+          loading: false,
+          httpFailure: HttpFailure(error: FailureType.unauthorized),
+        ),
+      );
+      onError(HttpFailure(error: FailureType.unauthorized));
+    }
   }
 
   void resetPassword(
