@@ -7,6 +7,8 @@ enum StatusCodes {
   unknown,
   @JsonValue(200)
   ok,
+  @JsonValue(201)
+  created,
   @JsonValue(400)
   badRequest,
   @JsonValue(401)

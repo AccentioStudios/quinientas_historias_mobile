@@ -26,6 +26,7 @@ const _$StatusCodesEnumMap = {
   StatusCodes.networkError: 'networkError',
   StatusCodes.unknown: 'unknown',
   StatusCodes.ok: 200,
+  StatusCodes.created: 201,
   StatusCodes.badRequest: 400,
   StatusCodes.unauthorized: 401,
   StatusCodes.fordbidden: 403,

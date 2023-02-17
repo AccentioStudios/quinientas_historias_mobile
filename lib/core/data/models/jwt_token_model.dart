@@ -1,6 +1,6 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/integrations/platform_environments.dart';
+import '../../integrations/platform_environments.dart';
 
 import '../entities/user_entity.dart';
 
@@ -20,9 +20,9 @@ class JWTTokenModel {
     try {
       final String jwtSignKey = PlatformEnvironment.jwtSignKey.toString();
 
-      String accessToken = map['accessToken'].toString();
+      String accessToken = map['access_token'].toString();
       final jwt = JWT.verify(accessToken, SecretKey(jwtSignKey));
-      final jwtUserData = jwt.payload['data'];
+      final jwtUserData = jwt.payload;
 
       return JWTTokenModel(
           accessToken: accessToken,

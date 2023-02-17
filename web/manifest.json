@@ -1,11 +1,11 @@
 {
-    "name": "quinientas_historias",
-    "short_name": "quinientas_historias",
+    "name": "quinientas_historias_mobile",
+    "short_name": "quinientas_historias_mobile",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "500 Historias",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

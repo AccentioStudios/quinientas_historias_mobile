@@ -47,30 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAnpurh9rJpDESlWK0Rsc_9iN7hKqJHyrE',
-    appId: '1:167564851917:web:efaa9f37d9c112110ac784',
-    messagingSenderId: '167564851917',
-    projectId: 'historias-25985',
-    authDomain: 'historias-25985.firebaseapp.com',
-    storageBucket: 'historias-25985.appspot.com',
-    measurementId: 'G-Q10Y0XXHZT',
+    apiKey: 'AIzaSyBiaXDU4ki0LYQu9-JfV2QqFvEZBU5-wmg',
+    appId: '1:591116256365:web:47670f9262fb2d46dbab64',
+    messagingSenderId: '591116256365',
+    projectId: 'historias-dev-e781f',
+    authDomain: 'historias-dev-e781f.firebaseapp.com',
+    storageBucket: 'historias-dev-e781f.appspot.com',
+    measurementId: 'G-W2ZC5P98WT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAlgQVIg4dkwRwDGs-enN6Zta0eeR3zgO4',
-    appId: '1:167564851917:android:0e6e7614fc226c120ac784',
-    messagingSenderId: '167564851917',
-    projectId: 'historias-25985',
-    storageBucket: 'historias-25985.appspot.com',
+    apiKey: 'AIzaSyCSXGstA9XiB6uLwtl6CEEkqQLj5_kD9ug',
+    appId: '1:591116256365:android:ec5afa56ed55a832dbab64',
+    messagingSenderId: '591116256365',
+    projectId: 'historias-dev-e781f',
+    storageBucket: 'historias-dev-e781f.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBrBwCGtoNgZFSQZWxRgQL21S2lEqCc_qA',
-    appId: '1:167564851917:ios:3580bfa3fd1112910ac784',
-    messagingSenderId: '167564851917',
-    projectId: 'historias-25985',
-    storageBucket: 'historias-25985.appspot.com',
-    iosClientId: '167564851917-jr4d2aanbtj5dpjvh0efailtv19vau7o.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDgcdWSdIcJde7bJCoiUxKiG4Nm1OUsI7w',
+    appId: '1:591116256365:ios:bde620bb4b59acd1dbab64',
+    messagingSenderId: '591116256365',
+    projectId: 'historias-dev-e781f',
+    storageBucket: 'historias-dev-e781f.appspot.com',
+    iosClientId: '591116256365-u5h61oho3hemtnnumhdac4s2dqkan1pm.apps.googleusercontent.com',
     iosBundleId: 'com.accentiostudios.quinientas',
   );
 }

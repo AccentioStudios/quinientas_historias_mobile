@@ -62,6 +62,8 @@ enum FailureType {
   inviteNotFound,
 
   // Others
+  @JsonValue('format-exception')
+  formatException,
   @JsonValue('http-handle-error')
   httpHandleError,
   @JsonValue('network-error')

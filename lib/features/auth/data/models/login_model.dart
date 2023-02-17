@@ -1,17 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../core/data/entities/user_2_entity.dart';
-
 part 'login_model.g.dart';
 
 @JsonSerializable()
 class AuthRequest {
   AuthRequest({
-    required this.user,
+    required this.credentials,
     this.firebaseToken,
   });
 
-  final User2 user;
+  final Map<String, dynamic> credentials;
   final String? firebaseToken;
 
   factory AuthRequest.fromJson(Map<String, dynamic> json) =>

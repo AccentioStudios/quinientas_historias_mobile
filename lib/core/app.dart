@@ -29,8 +29,10 @@ class _ApplicationState extends State<Application> {
   void initState() {
     super.initState();
     _incomingLinkHandler();
-    initilizeFirebaseMessaging();
-    checkNotifications();
+    if (!kIsWeb) {
+      initilizeFirebaseMessaging();
+      checkNotifications();
+    }
     FlutterNativeSplash.remove();
   }
 

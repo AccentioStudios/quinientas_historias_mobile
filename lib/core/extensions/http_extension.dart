@@ -34,6 +34,10 @@ extension HttpExtension on Future<Response> {
       try {
         yield mapper(responseBodyJson);
       } catch (error) {
+        if (error is FormatException) {
+          throw HttpFailure(
+              error: FailureType.formatException, message: error.message);
+        }
         throw HttpFailure(error: FailureType.httpHandleError);
       }
     } else {

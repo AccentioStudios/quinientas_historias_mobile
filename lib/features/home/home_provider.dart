@@ -5,7 +5,6 @@ import 'package:quinientas_historias/features/home/ui/pages/home2.dart';
 import 'data/repositories/home_repository.dart';
 import 'data/useCases/home_usecases.dart';
 import 'ui/bloc/cubit/home_cubit.dart';
-import 'ui/pages/home.dart';
 
 class HomeProvider extends StatelessWidget {
   const HomeProvider({Key? key}) : super(key: key);

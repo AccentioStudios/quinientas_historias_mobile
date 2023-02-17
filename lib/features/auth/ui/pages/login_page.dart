@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
-import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
-import 'package:quinientas_historias/core/ui/widgets/padding_column.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
+import '../../../../core/ui/widgets/big_button.dart';
+import '../../../../core/ui/widgets/link_button.dart';
+import '../../../../core/ui/widgets/padding_column.dart';
+import '../../../../core/utils/constants.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../core/failures/failures.dart';
@@ -156,16 +156,11 @@ class _LoginPageState extends State<LoginPage> {
     if (!kIsWeb) {
       firebaseToken = await firebaseMessagingService.getDeviceFirebaseToken();
     }
-    //  else {
-    //   firebaseToken = await firebaseMessagingService.getDeviceFirebaseToken(
-    //       vapidKey:
-    //           '');
-    // }
 
-    authCubit.wpOpenIdLogin(onSuccess: (userInfo) {
+    authCubit.wpOpenIdLogin(onSuccess: (credentials) {
       authCubit.loginIntoTelle(
           firebaseToken: firebaseToken,
-          userInfo: userInfo,
+          credentials: credentials,
           onError: (error) => widget.handleError(context, error),
           onSuccess: () {
             Navigator.of(context).popUntil((route) => route.isFirst);

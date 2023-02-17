@@ -4,7 +4,7 @@
 	<dict>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
-  			<string>http</string>
+			<string>http</string>
 		</array>
 		<key>FlutterDeepLinkingEnabled</key>
 		<true/>

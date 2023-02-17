@@ -7,12 +7,12 @@ part of 'login_model.dart';
 // **************************************************************************
 
 AuthRequest _$AuthRequestFromJson(Map<String, dynamic> json) => AuthRequest(
-      user: User2.fromJson(json['user'] as Map<String, dynamic>),
+      credentials: json['credentials'] as Map<String, dynamic>,
       firebaseToken: json['firebaseToken'] as String?,
     );
 
 Map<String, dynamic> _$AuthRequestToJson(AuthRequest instance) =>
     <String, dynamic>{
-      'user': instance.user,
+      'credentials': instance.credentials,
       'firebaseToken': instance.firebaseToken,
     };

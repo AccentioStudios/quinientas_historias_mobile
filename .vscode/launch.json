@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Flutter Dev",
             "request": "launch",
@@ -36,12 +37,14 @@
             "type": "dart",
             "program": "lib/main.dart",
             "args": [
-              "--dart-define=API_URL=localhost:3000",
-              "--dart-define=JWT_SIGN_KEY=xxxxxx",
-              "--dart-define=https=false",
-              "--dart-define=ENV=dev",
-              "--dart-define=APP_ID_SUFFIX=.dev",
-
+                "--dart-define=ENV=dev",
+                "--dart-define=APP_ID_SUFFIX=.dev",
+                "--dart-define=https=true",
+                "--dart-define=API_URL=bbdb-2804-14d-32b7-6789-cd35-9acd-ba92-cf74.sa.ngrok.io",
+                "--dart-define=JWT_SIGN_KEY=xxxxxx",
+                "--dart-define=OIDC_CLIENT_ID=igmFbaorhTMdynULPtaQwKhxOAFpELWs",
+                "--dart-define=OIDC_DISCOVER_URL=https://press-dev.accentiostudios.com/wp-json/moserver/igmFbaorhTMdynULPtaQwKhxOAFpELWs",
+                "--dart-define=OIDC_REDIRECT_URI=https://bbdb-2804-14d-32b7-6789-cd35-9acd-ba92-cf74.sa.ngrok.io/v2/auth/callback",
             ]
           },
           {
