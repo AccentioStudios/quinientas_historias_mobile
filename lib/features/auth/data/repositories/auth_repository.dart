@@ -10,8 +10,10 @@ import '../models/verify_otp_code_response_model.dart';
 
 class AuthRepository with ApiService {
   Stream<JWTTokenModel> login(AuthRequest login) async* {
-    var data = jsonEncode(login.toJson());
-    yield* appApi.post('v2/auth/login', data: data).handleJson(mapper: (data) {
+    yield* appApi.post('v2/auth/login', queryParameters: {
+      'access_token': login.accessToken,
+      'firebase_token': login.firebaseToken
+    }).handleJson(mapper: (data) {
       JWTTokenModel authModel = JWTTokenModel.decode(data);
       return authModel;
     });

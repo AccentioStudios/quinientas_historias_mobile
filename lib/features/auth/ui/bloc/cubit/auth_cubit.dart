@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
   final AuthUseCases authUseCases;
 
-  Future<Map<String, dynamic>> oidcAuthenticate({
+  Future<String?> oidcAuthenticate({
     required String authorizationEndpoint,
     required String clientId,
     required String redirectUri,
@@ -37,10 +37,9 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     final result = await FlutterWebAuth.authenticate(
         url: authUrl, callbackUrlScheme: 'qh-auth');
 
-    final accessToken = Uri.parse(result).queryParameters['accessToken'];
-    final idToken = Uri.parse(result).queryParameters['idToken'];
+    final accessToken = Uri.parse(result).queryParameters['access_token'];
 
-    return {'accessToken': accessToken, 'idToken': idToken};
+    return accessToken;
   }
 
   Future<Credential?> getRedirectResult(Client client,
@@ -50,20 +49,24 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
   void loginIntoTelle(
       {required String? firebaseToken,
-      required Map<String, dynamic> credentials,
+      required String accessToken,
       required Function onError,
       required void Function() onSuccess}) async {
     emit(state.copyWith(loading: true, httpFailure: null));
     await Future.delayed(const Duration(seconds: 1));
 
     final authRequest = AuthRequest(
-      credentials: credentials,
+      accessToken: accessToken,
       firebaseToken: firebaseToken,
     );
 
     authUseCases.login(authRequest).listen((JWTTokenModel jwtTokenModel) {
       if (jwtTokenModel.accessToken != null) {
         if (jwtTokenModel.accessToken!.isNotEmpty) {
+          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
+          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
+          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
+          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
           SecureStorageHelper.saveSession(jwtTokenModel);
           return onSuccess();
         } else {
@@ -95,8 +98,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
   void wpOpenIdLogin(
       {required Function onError,
-      required void Function(Map<String, dynamic> credentials)
-          onSuccess}) async {
+      required void Function(String accessToken) onSuccess}) async {
     try {
       const clientId = PlatformEnvironment.oidcClientId;
       final issuer =
@@ -105,16 +107,15 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
       String redirectUri = PlatformEnvironment.oidcRedirectUri;
       if (kIsWeb) redirectUri = '$redirectUri/web';
 
-      var credentials = await oidcAuthenticate(
+      var accessToken = await oidcAuthenticate(
         clientId: clientId,
         redirectUri: redirectUri,
         scopes: scopes,
         authorizationEndpoint: issuer.metadata.authorizationEndpoint.toString(),
       );
 
-      if (credentials['accessToken'] != null &&
-          credentials['idToken'] != null) {
-        return onSuccess(credentials);
+      if (accessToken != null) {
+        return onSuccess(accessToken);
       } else {
         onError(HttpFailure(
             message:

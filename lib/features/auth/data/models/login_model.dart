@@ -4,11 +4,11 @@ part 'login_model.g.dart';
 @JsonSerializable()
 class AuthRequest {
   AuthRequest({
-    required this.credentials,
+    required this.accessToken,
     this.firebaseToken,
   });
 
-  final Map<String, dynamic> credentials;
+  final String accessToken;
   final String? firebaseToken;
 
   factory AuthRequest.fromJson(Map<String, dynamic> json) =>

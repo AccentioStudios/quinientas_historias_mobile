@@ -40,11 +40,11 @@
                 "--dart-define=ENV=dev",
                 "--dart-define=APP_ID_SUFFIX=.dev",
                 "--dart-define=https=true",
-                "--dart-define=API_URL=bbdb-2804-14d-32b7-6789-cd35-9acd-ba92-cf74.sa.ngrok.io",
-                "--dart-define=JWT_SIGN_KEY=xxxxxx",
+                "--dart-define=API_URL=cea2-2804-14d-32b7-6789-95e6-2953-de18-9fae.sa.ngrok.io",
+                "--dart-define=JWT_SIGN_KEY=ebc209b12229abda06214b53beee0a77322d1f598a521dfae727cb74a9077320",
                 "--dart-define=OIDC_CLIENT_ID=igmFbaorhTMdynULPtaQwKhxOAFpELWs",
                 "--dart-define=OIDC_DISCOVER_URL=https://press-dev.accentiostudios.com/wp-json/moserver/igmFbaorhTMdynULPtaQwKhxOAFpELWs",
-                "--dart-define=OIDC_REDIRECT_URI=https://bbdb-2804-14d-32b7-6789-cd35-9acd-ba92-cf74.sa.ngrok.io/v2/auth/callback",
+                "--dart-define=OIDC_REDIRECT_URI=https://cea2-2804-14d-32b7-6789-95e6-2953-de18-9fae.sa.ngrok.io/v2/auth/callback",
             ]
           },
           {

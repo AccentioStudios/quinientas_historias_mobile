@@ -157,10 +157,10 @@ class _LoginPageState extends State<LoginPage> {
       firebaseToken = await firebaseMessagingService.getDeviceFirebaseToken();
     }
 
-    authCubit.wpOpenIdLogin(onSuccess: (credentials) {
+    authCubit.wpOpenIdLogin(onSuccess: (accessToken) {
       authCubit.loginIntoTelle(
           firebaseToken: firebaseToken,
-          credentials: credentials,
+          accessToken: accessToken,
           onError: (error) => widget.handleError(context, error),
           onSuccess: () {
             Navigator.of(context).popUntil((route) => route.isFirst);
