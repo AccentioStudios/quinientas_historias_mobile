@@ -24,36 +24,26 @@ enum FailureType {
   // Fields Failures Type
   @JsonValue('email-error')
   email,
-  @JsonValue('password-error')
-  password,
   @JsonValue('fields-error')
   fieldsError,
+  @JsonValue('invalid-code')
+  invalidCode,
 
   // Auth Failures Type
-  @JsonValue('must-update-password')
-  mustUpdatePassword,
   @JsonValue('unauthorized')
   unauthorized,
   @JsonValue('invalid-access-token')
   invalidAccessToken,
+  @JsonValue('expired-access-token')
+  expiredAccessToken,
+  @JsonValue('signature-access-token-invalid')
+  signatureAccessTokenInvalid,
   @JsonValue('user-is-not-active')
   userIsNotActive,
   @JsonValue('user-is-banned')
   userIsBanned,
-
-  // User Register Failures Type
-  @JsonValue('user-is-already-registered')
-  userIsAlreadyRegistered,
-
-  //IForgot Failures Type
-  @JsonValue('iforgot-send-code-issue')
-  sendCodeIssue,
-  @JsonValue('iforgot-invalid-token')
-  invalidToken,
-  @JsonValue('iforgot-invalid-code')
-  invalidCode,
-  @JsonValue('iforgot-code-expired')
-  codeExpired,
+  @JsonValue('role-not-valid')
+  roleNotValid,
 
   //Invites Failures Type
   @JsonValue('user-already-invited')

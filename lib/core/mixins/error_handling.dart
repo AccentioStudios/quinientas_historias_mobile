@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../features/auth/auth_provider.dart';
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
 import '../helpers/secure_storage_helper.dart';
@@ -30,9 +29,6 @@ mixin ErrorHandling on Widget {
     }
 
     if (httpFailure.statusCode == StatusCodes.badRequest) {
-      if (httpFailure.error == FailureType.userIsAlreadyRegistered) {
-        return _gotoUserIsAlreadyRegisteredError<T>(context);
-      }
       return _gotoBadRequestError<T>(
         context,
         btnLabel: btnLabel,
@@ -131,22 +127,6 @@ mixin ErrorHandling on Widget {
   }
 
   Future<T?> _gotoAuthError<T>(BuildContext context, FailureType? errorType) {
-    if (errorType == FailureType.mustUpdatePassword) {
-      return _showErrorMessage<T>(
-          context,
-          CommonPageLayout(
-            headline: 'Es necesario que restaures tu contraseña',
-            message:
-                'Para poder iniciar sesion es necesario que crees una nueva contraseña.',
-            svgImagePath: 'assets/images/new-pass-image.svg',
-            btnLabel: 'Volver',
-            onBtnTap: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.login);
-            },
-          ));
-    }
-
     if (errorType == FailureType.userIsNotActive) {
       return _showErrorMessage<T>(
           context,
@@ -216,31 +196,31 @@ mixin ErrorHandling on Widget {
         ));
   }
 
-  Future<T?> _gotoUserIsAlreadyRegisteredError<T>(
-    BuildContext context, {
-    String? btnLabel,
-    void Function()? onTap,
-  }) {
-    return _showErrorMessage<T>(
-        context,
-        CommonPageLayout(
-          headline: 'El usuario parece que ya existe',
-          message:
-              'Intenta iniciar sesion usando el mismo email que intentaste registrar. En caso de que no te acuerdes de tu contraseña puedes restablecer tu contraseña.',
-          btnLabel: 'Iniciar sesión',
-          svgImagePath: 'assets/images/broken-invitation-image.svg',
-          onBtnTap: () {
-            Navigator.of(context, rootNavigator: true)
-                .popUntil((route) => route.isFirst);
-            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
-          },
-          linkBtnLabel: 'Restablecer Contraseña',
-          linkBtnOnTap: () {
-            Navigator.of(context, rootNavigator: true)
-                .popUntil((route) => route.isFirst);
-            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
-            AuthProvider.openIForgot(context);
-          },
-        ));
-  }
+  // Future<T?> _gotoUserIsAlreadyRegisteredError<T>(
+  //   BuildContext context, {
+  //   String? btnLabel,
+  //   void Function()? onTap,
+  // }) {
+  //   return _showErrorMessage<T>(
+  //       context,
+  //       CommonPageLayout(
+  //         headline: 'El usuario parece que ya existe',
+  //         message:
+  //             'Intenta iniciar sesion usando el mismo email que intentaste registrar. En caso de que no te acuerdes de tu contraseña puedes restablecer tu contraseña.',
+  //         btnLabel: 'Iniciar sesión',
+  //         svgImagePath: 'assets/images/broken-invitation-image.svg',
+  //         onBtnTap: () {
+  //           Navigator.of(context, rootNavigator: true)
+  //               .popUntil((route) => route.isFirst);
+  //           Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+  //         },
+  //         linkBtnLabel: 'Restablecer Contraseña',
+  //         linkBtnOnTap: () {
+  //           Navigator.of(context, rootNavigator: true)
+  //               .popUntil((route) => route.isFirst);
+  //           Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+  //           AuthProvider.openIForgot(context);
+  //         },
+  //       ));
+  // }
 }
