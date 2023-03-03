@@ -22,7 +22,7 @@ class HomeAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     const TextStyle userNameTextStyle =
         TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-    const TextStyle userTypeTextStyle = TextStyle(fontSize: 14);
+    const TextStyle RoleTextStyle = TextStyle(fontSize: 14);
 
     return Container(
       width: double.infinity,
@@ -36,14 +36,10 @@ class HomeAppBar extends StatelessWidget {
             onTap: onTap,
             child: _Username(
               userNameTextStyle: userNameTextStyle,
-              userTypeTextStyle: userTypeTextStyle,
+              RoleTextStyle: RoleTextStyle,
               user: user,
             ),
           ),
-          if (!hideStreak)
-            _UserStreak(
-              streakNumber: user?.streak ?? 0,
-            ),
         ],
       ),
     );
@@ -92,12 +88,12 @@ class _Username extends StatelessWidget {
   const _Username({
     Key? key,
     required this.userNameTextStyle,
-    required this.userTypeTextStyle,
+    required this.RoleTextStyle,
     required this.user,
   }) : super(key: key);
 
   final TextStyle userNameTextStyle;
-  final TextStyle userTypeTextStyle;
+  final TextStyle RoleTextStyle;
   final User? user;
 
   @override
@@ -114,23 +110,21 @@ class _Username extends StatelessWidget {
           children: <Widget>[
             Text('${user?.firstName ?? ''} ${user?.lastName ?? ''}',
                 style: userNameTextStyle),
-            Text(formatUserType(user?.type), style: userTypeTextStyle),
+            Text(formatRole(user?.role), style: RoleTextStyle),
           ],
         ),
       ],
     );
   }
 
-  String formatUserType(UserType? userType) {
-    switch (userType) {
-      case UserType.reader:
+  String formatRole(Role? role) {
+    switch (role) {
+      case Role.reader:
         return 'Lector';
-      case UserType.prof:
+      case Role.prof:
         return 'Profesor';
-      case UserType.captain:
+      case Role.captain:
         return 'Capitan de Equipo';
-      case UserType.unknown:
-        return '';
       default:
         return '';
     }

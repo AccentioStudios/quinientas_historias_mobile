@@ -20,36 +20,29 @@ mixin ErrorHandling on Widget {
     String? linkBtnLabel,
     void Function()? linkBtnOnTap,
   }) async {
-    if (httpFailure.statusCode == StatusCodes.networkError) {
-      return _gotoNetworkError<T>(context, onTap);
+    switch (httpFailure.statusCode) {
+      case StatusCodes.networkError:
+        return _gotoNetworkError<T>(context, onTap);
+      case StatusCodes.unauthorized:
+        return _gotoAuthError<T>(context, httpFailure.message);
+      case StatusCodes.badRequest:
+        return _gotoBadRequestError<T>(
+          context,
+          btnLabel: btnLabel,
+          onTap: onTap,
+          linkBtnLabel: linkBtnLabel,
+          linkBtnOnTap: linkBtnOnTap,
+        );
+      default:
+        return _gotoCommonError<T>(
+          context,
+          httpFailure,
+          btnLabel: btnLabel,
+          onTap: onTap,
+          linkBtnLabel: linkBtnLabel,
+          linkBtnOnTap: linkBtnOnTap,
+        );
     }
-
-    if (httpFailure.statusCode == StatusCodes.unauthorized) {
-      return _gotoAuthError<T>(context, httpFailure.error);
-    }
-
-    if (httpFailure.statusCode == StatusCodes.badRequest) {
-      return _gotoBadRequestError<T>(
-        context,
-        btnLabel: btnLabel,
-        onTap: onTap,
-        linkBtnLabel: linkBtnLabel,
-        linkBtnOnTap: linkBtnOnTap,
-      );
-    }
-
-    if (httpFailure.error == FailureType.inviteNotFound) {
-      return _gotoInviteNotFoundError<T>(context);
-    }
-
-    return _gotoCommonError<T>(
-      context,
-      HttpFailure(),
-      btnLabel: btnLabel,
-      onTap: onTap,
-      linkBtnLabel: linkBtnLabel,
-      linkBtnOnTap: linkBtnOnTap,
-    );
   }
 
   Future<T?> _gotoCommonError<T>(

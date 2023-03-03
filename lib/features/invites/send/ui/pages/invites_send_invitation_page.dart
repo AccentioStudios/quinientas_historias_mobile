@@ -19,7 +19,7 @@ class InvitesSendInvitationPage extends StatefulWidget with ErrorHandling {
   const InvitesSendInvitationPage(
       {Key? key, required this.typeUserToInvite, this.team, this.schoolId})
       : super(key: key);
-  final UserType typeUserToInvite;
+  final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;
   @override
@@ -121,9 +121,9 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
             schoolId: widget.schoolId,
           ),
           onSuccess: () {}, onError: (HttpFailure error) {
-        if (error.error == FailureType.userAlreadyInvited) {
+        if (error.message == FailureType.userAlreadyInvited) {
           setState(() {
-            emailFieldErrorMessage = error.message;
+            emailFieldErrorMessage = 'error.message';
           });
           pageController.animateToPage(0,
               duration: const Duration(milliseconds: 300),

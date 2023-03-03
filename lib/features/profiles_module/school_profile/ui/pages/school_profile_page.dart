@@ -93,7 +93,7 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
   void openInviteCaptain(BuildContext context, {required int? schoolId}) {
     if (schoolId != null) {
       SendInviteProvider.open(context,
-              schoolId: schoolId, typeUserToInvite: UserType.captain)
+              schoolId: schoolId, typeUserToInvite: Role.captain)
           .then((refresh) {
         if (refresh == true) {
           getSchoolData();

@@ -158,10 +158,10 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                             horizontal: Constants.space16),
                         child: BigButton(
                           onPressed: () async {
-                            final session =
+                            final user =
                                 await SecureStorageHelper.getSessionData();
-                            if (session?.user.type != UserType.prof &&
-                                session?.user.type != UserType.admin) {
+                            if (user?.role != Role.prof &&
+                                user?.role != Role.admin) {
                               if (!mounted) return;
                               openRateStorySheet(context, state);
                               return;
@@ -265,7 +265,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   void completeReading(ReadingStoryCubit cubit) async {
-    JWTTokenModel? sessionData = await SecureStorageHelper.getSessionData();
+    User? user = await SecureStorageHelper.getSessionData();
     cubit.progressStreamController.close();
     cubit.completeStory(
         onSuccess: (response) {
@@ -273,7 +273,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
             builder: (_) => ReadingStorySuccessPage(
               points: response.points,
               dailyChallenge: response.dailyChallenge,
-              sessionData: sessionData,
+              user: user,
             ),
           ));
         },

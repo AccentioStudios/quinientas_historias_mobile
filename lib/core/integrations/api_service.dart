@@ -5,7 +5,11 @@ import 'http_imp.dart';
 export '../extensions/http_extension.dart' show HttpExtension;
 
 mixin ApiService {
-  HttpHelper get appApi => HttpImp(
+  HttpHelper get appApi => HttpHelperImp(
         hostUrl: PlatformEnvironment.apiHostUrl,
+      );
+
+  HttpHelper get sapApi => HttpHelperImp(
+        hostUrl: PlatformEnvironment.sapHostUrl,
       );
 }

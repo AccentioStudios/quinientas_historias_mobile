@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/buttom_bar.dart';
+import '../../../profiles_module/user_profile/user_profile_provider.dart';
 
 class HomeNavigator extends StatefulWidget {
   const HomeNavigator({Key? key}) : super(key: key);
@@ -88,7 +90,7 @@ class _HomeNavigatorState extends State<HomeNavigator> {
     }
   }
 
-  void navigate(BuildContext? context, ActiveOptionAppButtonBar option) {
+  void navigate(BuildContext? context, ActiveOptionAppButtonBar option) async {
     if (context != null) {
       switch (option) {
         case ActiveOptionAppButtonBar.home:
@@ -97,12 +99,18 @@ class _HomeNavigatorState extends State<HomeNavigator> {
         case ActiveOptionAppButtonBar.tournament:
           Navigator.of(context).pushNamed(Routes.tournament);
           return;
-
         case ActiveOptionAppButtonBar.dailyChallenge:
           Navigator.of(context).pushNamed(Routes.dailyChallenge);
           return;
         case ActiveOptionAppButtonBar.profile:
-          Navigator.of(context).pushNamed(Routes.userProfile);
+          final user = await SecureStorageHelper.getSessionData();
+          if (!mounted) return;
+          Navigator.of(context).pushNamed(
+            Routes.userProfile,
+            arguments: UserProfileArguments(
+              user?.id,
+            ),
+          );
           return;
         case ActiveOptionAppButtonBar.configurations:
           Navigator.of(context).pushNamed(Routes.config);

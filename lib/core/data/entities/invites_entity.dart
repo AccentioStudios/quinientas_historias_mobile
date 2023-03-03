@@ -18,7 +18,7 @@ class Invite {
   });
   final int? id;
   final String invitedEmail;
-  final UserType invitedType;
+  final Role invitedType;
   final User? inviter;
   final Team? team;
   final School? school;

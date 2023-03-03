@@ -144,7 +144,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
     }, onError: (HttpFailure error) {
       if (error.statusCode == StatusCodes.iforgotError) {
         setState(() {
-          errorMessage = error.message;
+          errorMessage = 'error.message';
         });
         return;
       }

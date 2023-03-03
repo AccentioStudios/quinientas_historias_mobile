@@ -12,11 +12,11 @@ import 'ui/pages/send_invites_page.dart';
 class SendInviteProvider extends StatelessWidget {
   const SendInviteProvider(
       {Key? key,
-      this.typeUserToInvite = UserType.reader,
+      this.typeUserToInvite = Role.reader,
       required this.team,
       required this.schoolId})
       : super(key: key);
-  final UserType typeUserToInvite;
+  final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;
 
@@ -34,9 +34,7 @@ class SendInviteProvider extends StatelessWidget {
   }
 
   static Future<bool?> open(BuildContext context,
-      {Team? team,
-      int? schoolId,
-      UserType typeUserToInvite = UserType.reader}) {
+      {Team? team, int? schoolId, Role typeUserToInvite = Role.reader}) {
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute<bool>(
         builder: (context) => SendInviteProvider(

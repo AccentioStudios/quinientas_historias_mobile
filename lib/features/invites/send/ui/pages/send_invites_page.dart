@@ -23,7 +23,7 @@ class SendInvitesPage extends StatefulWidget with ErrorHandling {
     this.schoolId,
   }) : super(key: key);
 
-  final UserType typeUserToInvite;
+  final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;
   @override
@@ -103,14 +103,14 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
     );
   }
 
-  UserType getInvitedTypeFilter() {
+  Role getInvitedTypeFilter() {
     if (widget.team != null) {
-      return UserType.reader;
+      return Role.reader;
     }
     if (widget.schoolId != null) {
-      return UserType.captain;
+      return Role.captain;
     }
-    return UserType.reader;
+    return Role.reader;
   }
 
   String getTitle() {
@@ -120,33 +120,30 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
   }
 
   String getHeader() {
-    if (widget.team != null || widget.typeUserToInvite == UserType.reader) {
+    if (widget.team != null || widget.typeUserToInvite == Role.reader) {
       return 'Haz crecer el equipo';
     }
-    if (widget.schoolId != null ||
-        widget.typeUserToInvite == UserType.captain) {
+    if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
       return 'Integra nuevos capitanes al torneo';
     }
     return 'Invita personas a 500Historias';
   }
 
   String getSubtitle() {
-    if (widget.team != null || widget.typeUserToInvite == UserType.reader) {
+    if (widget.team != null || widget.typeUserToInvite == Role.reader) {
       return 'Invita a más lectores a formar parte de "${widget.team?.name}" y ganen juntos en esta temporada';
     }
-    if (widget.schoolId != null ||
-        widget.typeUserToInvite == UserType.captain) {
+    if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
       return 'Los capitanes pueden crear sus equipos e invitar nuevos lectores también';
     }
     return '';
   }
 
   String getHeadlineList() {
-    if (widget.team != null || widget.typeUserToInvite == UserType.reader) {
+    if (widget.team != null || widget.typeUserToInvite == Role.reader) {
       return 'Lectores invitados al equipo';
     }
-    if (widget.schoolId != null ||
-        widget.typeUserToInvite == UserType.captain) {
+    if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
       return 'Capitanes invitados';
     }
     return 'Invitaciones mandadas';
@@ -245,7 +242,7 @@ class _InvitesList extends StatelessWidget {
   final List<Invite> invites;
   final bool isLoading;
   final Function(Invite) onDismissed;
-  final UserType invitedTypeFilter;
+  final Role invitedTypeFilter;
   @override
   Widget build(BuildContext context) {
     return Column(

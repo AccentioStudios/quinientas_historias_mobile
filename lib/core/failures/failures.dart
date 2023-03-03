@@ -5,10 +5,10 @@ part 'failures.g.dart';
 
 @JsonSerializable()
 class HttpFailure implements Exception {
-  HttpFailure(
-      {this.message, this.error, this.statusCode = StatusCodes.unknown});
-  final dynamic message;
-  final FailureType? error;
+  HttpFailure({this.message, this.statusCode = StatusCodes.unknown});
+  @JsonKey(unknownEnumValue: FailureType.unknown)
+  final FailureType? message;
+  @JsonKey(defaultValue: StatusCodes.internalServerError)
   final StatusCodes? statusCode;
 
   factory HttpFailure.fromJson(Map<String, dynamic> json) =>
@@ -16,8 +16,7 @@ class HttpFailure implements Exception {
   Map<String, dynamic> toJson() => _$HttpFailureToJson(this);
 
   @override
-  String toString() =>
-      'HttpFailure: $message, error: $error, statusCode: $statusCode';
+  String toString() => 'HttpFailure: $message, statusCode: $statusCode';
 }
 
 enum FailureType {
@@ -58,6 +57,5 @@ enum FailureType {
   httpHandleError,
   @JsonValue('network-error')
   networkError,
-  @JsonValue('unknown')
   unknown,
 }

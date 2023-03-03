@@ -139,7 +139,7 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
       emit(state.copyWith(
           error: HttpFailure(
               statusCode: StatusCodes.badRequest,
-              error: FailureType.fieldsError)));
+              message: FailureType.fieldsError)));
       return;
     }
     emit(state.copyWith(error: null));

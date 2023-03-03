@@ -63,21 +63,13 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     authUseCases.login(authRequest).listen((JWTTokenModel jwtTokenModel) {
       if (jwtTokenModel.accessToken != null) {
         if (jwtTokenModel.accessToken!.isNotEmpty) {
-          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
-          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
-          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
-          print('ACCESS_TOKEN: ${jwtTokenModel.accessToken}');
           SecureStorageHelper.saveSession(jwtTokenModel);
           return onSuccess();
         } else {
-          onError(HttpFailure(
-              message:
-                  'Hubo un problema al recuperar los datos, intenta nuevamente'));
+          onError(HttpFailure(message: FailureType.invalidAccessToken));
         }
       } else {
-        onError(HttpFailure(
-            message:
-                'Hubo un problema al recuperar los datos, intenta nuevamente'));
+        onError(HttpFailure(message: FailureType.invalidAccessToken));
       }
     }, onError: (error) {
       if (error is HttpFailure) {
@@ -117,18 +109,16 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
       if (accessToken != null) {
         return onSuccess(accessToken);
       } else {
-        onError(HttpFailure(
-            message:
-                'Hubo un problema al recuperar los datos, intenta nuevamente'));
+        onError(HttpFailure(message: FailureType.invalidAccessToken));
       }
     } catch (error) {
       emit(
         state.copyWith(
           loading: false,
-          httpFailure: HttpFailure(error: FailureType.unauthorized),
+          httpFailure: HttpFailure(message: FailureType.unauthorized),
         ),
       );
-      onError(HttpFailure(error: FailureType.unauthorized));
+      onError(HttpFailure(message: FailureType.unauthorized));
     }
   }
 
@@ -153,9 +143,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
     if (state.code.length < 4) {
       if (onError != null) {
-        onError(HttpFailure(
-            message: 'Introduce el codigo de verificacíon.',
-            error: FailureType.invalidCode));
+        onError(HttpFailure(message: FailureType.invalidCode));
         emit(state.copyWith(loading: false));
         return;
       }

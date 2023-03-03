@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
@@ -19,13 +20,13 @@ class ReadingStorySuccessPage extends StatefulWidget {
     required this.points,
     this.recomended,
     this.dailyChallenge,
-    required this.sessionData,
+    required this.user,
   }) : super(key: key);
 
   final int? points;
   final List<Story>? recomended;
   final DailyChallenge? dailyChallenge;
-  final JWTTokenModel? sessionData;
+  final User? user;
 
   @override
   State<ReadingStorySuccessPage> createState() =>
@@ -78,7 +79,7 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                           height: Constants.space41,
                         ),
                         UserAvatar(
-                          user: widget.sessionData!.user,
+                          user: widget.user!,
                           height: 110,
                           width: 110,
                         ),

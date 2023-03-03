@@ -38,7 +38,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<bool> _checkAccessToken() async {
-    final secureStorage = await SecureStorageHelper.getSavedAccessToken();
+    final secureStorage = await SecureStorageHelper.getAccessToken();
     return secureStorage != null;
   }
 

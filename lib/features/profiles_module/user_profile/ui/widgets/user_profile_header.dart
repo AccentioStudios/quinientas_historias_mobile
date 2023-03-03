@@ -24,7 +24,7 @@ class UserProfileHeader extends StatelessWidget {
           height: 140,
         ),
         const SizedBox(height: Constants.space18),
-        Text('${state.user!.firstName ?? ''} ${state.user!.lastName ?? ''}',
+        Text('${state.user!.firstName} ${state.user!.lastName ?? ''}',
             style: userNameProfileTextStyle),
       ],
     );

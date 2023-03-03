@@ -276,7 +276,7 @@ class _OtpCodeFormState extends State<_OtpCodeForm> {
     }, onError: (HttpFailure error) {
       if (error.statusCode == StatusCodes.iforgotError) {
         setState(() {
-          errorMessage = error.message;
+          errorMessage = 'error.message';
         });
         errorController.add(ErrorAnimationType.shake);
         return;

@@ -113,9 +113,8 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
 
   rateStory(RateStoryRequest request,
       {required Function onSuccess, required Function onError}) async {
-    final session = await SecureStorageHelper.getSessionData();
-    if (session?.user.type != UserType.prof &&
-        session?.user.type != UserType.admin) {
+    final user = await SecureStorageHelper.getSessionData();
+    if (user?.role != Role.prof && user?.role != Role.admin) {
       if (state.story != null) {
         readingStoryUseCases.rateStory(request).listen((response) {
           onSuccess();

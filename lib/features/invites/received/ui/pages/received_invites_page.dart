@@ -76,20 +76,20 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
   }
 
   String getHeader(Invite? invite) {
-    if (invite?.invitedType == UserType.captain) {
+    if (invite?.invitedType == Role.captain) {
       return '${invite?.inviter?.firstName} te ha invitado a ser capitán';
     }
-    if (invite?.invitedType == UserType.reader) {
+    if (invite?.invitedType == Role.reader) {
       return '${invite?.inviter?.firstName} te ha invitado a formar parte del torneo como lector';
     }
     return '${invite?.inviter?.firstName} te ha invitado a formar parte del torneo';
   }
 
   String getSubtitle(Invite? invite) {
-    if (invite?.invitedType == UserType.captain) {
+    if (invite?.invitedType == Role.captain) {
       return 'Has recibido una invitacion para ser capitán y formar tu equipo en la escuela "${invite?.school?.name}"';
     }
-    if (invite?.invitedType == UserType.reader) {
+    if (invite?.invitedType == Role.reader) {
       return 'Has recibido una invitacion para formar parte del equipo:\n\n"${invite?.team?.name}" de la escuela "${invite?.school?.name}"';
     }
     return 'Has recibido una invitacion para formar parte de 500 Historias';

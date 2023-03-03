@@ -18,9 +18,8 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
   final TournamentUseCases tournamentUseCases;
 
   hideOrShowMyTeamTab() async {
-    final userSession = await SecureStorageHelper.getSessionData();
-    if (userSession?.user.type != UserType.captain &&
-        userSession?.user.type != UserType.reader) {
+    final user = await SecureStorageHelper.getSessionData();
+    if (user?.role != Role.captain && user?.role != Role.reader) {
       emit(state.copyWith(teamTabShowed: false));
     }
   }

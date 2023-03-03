@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:http/http.dart';
 
 import '../data/models/response_wrapper.dart';
 import '../failures/failures.dart';
@@ -17,9 +17,9 @@ extension HttpExtension on Future<Response> {
     _checkFailures(wrapper);
     if (response.statusCode == 200) {
       try {
-        yield mapper(response.body);
+        yield mapper(response.data);
       } catch (error) {
-        throw HttpFailure(error: FailureType.httpHandleError);
+        throw HttpFailure(message: FailureType.httpHandleError);
       }
     }
   }
@@ -30,18 +30,16 @@ extension HttpExtension on Future<Response> {
 
     _checkFailures(wrapper);
     if (response.statusCode == 200) {
-      Map<String, dynamic> responseBodyJson = json.decode(response.body);
       try {
-        yield mapper(responseBodyJson);
+        yield mapper(response.data);
       } catch (error) {
         if (error is FormatException) {
-          throw HttpFailure(
-              error: FailureType.formatException, message: error.message);
+          throw HttpFailure(message: FailureType.formatException);
         }
-        throw HttpFailure(error: FailureType.httpHandleError);
+        throw HttpFailure(message: FailureType.httpHandleError);
       }
     } else {
-      throw HttpFailure(error: FailureType.httpHandleError);
+      throw HttpFailure(message: FailureType.httpHandleError);
     }
   }
 }
@@ -50,7 +48,8 @@ void _checkFailures(ResponseWrapper wrapper) {
   final StatusCodes httpStatus = wrapper.statusCode;
 
   if (httpStatus == StatusCodes.networkError) {
-    throw HttpFailure(error: FailureType.networkError, statusCode: httpStatus);
+    throw HttpFailure(
+        message: FailureType.networkError, statusCode: httpStatus);
   }
 
   if (httpStatus == StatusCodes.unknown) {
@@ -59,16 +58,16 @@ void _checkFailures(ResponseWrapper wrapper) {
 
   if (httpStatus != StatusCodes.ok) {
     Map<String, dynamic>? errorBodyJson =
-        json.decode((wrapper.response as Response).body);
+        json.decode((wrapper.response as Response).data);
 
     if (errorBodyJson != null) {
       final failure = HttpFailure.fromJson(errorBodyJson);
 
       FirebaseAnalytics.instance.logEvent(
-        name: failure.error.toString(),
+        name: 'http',
         parameters: {
           "statusCode": failure.statusCode.toString(),
-          "message": failure.message,
+          "message": failure.message.toString(),
         },
       );
       throw failure;

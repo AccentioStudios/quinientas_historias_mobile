@@ -37,8 +37,8 @@ class UserManagementCubit extends Cubit<UserManagementState>
     emit(state.copyWith(
       userManagementRequest: UserManagementRequest(
         id: user.id,
-        email: user.email!,
-        firstName: user.firstName!,
+        email: user.email,
+        firstName: user.firstName,
         lastName: user.lastName!,
         avatarUrl: user.avatarUrl!,
       ),
@@ -186,7 +186,7 @@ class UserManagementCubit extends Cubit<UserManagementState>
       emit(state.copyWith(
           error: HttpFailure(
               statusCode: StatusCodes.badRequest,
-              error: FailureType.fieldsError)));
+              message: FailureType.fieldsError)));
       return;
     }
     emit(state.copyWith(error: null));

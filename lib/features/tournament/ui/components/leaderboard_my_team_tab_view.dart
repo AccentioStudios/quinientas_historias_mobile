@@ -123,7 +123,7 @@ class UserLeaderboardListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          user.type == UserType.captain
+          user.role == Role.captain
               ? Padding(
                   padding: const EdgeInsets.only(left: Constants.space4),
                   child: SizedBox(
@@ -140,14 +140,14 @@ class UserLeaderboardListItem extends StatelessWidget {
           style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
           children: <TextSpan>[
             TextSpan(
-              text: '${user.score} ',
+              text: 'user.score ',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary),
             ),
             const TextSpan(text: 'puntos - '),
             TextSpan(
-              text: '${user.readed}',
+              text: 'user.readed',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary),

@@ -84,9 +84,9 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                         TeamCards(
                           state: state,
                         ),
-                        UserProfileLeaderboardTeamList(
-                          state: state,
-                        ),
+                        // UserProfileLeaderboardTeamList(
+                        //   state: state,
+                        // ),
                       ],
                     )),
         );

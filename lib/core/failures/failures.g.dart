@@ -7,17 +7,16 @@ part of 'failures.dart';
 // **************************************************************************
 
 HttpFailure _$HttpFailureFromJson(Map<String, dynamic> json) => HttpFailure(
-      message: json['message'],
-      error: $enumDecodeNullable(_$FailureTypeEnumMap, json['error']),
+      message: $enumDecodeNullable(_$FailureTypeEnumMap, json['message'],
+          unknownValue: FailureType.unknown),
       statusCode:
           $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']) ??
-              StatusCodes.unknown,
+              StatusCodes.internalServerError,
     );
 
 Map<String, dynamic> _$HttpFailureToJson(HttpFailure instance) =>
     <String, dynamic>{
-      'message': instance.message,
-      'error': _$FailureTypeEnumMap[instance.error],
+      'message': _$FailureTypeEnumMap[instance.message],
       'statusCode': _$StatusCodesEnumMap[instance.statusCode],
     };
 

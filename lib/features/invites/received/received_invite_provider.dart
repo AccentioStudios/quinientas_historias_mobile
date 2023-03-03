@@ -11,11 +11,11 @@ import 'ui/pages/received_invites_page.dart';
 class ReceivedInviteProvider extends StatelessWidget {
   const ReceivedInviteProvider(
       {Key? key,
-      this.typeUserToInvite = UserType.reader,
+      this.typeUserToInvite = Role.reader,
       required this.email,
       required this.code})
       : super(key: key);
-  final UserType typeUserToInvite;
+  final Role typeUserToInvite;
   final String email;
   final String code;
 

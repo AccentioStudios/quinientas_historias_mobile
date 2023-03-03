@@ -3,6 +3,10 @@ class PlatformEnvironment {
 
   static const String apiHostUrl =
       String.fromEnvironment('API_URL', defaultValue: '');
+
+  static const String sapHostUrl =
+      String.fromEnvironment('SAP_API_URL', defaultValue: '');
+
   static const String jwtSecret =
       String.fromEnvironment('JWT_SECRET', defaultValue: '');
   static const String jwtRefreshSecret =

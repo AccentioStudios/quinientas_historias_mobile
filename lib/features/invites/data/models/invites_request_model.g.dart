@@ -9,7 +9,7 @@ part of 'invites_request_model.dart';
 InvitesRequest _$InvitesRequestFromJson(Map<String, dynamic> json) =>
     InvitesRequest(
       email: json['email'] as String,
-      type: $enumDecode(_$UserTypeEnumMap, json['type']),
+      type: $enumDecode(_$RoleEnumMap, json['type']),
       teamId: json['teamId'] as int?,
       schoolId: json['schoolId'] as int?,
     );
@@ -17,15 +17,17 @@ InvitesRequest _$InvitesRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$InvitesRequestToJson(InvitesRequest instance) =>
     <String, dynamic>{
       'email': instance.email,
-      'type': _$UserTypeEnumMap[instance.type]!,
+      'type': _$RoleEnumMap[instance.type]!,
       'teamId': instance.teamId,
       'schoolId': instance.schoolId,
     };
 
-const _$UserTypeEnumMap = {
-  UserType.reader: 'reader',
-  UserType.prof: 'prof',
-  UserType.captain: 'captain',
-  UserType.admin: 'admin',
-  UserType.unknown: 'unknown',
+const _$RoleEnumMap = {
+  Role.admin: 'admin',
+  Role.public: 'public',
+  Role.reader: 'reader',
+  Role.captain: 'captain',
+  Role.prof: 'prof',
+  Role.jury: 'jury',
+  Role.editor: 'editor',
 };

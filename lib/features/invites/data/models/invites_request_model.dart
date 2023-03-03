@@ -13,7 +13,7 @@ class InvitesRequest {
     this.schoolId,
   });
   final String email;
-  final UserType type;
+  final Role type;
   final int? teamId;
   final int? schoolId;
 

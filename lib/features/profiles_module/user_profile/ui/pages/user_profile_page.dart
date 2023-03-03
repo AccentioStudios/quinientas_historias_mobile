@@ -73,29 +73,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       )
                     : ListView(
                         physics: const BouncingScrollPhysics(),
-                        children: <Widget>[
-                          const SizedBox(height: Constants.space21),
-                          UserProfileHeader(
-                            state: state,
-                          ),
-                          if (state.user?.type == UserType.captain ||
-                              state.user?.type == UserType.reader)
-                            Column(
-                              children: [
-                                const SizedBox(height: Constants.space41),
-                                UserDivisionCard(
-                                  state: state,
-                                ),
-                              ],
-                            ),
-                          const SizedBox(height: Constants.space16),
-                          UserCards(
-                            state: state,
-                          ),
-                          UserFavorites(
-                            state: state,
-                          ),
-                        ],
+                        children: <Widget>[],
                       ),
           ),
         );
