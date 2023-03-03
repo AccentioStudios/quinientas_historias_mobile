@@ -44,18 +44,20 @@ class HttpHelperImp implements HttpHelper {
       final failure = HttpFailure.fromJson(e.response?.data);
       if (e.response?.statusCode == 401 &&
           failure.message == FailureType.expiredAccessToken) {
-        await refreshToken();
-        String? accessToken = await SecureStorageHelper.getAccessToken();
-        e.requestOptions.headers[HttpHeaders.authorizationHeader] =
-            'Bearer $accessToken';
-        final newTry = await retry(e.requestOptions);
-        return handler.resolve(newTry);
+        if (await refreshToken()) {
+          String? accessToken = await SecureStorageHelper.getAccessToken();
+          e.requestOptions.headers[HttpHeaders.authorizationHeader] =
+              'Bearer $accessToken';
+          final newTry = await retry(e.requestOptions);
+          return handler.resolve(newTry);
+        }
+        return handler.reject(e);
       }
       return handler.next(e);
     }));
   }
 
-  Future<void> refreshToken() async {
+  Future<bool> refreshToken() async {
     try {
       String? refreshToken = await SecureStorageHelper.getRefreshToken();
       final response = await _dio.get(
@@ -73,11 +75,13 @@ class HttpHelperImp implements HttpHelper {
       if (response.statusCode == 200) {
         final token = JWTTokenModel.decode(response.data);
         SecureStorageHelper.saveSession(token);
+        return true;
       } else {
         SecureStorageHelper.deleteAll();
+        return false;
       }
     } catch (err) {
-      throw _handleHttpError(err);
+      return false;
     }
   }
 
