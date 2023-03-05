@@ -41,17 +41,19 @@ class HttpHelperImp implements HttpHelper {
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
       return handler.next(options);
     }, onError: (DioError e, handler) async {
-      final failure = HttpFailure.fromJson(e.response?.data);
-      if (e.response?.statusCode == 401 &&
-          failure.message == FailureType.expiredAccessToken) {
-        if (await refreshToken()) {
-          String? accessToken = await SecureStorageHelper.getAccessToken();
-          e.requestOptions.headers[HttpHeaders.authorizationHeader] =
-              'Bearer $accessToken';
-          final newTry = await retry(e.requestOptions);
-          return handler.resolve(newTry);
+      if (e.response?.data is Map<String, dynamic>) {
+        final failure = HttpFailure.fromJson(e.response?.data);
+        if (e.response?.statusCode == 401 &&
+            failure.message == FailureType.expiredAccessToken) {
+          if (await refreshToken()) {
+            String? accessToken = await SecureStorageHelper.getAccessToken();
+            e.requestOptions.headers[HttpHeaders.authorizationHeader] =
+                'Bearer $accessToken';
+            final newTry = await retry(e.requestOptions);
+            return handler.resolve(newTry);
+          }
+          return handler.reject(e);
         }
-        return handler.reject(e);
       }
       return handler.next(e);
     }));

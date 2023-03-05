@@ -22,7 +22,7 @@ class UserFavorites extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Headline(label: 'Favoritos'),
-          state.user!.favoriteStories!.isNotEmpty
+          state.user!.userFavorites!.isNotEmpty
               ? GridView.count(
                   padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
@@ -32,10 +32,11 @@ class UserFavorites extends StatelessWidget {
                   childAspectRatio: 109 / 147,
                   crossAxisCount: 3,
                   children: <Widget>[
-                    if (state.user!.favoriteStories != null)
-                      ...state.user!.favoriteStories!.map((story) => StoryCover(
-                            story: story,
-                            onTap: () => _navigateToStoryPage(context, story),
+                    if (state.user!.userFavorites != null)
+                      ...state.user!.userFavorites!.map((story) => StoryCover(
+                            story: Story(id: 1, title: 'manoestoesunaprueba'),
+                            onTap: () => _navigateToStoryPage(context,
+                                Story(id: 1, title: 'manoestoesunaprueba')),
                           ))
                   ],
                 )

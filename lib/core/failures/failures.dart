@@ -11,8 +11,12 @@ class HttpFailure implements Exception {
   @JsonKey(defaultValue: StatusCodes.internalServerError)
   final StatusCodes? statusCode;
 
-  factory HttpFailure.fromJson(Map<String, dynamic> json) =>
-      _$HttpFailureFromJson(json);
+  factory HttpFailure.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('message')) {
+      return _$HttpFailureFromJson(json);
+    }
+    return HttpFailure();
+  }
   Map<String, dynamic> toJson() => _$HttpFailureToJson(this);
 
   @override

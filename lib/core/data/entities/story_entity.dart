@@ -1,5 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'user_entity.dart';
+
+import 'author_entity.dart';
 
 part 'story_entity.g.dart';
 
@@ -9,6 +11,8 @@ class Story {
     required this.id,
     required this.title,
     this.author,
+    this.slug,
+    this.link,
     this.coverUrl,
     this.coverColor,
     this.content,
@@ -19,7 +23,10 @@ class Story {
   factory Story.fromJson(Map<String, dynamic> json) => _$StoryFromJson(json);
   final int id;
   final String title;
-  final User? author;
+  final Author? author;
+  final String? slug;
+  final String? link;
+
   final String? coverUrl;
   final String? coverColor;
   final String? content;
@@ -30,7 +37,9 @@ class Story {
   Story copyWith({
     int? id,
     String? title,
-    User? author,
+    Author? author,
+    String? slug,
+    String? link,
     String? coverUrl,
     String? coverColor,
     String? content,
@@ -41,6 +50,8 @@ class Story {
       id: id ?? this.id,
       title: title ?? this.title,
       author: author ?? this.author,
+      slug: slug ?? this.slug,
+      link: link ?? this.link,
       coverUrl: coverUrl ?? this.coverUrl,
       coverColor: coverColor ?? this.coverColor,
       content: content ?? this.content,

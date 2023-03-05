@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 
 import '../../../../core/data/entities/team_entity.dart';
+import 'favorite_entity.dart';
+import 'school_entity.dart';
 import 'story_entity.dart';
 import 'user_division_entity.dart';
 import 'user_point_entity.dart';
@@ -21,6 +22,7 @@ class User {
     required this.email,
     this.userPoints,
     this.userDivisions,
+    this.userFavorites,
     this.favoriteStories,
     this.teams,
     this.schools,
@@ -39,6 +41,7 @@ class User {
   final bool active;
   final Role role;
   final List<UserPoint>? userPoints;
+  final List<Favorite>? userFavorites;
   final List<Story>? favoriteStories;
   final List<Team>? teams;
   final List<School>? schools;
@@ -64,15 +67,3 @@ enum Role {
   @JsonValue('editor')
   editor,
 }
-
-// @JsonSerializable()
-// class UserDivision {
-//   UserDivision({required this.current, this.next});
-//   final Division current;
-//   final Division? next;
-
-//   factory UserDivision.fromJson(Map<String, dynamic> json) =>
-//       _$UserDivisionFromJson(json);
-
-//   Map<String, dynamic> toJson() => _$UserDivisionToJson(this);
-// }

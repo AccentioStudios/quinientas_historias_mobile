@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/data/entities/user_entity.dart';
+import '../../../../../core/utils/constants.dart';
+import 'user_achievements_tab_view.dart';
+import 'user_favorites_tab_view.dart';
+import 'user_teams_tab_view.dart';
 
 import '../../../../../core/failures/status_codes.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
-import '../../../../../core/utils/constants.dart';
+import '../../../../../core/ui/widgets/custom_tab_view.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
-import '../widgets/user_division_card.dart';
-import '../widgets/user_profile_cards.dart';
-import '../widgets/user_profile_favorites.dart';
 import '../widgets/user_profile_header.dart';
 
 class UserProfilePage extends StatefulWidget with ErrorHandling {
@@ -25,11 +25,33 @@ class UserProfilePage extends StatefulWidget with ErrorHandling {
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _UserProfilePageState extends State<UserProfilePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   void didChangeDependencies() {
     getUserData();
     super.didChangeDependencies();
+  }
+
+  _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {});
+    }
   }
 
   @override
@@ -37,6 +59,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return BlocBuilder<UserProfileCubit, UserProfileState>(
       builder: (context, state) {
         return Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
             actions: [
               if (state.isMyProfile)
@@ -54,6 +77,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               const SizedBox(width: 8),
             ],
             elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
           body: RefreshIndicator(
             onRefresh: () async {
@@ -63,7 +87,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : state.httpFailure?.statusCode == StatusCodes.notFound
+                : state.httpFailure?.statusCode == StatusCodes.notFound ||
+                        state.user == null
                     ? const Center(
                         child: Text(
                           'El usuario no existe\n:\'c',
@@ -72,8 +97,59 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                       )
                     : ListView(
+                        padding: EdgeInsets.zero,
                         physics: const BouncingScrollPhysics(),
-                        children: <Widget>[],
+                        children: <Widget>[
+                          UserProfileHeader(state: state),
+                          const SizedBox(height: Constants.space21),
+                          SizedBox(
+                            height: 34,
+                            child: TabBar(
+                              controller: _tabController,
+                              unselectedLabelColor:
+                                  Theme.of(context).colorScheme.primary,
+                              indicatorSize: TabBarIndicatorSize.label,
+                              indicator: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Theme.of(context).colorScheme.primary),
+                              tabs: [
+                                Tab(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text("Favoritos"),
+                                  ),
+                                ),
+                                Tab(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text("Equipos"),
+                                  ),
+                                ),
+                                Tab(
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text("Logros"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: Constants.space30),
+                          CustomTabView(
+                            tabController: _tabController,
+                            children: [
+                              UserFavoritesTabView(
+                                user: state.user!,
+                              ),
+                              UserTeamsTabView(
+                                user: state.user!,
+                              ),
+                              UserAchievementsTabView(
+                                user: state.user!,
+                              ),
+                            ],
+                          )
+                        ],
                       ),
           ),
         );

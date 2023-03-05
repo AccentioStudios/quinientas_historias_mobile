@@ -11,7 +11,9 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       title: json['title'] as String,
       author: json['author'] == null
           ? null
-          : User.fromJson(json['author'] as Map<String, dynamic>),
+          : Author.fromJson(json['author'] as Map<String, dynamic>),
+      slug: json['slug'] as String?,
+      link: json['link'] as String?,
       coverUrl: json['coverUrl'] as String?,
       coverColor: json['coverColor'] as String?,
       content: json['content'] as String?,
@@ -26,6 +28,8 @@ Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'author': instance.author,
+      'slug': instance.slug,
+      'link': instance.link,
       'coverUrl': instance.coverUrl,
       'coverColor': instance.coverColor,
       'content': instance.content,

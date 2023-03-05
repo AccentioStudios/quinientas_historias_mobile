@@ -132,7 +132,6 @@ class _Item extends StatelessWidget {
                     labelText!,
                     style: TextStyle(
                       color: currentColor,
-                      fontFamily: 'Proxima',
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:quinientas_historias/core/ui/widgets/user_avatar.dart';
 
+import '../../data/entities/author_entity.dart';
 import '../../data/entities/user_entity.dart';
 import '../../utils/constants.dart';
 
 class AuthorNameChip extends StatelessWidget {
   const AuthorNameChip({Key? key, this.author}) : super(key: key);
-  final User? author;
+  final Author? author;
   @override
   Widget build(BuildContext context) {
     return author == null
@@ -26,19 +27,19 @@ class AuthorNameChip extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: UserAvatar(
-                      user: author!,
-                      height: 25,
-                      width: 25,
-                    ),
-                  ),
+                  // SizedBox(
+                  //   width: 25,
+                  //   height: 25,
+                  //   child: UserAvatar(
+                  //     user: author!,
+                  //     height: 25,
+                  //     width: 25,
+                  //   ),
+                  // ),
                   const SizedBox(
                     width: Constants.space12,
                   ),
-                  Text(author?.firstName ?? ''),
+                  Text(author?.name ?? ''),
                 ],
               ),
             ),

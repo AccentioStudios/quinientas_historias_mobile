@@ -78,12 +78,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/fonts/
     - assets/icons/
     - assets/images/
   fonts:
-    - family: Proxima
-      fonts:
-        - asset: assets/fonts/ProximaNova/ProximaNova-Regular.otf
+    # - family: Proxima
+    #   fonts:
+    #     - asset: assets/fonts/ProximaNova/ProximaNova-Regular.otf
     - family: Literata
       fonts:
         - asset: assets/fonts/Literata/Literata-VariableFont.ttf

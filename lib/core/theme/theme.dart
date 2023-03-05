@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeClass {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: readingBackgroundColor,
     primaryColor: primaryColor,
-    fontFamily: 'Proxima',
+    fontFamily: GoogleFonts.lato().fontFamily,
     colorScheme: const ColorScheme.light().copyWith(
       primary: primaryColor,
       onPrimary: onPrimaryColor,
@@ -33,7 +34,7 @@ class ThemeClass {
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: backgroundDarkColor,
     primaryColor: primaryDarkColor,
-    fontFamily: 'Proxima',
+    fontFamily: GoogleFonts.lato().fontFamily,
     colorScheme: const ColorScheme.dark().copyWith(
       primary: primaryDarkColor,
       onPrimary: onPrimaryDarkColor,
