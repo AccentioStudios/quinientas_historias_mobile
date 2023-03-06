@@ -32,14 +32,14 @@ class ReadingStoryRepository with ApiService {
 
   Stream<StoryProgress> loadStory(int id) async* {
     yield* appApi
-        .get('v1/stories/progress/$id')
+        .get('v2/story/progress/$id')
         .handleJson(mapper: (data) => StoryProgress.fromJson(data));
   }
 
   Stream<SetStoryProgressResponse> setStoryProgress(
       SetStoryProgressRequest request) async* {
     yield* appApi
-        .post('v1/stories/setProgress', data: request.toJson())
+        .post('v2/story/progress', data: request.toJson())
         .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));
   }
 
