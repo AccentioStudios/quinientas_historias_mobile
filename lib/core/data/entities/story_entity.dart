@@ -17,6 +17,7 @@ class Story {
     this.coverColor,
     this.content,
     this.favorited,
+    this.reads,
     this.readingTime,
   });
 
@@ -30,7 +31,9 @@ class Story {
   final String? coverUrl;
   final String? coverColor;
   final String? content;
+
   final bool? favorited;
+  final int? reads;
   final ReadTimeResults? readingTime;
   Map<String, dynamic> toJson() => _$StoryToJson(this);
 
@@ -44,6 +47,7 @@ class Story {
     String? coverColor,
     String? content,
     bool? favorited,
+    int? reads,
     ReadTimeResults? readingTime,
   }) {
     return Story(
@@ -56,6 +60,7 @@ class Story {
       coverColor: coverColor ?? this.coverColor,
       content: content ?? this.content,
       favorited: favorited ?? this.favorited,
+      reads: reads ?? this.reads,
       readingTime: readingTime ?? this.readingTime,
     );
   }

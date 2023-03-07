@@ -2,14 +2,12 @@ import 'dart:convert';
 
 class RateStoryRequest {
   RateStoryRequest({
-    required this.storyId,
     required this.niceRating,
     this.qualityRating,
     this.veracityRating,
     this.originalityRating,
     this.educationalRating,
   });
-  final int storyId;
   final int? niceRating;
   final int? qualityRating;
   final int? veracityRating;
@@ -17,7 +15,6 @@ class RateStoryRequest {
   final int? educationalRating;
 
   RateStoryRequest copyWith({
-    int? storyId,
     int? niceRating,
     int? qualityRating,
     int? veracityRating,
@@ -25,7 +22,6 @@ class RateStoryRequest {
     int? educationalRating,
   }) {
     return RateStoryRequest(
-      storyId: storyId ?? this.storyId,
       niceRating: niceRating ?? this.niceRating,
       qualityRating: qualityRating ?? this.qualityRating,
       veracityRating: veracityRating ?? this.veracityRating,
@@ -36,7 +32,6 @@ class RateStoryRequest {
 
   Map<String, dynamic> toMap() {
     return {
-      'storyId': storyId,
       'niceRating': niceRating,
       'qualityRating': qualityRating,
       'veracityRating': veracityRating,
@@ -47,7 +42,6 @@ class RateStoryRequest {
 
   factory RateStoryRequest.fromMap(Map<String, dynamic> map) {
     return RateStoryRequest(
-      storyId: map['storyId']?.toInt() ?? 0,
       niceRating: map['niceRating']?.toInt() ?? 0,
       qualityRating: map['qualityRating']?.toInt(),
       veracityRating: map['veracityRating']?.toInt(),
@@ -63,7 +57,7 @@ class RateStoryRequest {
 
   @override
   String toString() {
-    return 'RateStoryRequest(storyId: $storyId, niceRating: $niceRating, qualityRating: $qualityRating, veracityRating: $veracityRating, originalityRating: $originalityRating, educationalRating: $educationalRating)';
+    return 'RateStoryRequest(niceRating: $niceRating, qualityRating: $qualityRating, veracityRating: $veracityRating, originalityRating: $originalityRating, educationalRating: $educationalRating)';
   }
 
   @override
@@ -71,7 +65,6 @@ class RateStoryRequest {
     if (identical(this, other)) return true;
 
     return other is RateStoryRequest &&
-        other.storyId == storyId &&
         other.niceRating == niceRating &&
         other.qualityRating == qualityRating &&
         other.veracityRating == veracityRating &&
@@ -81,8 +74,7 @@ class RateStoryRequest {
 
   @override
   int get hashCode {
-    return storyId.hashCode ^
-        niceRating.hashCode ^
+    return niceRating.hashCode ^
         qualityRating.hashCode ^
         veracityRating.hashCode ^
         originalityRating.hashCode ^

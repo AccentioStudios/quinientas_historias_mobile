@@ -18,6 +18,7 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       coverColor: json['coverColor'] as String?,
       content: json['content'] as String?,
       favorited: json['favorited'] as bool?,
+      reads: json['reads'] as int?,
       readingTime: json['readingTime'] == null
           ? null
           : ReadTimeResults.fromJson(
@@ -34,6 +35,7 @@ Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
       'coverColor': instance.coverColor,
       'content': instance.content,
       'favorited': instance.favorited,
+      'reads': instance.reads,
       'readingTime': instance.readingTime,
     };
 

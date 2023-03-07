@@ -6,6 +6,7 @@ import 'school_entity.dart';
 import 'story_entity.dart';
 import 'user_division_entity.dart';
 import 'user_point_entity.dart';
+import 'user_read_entity.dart';
 
 part 'user_entity.g.dart';
 
@@ -21,6 +22,7 @@ class User {
     this.avatarUrl,
     required this.email,
     this.userPoints,
+    this.userReads,
     this.userDivisions,
     this.userFavorites,
     this.favoriteStories,
@@ -42,6 +44,7 @@ class User {
   final Role role;
   final List<UserPoint>? userPoints;
   final List<Favorite>? userFavorites;
+  final List<UserRead>? userReads;
   final List<Story>? favoriteStories;
   final List<Team>? teams;
   final List<School>? schools;

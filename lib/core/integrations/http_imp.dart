@@ -208,17 +208,19 @@ class HttpHelperImp implements HttpHelper {
   }
 
   _handleHttpError(Object error) {
+    if (error is DioError) {
+      if (error.response?.statusCode == 401) {
+        return HttpFailure(
+            message: FailureType.invalidAccessToken,
+            statusCode: StatusCodes.unauthorized);
+      }
+    }
     if (error is SocketException) {
       return HttpFailure(
           message: FailureType.networkError,
           statusCode: StatusCodes.networkError);
     }
 
-    // if (error is http.ClientException && error.isNotEmpty) {
-    //   return HttpFailure(
-    //       message: FailureType.httpHandleError,
-    //       statusCode: StatusCodes.clientException);
-    // }
     if (error is FormatException) {
       return HttpFailure(
           message: FailureType.httpHandleError,

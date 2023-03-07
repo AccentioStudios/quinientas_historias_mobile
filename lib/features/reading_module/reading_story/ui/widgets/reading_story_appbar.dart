@@ -41,7 +41,7 @@ class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
           padding: const EdgeInsets.only(right: Constants.space12),
           child: TextButton.icon(
             onPressed: () {
-              saveFavorite(context);
+              saveFavorite(context, favorited: state.story?.favorited);
             },
             icon: FavoriteBtn(state: state),
             label: Text(
@@ -58,7 +58,13 @@ class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
     );
   }
 
-  void saveFavorite(BuildContext context) {
+  void saveFavorite(BuildContext context, {bool? favorited}) {
+    if (favorited == true) {
+      context
+          .read<ReadingStoryCubit>()
+          .removeFavorite(onError: (error) => handleError(context, error));
+      return;
+    }
     context
         .read<ReadingStoryCubit>()
         .saveFavorite(onError: (error) => handleError(context, error));

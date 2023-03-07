@@ -24,7 +24,7 @@ class SummaryStory extends StatelessWidget {
                 ),
                 const SizedBox(height: Constants.space18),
                 StorySummaryMetadata(
-                  readNumber: 0,
+                  readNumber: story?.reads ?? 0,
                   readingTime: story?.readingTime,
                 ),
               ],

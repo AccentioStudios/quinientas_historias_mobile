@@ -18,6 +18,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       userPoints: (json['userPoints'] as List<dynamic>?)
           ?.map((e) => UserPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
+      userReads: (json['userReads'] as List<dynamic>?)
+          ?.map((e) => UserRead.fromJson(e as Map<String, dynamic>))
+          .toList(),
       userDivisions: (json['userDivisions'] as List<dynamic>?)
           ?.map((e) => UserDivision.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -47,6 +50,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'role': _$RoleEnumMap[instance.role]!,
       'userPoints': instance.userPoints,
       'userFavorites': instance.userFavorites,
+      'userReads': instance.userReads,
       'favoriteStories': instance.favoriteStories,
       'teams': instance.teams,
       'schools': instance.schools,

@@ -29,7 +29,7 @@ extension HttpExtension on Future<Response> {
     final ResponseWrapper wrapper = ResponseWrapper.parse(response);
 
     _checkFailures(wrapper);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       try {
         yield mapper(response.data);
       } catch (error) {
@@ -56,7 +56,7 @@ void _checkFailures(ResponseWrapper wrapper) {
     throw HttpFailure(statusCode: httpStatus);
   }
 
-  if (httpStatus != StatusCodes.ok) {
+  if (httpStatus != StatusCodes.ok && httpStatus != StatusCodes.created) {
     Map<String, dynamic>? errorBodyJson =
         json.decode((wrapper.response as Response).data);
 

@@ -35,12 +35,15 @@ class ReadingStoryUseCases {
     yield* repository.completeStory(request);
   }
 
-  Stream<SaveFavoriteResponse> saveFavorite(
-      SaveFavoriteRequest request) async* {
+  Stream<void> saveFavorite(SaveFavoriteRequest request) async* {
     yield* repository.saveFavorite(request);
   }
 
-  Stream<RateStoryResponse> rateStory(RateStoryRequest request) async* {
-    yield* repository.rateStory(request);
+  Stream<void> removeFavorite(int storyId) async* {
+    yield* repository.removeFavorite(storyId);
+  }
+
+  Stream<void> rateStory(int id, RateStoryRequest request) async* {
+    yield* repository.rateStory(id, request);
   }
 }

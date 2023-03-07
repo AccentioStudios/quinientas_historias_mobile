@@ -84,7 +84,7 @@ class UserProfileHeader extends StatelessWidget {
                 ),
                 const SizedBox(width: Constants.space8),
                 Text(
-                  'userReads',
+                  '${state.user?.userReads?.length}',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 15),
                 ),

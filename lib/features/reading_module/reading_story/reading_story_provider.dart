@@ -32,9 +32,10 @@ class ReadingStoryProvider extends StatelessWidget {
     );
   }
 
-  static Future<bool?> openStory(BuildContext context, {required int storyId}) {
+  static Future<bool?> openStory(BuildContext context,
+      {required int storyId, bool rootNavigator = false}) {
     if (storyId != 0) {
-      return Navigator.of(context).push<bool>(
+      return Navigator.of(context, rootNavigator: rootNavigator).push<bool>(
         MaterialPageRoute<bool>(
           builder: (context) => ReadingStoryProvider(
             storyId: storyId,

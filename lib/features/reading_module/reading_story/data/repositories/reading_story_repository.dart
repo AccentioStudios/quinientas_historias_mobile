@@ -46,20 +46,27 @@ class ReadingStoryRepository with ApiService {
   Stream<SetStoryProgressResponse> completeStory(
       SetStoryProgressRequest request) async* {
     yield* appApi
-        .post('v1/stories/completeStory', data: request.toJson())
+        .post('v2/story/progress', data: request.toJson())
         .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));
   }
 
-  Stream<SaveFavoriteResponse> saveFavorite(
-      SaveFavoriteRequest request) async* {
-    yield* appApi
-        .post('v1/stories/saveFavorite', data: request.toJson())
-        .handleJson(mapper: (data) => SaveFavoriteResponse.fromMap(data));
+  Stream<void> saveFavorite(SaveFavoriteRequest request) async* {
+    yield* appApi.post('v2/favorite', data: request.toJson()).handleJson(
+        mapper: (data) {
+      return;
+    });
   }
 
-  Stream<RateStoryResponse> rateStory(RateStoryRequest request) async* {
-    yield* appApi
-        .post('v1/stories/rate', data: request.toJson())
-        .handleJson(mapper: (data) => RateStoryResponse.fromMap(data));
+  Stream<void> removeFavorite(int storyId) async* {
+    yield* appApi.delete('v2/favorite/$storyId').handleJson(mapper: (data) {
+      return;
+    });
+  }
+
+  Stream<void> rateStory(int id, RateStoryRequest request) async* {
+    yield* appApi.post('v2/story/rate/$id', data: request.toJson()).handleJson(
+        mapper: (data) {
+      return;
+    });
   }
 }

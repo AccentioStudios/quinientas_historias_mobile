@@ -61,12 +61,16 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
       Function? onError}) async {
     emit(state.copyWith(loading: true));
     SetStoryProgressRequest request =
-        SetStoryProgressRequest(progress: 0, storyId: state.story!.id);
+        SetStoryProgressRequest(progress: 100, storyId: state.story!.id);
 
     await Future.delayed(const Duration(seconds: 1));
 
     readingStoryUseCases.completeStory(request).listen((success) {
-      if (onSuccess != null) onSuccess(success);
+      if (success.saved) {
+        if (onSuccess != null) onSuccess(success);
+      }
+      if (onError != null) onError();
+      emit(state.copyWith(loading: false));
     }, onError: (error) {
       if (onError != null) onError(error);
       emit(state.copyWith(loading: false));
@@ -100,8 +104,7 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
       readingStoryUseCases.saveFavorite(request).listen((response) {
         if (onSuccess != null) onSuccess();
 
-        emit(state.copyWith(
-            story: state.story?.copyWith(favorited: response.favorited)));
+        emit(state.copyWith(story: state.story?.copyWith(favorited: true)));
       }, onError: (error) {
         if (onError != null) onError(error);
         emit(state.copyWith(story: state.story?.copyWith(favorited: false)));
@@ -111,12 +114,27 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
     }
   }
 
-  rateStory(RateStoryRequest request,
+  removeFavorite({Function? onSuccess, Function? onError}) async {
+    if (state.story != null) {
+      emit(state.copyWith(saveFavoriteloading: true));
+      readingStoryUseCases.removeFavorite(state.story!.id).listen((response) {
+        if (onSuccess != null) onSuccess();
+
+        emit(state.copyWith(story: state.story?.copyWith(favorited: false)));
+      }, onError: (error) {
+        if (onError != null) onError(error);
+      }, onDone: () {
+        emit(state.copyWith(saveFavoriteloading: false));
+      }).subscribe(this);
+    }
+  }
+
+  rateStory(int storyId, RateStoryRequest request,
       {required Function onSuccess, required Function onError}) async {
     final user = await SecureStorageHelper.getSessionData();
     if (user?.role != Role.prof && user?.role != Role.admin) {
       if (state.story != null) {
-        readingStoryUseCases.rateStory(request).listen((response) {
+        readingStoryUseCases.rateStory(storyId, request).listen((_) {
           onSuccess();
         }, onError: (error) {
           onError(error);

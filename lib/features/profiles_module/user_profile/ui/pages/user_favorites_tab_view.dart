@@ -43,7 +43,8 @@ class UserFavoritesTabView extends StatelessWidget {
   }
 
   void _navigateToStoryPage(BuildContext context, Story story) {
-    ReadingStoryProvider.openStory(context, storyId: story.id);
+    ReadingStoryProvider.openStory(context,
+        storyId: story.id, rootNavigator: true);
   }
 }
 

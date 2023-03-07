@@ -179,7 +179,6 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
     });
 
     final RateStoryRequest request = RateStoryRequest(
-      storyId: state.story!.id,
       niceRating: niceRating,
       qualityRating: qualityRating,
       veracityRating: veracityRating,
@@ -187,7 +186,8 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
       educationalRating: educationalRating,
     );
 
-    context.read<ReadingStoryCubit>().rateStory(request, onSuccess: () {
+    context.read<ReadingStoryCubit>().rateStory(state.story!.id, request,
+        onSuccess: () {
       return Navigator.of(context).pop(true);
     }, onError: (error) {
       setState(() {

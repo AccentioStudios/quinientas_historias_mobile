@@ -133,7 +133,8 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         child: InkWell(
                           borderRadius: Constants.borderRadius50,
                           onTap: () {
-                            saveFavorite(context);
+                            saveFavorite(context,
+                                favorited: state.story?.favorited);
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -181,7 +182,12 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     );
   }
 
-  void saveFavorite(BuildContext context) {
+  void saveFavorite(BuildContext context, {bool? favorited}) {
+    if (favorited == true) {
+      context.read<ReadingStoryCubit>().removeFavorite(
+          onError: (error) => widget.handleError(context, error));
+      return;
+    }
     context
         .read<ReadingStoryCubit>()
         .saveFavorite(onError: (error) => widget.handleError(context, error));
