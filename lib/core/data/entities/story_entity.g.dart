@@ -17,6 +17,7 @@ Story _$StoryFromJson(Map<String, dynamic> json) => Story(
       coverUrl: json['coverUrl'] as String?,
       coverColor: json['coverColor'] as String?,
       content: json['content'] as String?,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as int).toList(),
       favorited: json['favorited'] as bool?,
       reads: json['reads'] as int?,
       readingTime: json['readingTime'] == null
@@ -34,6 +35,7 @@ Map<String, dynamic> _$StoryToJson(Story instance) => <String, dynamic>{
       'coverUrl': instance.coverUrl,
       'coverColor': instance.coverColor,
       'content': instance.content,
+      'tags': instance.tags,
       'favorited': instance.favorited,
       'reads': instance.reads,
       'readingTime': instance.readingTime,

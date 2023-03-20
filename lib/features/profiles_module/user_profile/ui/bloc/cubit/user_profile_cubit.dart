@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../../../../core/failures/failures.dart';
 
-import '../../../../../../core/data/entities/user_entity.dart';
+import '../../../../../../core/data/dto/auth_dto.dart';
+import '../../../../../../core/data/dto/user_profile_dto.dart';
+import '../../../../../../core/failures/failures.dart';
 import '../../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/useCases/user_profile_usecases.dart';
@@ -27,9 +28,9 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
       // Verify if userId is the same as session user
       emit(state.copyWith(user: userProfile));
 
-      final User? user = await SecureStorageHelper.getSessionData();
+      final JwtPayload? userInfo = await SecureStorageHelper.getSessionData();
 
-      if (user?.id == userProfile.id) {
+      if (userInfo?.id == userProfile.id) {
         emit(state.copyWith(isMyProfile: true));
       }
       onSuccess();

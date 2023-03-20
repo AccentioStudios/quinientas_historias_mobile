@@ -15,7 +15,7 @@ extension HttpExtension on Future<Response> {
     final Response response = await this;
     final ResponseWrapper wrapper = ResponseWrapper.parse(response);
     _checkFailures(wrapper);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       try {
         yield mapper(response.data);
       } catch (error) {
@@ -27,7 +27,6 @@ extension HttpExtension on Future<Response> {
   Stream<T> handleJson<T>({required HttpResponseJsonMapper<T> mapper}) async* {
     final Response response = await this;
     final ResponseWrapper wrapper = ResponseWrapper.parse(response);
-
     _checkFailures(wrapper);
     if (response.statusCode == 200 || response.statusCode == 201) {
       try {

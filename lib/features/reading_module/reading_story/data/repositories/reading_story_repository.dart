@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/data/models/rate_story_request.dart';
-import '../../../../../core/data/models/rate_story_response.dart';
 import '../../../../../core/data/models/save_favorite_request.dart';
-import '../../../../../core/data/models/save_favorite_response.dart';
 import '../../../../../core/helpers/shared_preferences_helper.dart';
 import '../../../../../core/integrations/api_service.dart';
 import '../models/reading_options_model.dart';
@@ -37,14 +35,14 @@ class ReadingStoryRepository with ApiService {
   }
 
   Stream<SetStoryProgressResponse> setStoryProgress(
-      SetStoryProgressRequest request) async* {
+      UpdateStoryProgressDto request) async* {
     yield* appApi
         .post('v2/story/progress', data: request.toJson())
         .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));
   }
 
   Stream<SetStoryProgressResponse> completeStory(
-      SetStoryProgressRequest request) async* {
+      UpdateStoryProgressDto request) async* {
     yield* appApi
         .post('v2/story/progress', data: request.toJson())
         .handleJson(mapper: (data) => SetStoryProgressResponse.fromJson(data));

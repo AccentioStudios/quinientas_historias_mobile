@@ -1,4 +1,4 @@
-import '../../../../core/data/models/jwt_token_model.dart';
+import '../../../../core/data/dto/auth_dto.dart';
 import '../../../../core/integrations/api_service.dart';
 import '../models/iforgot_request_model.dart';
 import '../models/iforgot_response_model.dart';
@@ -7,12 +7,12 @@ import '../models/verify_otp_code_request_model.dart';
 import '../models/verify_otp_code_response_model.dart';
 
 class AuthRepository with ApiService {
-  Stream<JWTTokenModel> login(AuthRequest login) async* {
+  Stream<AuthDto> login(AuthRequest login) async* {
     yield* appApi.post('v2/auth/login', queryParameters: {
       'access_token': login.accessToken,
       'firebase_token': login.firebaseToken
     }).handleJson(mapper: (data) {
-      JWTTokenModel authModel = JWTTokenModel.decode(data);
+      AuthDto authModel = AuthDto.decode(data);
       return authModel;
     });
   }

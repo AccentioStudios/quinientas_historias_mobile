@@ -4,7 +4,6 @@ import '../../../../core/data/entities/team_entity.dart';
 import 'favorite_entity.dart';
 import 'school_entity.dart';
 import 'story_entity.dart';
-import 'user_division_entity.dart';
 import 'user_point_entity.dart';
 import 'user_read_entity.dart';
 
@@ -17,17 +16,16 @@ class User {
     required this.firstName,
     this.lastName,
     this.nickname,
-    required this.active,
+    this.active,
     required this.role,
     this.avatarUrl,
     required this.email,
-    this.userPoints,
-    this.userReads,
-    this.userDivisions,
-    this.userFavorites,
-    this.favoriteStories,
-    this.teams,
-    this.schools,
+    required this.userPoints,
+    required this.userReads,
+    required this.userFavorites,
+    required this.favoriteStories,
+    this.team,
+    this.school,
     this.diceCount,
   });
 
@@ -40,16 +38,21 @@ class User {
   final String? avatarUrl;
   final String email;
   @JsonKey(defaultValue: false)
-  final bool active;
+  final bool? active;
+  @JsonKey(defaultValue: Role.public)
   final Role role;
-  final List<UserPoint>? userPoints;
-  final List<Favorite>? userFavorites;
-  final List<UserRead>? userReads;
-  final List<Story>? favoriteStories;
-  final List<Team>? teams;
-  final List<School>? schools;
-  final List<UserDivision>? userDivisions;
+  @JsonKey(defaultValue: [])
+  final List<UserPoint> userPoints;
+  @JsonKey(defaultValue: [])
+  final List<UserRead> userReads;
+  @JsonKey(defaultValue: [])
+  final List<Favorite> userFavorites;
+  final Team? team;
+  final School? school;
+
   final int? diceCount;
+  @JsonKey(defaultValue: [])
+  final List<Story> favoriteStories;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }

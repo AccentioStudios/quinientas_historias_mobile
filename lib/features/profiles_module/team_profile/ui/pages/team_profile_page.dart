@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/bloc/cubit/team_profile_cubit.dart';
-import 'package:quinientas_historias/features/profiles_module/team_profile/ui/components/user_profile_leaderboard_team_list.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/ui/widgets/team_profile_header_widget.dart';
 
 import '../../../../../core/data/entities/team_entity.dart';
@@ -15,6 +14,7 @@ import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../user_managment/user_management_provider.dart';
+import '../components/user_profile_leaderboard_team_list.dart';
 import '../widgets/team_profile_cards_widget.dart';
 
 class TeamProfilePage extends StatefulWidget with ErrorHandling {
@@ -47,7 +47,7 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                         color: Theme.of(context).colorScheme.onSurface),
                   ),
                   onPressed: () {
-                    openInviteReader(context, state.team);
+                    openInviteReader(context, state.team?.toEntity());
                   },
                   icon: SvgPicture.asset('assets/icons/user-plus.svg'),
                 ),
@@ -75,7 +75,8 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                       child: CircularProgressIndicator(),
                     )
                   : ListView(
-                      physics: BouncingScrollPhysics(),
+                      physics: AlwaysScrollableScrollPhysics()
+                          .applyTo(BouncingScrollPhysics()),
                       children: [
                         TeamProfileHeader(
                           state: state,
@@ -84,9 +85,9 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
                         TeamCards(
                           state: state,
                         ),
-                        // UserProfileLeaderboardTeamList(
-                        //   state: state,
-                        // ),
+                        UserProfileLeaderboardTeamList(
+                          leaderboardList: state.team!.leaderboard!,
+                        ),
                       ],
                     )),
         );

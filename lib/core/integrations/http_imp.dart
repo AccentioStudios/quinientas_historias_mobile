@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
+import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
 
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
@@ -75,7 +75,7 @@ class HttpHelperImp implements HttpHelper {
         }),
       );
       if (response.statusCode == 200) {
-        final token = JWTTokenModel.decode(response.data);
+        final token = AuthDto.decode(response.data);
         SecureStorageHelper.saveSession(token);
         return true;
       } else {

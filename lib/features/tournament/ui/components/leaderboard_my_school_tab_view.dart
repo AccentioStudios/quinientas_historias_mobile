@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:quinientas_historias/features/profiles_module/team_profile/team_profile_provider.dart';
 
+import '../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../core/data/entities/team_entity.dart';
-import '../../../../core/data/models/leaderboard_model.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/group_avatar.dart';
@@ -14,10 +14,12 @@ import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 import '../widgets/no_item_found_widget.dart';
 
 class LeaderboardMySchoolTabView extends StatefulWidget with ErrorHandling {
-  const LeaderboardMySchoolTabView({Key? key, required this.cubit})
+  const LeaderboardMySchoolTabView(
+      {Key? key, required this.tournamentId, required this.cubit})
       : super(key: key);
 
   final TournamentCubit cubit;
+  final int tournamentId;
 
   @override
   State<LeaderboardMySchoolTabView> createState() =>
@@ -26,8 +28,7 @@ class LeaderboardMySchoolTabView extends StatefulWidget with ErrorHandling {
 
 class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
     with AutomaticKeepAliveClientMixin<LeaderboardMySchoolTabView> {
-  final _pagingController =
-      PagingController<int, LeaderboardModel>(firstPageKey: 1);
+  final _pagingController = PagingController<int, Leaderboard>(firstPageKey: 1);
 
   @override
   void initState() {
@@ -57,7 +58,7 @@ class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
       physics: const BouncingScrollPhysics(),
       pagingController: _pagingController,
       shrinkWrap: true,
-      builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
+      builderDelegate: PagedChildBuilderDelegate<Leaderboard>(
         noItemsFoundIndicatorBuilder: (context) => const NoItemFound(),
         firstPageErrorIndicatorBuilder: (context) => const PageErrorIndicator(),
         itemBuilder: (context, item, index) => LeaderboardListItem(
@@ -75,7 +76,7 @@ class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
                       DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '#${item.position} ',
+                      text: '#${item.rankPlace} ',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     TextSpan(text: '${item.team?.name}'),
@@ -126,7 +127,8 @@ class _LeaderboardMySchoolTabViewState extends State<LeaderboardMySchoolTabView>
 
   _fetchPage(int pageKey) {
     if (mounted) {
-      widget.cubit.getLeaderboard(pageKey, 'mySchool', onSuccess: (newPage) {
+      widget.cubit.getLeaderboard(widget.tournamentId, pageKey, 'school',
+          onSuccess: (newPage) {
         final previouslyFetchedItemsCount =
             _pagingController.itemList?.length ?? 0;
         final isLastPage = newPage.isLastPage(previouslyFetchedItemsCount);

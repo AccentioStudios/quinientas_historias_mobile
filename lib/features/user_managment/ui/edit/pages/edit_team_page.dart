@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../../../core/data/dto/team_profile_dto.dart';
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
@@ -18,7 +19,7 @@ import '../../widgets/group_management_avatar.dart';
 
 class EditTeamPage extends StatefulWidget with ErrorHandling, SheetMessages {
   const EditTeamPage({Key? key, required this.team}) : super(key: key);
-  final Team team;
+  final TeamProfileDto team;
 
   @override
   State<EditTeamPage> createState() => _EditTeamPageState();
@@ -39,7 +40,7 @@ class _EditTeamPageState extends State<EditTeamPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<GroupManagementCubit>().loadTeam(widget.team);
+    context.read<GroupManagementCubit>().loadTeam(widget.team.toEntity());
   }
 
   @override

@@ -48,7 +48,7 @@ class AppButtonBar extends StatelessWidget {
               ),
               _Item(
                 active: activeOption == ActiveOptionAppButtonBar.tournament,
-                labelText: 'Torneo',
+                labelText: 'Torneos',
                 iconSvgPath: 'assets/icons/trophy-outline-icon.svg',
                 activeIconSvgPath: 'assets/icons/trophy-icon.svg',
                 onPressed: () {

@@ -14,7 +14,7 @@ School _$SchoolFromJson(Map<String, dynamic> json) => School(
       readed: json['readed'] as int?,
       canEdit: json['canEdit'] as bool?,
       leaderboard: (json['leaderboard'] as List<dynamic>?)
-          ?.map((e) => LeaderboardModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Leaderboard.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

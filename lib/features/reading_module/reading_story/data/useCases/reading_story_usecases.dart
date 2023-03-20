@@ -1,10 +1,8 @@
-import 'package:quinientas_historias/core/data/models/save_favorite_request.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/data/models/set_story_progress_request.dart';
+import '../../../../../core/data/models/save_favorite_request.dart';
+import '../models/set_story_progress_request.dart';
 
 import '../../../../../core/data/entities/story_progress_entity.dart';
 import '../../../../../core/data/models/rate_story_request.dart';
-import '../../../../../core/data/models/rate_story_response.dart';
-import '../../../../../core/data/models/save_favorite_response.dart';
 import '../models/reading_options_model.dart';
 import '../models/set_story_progress_response.dart';
 import '../repositories/reading_story_repository.dart';
@@ -26,12 +24,12 @@ class ReadingStoryUseCases {
   }
 
   Stream<SetStoryProgressResponse> setStoryProgress(
-      SetStoryProgressRequest request) async* {
+      UpdateStoryProgressDto request) async* {
     yield* repository.setStoryProgress(request);
   }
 
   Stream<SetStoryProgressResponse> completeStory(
-      SetStoryProgressRequest request) async* {
+      UpdateStoryProgressDto request) async* {
     yield* repository.completeStory(request);
   }
 

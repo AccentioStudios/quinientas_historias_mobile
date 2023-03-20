@@ -14,32 +14,48 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
-            child: TabBar(
-              indicatorColor: Theme.of(context).colorScheme.primary,
-              indicatorWeight: 3,
-              labelColor: Theme.of(context).colorScheme.primary,
-              unselectedLabelColor:
-                  Theme.of(context).colorScheme.onPrimaryContainer,
-              labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  letterSpacing: 0.8),
-              tabs: <Widget>[
-                if (widget.state.teamTabShowed)
-                  const Tab(
-                    text: 'Mi equipo',
+      child: SizedBox(
+        height: 34,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
+          child: TabBar(
+            unselectedLabelColor: Theme.of(context).colorScheme.primary,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Theme.of(context).colorScheme.primary),
+            tabs: <Widget>[
+              // if (widget.state.teamTabShowed)
+              const Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Por Equipos",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                const Tab(text: 'Mi escuela'),
-                const Tab(text: 'Todos'),
-              ],
-            ),
+                ),
+              ),
+              // const Tab(
+              //   child: Align(
+              //     alignment: Alignment.center,
+              //     child: Text(
+              //       "Mi escuela",
+              //       style: TextStyle(fontWeight: FontWeight.bold),
+              //     ),
+              //   ),
+              // ),
+              const Tab(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Por Escuelas",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

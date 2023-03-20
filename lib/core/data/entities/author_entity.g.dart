@@ -9,6 +9,7 @@ part of 'author_entity.dart';
 Author _$AuthorFromJson(Map<String, dynamic> json) => Author(
       id: json['id'] as int,
       name: json['name'] as String,
+      avatarUrl: json['avatarUrl'] as String,
       description: json['description'] as String?,
       link: json['link'] as String?,
       slug: json['slug'] as String?,
@@ -20,4 +21,5 @@ Map<String, dynamic> _$AuthorToJson(Author instance) => <String, dynamic>{
       'description': instance.description,
       'link': instance.link,
       'slug': instance.slug,
+      'avatarUrl': instance.avatarUrl,
     };

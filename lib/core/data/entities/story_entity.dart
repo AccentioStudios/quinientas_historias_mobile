@@ -16,6 +16,7 @@ class Story {
     this.coverUrl,
     this.coverColor,
     this.content,
+    this.tags,
     this.favorited,
     this.reads,
     this.readingTime,
@@ -31,6 +32,7 @@ class Story {
   final String? coverUrl;
   final String? coverColor;
   final String? content;
+  final List<int>? tags;
 
   final bool? favorited;
   final int? reads;

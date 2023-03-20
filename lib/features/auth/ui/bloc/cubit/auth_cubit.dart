@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:openid_client/openid_client_io.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../core/data/models/jwt_token_model.dart';
+import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/integrations/platform_environments.dart';
@@ -60,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
       firebaseToken: firebaseToken,
     );
 
-    authUseCases.login(authRequest).listen((JWTTokenModel jwtTokenModel) {
+    authUseCases.login(authRequest).listen((AuthDto jwtTokenModel) {
       if (jwtTokenModel.accessToken != null) {
         if (jwtTokenModel.accessToken!.isNotEmpty) {
           SecureStorageHelper.saveSession(jwtTokenModel);

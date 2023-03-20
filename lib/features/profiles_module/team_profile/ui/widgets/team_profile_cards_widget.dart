@@ -20,7 +20,7 @@ class TeamCards extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: SingleChip(
-                primaryLabel: state.team?.score.toString() ?? '0',
+                primaryLabel: state.team?.teamPoints.toString() ?? '0',
                 secondaryLabel: 'Puntos Equipo',
                 svgIconPath: 'assets/icons/points-outline-icon.svg',
               ),
@@ -28,7 +28,7 @@ class TeamCards extends StatelessWidget {
             const SizedBox(width: Constants.space18),
             Expanded(
               child: SingleChip(
-                primaryLabel: state.team?.readed.toString() ?? '0',
+                primaryLabel: state.team?.teamReads.toString() ?? '0',
                 secondaryLabel: 'Lecturas',
                 svgIconPath: 'assets/icons/book-open-outline-icon.svg',
               ),
@@ -38,11 +38,12 @@ class TeamCards extends StatelessWidget {
         const SizedBox(
           height: Constants.space16,
         ),
-        SingleChip(
-          onTap: () => _navigateToSchoolPage(context, state.team?.school),
-          primaryLabel: 'Escuela',
-          secondaryLabel: state.team?.school?.name ?? '',
-        ),
+        if (state.team?.school != null)
+          SingleChip(
+            onTap: () => _navigateToSchoolPage(context, state.team?.school),
+            primaryLabel: 'Escuela',
+            secondaryLabel: state.team?.school?.name ?? '',
+          ),
       ],
     );
   }

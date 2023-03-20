@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 
-import '../../../../../core/data/models/jwt_token_model.dart';
+import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/theme/theme.dart';
@@ -271,7 +271,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   void completeReading(ReadingStoryCubit cubit) async {
-    User? user = await SecureStorageHelper.getSessionData();
+    JwtPayload? userInfo = await SecureStorageHelper.getSessionData();
     cubit.progressStreamController.close();
     cubit.completeStory(
         onSuccess: (response) {
@@ -279,7 +279,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
             builder: (_) => ReadingStorySuccessPage(
               points: response.points,
               dailyChallenge: response.dailyChallenge,
-              user: user,
+              user: userInfo?.toUserEntity(),
             ),
           ));
         },

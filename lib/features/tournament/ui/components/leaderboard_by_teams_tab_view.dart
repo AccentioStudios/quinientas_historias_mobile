@@ -1,34 +1,35 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../core/data/entities/user_entity.dart';
-import '../../../../core/data/models/leaderboard_model.dart';
+import '../../../../core/data/entities/leaderboard_entity.dart';
+import '../../../../core/data/entities/team_entity.dart';
+import '../../../../core/data/entities/user_division_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
+import '../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
-import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../profiles_module/user_profile/user_profile_provider.dart';
+import '../../../profiles_module/team_profile/team_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../widgets/no_item_found_widget.dart';
 
-class LeaderboardMyTeamTabView extends StatefulWidget with ErrorHandling {
-  const LeaderboardMyTeamTabView({Key? key, required this.cubit})
+class LeaderboardByTeamsTabView extends StatefulWidget with ErrorHandling {
+  const LeaderboardByTeamsTabView(
+      {Key? key, required this.tournamentId, required this.cubit})
       : super(key: key);
 
   final TournamentCubit cubit;
+  final int tournamentId;
 
   @override
-  State<LeaderboardMyTeamTabView> createState() =>
-      _LeaderboardMyTeamTabViewState();
+  State<LeaderboardByTeamsTabView> createState() =>
+      _LeaderboardByTeamsTabViewState();
 }
 
-class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
-    with AutomaticKeepAliveClientMixin<LeaderboardMyTeamTabView> {
-  final _pagingController =
-      PagingController<int, LeaderboardModel>(firstPageKey: 1);
+class _LeaderboardByTeamsTabViewState extends State<LeaderboardByTeamsTabView>
+    with AutomaticKeepAliveClientMixin<LeaderboardByTeamsTabView> {
+  final _pagingController = PagingController<int, Leaderboard>(firstPageKey: 1);
 
   @override
   void initState() {
@@ -58,12 +59,14 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
       physics: const BouncingScrollPhysics(),
       pagingController: _pagingController,
       shrinkWrap: true,
-      builderDelegate: PagedChildBuilderDelegate<LeaderboardModel>(
+      builderDelegate: PagedChildBuilderDelegate<Leaderboard>(
         noItemsFoundIndicatorBuilder: (context) => const NoItemFound(),
         firstPageErrorIndicatorBuilder: (context) => const PageErrorIndicator(),
-        itemBuilder: (context, item, index) => UserLeaderboardListItem(
-          user: item.user!,
-          position: item.position,
+        itemBuilder: (context, item, index) => TeamLeaderboardListItem(
+          team: item.team!,
+          rankPlace: item.rankPlace,
+          userPoints: item.userPoints,
+          userReads: item.userReads,
         ),
       ),
       separatorBuilder: (BuildContext context, int index) {
@@ -74,7 +77,8 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
 
   _fetchPage(int pageKey) {
     if (mounted) {
-      widget.cubit.getLeaderboard(pageKey, 'myTeam', onSuccess: (newPage) {
+      widget.cubit.getLeaderboard(widget.tournamentId, pageKey, 'byTeams',
+          onSuccess: (newPage) {
         final previouslyFetchedItemsCount =
             _pagingController.itemList?.length ?? 0;
         final isLastPage = newPage.isLastPage(previouslyFetchedItemsCount);
@@ -92,47 +96,49 @@ class _LeaderboardMyTeamTabViewState extends State<LeaderboardMyTeamTabView>
   }
 }
 
-class UserLeaderboardListItem extends StatelessWidget {
-  const UserLeaderboardListItem(
-      {super.key, required this.user, required this.position});
+class TeamLeaderboardListItem extends StatelessWidget {
+  const TeamLeaderboardListItem({
+    super.key,
+    required this.team,
+    required this.rankPlace,
+    required this.userPoints,
+    required this.userReads,
+  });
 
-  final User user;
-  final int position;
+  final Team team;
+  final int userPoints;
+  final int userReads;
+  final int rankPlace;
 
   @override
   Widget build(BuildContext context) {
     return LeaderboardListItem(
-      onTap: () => navigateToUserProfile(context, user),
-      avatarWidget: UserAvatar(
-        user: user,
+      onTap: () => navigateToTeamProfile(context, team),
+      avatarWidget: GroupAvatar(
+        avatarUrl: team.avatarUrl,
+        type: GroupAvatarType.team,
       ),
       label: Flex(
         direction: Axis.horizontal,
         children: [
-          AutoSizeText.rich(
-            TextSpan(
-              style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '#$position ',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: '${user.firstName} ${user.lastName}'),
-              ],
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          user.role == Role.captain
-              ? Padding(
-                  padding: const EdgeInsets.only(left: Constants.space4),
-                  child: SizedBox(
-                    width: 12,
-                    height: 12,
-                    child: SvgPicture.asset('assets/icons/star-icon.svg'),
+          Expanded(
+            child: AutoSizeText.rich(
+              TextSpan(
+                style:
+                    DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '#$rankPlace ',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                )
-              : const SizedBox.shrink()
+                  TextSpan(text: '${team.name} '),
+                ],
+              ),
+              minFontSize: 14,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
       secondaryLabel: RichText(
@@ -140,14 +146,14 @@ class UserLeaderboardListItem extends StatelessWidget {
           style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
           children: <TextSpan>[
             TextSpan(
-              text: 'user.score ',
+              text: userPoints.toString(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary),
             ),
-            const TextSpan(text: 'puntos - '),
+            const TextSpan(text: ' puntos - '),
             TextSpan(
-              text: 'user.readed',
+              text: userReads.toString(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary),
@@ -161,13 +167,13 @@ class UserLeaderboardListItem extends StatelessWidget {
     );
   }
 
-  navigateToUserProfile(BuildContext context, User? user) {
-    if (user != null) {
+  navigateToTeamProfile(BuildContext context, Team? team) {
+    if (team != null) {
       Navigator.pushNamed(
         context,
-        Routes.userProfile,
-        arguments: UserProfileArguments(
-          user.id,
+        Routes.teamProfile,
+        arguments: TeamProfileArguments(
+          team.id,
         ),
       );
     }

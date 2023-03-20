@@ -1,87 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/utils/calculate_things.dart';
 
 import '../../../../core/data/entities/tournament_entity.dart';
-import '../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../core/utils/constants.dart';
-import '../bloc/cubit/tournament_cubit.dart';
 
 class TournamentHeaderWidget extends StatelessWidget {
-  const TournamentHeaderWidget({Key? key, required this.state})
-      : super(key: key);
+  const TournamentHeaderWidget({Key? key}) : super(key: key);
 
-  final TournamentState state;
   @override
   Widget build(BuildContext context) {
     const paddingHeader = EdgeInsets.symmetric(
         horizontal: Constants.space18, vertical: Constants.space18);
     return SliverToBoxAdapter(
       child: Container(
-        height: 206 + MediaQuery.of(context).padding.top,
+        height: 158 + MediaQuery.of(context).padding.top,
         color: Theme.of(context).colorScheme.primaryContainer,
         child: Column(
           children: [
             AppBar(
                 elevation: 0,
-                title: Text(state.tournament?.title ?? '',
-                    style: const TextStyle(
+                title: const Text('Torneos',
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                     )),
                 centerTitle: true),
-            state.tournamentIsLoading
-                ? const SizedBox(
-                    height: 100,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Column(
+            Column(
+              children: [
+                Padding(
+                  padding: paddingHeader,
+                  child: Row(
                     children: [
-                      Padding(
-                        padding: paddingHeader,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              child: SvgPicture.asset(
-                                  'assets/icons/tournament-icon.svg'),
-                            ),
-                            const SizedBox(width: Constants.space21),
-                            const Flexible(
-                              child: Text(
-                                'Compite con otras escuelas y sube de posicion con tu equipo para ganar el torneo',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            )
-                          ],
-                        ),
+                      SizedBox(
+                        child: SvgPicture.asset(
+                            'assets/icons/tournament-icon.svg'),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: Constants.space18,
-                            right: Constants.space18,
-                            bottom: Constants.space21),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            PercentageProgressBar(
-                              completedPercentage: CalculateThings.percentage(
-                                  100,
-                                  calculatePercentageTournament(
-                                      state.tournament!)),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.background,
-                            ),
-                            const SizedBox(height: Constants.space12),
-                            Text(
-                              'Quedan ${getTournamentDayLeft(state.tournament!)} dias',
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ],
+                      const SizedBox(width: Constants.space21),
+                      const Flexible(
+                        child: Text(
+                          'Compite con otras escuelas y sube de posición con tu equipo para ganar el torneo',
+                          style: TextStyle(fontSize: 16),
                         ),
-                      ),
+                      )
                     ],
-                  )
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -89,7 +53,7 @@ class TournamentHeaderWidget extends StatelessWidget {
   }
 
   int calculatePercentageTournament(Tournament tournament) {
-    var initDate = tournament.createdAt;
+    var initDate = tournament.startAt;
     var endDate = tournament.endsAt;
     var today = DateTime.now();
 

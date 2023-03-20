@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../models/leaderboard_model.dart';
+import 'leaderboard_entity.dart';
 
 part 'school_entity.g.dart';
 
@@ -25,7 +24,7 @@ class School {
   final int? readed;
   final bool? canEdit;
 
-  final List<LeaderboardModel>? leaderboard;
+  final List<Leaderboard>? leaderboard;
 
   Map<String, dynamic> toJson() => _$SchoolToJson(this);
 }

@@ -6,12 +6,14 @@ import '../../utils/colors.dart';
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
     Key? key,
-    required this.user,
+    this.user,
+    this.avatarUrl,
     this.width = 42,
     this.height = 42,
   }) : super(key: key);
 
-  final User user;
+  final User? user;
+  final String? avatarUrl;
   final double width;
   final double height;
   @override
@@ -31,9 +33,9 @@ class UserAvatar extends StatelessWidget {
         //         width: 2, color: getDivisionColor(user.division?.current.level))
         //     : null,
         shape: BoxShape.circle,
-        image: user.avatarUrl != null && user.avatarUrl != ""
+        image: getAvatarUrl() != null && getAvatarUrl() != ""
             ? DecorationImage(
-                image: NetworkImage(user.avatarUrl!),
+                image: NetworkImage(getAvatarUrl()!),
                 fit: BoxFit.contain,
               )
             : const DecorationImage(
@@ -43,6 +45,14 @@ class UserAvatar extends StatelessWidget {
               ),
       ),
     );
+  }
+
+  String? getAvatarUrl() {
+    if (user != null) {
+      if (user!.avatarUrl != null) return user!.avatarUrl!;
+    }
+    if (avatarUrl != null) return avatarUrl!;
+    return null;
   }
 
   Color getDivisionColor(int? level) {

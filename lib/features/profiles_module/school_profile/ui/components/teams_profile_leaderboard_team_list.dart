@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/ui/widgets/group_avatar.dart';
 
+import '../../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
-import '../../../../../core/data/models/leaderboard_model.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
@@ -22,7 +22,7 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final List<LeaderboardModel>? list = state.school?.leaderboard;
+    final List<Leaderboard>? list = state.school?.leaderboard;
     return PaddingColumn(
       padding: const EdgeInsets.only(
           left: Constants.space16,
@@ -57,7 +57,7 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
                           .copyWith(fontSize: 15),
                       children: <TextSpan>[
                         TextSpan(
-                          text: '#${list?[index].position} ',
+                          text: '#${list?[index].rankPlace} ',
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(text: '${list?[index].team?.name}'),

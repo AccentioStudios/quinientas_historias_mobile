@@ -9,12 +9,14 @@ class OutlinedCard extends StatelessWidget {
     this.padding,
     this.onTap,
     this.border,
+    this.borderRadius,
     this.backgroundColor,
   }) : super(key: key);
   final Widget child;
   final EdgeInsets? padding;
   final GestureTapCallback? onTap;
   final BoxBorder? border;
+  final BorderRadiusGeometry? borderRadius;
   final Color? backgroundColor;
 
   @override
@@ -23,7 +25,7 @@ class OutlinedCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: Constants.borderRadius18,
+          borderRadius: borderRadius ?? Constants.borderRadius18,
           border: border ?? Border.all(color: Colors.white.withOpacity(0.20))),
       child: InkWell(
         onTap: onTap,

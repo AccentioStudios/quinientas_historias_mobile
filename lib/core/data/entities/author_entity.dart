@@ -7,6 +7,7 @@ class Author {
   Author({
     required this.id,
     required this.name,
+    required this.avatarUrl,
     this.description,
     this.link,
     this.slug,
@@ -19,6 +20,7 @@ class Author {
   final String? description;
   final String? link;
   final String? slug;
+  final String avatarUrl;
 
   Map<String, dynamic> toJson() => _$AuthorToJson(this);
 }

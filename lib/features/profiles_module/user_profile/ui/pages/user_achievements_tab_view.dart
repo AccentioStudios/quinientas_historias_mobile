@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
 
-import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/data/dto/user_profile_dto.dart';
+import '../../../../../core/utils/constants.dart';
 
 class UserAchievementsTabView extends StatelessWidget {
   const UserAchievementsTabView({super.key, required this.user});
 
-  final User user;
+  final UserProfileDto user;
 
   @override
   Widget build(BuildContext context) {
-    if (user.userFavorites != null) {
-      return user.userFavorites!.isNotEmpty
-          ? const Placeholder()
-          : const UserAchievementsEmptyState();
-    }
-    return const UserAchievementsEmptyState();
+    return user.favoriteStories.isNotEmpty
+        ? const Placeholder()
+        : const UserAchievementsEmptyState();
   }
 }
 

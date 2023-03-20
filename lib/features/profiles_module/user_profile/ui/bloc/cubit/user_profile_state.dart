@@ -6,6 +6,6 @@ class UserProfileState with _$UserProfileState {
     @Default(true) bool isLoading,
     @Default(false) bool isMyProfile,
     @Default(null) HttpFailure? httpFailure,
-    User? user,
+    UserProfileDto? user,
   }) = _UserProfileState;
 }

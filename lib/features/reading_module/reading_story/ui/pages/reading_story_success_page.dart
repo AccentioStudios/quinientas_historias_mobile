@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
+import 'package:rive/rive.dart' as rive;
 
 import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
-import '../../../../../core/data/models/jwt_token_model.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
@@ -12,6 +13,7 @@ import '../../../../../core/ui/widgets/percentage_progress_bar.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../data/models/set_story_progress_response.dart';
 import '../../reading_story_provider.dart';
 
 class ReadingStorySuccessPage extends StatefulWidget {
@@ -23,7 +25,7 @@ class ReadingStorySuccessPage extends StatefulWidget {
     required this.user,
   }) : super(key: key);
 
-  final int? points;
+  final Points points;
   final List<Story>? recomended;
   final DailyChallenge? dailyChallenge;
   final User? user;
@@ -59,11 +61,11 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: (widget.points != null) ? 375 : 500,
+                      height: (widget.points.base > 0) ? 375 : 500,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         gradient: RadialGradient(
-                          center: (widget.points != null)
+                          center: (widget.points.base > 0)
                               ? const Alignment(0, -0.3)
                               : const Alignment(0, 0),
                           colors: const [
@@ -102,47 +104,52 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                         const SizedBox(
                           height: Constants.space16,
                         ),
-                        if (widget.points != null)
+                        if (widget.points.base > 0)
                           FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                  borderRadius: Constants.borderRadius18,
-                                  border: Border.all(
-                                      color: const Color.fromRGBO(
-                                          105, 251, 203, 1))),
-                              child: InkWell(
-                                borderRadius: Constants.borderRadius18,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: Constants.space12,
-                                    vertical: Constants.space8,
-                                  ),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/icons/points-icon.svg',
-                                          height: Constants.space16,
-                                          color: const Color.fromRGBO(
-                                              105, 251, 203, 1),
+                            child: OutlinedCard(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Constants.space18,
+                                vertical: Constants.space8,
+                              ),
+                              borderRadius: Constants.borderRadius23,
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(105, 251, 203, 1)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/points-icon.svg',
+                                        height: Constants.space16,
+                                        color: const Color.fromRGBO(
+                                            105, 251, 203, 1),
+                                      ),
+                                      Text(' + ${widget.points.base} ',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromRGBO(
+                                                  105, 251, 203, 1))),
+                                      const Text(
+                                        'Puntos',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(105, 251, 203, 1),
                                         ),
-                                        Text(' + ${widget.points} ',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Color.fromRGBO(
-                                                    105, 251, 203, 1))),
-                                        const Text(
-                                          'Puntos',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                105, 251, 203, 1),
-                                          ),
-                                        )
-                                      ]),
-                                ),
+                                      )
+                                    ],
+                                  ),
+                                  if (widget.points.bonus > 0)
+                                    const SizedBox(height: Constants.space8),
+                                  if (widget.points.bonus > 0)
+                                    Text(
+                                      '+ ${widget.points.bonus} bonus',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(105, 251, 203, 1),
+                                      ),
+                                    )
+                                ],
                               ),
                             ),
                           ),
@@ -157,9 +164,17 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                           ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 400,
+                      child: rive.RiveAnimation.asset(
+                        'assets/images/confetti-explosion-animation.riv',
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
+                      ),
+                    ),
                   ],
                 ),
-                if (widget.points != null)
+                if (widget.points.base > 0)
                   Padding(
                     padding: const EdgeInsets.only(
                         left: Constants.space41,

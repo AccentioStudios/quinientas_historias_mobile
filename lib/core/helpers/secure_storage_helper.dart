@@ -1,11 +1,10 @@
 import 'dart:convert';
-import "package:universal_html/html.dart";
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:quinientas_historias/core/data/models/jwt_token_model.dart';
+import "package:universal_html/html.dart";
 
-import '../data/entities/user_entity.dart';
+import '../data/dto/auth_dto.dart';
 
 // Singleton
 class SecureStorageHelper {
@@ -17,21 +16,21 @@ class SecureStorageHelper {
 
   static const FlutterSecureStorage instance = FlutterSecureStorage();
 
-  static saveSession(JWTTokenModel jwtToken) {
-    if (jwtToken.accessToken != null) {
-      deleteAll();
+  static saveSession(AuthDto authDto) {
+    deleteAll();
+    if (authDto.accessToken != null && authDto.refreshToken != null) {
       if (kIsWeb) {
         final Storage localStorage = window.localStorage;
-        localStorage['accessToken'] = jwtToken.accessToken!;
-        localStorage['refreshToken'] = jwtToken.refreshToken!;
-        localStorage['user'] = jsonEncode(jwtToken.user.toJson());
+        localStorage['accessToken'] = authDto.accessToken!;
+        localStorage['refreshToken'] = authDto.refreshToken!;
+        localStorage['user'] = jsonEncode(authDto.payload.toJson());
         return;
       }
       const secureStorage = FlutterSecureStorage();
-      secureStorage.write(key: 'accessToken', value: jwtToken.accessToken);
-      secureStorage.write(key: 'refreshToken', value: jwtToken.refreshToken);
+      secureStorage.write(key: 'accessToken', value: authDto.accessToken);
+      secureStorage.write(key: 'refreshToken', value: authDto.refreshToken);
       secureStorage.write(
-          key: 'user', value: jsonEncode(jwtToken.user.toJson()));
+          key: 'user', value: jsonEncode(authDto.payload.toJson()));
     }
   }
 
@@ -51,7 +50,7 @@ class SecureStorageHelper {
     return instance.read(key: 'accessToken');
   }
 
-  static Future<User?> getSessionData() async {
+  static Future<JwtPayload?> getSessionData() async {
     final String? userData;
     if (kIsWeb) {
       final Storage localStorage = window.localStorage;
@@ -62,7 +61,7 @@ class SecureStorageHelper {
 
     if (userData != null) {
       Map<String, dynamic> jsonData = json.decode(userData);
-      return User.fromJson(jsonData);
+      return JwtPayload.fromJson(jsonData);
     }
 
     return null;

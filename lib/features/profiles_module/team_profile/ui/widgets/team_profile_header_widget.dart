@@ -20,7 +20,7 @@ class TeamProfileHeader extends StatelessWidget {
           children: [
             const SizedBox(height: Constants.space21),
             TeamProfileAvatar(
-              team: state.team,
+              team: state.team?.toEntity(),
             ),
             const SizedBox(height: Constants.space21),
             Align(

@@ -18,9 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TournamentState {
   dynamic get tournamentIsLoading => throw _privateConstructorUsedError;
   dynamic get leaderboardIsLoading => throw _privateConstructorUsedError;
-  Tournament? get tournament => throw _privateConstructorUsedError;
-  ListPage<LeaderboardModel>? get listPage =>
-      throw _privateConstructorUsedError;
+  List<Tournament> get tournaments => throw _privateConstructorUsedError;
+  ListPage<Leaderboard>? get listPage => throw _privateConstructorUsedError;
   bool get teamTabShowed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,8 +36,8 @@ abstract class $TournamentStateCopyWith<$Res> {
   $Res call(
       {dynamic tournamentIsLoading,
       dynamic leaderboardIsLoading,
-      Tournament? tournament,
-      ListPage<LeaderboardModel>? listPage,
+      List<Tournament> tournaments,
+      ListPage<Leaderboard>? listPage,
       bool teamTabShowed});
 }
 
@@ -57,7 +56,7 @@ class _$TournamentStateCopyWithImpl<$Res, $Val extends TournamentState>
   $Res call({
     Object? tournamentIsLoading = freezed,
     Object? leaderboardIsLoading = freezed,
-    Object? tournament = freezed,
+    Object? tournaments = null,
     Object? listPage = freezed,
     Object? teamTabShowed = null,
   }) {
@@ -70,14 +69,14 @@ class _$TournamentStateCopyWithImpl<$Res, $Val extends TournamentState>
           ? _value.leaderboardIsLoading
           : leaderboardIsLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      tournament: freezed == tournament
-          ? _value.tournament
-          : tournament // ignore: cast_nullable_to_non_nullable
-              as Tournament?,
+      tournaments: null == tournaments
+          ? _value.tournaments
+          : tournaments // ignore: cast_nullable_to_non_nullable
+              as List<Tournament>,
       listPage: freezed == listPage
           ? _value.listPage
           : listPage // ignore: cast_nullable_to_non_nullable
-              as ListPage<LeaderboardModel>?,
+              as ListPage<Leaderboard>?,
       teamTabShowed: null == teamTabShowed
           ? _value.teamTabShowed
           : teamTabShowed // ignore: cast_nullable_to_non_nullable
@@ -97,8 +96,8 @@ abstract class _$$_TournamentStateCopyWith<$Res>
   $Res call(
       {dynamic tournamentIsLoading,
       dynamic leaderboardIsLoading,
-      Tournament? tournament,
-      ListPage<LeaderboardModel>? listPage,
+      List<Tournament> tournaments,
+      ListPage<Leaderboard>? listPage,
       bool teamTabShowed});
 }
 
@@ -115,7 +114,7 @@ class __$$_TournamentStateCopyWithImpl<$Res>
   $Res call({
     Object? tournamentIsLoading = freezed,
     Object? leaderboardIsLoading = freezed,
-    Object? tournament = freezed,
+    Object? tournaments = null,
     Object? listPage = freezed,
     Object? teamTabShowed = null,
   }) {
@@ -126,14 +125,14 @@ class __$$_TournamentStateCopyWithImpl<$Res>
       leaderboardIsLoading: freezed == leaderboardIsLoading
           ? _value.leaderboardIsLoading!
           : leaderboardIsLoading,
-      tournament: freezed == tournament
-          ? _value.tournament
-          : tournament // ignore: cast_nullable_to_non_nullable
-              as Tournament?,
+      tournaments: null == tournaments
+          ? _value._tournaments
+          : tournaments // ignore: cast_nullable_to_non_nullable
+              as List<Tournament>,
       listPage: freezed == listPage
           ? _value.listPage
           : listPage // ignore: cast_nullable_to_non_nullable
-              as ListPage<LeaderboardModel>?,
+              as ListPage<Leaderboard>?,
       teamTabShowed: null == teamTabShowed
           ? _value.teamTabShowed
           : teamTabShowed // ignore: cast_nullable_to_non_nullable
@@ -148,9 +147,10 @@ class _$_TournamentState implements _TournamentState {
   const _$_TournamentState(
       {this.tournamentIsLoading = true,
       this.leaderboardIsLoading = true,
-      this.tournament,
+      final List<Tournament> tournaments = const [],
       this.listPage,
-      this.teamTabShowed = true});
+      this.teamTabShowed = true})
+      : _tournaments = tournaments;
 
   @override
   @JsonKey()
@@ -158,17 +158,24 @@ class _$_TournamentState implements _TournamentState {
   @override
   @JsonKey()
   final dynamic leaderboardIsLoading;
+  final List<Tournament> _tournaments;
   @override
-  final Tournament? tournament;
+  @JsonKey()
+  List<Tournament> get tournaments {
+    if (_tournaments is EqualUnmodifiableListView) return _tournaments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tournaments);
+  }
+
   @override
-  final ListPage<LeaderboardModel>? listPage;
+  final ListPage<Leaderboard>? listPage;
   @override
   @JsonKey()
   final bool teamTabShowed;
 
   @override
   String toString() {
-    return 'TournamentState(tournamentIsLoading: $tournamentIsLoading, leaderboardIsLoading: $leaderboardIsLoading, tournament: $tournament, listPage: $listPage, teamTabShowed: $teamTabShowed)';
+    return 'TournamentState(tournamentIsLoading: $tournamentIsLoading, leaderboardIsLoading: $leaderboardIsLoading, tournaments: $tournaments, listPage: $listPage, teamTabShowed: $teamTabShowed)';
   }
 
   @override
@@ -180,8 +187,8 @@ class _$_TournamentState implements _TournamentState {
                 .equals(other.tournamentIsLoading, tournamentIsLoading) &&
             const DeepCollectionEquality()
                 .equals(other.leaderboardIsLoading, leaderboardIsLoading) &&
-            (identical(other.tournament, tournament) ||
-                other.tournament == tournament) &&
+            const DeepCollectionEquality()
+                .equals(other._tournaments, _tournaments) &&
             (identical(other.listPage, listPage) ||
                 other.listPage == listPage) &&
             (identical(other.teamTabShowed, teamTabShowed) ||
@@ -193,7 +200,7 @@ class _$_TournamentState implements _TournamentState {
       runtimeType,
       const DeepCollectionEquality().hash(tournamentIsLoading),
       const DeepCollectionEquality().hash(leaderboardIsLoading),
-      tournament,
+      const DeepCollectionEquality().hash(_tournaments),
       listPage,
       teamTabShowed);
 
@@ -208,8 +215,8 @@ abstract class _TournamentState implements TournamentState {
   const factory _TournamentState(
       {final dynamic tournamentIsLoading,
       final dynamic leaderboardIsLoading,
-      final Tournament? tournament,
-      final ListPage<LeaderboardModel>? listPage,
+      final List<Tournament> tournaments,
+      final ListPage<Leaderboard>? listPage,
       final bool teamTabShowed}) = _$_TournamentState;
 
   @override
@@ -217,9 +224,9 @@ abstract class _TournamentState implements TournamentState {
   @override
   dynamic get leaderboardIsLoading;
   @override
-  Tournament? get tournament;
+  List<Tournament> get tournaments;
   @override
-  ListPage<LeaderboardModel>? get listPage;
+  ListPage<Leaderboard>? get listPage;
   @override
   bool get teamTabShowed;
   @override

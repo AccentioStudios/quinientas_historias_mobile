@@ -1,32 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_entity.dart';
+part of 'user_profile_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
+    UserProfileDto(
       id: json['id'] as int,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String?,
       nickname: json['nickname'] as String?,
-      active: json['active'] as bool? ?? false,
-      role: $enumDecodeNullable(_$RoleEnumMap, json['role']) ?? Role.public,
+      role: $enumDecode(_$RoleEnumMap, json['role']),
       avatarUrl: json['avatarUrl'] as String?,
       email: json['email'] as String,
-      userPoints: (json['userPoints'] as List<dynamic>?)
-              ?.map((e) => UserPoint.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      userReads: (json['userReads'] as List<dynamic>?)
-              ?.map((e) => UserRead.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      userFavorites: (json['userFavorites'] as List<dynamic>?)
-              ?.map((e) => Favorite.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
       favoriteStories: (json['favoriteStories'] as List<dynamic>?)
               ?.map((e) => Story.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -34,28 +22,33 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       team: json['team'] == null
           ? null
           : Team.fromJson(json['team'] as Map<String, dynamic>),
+      previousTeams: (json['previousTeams'] as List<dynamic>)
+          .map((e) => Team.fromJson(e as Map<String, dynamic>))
+          .toList(),
       school: json['school'] == null
           ? null
           : School.fromJson(json['school'] as Map<String, dynamic>),
-      diceCount: json['diceCount'] as int?,
+      userReadsCount: json['userReadsCount'] as int,
+      userTeamRank: json['userTeamRank'] as int,
+      userTeamPoints: json['userTeamPoints'] as int,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+Map<String, dynamic> _$UserProfileDtoToJson(UserProfileDto instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'nickname': instance.nickname,
-      'avatarUrl': instance.avatarUrl,
       'email': instance.email,
-      'active': instance.active,
+      'avatarUrl': instance.avatarUrl,
       'role': _$RoleEnumMap[instance.role]!,
-      'userPoints': instance.userPoints,
-      'userReads': instance.userReads,
-      'userFavorites': instance.userFavorites,
+      'userReadsCount': instance.userReadsCount,
+      'favoriteStories': instance.favoriteStories,
+      'userTeamPoints': instance.userTeamPoints,
+      'userTeamRank': instance.userTeamRank,
       'team': instance.team,
       'school': instance.school,
-      'diceCount': instance.diceCount,
-      'favoriteStories': instance.favoriteStories,
+      'previousTeams': instance.previousTeams,
     };
 
 const _$RoleEnumMap = {

@@ -1,39 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class SetStoryProgressRequest {
-  SetStoryProgressRequest({
+class UpdateStoryProgressDto {
+  UpdateStoryProgressDto({
     required this.storyId,
+    this.tags,
     required this.progress,
     this.teamId,
   });
 
   final int storyId;
+  final List<int>? tags;
   final int progress;
   final int? teamId;
-
-  SetStoryProgressRequest copyWith({
-    int? storyId,
-    int? progress,
-    int? teamId,
-  }) {
-    return SetStoryProgressRequest(
-      storyId: storyId ?? this.storyId,
-      progress: progress ?? this.progress,
-      teamId: teamId ?? this.teamId,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'storyId': storyId,
+      'tags': tags,
       'progress': progress,
       'teamId': teamId,
     };
   }
 
-  factory SetStoryProgressRequest.fromMap(Map<String, dynamic> map) {
-    return SetStoryProgressRequest(
+  factory UpdateStoryProgressDto.fromMap(Map<String, dynamic> map) {
+    return UpdateStoryProgressDto(
       storyId: map['storyId'] as int,
+      tags: map['tags'] != null
+          ? List<int>.from((map['tags'] as List<int>))
+          : null,
       progress: map['progress'] as int,
       teamId: map['teamId'] != null ? map['teamId'] as int : null,
     );
@@ -41,23 +36,7 @@ class SetStoryProgressRequest {
 
   String toJson() => json.encode(toMap());
 
-  factory SetStoryProgressRequest.fromJson(String source) =>
-      SetStoryProgressRequest.fromMap(
+  factory UpdateStoryProgressDto.fromJson(String source) =>
+      UpdateStoryProgressDto.fromMap(
           json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() =>
-      'SetStoryProgressRequest(storyId: $storyId, progress: $progress, teamId: $teamId)';
-
-  @override
-  bool operator ==(covariant SetStoryProgressRequest other) {
-    if (identical(this, other)) return true;
-
-    return other.storyId == storyId &&
-        other.progress == progress &&
-        other.teamId == teamId;
-  }
-
-  @override
-  int get hashCode => storyId.hashCode ^ progress.hashCode ^ teamId.hashCode;
 }

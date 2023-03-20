@@ -1,10 +1,10 @@
-import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/data/dto/user_profile_dto.dart';
 import '../../../../../core/integrations/api_service.dart';
 
 class UserProfileRepository with ApiService {
-  Stream<User> getUserProfile(int? userId) async* {
+  Stream<UserProfileDto> getUserProfile(int? userId) async* {
     yield* appApi
         .get('/v2/user/${userId.toString()}')
-        .handleJson(mapper: (json) => User.fromJson(json));
+        .handleJson(mapper: (json) => UserProfileDto.fromJson(json));
   }
 }

@@ -9,14 +9,14 @@ part 'set_story_progress_response.g.dart';
 class SetStoryProgressResponse {
   SetStoryProgressResponse({
     required this.saved,
-    this.points,
+    required this.points,
     this.dailyChallenge,
     this.recomended,
     this.errorMessage,
   });
 
   final bool saved;
-  final int? points;
+  final Points points;
   final DailyChallenge? dailyChallenge;
   final List<Story>? recomended;
   final String? errorMessage;
@@ -25,4 +25,16 @@ class SetStoryProgressResponse {
       _$SetStoryProgressResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SetStoryProgressResponseToJson(this);
+}
+
+@JsonSerializable()
+class Points {
+  const Points({required this.base, required this.bonus});
+
+  factory Points.fromJson(Map<String, dynamic> json) => _$PointsFromJson(json);
+
+  final int base;
+  final int bonus;
+
+  Map<String, dynamic> toJson() => _$PointsToJson(this);
 }

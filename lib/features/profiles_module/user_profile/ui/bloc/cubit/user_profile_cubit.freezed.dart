@@ -19,7 +19,7 @@ mixin _$UserProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isMyProfile => throw _privateConstructorUsedError;
   HttpFailure? get httpFailure => throw _privateConstructorUsedError;
-  User? get user => throw _privateConstructorUsedError;
+  UserProfileDto? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserProfileStateCopyWith<UserProfileState> get copyWith =>
@@ -33,7 +33,10 @@ abstract class $UserProfileStateCopyWith<$Res> {
       _$UserProfileStateCopyWithImpl<$Res, UserProfileState>;
   @useResult
   $Res call(
-      {bool isLoading, bool isMyProfile, HttpFailure? httpFailure, User? user});
+      {bool isLoading,
+      bool isMyProfile,
+      HttpFailure? httpFailure,
+      UserProfileDto? user});
 }
 
 /// @nodoc
@@ -70,7 +73,7 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as UserProfileDto?,
     ) as $Val);
   }
 }
@@ -84,7 +87,10 @@ abstract class _$$_UserProfileStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading, bool isMyProfile, HttpFailure? httpFailure, User? user});
+      {bool isLoading,
+      bool isMyProfile,
+      HttpFailure? httpFailure,
+      UserProfileDto? user});
 }
 
 /// @nodoc
@@ -119,7 +125,7 @@ class __$$_UserProfileStateCopyWithImpl<$Res>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as UserProfileDto?,
     ));
   }
 }
@@ -143,7 +149,7 @@ class _$_UserProfileState implements _UserProfileState {
   @JsonKey()
   final HttpFailure? httpFailure;
   @override
-  final User? user;
+  final UserProfileDto? user;
 
   @override
   String toString() {
@@ -180,7 +186,7 @@ abstract class _UserProfileState implements UserProfileState {
       {final bool isLoading,
       final bool isMyProfile,
       final HttpFailure? httpFailure,
-      final User? user}) = _$_UserProfileState;
+      final UserProfileDto? user}) = _$_UserProfileState;
 
   @override
   bool get isLoading;
@@ -189,7 +195,7 @@ abstract class _UserProfileState implements UserProfileState {
   @override
   HttpFailure? get httpFailure;
   @override
-  User? get user;
+  UserProfileDto? get user;
   @override
   @JsonKey(ignore: true)
   _$$_UserProfileStateCopyWith<_$_UserProfileState> get copyWith =>

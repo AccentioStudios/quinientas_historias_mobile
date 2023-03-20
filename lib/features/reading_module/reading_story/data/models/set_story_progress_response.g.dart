@@ -10,7 +10,7 @@ SetStoryProgressResponse _$SetStoryProgressResponseFromJson(
         Map<String, dynamic> json) =>
     SetStoryProgressResponse(
       saved: json['saved'] as bool,
-      points: json['points'] as int?,
+      points: Points.fromJson(json['points'] as Map<String, dynamic>),
       dailyChallenge: json['dailyChallenge'] == null
           ? null
           : DailyChallenge.fromJson(
@@ -29,4 +29,14 @@ Map<String, dynamic> _$SetStoryProgressResponseToJson(
       'dailyChallenge': instance.dailyChallenge,
       'recomended': instance.recomended,
       'errorMessage': instance.errorMessage,
+    };
+
+Points _$PointsFromJson(Map<String, dynamic> json) => Points(
+      base: json['base'] as int,
+      bonus: json['bonus'] as int,
+    );
+
+Map<String, dynamic> _$PointsToJson(Points instance) => <String, dynamic>{
+      'base': instance.base,
+      'bonus': instance.bonus,
     };

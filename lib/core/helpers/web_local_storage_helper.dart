@@ -1,7 +1,7 @@
 import 'dart:convert';
 import "package:universal_html/html.dart";
 
-import '../data/models/jwt_token_model.dart';
+import '../data/dto/auth_dto.dart';
 
 // Singleton
 class WebLocalStorageHelper {
@@ -14,7 +14,7 @@ class WebLocalStorageHelper {
 
   static Storage localStorage = window.localStorage;
 
-  static saveSession(JWTTokenModel jwtToken) {
+  static saveSession(AuthDto jwtToken) {
     if (jwtToken.accessToken != null) {
       deleteAll();
       final String jwtJson = jsonEncode(jwtToken.toJson());
@@ -30,7 +30,7 @@ class WebLocalStorageHelper {
     return Future.value(localStorage['accessToken']);
   }
 
-  static Future<JWTTokenModel?> getSessionData() async {
+  static Future<AuthDto?> getSessionData() async {
     final String? userData;
 
     final Storage localStorage = window.localStorage;
@@ -38,7 +38,7 @@ class WebLocalStorageHelper {
 
     if (userData != null) {
       Map<String, dynamic> jsonData = json.decode(userData);
-      return JWTTokenModel.decode(jsonData);
+      return AuthDto.decode(jsonData);
     }
 
     return null;

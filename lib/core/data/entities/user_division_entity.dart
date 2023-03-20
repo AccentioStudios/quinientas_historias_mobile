@@ -7,21 +7,15 @@ part 'user_division_entity.g.dart';
 @JsonSerializable()
 class UserDivision {
   UserDivision({
-    this.id,
-    this.userId,
-    this.divisionId,
-    this.tournamentId,
-    this.division,
+    this.next,
+    this.current,
   });
 
   factory UserDivision.fromJson(Map<String, dynamic> json) =>
       _$UserDivisionFromJson(json);
 
-  final int? id;
-  final int? userId;
-  final int? divisionId;
-  final int? tournamentId;
-  final Division? division;
+  final Division? next;
+  final Division? current;
 
   Map<String, dynamic> toJson() => _$UserDivisionToJson(this);
 }

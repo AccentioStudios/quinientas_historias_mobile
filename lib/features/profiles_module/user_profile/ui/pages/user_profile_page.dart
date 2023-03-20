@@ -1,20 +1,21 @@
 import 'dart:async';
 
+import 'package:custom_nested_scroll_view/custom_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../../core/utils/constants.dart';
-import 'user_achievements_tab_view.dart';
-import 'user_favorites_tab_view.dart';
-import 'user_teams_tab_view.dart';
 
 import '../../../../../core/failures/status_codes.dart';
+import '../../../../../core/libs/extended_tab_view.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
-import '../../../../../core/ui/widgets/custom_tab_view.dart';
+import '../../../../../core/utils/constants.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
 import '../widgets/user_profile_header.dart';
+import 'user_achievements_tab_view.dart';
+import 'user_favorites_tab_view.dart';
+import 'user_teams_tab_view.dart';
 
 class UserProfilePage extends StatefulWidget with ErrorHandling {
   const UserProfilePage({
@@ -96,47 +97,73 @@ class _UserProfilePageState extends State<UserProfilePage>
                           style: TextStyle(fontSize: 20),
                         ),
                       )
-                    : ListView(
-                        padding: EdgeInsets.zero,
-                        physics: const BouncingScrollPhysics(),
-                        children: <Widget>[
-                          UserProfileHeader(state: state),
-                          const SizedBox(height: Constants.space21),
-                          SizedBox(
-                            height: 34,
-                            child: TabBar(
-                              controller: _tabController,
-                              unselectedLabelColor:
-                                  Theme.of(context).colorScheme.primary,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Theme.of(context).colorScheme.primary),
-                              tabs: [
-                                Tab(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text("Favoritos"),
+                    : CustomNestedScrollView(
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                          CustomSliverOverlapAbsorber(
+                            handle: CustomNestedScrollView
+                                .sliverOverlapAbsorberHandleFor(context),
+                            sliver: UserProfileHeader(state: state),
+                          ),
+                          const SliverToBoxAdapter(
+                              child: SizedBox(height: Constants.space21)),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 34,
+                              child: TabBar(
+                                controller: _tabController,
+                                unselectedLabelColor:
+                                    Theme.of(context).colorScheme.primary,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                tabs: const <Widget>[
+                                  Tab(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Favoritos",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                Tab(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text("Equipos"),
+                                  Tab(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Equipos",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                Tab(
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text("Logros"),
+                                  Tab(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Logros",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: Constants.space30),
-                          CustomTabView(
-                            tabController: _tabController,
+                          const SliverToBoxAdapter(
+                            child: SizedBox(height: Constants.space21),
+                          )
+                        ],
+                        body: Builder(
+                          builder: (context) => ExtendedTabBarView(
+                            controller: _tabController,
+                            physics: const BouncingScrollPhysics(),
                             children: [
                               UserFavoritesTabView(
                                 user: state.user!,
@@ -148,8 +175,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                                 user: state.user!,
                               ),
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
           ),
         );
@@ -159,7 +186,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void openEditUser(BuildContext context, UserProfileState state) {
     UserManagementProvider()
-        .openEditUser(context, user: state.user!)
+        .openEditUser(context, user: state.user!.toEntity())
         .then((refresh) {
       if (refresh == true) {
         getUserData();

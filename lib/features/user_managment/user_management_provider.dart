@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/data/dto/team_profile_dto.dart';
 import '../../core/data/entities/invites_entity.dart';
 import '../../core/data/entities/school_entity.dart';
 import '../../core/data/entities/team_entity.dart';
@@ -46,7 +47,8 @@ class UserManagementProvider {
     return Future.value(null);
   }
 
-  Future<bool?> openEditTeam(BuildContext context, {required Team team}) {
+  Future<bool?> openEditTeam(BuildContext context,
+      {required TeamProfileDto team}) {
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute<bool>(
         builder: (context) => BlocProvider(
