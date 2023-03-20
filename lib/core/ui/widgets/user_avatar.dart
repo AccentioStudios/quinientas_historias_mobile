@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/data/entities/user_division_entity.dart';
 
 import '../../data/entities/user_entity.dart';
 import '../../utils/colors.dart';
@@ -7,12 +8,14 @@ class UserAvatar extends StatelessWidget {
   const UserAvatar({
     Key? key,
     this.user,
+    this.userDivision,
     this.avatarUrl,
     this.width = 42,
     this.height = 42,
   }) : super(key: key);
 
   final User? user;
+  final UserDivision? userDivision;
   final String? avatarUrl;
   final double width;
   final double height;
@@ -28,10 +31,10 @@ class UserAvatar extends StatelessWidget {
         maxHeight: 140,
       ),
       decoration: BoxDecoration(
-        // border: user.role == Role.reader || user.role == Role.captain
-        //     ? Border.all(
-        //         width: 2, color: getDivisionColor(user.division?.current.level))
-        //     : null,
+        border: user?.role == Role.reader || user?.role == Role.captain
+            ? Border.all(
+                width: 2, color: getDivisionColor(userDivision?.current?.level))
+            : null,
         shape: BoxShape.circle,
         image: getAvatarUrl() != null && getAvatarUrl() != ""
             ? DecorationImage(

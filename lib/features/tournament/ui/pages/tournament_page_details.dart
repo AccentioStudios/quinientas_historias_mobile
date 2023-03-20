@@ -104,14 +104,6 @@ class _TournamentPageDetailsState extends State<TournamentPageDetails>
                         cubit: context.read<TournamentCubit>(),
                       ),
                     ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //       horizontal: Constants.space16),
-                  //   child: LeaderboardMySchoolTabView(
-                  //     tournamentId: widget.tournament.id,
-                  //     cubit: context.read<TournamentCubit>(),
-                  //   ),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: Constants.space16),

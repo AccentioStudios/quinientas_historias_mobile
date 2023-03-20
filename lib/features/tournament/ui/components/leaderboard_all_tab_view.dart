@@ -4,11 +4,14 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../core/data/entities/school_entity.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/group_avatar.dart';
+import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../profiles_module/school_profile/school_profile_provider.dart';
+import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 import '../widgets/no_item_found_widget.dart';
@@ -61,28 +64,35 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
         noItemsFoundIndicatorBuilder: (context) => const NoItemFound(),
         firstPageErrorIndicatorBuilder: (context) => const PageErrorIndicator(),
         itemBuilder: (context, item, index) => LeaderboardListItem(
-          onTap: () => _navigateToSchoolPage(context, item.school),
-          avatarWidget: GroupAvatar(
-            avatarUrl: item.school?.avatarUrl,
-            type: GroupAvatarType.school,
+          onTap: () => _navigateToUserProfile(context, item.user),
+          avatarWidget: UserAvatar(
+            user: item.user,
+            userDivision: item.userDivision,
+            avatarUrl: item.user?.avatarUrl,
           ),
           label: Flex(
             direction: Axis.horizontal,
             children: [
-              AutoSizeText.rich(
-                TextSpan(
-                  style:
-                      DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '#${item.rankPlace} ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    TextSpan(text: '${item.school?.name}'),
-                  ],
+              Expanded(
+                child: AutoSizeText.rich(
+                  TextSpan(
+                    style: DefaultTextStyle.of(context)
+                        .style
+                        .copyWith(fontSize: 15),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '#${item.rankPlace} ',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                          text:
+                              '${item.user?.firstName} ${item.user?.lastName}'),
+                    ],
+                  ),
+                  maxLines: 1,
+                  maxFontSize: 14,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -91,12 +101,21 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
               style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
               children: <TextSpan>[
                 TextSpan(
-                  text: '${item.school?.score} ',
+                  text: '${item.userPoints} ',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary),
                 ),
-                const TextSpan(text: 'puntos'),
+                const TextSpan(text: ' puntos  '),
+                TextSpan(
+                  text: item.userReads.toString(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary),
+                ),
+                const TextSpan(
+                  text: ' leídos',
+                ),
               ],
             ),
           ),
@@ -112,13 +131,13 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
     );
   }
 
-  void _navigateToSchoolPage(BuildContext context, School? mySchool) {
-    if (mySchool != null) {
+  void _navigateToUserProfile(BuildContext context, User? user) {
+    if (user != null) {
       Navigator.pushNamed(
         context,
-        Routes.schoolProfile,
-        arguments: SchoolProfileArguments(
-          mySchool.id,
+        Routes.userProfile,
+        arguments: UserProfileArguments(
+          user.id,
         ),
       );
     }

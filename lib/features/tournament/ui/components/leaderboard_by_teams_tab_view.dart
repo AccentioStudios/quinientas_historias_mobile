@@ -4,7 +4,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../core/data/entities/team_entity.dart';
-import '../../../../core/data/entities/user_division_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/group_avatar.dart';
@@ -151,7 +150,7 @@ class TeamLeaderboardListItem extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary),
             ),
-            const TextSpan(text: ' puntos - '),
+            const TextSpan(text: ' puntos  '),
             TextSpan(
               text: userReads.toString(),
               style: TextStyle(

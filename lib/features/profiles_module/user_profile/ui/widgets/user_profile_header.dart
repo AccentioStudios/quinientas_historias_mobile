@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_svg/svg.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
@@ -60,32 +60,33 @@ class UserProfileHeader extends StatelessWidget with SheetMessages {
                       style: const TextStyle(
                           fontSize: 21, fontWeight: FontWeight.bold),
                     ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.aboveBaseline,
-                      baseline: TextBaseline.alphabetic,
-                      child: GestureDetector(
-                        onTap: () {
-                          showMessage(
-                            context,
-                            content:
-                                'Este usuario es capitán de ${state.user?.team?.name}',
-                            title: 'Capitán de equipo',
-                            iconSvgPath: 'assets/icons/star-icon.svg',
-                            height: 278,
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Constants.space4),
-                          child: SizedBox(
-                            width: 15,
-                            height: 15,
-                            child:
-                                SvgPicture.asset('assets/icons/star-icon.svg'),
+                    if (state.user?.role == Role.captain)
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.aboveBaseline,
+                        baseline: TextBaseline.alphabetic,
+                        child: GestureDetector(
+                          onTap: () {
+                            showMessage(
+                              context,
+                              content:
+                                  'Este usuario es capitán de ${state.user?.team?.name}',
+                              title: 'Capitán de equipo',
+                              iconSvgPath: 'assets/icons/star-icon.svg',
+                              height: 278,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Constants.space4),
+                            child: SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: SvgPicture.asset(
+                                  'assets/icons/star-icon.svg'),
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),

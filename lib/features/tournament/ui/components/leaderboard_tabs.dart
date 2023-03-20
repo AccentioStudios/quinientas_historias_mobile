@@ -25,7 +25,6 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
                 borderRadius: BorderRadius.circular(50),
                 color: Theme.of(context).colorScheme.primary),
             tabs: <Widget>[
-              // if (widget.state.teamTabShowed)
               const Tab(
                 child: Align(
                   alignment: Alignment.center,
@@ -35,20 +34,11 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
                   ),
                 ),
               ),
-              // const Tab(
-              //   child: Align(
-              //     alignment: Alignment.center,
-              //     child: Text(
-              //       "Mi escuela",
-              //       style: TextStyle(fontWeight: FontWeight.bold),
-              //     ),
-              //   ),
-              // ),
               const Tab(
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    "Por Escuelas",
+                    "Todos",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
