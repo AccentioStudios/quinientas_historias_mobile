@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../core/data/entities/leaderboard_entity.dart';
@@ -96,9 +97,48 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
               ),
             ],
           ),
-          secondaryLabel: RichText(
+          secondaryLabel: item.user?.team != null
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: GroupAvatar(
+                          width: 10,
+                          height: 10,
+                          type: GroupAvatarType.team,
+                          avatarUrl: item.user?.team?.avatarUrl,
+                        ),
+                      ),
+                      Expanded(
+                        child: AutoSizeText.rich(
+                          TextSpan(
+                            style: DefaultTextStyle.of(context)
+                                .style
+                                .copyWith(fontSize: 14),
+                            children: [
+                              TextSpan(
+                                text: '${item.user?.team?.name}',
+                              ),
+                            ],
+                          ),
+                          maxLines: 1,
+                          maxFontSize: 14,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
+          trailingWidget: RichText(
             text: TextSpan(
-              style: DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
+              style: DefaultTextStyle.of(context).style.copyWith(
+                  fontSize: 15,
+                  height: 1.4,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
               children: <TextSpan>[
                 TextSpan(
                   text: '${item.userPoints} ',
@@ -106,23 +146,17 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary),
                 ),
-                const TextSpan(text: ' puntos  '),
-                TextSpan(
-                  text: item.userReads.toString(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary),
-                ),
                 const TextSpan(
-                  text: ' leídos',
-                ),
+                    text: 'puntos\n', style: TextStyle(fontSize: 14)),
+                TextSpan(
+                    text: item.userReads.toString(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )),
+                const TextSpan(text: ' leídos', style: TextStyle(fontSize: 14)),
               ],
             ),
           ),
-          // trailingWidget: TournamentPositionArrow(
-          //   number: item.changePosition.number,
-          //   arrowPositionDirection: item.changePosition.type,
-          // ),
         ),
       ),
       separatorBuilder: (BuildContext context, int index) {
