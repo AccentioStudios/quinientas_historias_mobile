@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
@@ -21,10 +23,29 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
   final InvitesUseCases invitesUseCases;
 
   validateForm(String s) {
+    // Validate explicit email format
     if (!validateEmail(s)) {
-      emit(state.copyWith(formValidationError: true));
+      emit(state.copyWith(emailIsValid: false));
     } else {
-      emit(state.copyWith(formValidationError: false));
+      emit(state.copyWith(emailIsValid: true));
+    }
+  }
+
+  searchUsers(String email) {
+    emit(state.copyWith(isSearchingUsers: true));
+
+    // Allows to search for like emails
+    if (validateUserSearchEmail(email) == true) {
+      // Validate explicit email format
+      validateForm(email);
+      invitesUseCases.searchUsers(email).listen((searchUsersList) {
+        emit(state.copyWith(
+            searchUsersList: searchUsersList, isSearchingUsers: false));
+      }, onError: (error) {
+        emit(state.copyWith(isSearchingUsers: false));
+      }).subscribe(this);
+    } else {
+      emit(state.copyWith(isSearchingUsers: false));
     }
   }
 
@@ -65,21 +86,15 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
     }).subscribe(this);
   }
 
-  getTeamsFromProf(
-      {required Function onSuccess, required Function onError}) async {
+  Future<void> getTeamsFromProf(int schoolId) async {
+    var completer = Completer<void>();
     emit(state.copyWith(isLoading: true));
-
-    invitesUseCases.getTeamsFromProf().listen((teams) {
+    invitesUseCases.getTeamsFromProf(schoolId).listen((teams) {
       emit(state.copyWith(profTeams: teams, isLoading: false));
-      onSuccess();
+      completer.complete();
     }, onError: (error) {
-      onError(error);
+      completer.completeError(error);
     }).subscribe(this);
-  }
-
-  test1() async {
-    emit(state.copyWith(sendingInvite: true));
-    await Future.delayed(const Duration(seconds: 1));
-    emit(state.copyWith(sendingInvite: false));
+    return completer.future;
   }
 }

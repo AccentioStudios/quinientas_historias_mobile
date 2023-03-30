@@ -54,17 +54,4 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
     }).subscribe(this);
     return completer.future;
   }
-
-  getTournament(int tournamentId,
-      {Function? onSuccess, Function? onError}) async {
-    // emit(state.copyWith(tournamentIsLoading: true, tournament: null));
-    // tournamentUseCases.getTournament(tournamentId).listen((tournament) async {
-    //   emit(state.copyWith(tournament: tournament));
-    //   if (onSuccess != null) onSuccess();
-    // }, onError: (error) {
-    //   if (onError != null) onError(error);
-    // }, onDone: () {
-    //   emit(state.copyWith(tournamentIsLoading: false));
-    // }).subscribe(this);
-  }
 }

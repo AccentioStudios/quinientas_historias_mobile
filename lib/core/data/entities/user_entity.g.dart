@@ -8,11 +8,13 @@ part of 'user_entity.dart';
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['id'] as int,
-      firstName: json['firstName'] as String,
-      lastName: json['lastName'] as String?,
-      nickname: json['nickname'] as String?,
+      firstName: json['firstName'] as String? ?? '',
+      lastName: json['lastName'] as String? ?? '',
+      nickname: json['nickname'] as String? ?? '',
       active: json['active'] as bool? ?? false,
-      role: $enumDecodeNullable(_$RoleEnumMap, json['role']) ?? Role.public,
+      role: json['role'] == null
+          ? null
+          : UserRole.fromJson(json['role'] as Map<String, dynamic>),
       avatarUrl: json['avatarUrl'] as String?,
       email: json['email'] as String,
       userPoints: (json['userPoints'] as List<dynamic>?)
@@ -48,7 +50,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'avatarUrl': instance.avatarUrl,
       'email': instance.email,
       'active': instance.active,
-      'role': _$RoleEnumMap[instance.role]!,
+      'role': instance.role,
       'userPoints': instance.userPoints,
       'userReads': instance.userReads,
       'userFavorites': instance.userFavorites,
@@ -56,6 +58,18 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'school': instance.school,
       'diceCount': instance.diceCount,
       'favoriteStories': instance.favoriteStories,
+    };
+
+UserRole _$UserRoleFromJson(Map<String, dynamic> json) => UserRole(
+      id: json['id'] as int?,
+      userId: json['userId'] as int,
+      name: $enumDecodeNullable(_$RoleEnumMap, json['name']) ?? Role.reader,
+    );
+
+Map<String, dynamic> _$UserRoleToJson(UserRole instance) => <String, dynamic>{
+      'id': instance.id,
+      'userId': instance.userId,
+      'name': _$RoleEnumMap[instance.name]!,
     };
 
 const _$RoleEnumMap = {

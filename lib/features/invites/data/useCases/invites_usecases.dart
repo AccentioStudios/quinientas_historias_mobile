@@ -1,6 +1,10 @@
+import 'dart:async' show Stream;
+import 'package:async/async.dart' show StreamGroup;
+
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../models/invites_request_model.dart';
 import '../models/verify_invite_code_request_model.dart';
 import '../repositories/invites_repository.dart';
@@ -8,6 +12,10 @@ import '../repositories/invites_repository.dart';
 class InvitesUseCases {
   InvitesUseCases({required this.repository});
   final InvitesRepository repository;
+
+  Stream<List<User>> searchUsers(String email) async* {
+    yield* repository.searchUsersFromWP(email);
+  }
 
   Stream<void> sendInvite(InvitesRequest request) async* {
     yield* repository.sendInvite(request);
@@ -25,7 +33,7 @@ class InvitesUseCases {
     yield* repository.validateCode(request);
   }
 
-  Stream<List<Team>> getTeamsFromProf() async* {
-    yield* repository.getTeamsFromProf();
+  Stream<List<Team>> getTeamsFromProf(int schoolId) async* {
+    yield* repository.getTeamsFromProf(schoolId);
   }
 }

@@ -4,16 +4,41 @@ import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/integrations/api_service.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../models/invites_request_model.dart';
 import '../models/verify_invite_code_request_model.dart';
 
 class InvitesRepository with ApiService {
-  Stream<List<Team>> getTeamsFromProf() async* {
-    yield* appApi.get('/v1/teams/getTeamsFromProf').handle(
-        mapper: (Object data) =>
-            json.decode(data as String).map<Team>((dynamic jsonMap) {
-              return Team.fromJson(jsonMap as Map<String, dynamic>);
-            }).toList());
+  Stream<List<Team>> getTeamsFromProf(int schoolId) async* {
+    yield* appApi.get('/v2/team', queryParameters: {
+      'schoolId': schoolId.toString()
+    }).handle(mapper: (Object data) {
+      return (data as List<dynamic>).map<Team>((dynamic item) {
+        return Team.fromJson(item as Map<String, dynamic>);
+      }).toList();
+    });
+  }
+
+  Stream<List<User>> searchUsers(String email) async* {
+    yield* appApi.get('/v2/user', queryParameters: {'email': email}).handle(
+        mapper: (Object data) {
+      var test = (data as List<dynamic>).map<User>((dynamic item) {
+        return User.fromJson(item as Map<String, dynamic>);
+      }).toList();
+      return test;
+    });
+  }
+
+  Stream<List<User>> searchUsersFromWP(String email) async* {
+    yield* appApi.get('/v2/user', queryParameters: {
+      'wp': 'true',
+      'email': email
+    }).handle(mapper: (Object data) {
+      var test = (data as List<dynamic>).map<User>((dynamic item) {
+        return User.fromJson(item as Map<String, dynamic>);
+      }).toList();
+      return test;
+    });
   }
 
   Stream<void> sendInvite(InvitesRequest request) async* {
@@ -24,14 +49,14 @@ class InvitesRepository with ApiService {
 
   Stream<List<Invite>> getInvitations({int? teamId}) async* {
     yield* appApi
-        .get('/v1/invites',
+        .get('/v2/invite',
             queryParameters:
                 teamId != null ? {'teamId': teamId.toString()} : null)
-        .handle(
-            mapper: (Object data) =>
-                json.decode(data as String).map<Invite>((dynamic jsonMap) {
-                  return Invite.fromJson(jsonMap as Map<String, dynamic>);
-                }).toList());
+        .handle(mapper: (Object data) {
+      return (data as List<dynamic>).map<Invite>((dynamic item) {
+        return Invite.fromJson(item as Map<String, dynamic>);
+      }).toList();
+    });
   }
 
   Stream<List<Invite>> deleteInvitation(Invite invite) async* {

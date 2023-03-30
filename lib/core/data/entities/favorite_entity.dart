@@ -19,7 +19,7 @@ class Favorite {
 
   final int id;
   final String storyId;
-  final String userId;
+  final int userId;
   final User? user;
   final Story story;
 

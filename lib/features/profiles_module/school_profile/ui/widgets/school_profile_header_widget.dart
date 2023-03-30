@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 
+import '../../../../../core/data/dto/school_profile_dto.dart';
 import '../../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/utils/constants.dart';
@@ -41,7 +42,7 @@ class SchoolProfileHeader extends StatelessWidget {
 class SchoolProfileAvatar extends StatelessWidget {
   const SchoolProfileAvatar({Key? key, required this.school}) : super(key: key);
 
-  final School? school;
+  final SchoolProfileDto? school;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

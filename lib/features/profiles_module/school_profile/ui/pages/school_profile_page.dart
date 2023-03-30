@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/profiles_module/school_profile/ui/bloc/cubit/school_profile_cubit.dart';
 
@@ -108,7 +109,7 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
 
   void openEditTeam(BuildContext context, SchoolProfileState state) {
     UserManagementProvider()
-        .openEditSchool(context, school: state.school!)
+        .openEditSchool(context, school: state.school!.toEntity())
         .then((refresh) {
       if (refresh == true) {
         getSchoolData();
@@ -117,28 +118,25 @@ class _SchoolProfilePageState extends State<SchoolProfilePage> {
   }
 
   Future<dynamic> getSchoolData() {
-    var completer = Completer();
-    context.read<SchoolProfileCubit>().getSchoolProfileData(
-      onSuccess: () {
-        completer.complete();
-      },
-      onError: (error) {
-        widget.handleError<bool>(context, error,
-            btnLabel: 'Intentar nuevamente',
-            linkBtnLabel: 'Volver al home', linkBtnOnTap: () {
-          Navigator.of(context, rootNavigator: true)
-              .popUntil((route) => route.isFirst);
-          Navigator.of(context).pushNamed(Routes.home);
-        }).then((isRefresh) {
-          if (isRefresh != null) {
-            if (isRefresh) {
-              getSchoolData();
-            }
-          }
-        });
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
+    return context
+        .read<SchoolProfileCubit>()
+        .getProfile()
+        .onError<HttpFailure>((error, stackTrace) => widget.handleError(
+              context,
+              error,
+              btnLabel: 'Intentar nuevamente',
+              linkBtnLabel: 'Volver al home',
+              linkBtnOnTap: () {
+                Navigator.of(context, rootNavigator: true)
+                    .popUntil((route) => route.isFirst);
+                Navigator.of(context).pushNamed(Routes.home);
+              },
+            ).then((refresh) {
+              if (refresh != null) {
+                if (refresh) {
+                  getSchoolData();
+                }
+              }
+            }));
   }
 }

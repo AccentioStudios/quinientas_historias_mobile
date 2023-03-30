@@ -2,8 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../entities/leaderboard_entity.dart';
 import '../entities/school_entity.dart';
-import '../entities/team_entity.dart';
-import '../entities/tournament_entity.dart';
 
 part 'school_profile_dto.g.dart';
 
@@ -12,13 +10,11 @@ class SchoolProfileDto {
   SchoolProfileDto({
     required this.id,
     required this.name,
-    this.avatarUrl,
     required this.active,
-    this.school,
-    required this.tournament,
+    required this.schoolPoints,
+    required this.schoolReads,
+    this.avatarUrl,
     this.canEdit,
-    required this.teamPoints,
-    required this.teamReads,
     this.leaderboard,
   });
 
@@ -29,11 +25,9 @@ class SchoolProfileDto {
   final String name;
   final String? avatarUrl;
   final bool active;
-  final School? school;
-  final Tournament tournament;
   final bool? canEdit;
-  final int teamPoints;
-  final int teamReads;
+  final int schoolPoints;
+  final int schoolReads;
   final List<Leaderboard>? leaderboard;
 
   Map<String, dynamic> toJson() => _$SchoolProfileDtoToJson(this);

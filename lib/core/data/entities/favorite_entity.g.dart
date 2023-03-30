@@ -9,7 +9,7 @@ part of 'favorite_entity.dart';
 Favorite _$FavoriteFromJson(Map<String, dynamic> json) => Favorite(
       id: json['id'] as int,
       storyId: json['storyId'] as String,
-      userId: json['userId'] as String,
+      userId: json['userId'] as int,
       story: Story.fromJson(json['story'] as Map<String, dynamic>),
       user: json['user'] == null
           ? null

@@ -17,15 +17,20 @@ class HomeRepository with ApiService {
   }
 
   Stream<Dashboard> getDashboard() async* {
-    yield* appApi
-        .get('/v1/dashboard/data')
-        .handleJson(mapper: (json) => Dashboard.fromJson(json));
-  }
-
-  Stream<List<Story>> getStories() async* {
-    yield* appApi.get('/v1/dashboard/data').handleJson(mapper: (json) {
-      List<Story> list = [];
-      return list;
+    yield* appApi.get('/v2/dashboard').handleJson(mapper: (json) {
+      Dashboard dashboard = Dashboard.fromJson(json);
+      dashboard.mySummary = dashboard.mySummary.map((e) {
+        // convert to MySummaryGroup using fromJson() if property groupType exists
+        if (e.containsKey('groupType')) {
+          e = MySummaryGroup.fromJson(e);
+          return e;
+        }
+        if (e.containsKey('challengeType')) {
+          e = MySummaryChallenge.fromJson(e);
+          return e;
+        }
+      }).toList();
+      return dashboard;
     });
   }
 }

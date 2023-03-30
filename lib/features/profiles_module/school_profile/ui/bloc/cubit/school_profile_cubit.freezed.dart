@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SchoolProfileState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  School? get school => throw _privateConstructorUsedError;
+  SchoolProfileDto? get school => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SchoolProfileStateCopyWith<SchoolProfileState> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $SchoolProfileStateCopyWith<$Res> {
           SchoolProfileState value, $Res Function(SchoolProfileState) then) =
       _$SchoolProfileStateCopyWithImpl<$Res, SchoolProfileState>;
   @useResult
-  $Res call({dynamic isLoading, School? school});
+  $Res call({dynamic isLoading, SchoolProfileDto? school});
 }
 
 /// @nodoc
@@ -57,7 +57,7 @@ class _$SchoolProfileStateCopyWithImpl<$Res, $Val extends SchoolProfileState>
       school: freezed == school
           ? _value.school
           : school // ignore: cast_nullable_to_non_nullable
-              as School?,
+              as SchoolProfileDto?,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$_SchoolProfileStateCopyWith<$Res>
       __$$_SchoolProfileStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic isLoading, School? school});
+  $Res call({dynamic isLoading, SchoolProfileDto? school});
 }
 
 /// @nodoc
@@ -92,7 +92,7 @@ class __$$_SchoolProfileStateCopyWithImpl<$Res>
       school: freezed == school
           ? _value.school
           : school // ignore: cast_nullable_to_non_nullable
-              as School?,
+              as SchoolProfileDto?,
     ));
   }
 }
@@ -106,7 +106,7 @@ class _$_SchoolProfileState implements _SchoolProfileState {
   @JsonKey()
   final dynamic isLoading;
   @override
-  final School? school;
+  final SchoolProfileDto? school;
 
   @override
   String toString() {
@@ -136,12 +136,13 @@ class _$_SchoolProfileState implements _SchoolProfileState {
 
 abstract class _SchoolProfileState implements SchoolProfileState {
   const factory _SchoolProfileState(
-      {final dynamic isLoading, final School? school}) = _$_SchoolProfileState;
+      {final dynamic isLoading,
+      final SchoolProfileDto? school}) = _$_SchoolProfileState;
 
   @override
   dynamic get isLoading;
   @override
-  School? get school;
+  SchoolProfileDto? get school;
   @override
   @JsonKey(ignore: true)
   _$$_SchoolProfileStateCopyWith<_$_SchoolProfileState> get copyWith =>

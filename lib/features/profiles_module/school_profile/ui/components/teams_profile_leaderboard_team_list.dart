@@ -50,21 +50,24 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
               label: Flex(
                 direction: Axis.horizontal,
                 children: [
-                  AutoSizeText.rich(
-                    TextSpan(
-                      style: DefaultTextStyle.of(context)
-                          .style
-                          .copyWith(fontSize: 15),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '#${list?[index].rankPlace} ',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: '${list?[index].team?.name}'),
-                      ],
+                  Expanded(
+                    child: AutoSizeText.rich(
+                      TextSpan(
+                        style: DefaultTextStyle.of(context)
+                            .style
+                            .copyWith(fontSize: 15),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: '#${list?[index].rankPlace} ',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: '${list?[index].team?.name}'),
+                        ],
+                      ),
+                      maxLines: 1,
+                      minFontSize: 14,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -74,7 +77,7 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
                       DefaultTextStyle.of(context).style.copyWith(fontSize: 15),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '${list?[index].team?.score} ',
+                      text: '${list?[index].userPoints} ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary),
@@ -83,10 +86,6 @@ class TeamsProfileLeaderboardTeamList extends StatelessWidget
                   ],
                 ),
               ),
-              // trailingWidget: TournamentPositionArrow(
-              //   number: list[index].changePosition.number,
-              //   arrowPositionDirection: list[index].changePosition.type,
-              // ),
             );
           },
         ),

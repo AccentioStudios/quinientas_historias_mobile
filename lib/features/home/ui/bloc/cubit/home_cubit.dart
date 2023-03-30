@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../core/data/entities/daily_challenge_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../../data/useCases/home_usecases.dart';
@@ -15,22 +18,21 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
   }) : super(const HomeState());
   final HomeUseCases homeUseCases;
 
-  void getDashboard(
-      {Function(Dashboard dashboard)? onSuccess, required Function? onError}) {
+  Future<void> getDashboard() async {
+    var completer = Completer<void>();
+
     emit(state.copyWith(loading: true));
-    homeUseCases.getDashboard().listen((Dashboard dashboard) {
-      emit(state.copyWith(
-        dashboard: dashboard,
-        loading: false,
-      ));
-      if (onSuccess != null) onSuccess(dashboard);
+    homeUseCases.getDashboard().listen((Dashboard dashboard) async {
+      emit(state.copyWith(dashboard: dashboard, loading: false));
+      completer.complete();
     }, onError: (error) {
-      if (onError != null) onError(error);
+      completer.completeError(error);
     }).subscribe(this);
+    return completer.future;
   }
 
-  void saveDailyChallenge(DailyChallenge dailyChallenge) {
-    emit(state.copyWith(
-        dashboard: state.dashboard?.copyWith(dailyChallenge: dailyChallenge)));
-  }
+  // void saveDailyChallenge(DailyChallenge dailyChallenge) {
+  //   emit(state.copyWith(
+  //       dashboard: state.dashboard?.copyWith(dailyChallenge: dailyChallenge)));
+  // }
 }

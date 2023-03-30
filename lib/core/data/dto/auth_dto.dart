@@ -80,7 +80,7 @@ User _$JwtPayloadToUserEntity(JwtPayload instance) {
     lastName: instance.lastName,
     email: instance.email,
     avatarUrl: instance.avatarUrl,
-    role: instance.role,
+    role: UserRole(name: instance.role, userId: instance.id),
     // Empty because JwtPayload does not have those fields
     team: null,
     school: null,

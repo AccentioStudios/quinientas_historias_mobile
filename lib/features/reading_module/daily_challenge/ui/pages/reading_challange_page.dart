@@ -191,7 +191,7 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
   void rollTheDice() {
     context.read<DailyChallengeCubit>().rollTheDice(
         onSuccess: (dailyChallenge) {
-          context.read<HomeCubit>().saveDailyChallenge(dailyChallenge);
+          // context.read<HomeCubit>().saveDailyChallenge(dailyChallenge);
         },
         onError: (error) => widget.handleError(context, error));
   }
@@ -207,7 +207,7 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
         forceGenerateNewChallenge: forceGenerateNewChallenge,
         dailyChallengeOnMemory: widget.dailyChallenge,
         onSuccess: (dailyChallenge) {
-      BlocProvider.of<HomeCubit>(context).saveDailyChallenge(dailyChallenge);
+      // BlocProvider.of<HomeCubit>(context).saveDailyChallenge(dailyChallenge);
       completer.complete();
     }, onError: (error) {
       widget.handleError(context, error, onTap: () {

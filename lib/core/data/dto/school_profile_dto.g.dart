@@ -10,16 +10,11 @@ SchoolProfileDto _$SchoolProfileDtoFromJson(Map<String, dynamic> json) =>
     SchoolProfileDto(
       id: json['id'] as int,
       name: json['name'] as String,
-      avatarUrl: json['avatarUrl'] as String?,
       active: json['active'] as bool,
-      school: json['school'] == null
-          ? null
-          : School.fromJson(json['school'] as Map<String, dynamic>),
-      tournament:
-          Tournament.fromJson(json['tournament'] as Map<String, dynamic>),
+      schoolPoints: json['schoolPoints'] as int,
+      schoolReads: json['schoolReads'] as int,
+      avatarUrl: json['avatarUrl'] as String?,
       canEdit: json['canEdit'] as bool?,
-      teamPoints: json['teamPoints'] as int,
-      teamReads: json['teamReads'] as int,
       leaderboard: (json['leaderboard'] as List<dynamic>?)
           ?.map((e) => Leaderboard.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -31,10 +26,8 @@ Map<String, dynamic> _$SchoolProfileDtoToJson(SchoolProfileDto instance) =>
       'name': instance.name,
       'avatarUrl': instance.avatarUrl,
       'active': instance.active,
-      'school': instance.school,
-      'tournament': instance.tournament,
       'canEdit': instance.canEdit,
-      'teamPoints': instance.teamPoints,
-      'teamReads': instance.teamReads,
+      'schoolPoints': instance.schoolPoints,
+      'schoolReads': instance.schoolReads,
       'leaderboard': instance.leaderboard,
     };

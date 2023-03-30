@@ -17,7 +17,7 @@ class User {
     this.lastName,
     this.nickname,
     this.active,
-    required this.role,
+    this.role,
     this.avatarUrl,
     required this.email,
     required this.userPoints,
@@ -32,15 +32,17 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   final int id;
+  @JsonKey(defaultValue: '')
   final String firstName;
+  @JsonKey(defaultValue: '')
   final String? lastName;
+  @JsonKey(defaultValue: '')
   final String? nickname;
   final String? avatarUrl;
   final String email;
   @JsonKey(defaultValue: false)
   final bool? active;
-  @JsonKey(defaultValue: Role.public)
-  final Role role;
+  final UserRole? role;
   @JsonKey(defaultValue: [])
   final List<UserPoint> userPoints;
   @JsonKey(defaultValue: [])
@@ -55,6 +57,24 @@ class User {
   final List<Story> favoriteStories;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+@JsonSerializable()
+class UserRole {
+  const UserRole({
+    this.id,
+    required this.userId,
+    required this.name,
+  });
+
+  factory UserRole.fromJson(Map<String, dynamic> json) =>
+      _$UserRoleFromJson(json);
+
+  final int? id;
+  final int userId;
+  @JsonKey(defaultValue: Role.reader)
+  final Role name;
+  Map<String, dynamic> toJson() => _$UserRoleToJson(this);
 }
 
 enum Role {

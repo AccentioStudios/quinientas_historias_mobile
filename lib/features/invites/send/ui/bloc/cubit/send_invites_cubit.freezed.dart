@@ -17,10 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SendInvitesState {
   dynamic get isLoading => throw _privateConstructorUsedError;
+  dynamic get isSearchingUsers => throw _privateConstructorUsedError;
   dynamic get sendingInvite => throw _privateConstructorUsedError;
   List<Invite> get invites => throw _privateConstructorUsedError;
   List<Team> get profTeams => throw _privateConstructorUsedError;
-  dynamic get formValidationError => throw _privateConstructorUsedError;
+  dynamic get emailIsValid => throw _privateConstructorUsedError;
+  dynamic get searchUsersList => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -36,10 +38,12 @@ abstract class $SendInvitesStateCopyWith<$Res> {
   @useResult
   $Res call(
       {dynamic isLoading,
+      dynamic isSearchingUsers,
       dynamic sendingInvite,
       List<Invite> invites,
       List<Team> profTeams,
-      dynamic formValidationError,
+      dynamic emailIsValid,
+      dynamic searchUsersList,
       User? user});
 }
 
@@ -57,16 +61,22 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? isSearchingUsers = freezed,
     Object? sendingInvite = freezed,
     Object? invites = null,
     Object? profTeams = null,
-    Object? formValidationError = freezed,
+    Object? emailIsValid = freezed,
+    Object? searchUsersList = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      isSearchingUsers: freezed == isSearchingUsers
+          ? _value.isSearchingUsers
+          : isSearchingUsers // ignore: cast_nullable_to_non_nullable
               as dynamic,
       sendingInvite: freezed == sendingInvite
           ? _value.sendingInvite
@@ -80,9 +90,13 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
           ? _value.profTeams
           : profTeams // ignore: cast_nullable_to_non_nullable
               as List<Team>,
-      formValidationError: freezed == formValidationError
-          ? _value.formValidationError
-          : formValidationError // ignore: cast_nullable_to_non_nullable
+      emailIsValid: freezed == emailIsValid
+          ? _value.emailIsValid
+          : emailIsValid // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      searchUsersList: freezed == searchUsersList
+          ? _value.searchUsersList
+          : searchUsersList // ignore: cast_nullable_to_non_nullable
               as dynamic,
       user: freezed == user
           ? _value.user
@@ -102,10 +116,12 @@ abstract class _$$_SendInvitesStateCopyWith<$Res>
   @useResult
   $Res call(
       {dynamic isLoading,
+      dynamic isSearchingUsers,
       dynamic sendingInvite,
       List<Invite> invites,
       List<Team> profTeams,
-      dynamic formValidationError,
+      dynamic emailIsValid,
+      dynamic searchUsersList,
       User? user});
 }
 
@@ -121,14 +137,19 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
+    Object? isSearchingUsers = freezed,
     Object? sendingInvite = freezed,
     Object? invites = null,
     Object? profTeams = null,
-    Object? formValidationError = freezed,
+    Object? emailIsValid = freezed,
+    Object? searchUsersList = freezed,
     Object? user = freezed,
   }) {
     return _then(_$_SendInvitesState(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
+      isSearchingUsers: freezed == isSearchingUsers
+          ? _value.isSearchingUsers!
+          : isSearchingUsers,
       sendingInvite:
           freezed == sendingInvite ? _value.sendingInvite! : sendingInvite,
       invites: null == invites
@@ -139,9 +160,11 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
           ? _value._profTeams
           : profTeams // ignore: cast_nullable_to_non_nullable
               as List<Team>,
-      formValidationError: freezed == formValidationError
-          ? _value.formValidationError!
-          : formValidationError,
+      emailIsValid:
+          freezed == emailIsValid ? _value.emailIsValid! : emailIsValid,
+      searchUsersList: freezed == searchUsersList
+          ? _value.searchUsersList!
+          : searchUsersList,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -155,10 +178,12 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
 class _$_SendInvitesState implements _SendInvitesState {
   const _$_SendInvitesState(
       {this.isLoading = true,
+      this.isSearchingUsers = true,
       this.sendingInvite = false,
       final List<Invite> invites = initInvites,
       final List<Team> profTeams = initProfTeams,
-      this.formValidationError = false,
+      this.emailIsValid = false,
+      this.searchUsersList = initSearchUsersList,
       this.user})
       : _invites = invites,
         _profTeams = profTeams;
@@ -166,6 +191,9 @@ class _$_SendInvitesState implements _SendInvitesState {
   @override
   @JsonKey()
   final dynamic isLoading;
+  @override
+  @JsonKey()
+  final dynamic isSearchingUsers;
   @override
   @JsonKey()
   final dynamic sendingInvite;
@@ -189,13 +217,16 @@ class _$_SendInvitesState implements _SendInvitesState {
 
   @override
   @JsonKey()
-  final dynamic formValidationError;
+  final dynamic emailIsValid;
+  @override
+  @JsonKey()
+  final dynamic searchUsersList;
   @override
   final User? user;
 
   @override
   String toString() {
-    return 'SendInvitesState(isLoading: $isLoading, sendingInvite: $sendingInvite, invites: $invites, profTeams: $profTeams, formValidationError: $formValidationError, user: $user)';
+    return 'SendInvitesState(isLoading: $isLoading, isSearchingUsers: $isSearchingUsers, sendingInvite: $sendingInvite, invites: $invites, profTeams: $profTeams, emailIsValid: $emailIsValid, searchUsersList: $searchUsersList, user: $user)';
   }
 
   @override
@@ -205,12 +236,16 @@ class _$_SendInvitesState implements _SendInvitesState {
             other is _$_SendInvitesState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
             const DeepCollectionEquality()
+                .equals(other.isSearchingUsers, isSearchingUsers) &&
+            const DeepCollectionEquality()
                 .equals(other.sendingInvite, sendingInvite) &&
             const DeepCollectionEquality().equals(other._invites, _invites) &&
             const DeepCollectionEquality()
                 .equals(other._profTeams, _profTeams) &&
             const DeepCollectionEquality()
-                .equals(other.formValidationError, formValidationError) &&
+                .equals(other.emailIsValid, emailIsValid) &&
+            const DeepCollectionEquality()
+                .equals(other.searchUsersList, searchUsersList) &&
             (identical(other.user, user) || other.user == user));
   }
 
@@ -218,10 +253,12 @@ class _$_SendInvitesState implements _SendInvitesState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
+      const DeepCollectionEquality().hash(isSearchingUsers),
       const DeepCollectionEquality().hash(sendingInvite),
       const DeepCollectionEquality().hash(_invites),
       const DeepCollectionEquality().hash(_profTeams),
-      const DeepCollectionEquality().hash(formValidationError),
+      const DeepCollectionEquality().hash(emailIsValid),
+      const DeepCollectionEquality().hash(searchUsersList),
       user);
 
   @JsonKey(ignore: true)
@@ -234,14 +271,18 @@ class _$_SendInvitesState implements _SendInvitesState {
 abstract class _SendInvitesState implements SendInvitesState {
   const factory _SendInvitesState(
       {final dynamic isLoading,
+      final dynamic isSearchingUsers,
       final dynamic sendingInvite,
       final List<Invite> invites,
       final List<Team> profTeams,
-      final dynamic formValidationError,
+      final dynamic emailIsValid,
+      final dynamic searchUsersList,
       final User? user}) = _$_SendInvitesState;
 
   @override
   dynamic get isLoading;
+  @override
+  dynamic get isSearchingUsers;
   @override
   dynamic get sendingInvite;
   @override
@@ -249,7 +290,9 @@ abstract class _SendInvitesState implements SendInvitesState {
   @override
   List<Team> get profTeams;
   @override
-  dynamic get formValidationError;
+  dynamic get emailIsValid;
+  @override
+  dynamic get searchUsersList;
   @override
   User? get user;
   @override

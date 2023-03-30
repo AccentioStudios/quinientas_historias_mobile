@@ -1,7 +1,11 @@
+import 'dart:async';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
@@ -9,8 +13,11 @@ import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/headline.dart';
+import '../../../../../core/ui/widgets/outlined_card.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/themed_text_form_field.dart';
+import '../../../../../core/ui/widgets/user_avatar.dart';
+import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../data/models/invites_request_model.dart';
 import '../bloc/cubit/send_invites_cubit.dart';
@@ -62,18 +69,17 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
               onPressed: () => Navigator.of(context).pop(true),
             ),
           ),
-          floatingActionButton: !state.formValidationError &&
-                  emailController.text.isNotEmpty &&
-                  currentPage == 0
+          floatingActionButton: state.isSearchingUsers && currentPage == 0
               ? FloatingActionButton(
                   backgroundColor: Theme.of(context).colorScheme.primary,
-                  onPressed: () {
-                    submit();
-                  },
-                  child: SizedBox(
-                      child: SvgPicture.asset(
-                    'assets/icons/arrow-forward.svg',
-                    color: Theme.of(context).colorScheme.onPrimary,
+                  onPressed: () {},
+                  child: Center(
+                      child: SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
                   )),
                 )
               : null,
@@ -90,10 +96,8 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
                 errorText: emailFieldErrorMessage,
                 emailController: emailController,
                 emailFocus: emailFocus,
-                onChanged: (text) {
-                  context.read<SendInvitesCubit>().validateForm(text);
-                },
-                submit: () => submit(),
+                role: widget.typeUserToInvite,
+                selectedUser: (user) => submit(user),
               ),
               _SendEmailPageTwo(
                 state: state,
@@ -108,7 +112,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
     );
   }
 
-  submit() {
+  submit(User user) {
     if (emailController.text.isNotEmpty && currentPage == 0) {
       if (emailFocus.hasFocus) {
         emailFocus.unfocus();
@@ -278,39 +282,339 @@ class _EnterEmailPageOne extends StatelessWidget {
     Key? key,
     required this.emailFocus,
     required this.emailController,
-    required this.onChanged,
-    required this.submit,
+    required this.selectedUser,
+    required this.role,
     this.errorText,
   }) : super(key: key);
   final TextEditingController emailController;
   final FocusNode emailFocus;
-  final void Function(String)? onChanged;
-  final void Function() submit;
+  final void Function(User) selectedUser;
   final String? errorText;
+  final Role role;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: PaddingColumn(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.space30),
-      children: [
-        const Headline(
-          marginTop: 0,
-          marginBottom: Constants.space30,
-          label: 'Cuál es el e-mail de la\npersona que quieres invitar?',
-          fontSize: 24,
-        ),
-        ThemedTextFormField(
-          errorText: errorText,
-          autofocus: true,
-          focusNode: emailFocus,
-          controller: emailController,
-          hintText: 'Email',
-          prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
-          keyboardType: TextInputType.emailAddress,
-          onChanged: onChanged,
-          onFieldSubmitted: (text) => submit(),
-        )
-      ],
-    ));
+          mainAxisSize: MainAxisSize.min,
+          padding: const EdgeInsets.symmetric(horizontal: Constants.space21),
+          children: [
+            const Headline(
+              marginTop: Constants.space12,
+              marginBottom: Constants.space30,
+              label: 'Cuál es el e-mail de la\npersona que quieres invitar?',
+              fontSize: 24,
+            ),
+            ThemedTextFormField(
+              style: const TextStyle(fontSize: 15),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+              borderRadius: BorderRadius.circular(10),
+              errorText: errorText,
+              autofocus: true,
+              focusNode: emailFocus,
+              controller: emailController,
+              hintText: 'Email',
+              prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
+              keyboardType: TextInputType.emailAddress,
+              suffix: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: Constants.space8),
+                child: Transform.translate(
+                  offset: const Offset(0, -6),
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 0),
+                      height: 30,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(6)),
+                      child: Transform.translate(
+                        offset: const Offset(0, 6),
+                        child: Text(
+                          getRoleText(role),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onTertiary),
+                        ),
+                      )),
+                ),
+              ),
+            ),
+            const SizedBox(height: Constants.space21),
+            SearchUserList(
+              emailController: emailController,
+              selectedUser: (user) => selectedUser(user),
+            ),
+          ],
+        ));
+  }
+
+  String getRoleText(Role role) {
+    switch (role) {
+      case Role.admin:
+        return 'Admin';
+      case Role.captain:
+        return 'Capitán';
+      case Role.public:
+        return 'Publico';
+      case Role.reader:
+        return 'Lector';
+      case Role.prof:
+        return 'Profesor';
+      case Role.jury:
+        return 'Jurado';
+      case Role.editor:
+        return 'Editor';
+    }
+  }
+}
+
+class SearchUserList extends StatefulWidget {
+  const SearchUserList(
+      {super.key,
+      required this.selectedUser,
+      required this.emailController,
+      this.forceUserExists = true});
+  final void Function(User) selectedUser;
+  final TextEditingController emailController;
+  final bool forceUserExists;
+
+  @override
+  State<SearchUserList> createState() => _SearchUserListState();
+}
+
+class _SearchUserListState extends State<SearchUserList> {
+  StreamController<String> searchStreamController = StreamController<String>();
+
+  @override
+  void initState() {
+    widget.emailController.addListener(triggerSearch);
+    searchStreamController.stream
+        .debounceTime(const Duration(milliseconds: 500))
+        .listen((email) {
+      searchUsers(email);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.emailController.dispose();
+    searchStreamController.close();
+    super.dispose();
+  }
+
+  void triggerSearch() {
+    final email = widget.emailController.text;
+    searchStreamController.add(email);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SendInvitesCubit, SendInvitesState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            buildSendToNewUser(state),
+            buildUserDontExists(state) ??
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: state.searchUsersList.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: Constants.space21),
+                      child: UserListTile(user: state.searchUsersList![index]),
+                    );
+                  },
+                ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget? buildUserDontExists(SendInvitesState state) {
+    return widget.forceUserExists &&
+            state.searchUsersList.length == 0 &&
+            !state.isSearchingUsers &&
+            widget.emailController.text.isNotEmpty
+        ? const _EmptyStateUserList()
+        : null;
+  }
+
+  Widget buildSendToNewUser(SendInvitesState state) {
+    return !widget.forceUserExists && widget.emailController.text.isNotEmpty
+        ? Column(
+            children: [
+              UserListTile(
+                email: widget.emailController.text,
+                isValid: state.emailIsValid,
+              ),
+              if (state.searchUsersList.length > 0)
+                const Divider(height: Constants.space41)
+            ],
+          )
+        : const SizedBox.shrink();
+  }
+
+  searchUsers(String email) {
+    context.read<SendInvitesCubit>().searchUsers(email);
+  }
+}
+
+class _EmptyStateUserList extends StatelessWidget {
+  const _EmptyStateUserList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 24,
+            child: SvgPicture.asset('assets/icons/face-sad-outline-icon.svg'),
+          ),
+          const SizedBox(height: Constants.space8),
+          const Text(
+            'El usuario no existe :(',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: Constants.space8),
+          Text(
+            'Intenta escribir el email nuevamente o pídele a la persona que se registre antes en 500Historias.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class UserListTile extends StatelessWidget {
+  const UserListTile({super.key, this.user, this.email, this.isValid});
+
+  final User? user;
+  final String? email;
+  final bool? isValid;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedCard(
+      onTap: () {},
+      padding: const EdgeInsets.symmetric(
+          horizontal: Constants.space16, vertical: Constants.space12),
+      backgroundColor: brandBlue.withOpacity(0.08),
+      border: isValid != null
+          ? isValid!
+              ? Border.all(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .tertiary
+                      .withOpacity(0.08)) // is valid
+              : Border.all(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? errorDarkColor.withOpacity(0.2)
+                      : errorColor.withOpacity(0.08)) // is not valid
+          : Border.all(color: Colors.white.withOpacity(0.08)), // we dont know,
+      child: Column(
+        children: [
+          email != null
+              ? Flex(
+                  direction: Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(height: 35),
+                    Expanded(
+                      child: AutoSizeText.rich(
+                        TextSpan(
+                          style: DefaultTextStyle.of(context)
+                              .style
+                              .copyWith(fontSize: 15),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '$email ',
+                            ),
+                          ],
+                        ),
+                        maxLines: 1,
+                        maxFontSize: 14,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: Constants.space8),
+                    isValid != null
+                        ? isValid!
+                            ? SizedBox(
+                                height: 35,
+                                child: SvgPicture.asset(
+                                    'assets/icons/send-outline-icon.svg'),
+                              )
+                            : const SizedBox.shrink()
+                        : const SizedBox.shrink(),
+                  ],
+                )
+              : Flex(
+                  direction: Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: Constants.space16),
+                      child: SizedBox(
+                          width: 35,
+                          child: UserAvatar(
+                            user: user,
+                          )),
+                    ),
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flex(
+                            direction: Axis.horizontal,
+                            children: [
+                              Expanded(
+                                child: AutoSizeText.rich(
+                                  TextSpan(
+                                    style: DefaultTextStyle.of(context)
+                                        .style
+                                        .copyWith(fontSize: 15),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text:
+                                            '${user?.firstName} ${user?.lastName} ',
+                                      ),
+                                    ],
+                                  ),
+                                  maxLines: 1,
+                                  maxFontSize: 14,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: Constants.space8),
+                              SizedBox(
+                                height: 35,
+                                child: SvgPicture.asset(
+                                    'assets/icons/send-outline-icon.svg'),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+        ],
+      ),
+    );
   }
 }

@@ -110,7 +110,7 @@ class _Username extends StatelessWidget {
           children: <Widget>[
             Text('${user?.firstName ?? ''} ${user?.lastName ?? ''}',
                 style: userNameTextStyle),
-            Text(formatRole(user?.role), style: RoleTextStyle),
+            Text(formatRole(user?.role?.name), style: RoleTextStyle),
           ],
         ),
       ],

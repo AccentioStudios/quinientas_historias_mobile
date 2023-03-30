@@ -56,7 +56,7 @@ User _$UserProfileDtoToEntity(UserProfileDto instance) {
     lastName: instance.lastName,
     email: instance.email,
     avatarUrl: instance.avatarUrl,
-    role: instance.role,
+    role: UserRole(name: instance.role, userId: instance.id),
     team: instance.team,
     school: instance.school,
     // Empty because Dto does not have those fields

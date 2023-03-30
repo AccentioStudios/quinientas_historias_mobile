@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../../core/data/dto/team_profile_dto.dart';
-import '../../../../../../core/data/entities/team_entity.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/useCases/team_profile_usecases.dart';
 

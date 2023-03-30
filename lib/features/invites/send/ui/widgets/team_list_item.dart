@@ -39,7 +39,7 @@ class TeamListItem extends StatelessWidget {
                 padding: const EdgeInsets.only(right: Constants.space16),
                 child: SizedBox(width: 35, child: avatarWidget),
               ),
-              Flexible(
+              Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

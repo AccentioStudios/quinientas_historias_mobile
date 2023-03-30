@@ -28,14 +28,13 @@ class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    getTeamsFromProf(context.read<SendInvitesCubit>());
+    getTeams(widget.schoolId);
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SendInvitesCubit>();
     return RefreshIndicator(
-      onRefresh: () => getTeamsFromProf(cubit),
+      onRefresh: () => getTeams(widget.schoolId),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -102,14 +101,12 @@ class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
     SendInviteProvider.open(context, team: team).then((value) {});
   }
 
-  Future<void> getTeamsFromProf(SendInvitesCubit cubit) {
-    final completer = Completer();
-    cubit.getTeamsFromProf(onSuccess: () {
-      completer.complete();
-    }, onError: (HttpFailure error) {
+  getTeams(int schoolId) {
+    context
+        .read<SendInvitesCubit>()
+        .getTeamsFromProf(schoolId)
+        .onError<HttpFailure>((error, stackTrace) {
       widget.handleError(context, error);
-      completer.completeError(error);
     });
-    return completer.future;
   }
 }

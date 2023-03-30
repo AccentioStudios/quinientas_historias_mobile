@@ -1,12 +1,10 @@
-import '../../../../../core/data/entities/school_entity.dart';
+import '../../../../../core/data/dto/school_profile_dto.dart';
 import '../../../../../core/integrations/api_service.dart';
 
 class SchoolProfileRepository with ApiService {
-  Stream<School> getSchoolProfile(int? schoolId) async* {
+  Stream<SchoolProfileDto> getSchoolProfile(int? schoolId) async* {
     yield* appApi
-        .get('/v1/schools/profile',
-            queryParameters:
-                schoolId != null ? {'schoolId': schoolId.toString()} : null)
-        .handleJson(mapper: (json) => School.fromJson(json));
+        .get('/v2/school/$schoolId')
+        .handleJson(mapper: (json) => SchoolProfileDto.fromJson(json));
   }
 }

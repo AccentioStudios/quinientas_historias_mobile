@@ -4,13 +4,16 @@ part of 'send_invites_cubit.dart';
 class SendInvitesState with _$SendInvitesState {
   const factory SendInvitesState({
     @Default(true) isLoading,
+    @Default(true) isSearchingUsers,
     @Default(false) sendingInvite,
     @Default(initInvites) List<Invite> invites,
     @Default(initProfTeams) List<Team> profTeams,
-    @Default(false) formValidationError,
+    @Default(false) emailIsValid,
+    @Default(initSearchUsersList) searchUsersList,
     User? user,
   }) = _SendInvitesState;
 }
 
 const List<Invite> initInvites = [];
 const List<Team> initProfTeams = [];
+const List<User> initSearchUsersList = [];
