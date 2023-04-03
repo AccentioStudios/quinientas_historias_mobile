@@ -11,9 +11,41 @@ class UserAchievementsTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return user.favoriteStories.isNotEmpty
-        ? const Placeholder()
-        : const UserAchievementsEmptyState();
+    // Temporalmente vamos a mostrar que esta vacio siempre. Proximamente habrán logros
+    return const ComingSoonUserAchievementsEmptyState();
+    // return user.achievements.isNotEmpty
+    //     ? const Placeholder()
+    //     : const UserAchievementsEmptyState();
+  }
+}
+
+class ComingSoonUserAchievementsEmptyState extends StatelessWidget {
+  const ComingSoonUserAchievementsEmptyState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: SvgPicture.asset(
+                    'assets/icons/achievement-outline-icon.svg'),
+              ),
+              const SizedBox(height: Constants.space21),
+              const Text(
+                'Proximamente, aqui podrás encontrar los logros\nque has conseguido en los torneos',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: Constants.space41),
+            ]),
+      ),
+    );
   }
 }
 

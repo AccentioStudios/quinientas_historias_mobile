@@ -151,8 +151,13 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
 
   void deleteInvitation(Invite invite) {
     context.read<SendInvitesCubit>().deleteInvitation(invite,
-        onSuccess: () {},
-        onError: (error) => widget.handleError(context, error));
+        onSuccess: () {
+          getInvitations(context, widget.team);
+        },
+        onError: (error) => widget.handleError(context, error, onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }));
   }
 
   void getInvitations(BuildContext context, Team? team) {
@@ -250,7 +255,7 @@ class _InvitesList extends StatelessWidget {
         if (isLoading) const Center(child: CircularProgressIndicator()),
         if (!isLoading)
           ...invites.map((item) {
-            if (item.invitedType == invitedTypeFilter) {
+            if (item.invitedRole == invitedTypeFilter) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: Constants.space12),
                 child: DismissibleListTile(
@@ -263,7 +268,7 @@ class _InvitesList extends StatelessWidget {
                         .copyWith(fontSize: 16),
                   ),
                   trailing: _InvitationStateChip(
-                    accepted: item.accepted == 1,
+                    accepted: item.accepted,
                   ),
                 ),
               );

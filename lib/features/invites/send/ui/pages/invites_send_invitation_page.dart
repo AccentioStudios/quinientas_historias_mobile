@@ -19,6 +19,7 @@ import '../../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../../core/utils/functions.dart';
 import '../../../data/models/invites_request_model.dart';
 import '../bloc/cubit/send_invites_cubit.dart';
 
@@ -40,6 +41,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
   late FocusNode emailFocus;
   String? emailFieldErrorMessage;
   int currentPage = 0;
+  String selectedEmail = '';
 
   @override
   void initState() {
@@ -97,11 +99,16 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
                 emailController: emailController,
                 emailFocus: emailFocus,
                 role: widget.typeUserToInvite,
-                selectedUser: (user) => submit(user),
+                selectedUser: (email) => submit(email),
+                selectedEmail: (email) {
+                  if (state.emailIsValid) {
+                    submit(email);
+                  }
+                },
               ),
               _SendEmailPageTwo(
                 state: state,
-                email: emailController.text,
+                email: selectedEmail,
                 pageController: pageController,
                 emailController: emailController,
               ),
@@ -112,22 +119,23 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
     );
   }
 
-  submit(User user) {
-    if (emailController.text.isNotEmpty && currentPage == 0) {
+  submit(String email) {
+    selectedEmail = email;
+    if (currentPage == 0) {
       if (emailFocus.hasFocus) {
         emailFocus.unfocus();
       }
       context.read<SendInvitesCubit>().sendInvite(
           InvitesRequest(
-            email: emailController.text,
+            email: email,
             type: widget.typeUserToInvite,
             teamId: widget.team?.id,
             schoolId: widget.schoolId,
           ),
           onSuccess: () {}, onError: (HttpFailure error) {
-        if (error.message == FailureType.userAlreadyInvited) {
+        if (error.message == FailureTypes.userAlreadyInvited) {
           setState(() {
-            emailFieldErrorMessage = 'error.message';
+            emailFieldErrorMessage = 'El usuario ya pertenece a otro equipo';
           });
           pageController.animateToPage(0,
               duration: const Duration(milliseconds: 300),
@@ -283,12 +291,14 @@ class _EnterEmailPageOne extends StatelessWidget {
     required this.emailFocus,
     required this.emailController,
     required this.selectedUser,
+    required this.selectedEmail,
     required this.role,
     this.errorText,
   }) : super(key: key);
   final TextEditingController emailController;
   final FocusNode emailFocus;
-  final void Function(User) selectedUser;
+  final void Function(String) selectedUser;
+  final void Function(String) selectedEmail;
   final String? errorText;
   final Role role;
   @override
@@ -345,29 +355,11 @@ class _EnterEmailPageOne extends StatelessWidget {
             const SizedBox(height: Constants.space21),
             SearchUserList(
               emailController: emailController,
-              selectedUser: (user) => selectedUser(user),
+              selectedUser: (email) => selectedUser(email),
+              selectedEmail: (email) => selectedEmail(email),
             ),
           ],
         ));
-  }
-
-  String getRoleText(Role role) {
-    switch (role) {
-      case Role.admin:
-        return 'Admin';
-      case Role.captain:
-        return 'Capitán';
-      case Role.public:
-        return 'Publico';
-      case Role.reader:
-        return 'Lector';
-      case Role.prof:
-        return 'Profesor';
-      case Role.jury:
-        return 'Jurado';
-      case Role.editor:
-        return 'Editor';
-    }
   }
 }
 
@@ -375,9 +367,11 @@ class SearchUserList extends StatefulWidget {
   const SearchUserList(
       {super.key,
       required this.selectedUser,
+      required this.selectedEmail,
       required this.emailController,
-      this.forceUserExists = true});
-  final void Function(User) selectedUser;
+      this.forceUserExists = false});
+  final void Function(String) selectedUser;
+  final void Function(String) selectedEmail;
   final TextEditingController emailController;
   final bool forceUserExists;
 
@@ -426,7 +420,17 @@ class _SearchUserListState extends State<SearchUserList> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: Constants.space21),
-                      child: UserListTile(user: state.searchUsersList![index]),
+                      child: UserListTile(
+                        user: state.searchUsersList![index],
+                        onTap: (tapped) {
+                          widget.selectedUser(tapped);
+                        },
+                        trailingWidget: SizedBox(
+                          height: 35,
+                          child: SvgPicture.asset(
+                              'assets/icons/send-outline-icon.svg'),
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -452,6 +456,13 @@ class _SearchUserListState extends State<SearchUserList> {
               UserListTile(
                 email: widget.emailController.text,
                 isValid: state.emailIsValid,
+                onTap: (tapped) {
+                  widget.selectedEmail(tapped);
+                },
+                trailingWidget: SizedBox(
+                  height: 35,
+                  child: SvgPicture.asset('assets/icons/send-outline-icon.svg'),
+                ),
               ),
               if (state.searchUsersList.length > 0)
                 const Divider(height: Constants.space41)
@@ -500,16 +511,30 @@ class _EmptyStateUserList extends StatelessWidget {
 }
 
 class UserListTile extends StatelessWidget {
-  const UserListTile({super.key, this.user, this.email, this.isValid});
+  const UserListTile(
+      {super.key,
+      this.user,
+      this.email,
+      this.isValid,
+      required this.onTap,
+      this.trailingWidget});
 
   final User? user;
   final String? email;
   final bool? isValid;
+  final Function(String) onTap;
+  final Widget? trailingWidget;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedCard(
-      onTap: () {},
+      onTap: () {
+        if (user != null) {
+          onTap(user!.email);
+        } else {
+          if (email != null) onTap(email!);
+        }
+      },
       padding: const EdgeInsets.symmetric(
           horizontal: Constants.space16, vertical: Constants.space12),
       backgroundColor: brandBlue.withOpacity(0.08),
@@ -601,11 +626,7 @@ class UserListTile extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: Constants.space8),
-                              SizedBox(
-                                height: 35,
-                                child: SvgPicture.asset(
-                                    'assets/icons/send-outline-icon.svg'),
-                              )
+                              trailingWidget ?? const SizedBox.shrink(),
                             ],
                           )
                         ],

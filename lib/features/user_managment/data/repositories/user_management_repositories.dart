@@ -1,14 +1,20 @@
 import '../../../../core/integrations/api_service.dart';
-import '../models/user_management_request_model.dart';
+import '../models/accept_invite.dto.dart';
 
 class UserManagementRepository with ApiService {
-  Stream<void> registerUser(UserManagementRequest request) async* {
+  Stream<void> registerUser(AcceptInviteDto dto) async* {
     yield* appApi
-        .post('/v1/users/register', data: request.toJson())
+        .post('/v1/users/register', data: dto.toJson())
         .handle(mapper: (Object data) {});
   }
 
-  Stream<void> editUser(UserManagementRequest request) async* {
+  Stream<void> acceptInvite(AcceptInviteDto dto) async* {
+    yield* appApi
+        .post('/v2/invite/accept', data: dto.toJson())
+        .handle(mapper: (Object data) {});
+  }
+
+  Stream<void> editUser(UserDto request) async* {
     yield* appApi
         .post('/v1/users/edit', data: request.toJson())
         .handle(mapper: (Object data) {});

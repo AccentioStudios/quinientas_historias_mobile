@@ -24,8 +24,8 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
             indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
                 color: Theme.of(context).colorScheme.primary),
-            tabs: <Widget>[
-              const Tab(
+            tabs: const <Widget>[
+              Tab(
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
@@ -34,7 +34,7 @@ class _LeaderboardTabsState extends State<LeaderboardTabs> {
                   ),
                 ),
               ),
-              const Tab(
+              Tab(
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(

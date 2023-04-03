@@ -6,10 +6,19 @@ part 'failures.g.dart';
 @JsonSerializable()
 class HttpFailure implements Exception {
   HttpFailure({this.message, this.statusCode = StatusCodes.unknown});
-  @JsonKey(unknownEnumValue: FailureType.unknown)
-  final FailureType? message;
+  @JsonKey(unknownEnumValue: FailureTypes.unknown)
+  final FailureTypes? message;
   @JsonKey(defaultValue: StatusCodes.internalServerError)
   final StatusCodes? statusCode;
+
+  factory HttpFailure.build(String messageText, int statusCode) {
+    return HttpFailure(
+      message: $enumDecodeNullable(_$FailureTypesEnumMap, messageText,
+          unknownValue: FailureTypes.unknown),
+      statusCode: $enumDecodeNullable(_$StatusCodesEnumMap, statusCode) ??
+          StatusCodes.internalServerError,
+    );
+  }
 
   factory HttpFailure.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('message')) {
@@ -23,7 +32,7 @@ class HttpFailure implements Exception {
   String toString() => 'HttpFailure: $message, statusCode: $statusCode';
 }
 
-enum FailureType {
+enum FailureTypes {
   // Fields Failures Type
   @JsonValue('email-error')
   email,
@@ -53,8 +62,17 @@ enum FailureType {
   userAlreadyInvited,
   @JsonValue('invite-not-found')
   inviteNotFound,
+  @JsonValue('invalid-invitation-code')
+  invalidInvitationCode,
+  @JsonValue('inviter-dont-belong-to-the-team')
+  inviterDontBelongToTheTeam,
+  @JsonValue('inviter-dont-belong-to-the-team')
+  inviterDontBelongToTheSchool,
+  @JsonValue('invite-belong-to-another-user')
+  inviteBelongToAnotherUser,
 
   // Others
+
   @JsonValue('format-exception')
   formatException,
   @JsonValue('http-handle-error')

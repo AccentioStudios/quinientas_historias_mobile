@@ -44,7 +44,7 @@ class HttpHelperImp implements HttpHelper {
       if (e.response?.data is Map<String, dynamic>) {
         final failure = HttpFailure.fromJson(e.response?.data);
         if (e.response?.statusCode == 401 &&
-            failure.message == FailureType.expiredAccessToken) {
+            failure.message == FailureTypes.expiredAccessToken) {
           if (await refreshToken()) {
             String? accessToken = await SecureStorageHelper.getAccessToken();
             e.requestOptions.headers[HttpHeaders.authorizationHeader] =
@@ -209,26 +209,22 @@ class HttpHelperImp implements HttpHelper {
 
   _handleHttpError(Object error) {
     if (error is DioError) {
-      if (error.response?.statusCode == 401) {
-        return HttpFailure(
-            message: FailureType.invalidAccessToken,
-            statusCode: StatusCodes.unauthorized);
-      }
+      return HttpFailure.fromJson(error.response?.data);
     }
     if (error is SocketException) {
       return HttpFailure(
-          message: FailureType.networkError,
+          message: FailureTypes.networkError,
           statusCode: StatusCodes.networkError);
     }
 
     if (error is FormatException) {
       return HttpFailure(
-          message: FailureType.httpHandleError,
+          message: FailureTypes.httpHandleError,
           statusCode: StatusCodes.formatException);
     }
 
     return HttpFailure(
-        message: FailureType.httpHandleError, statusCode: StatusCodes.unknown);
+        message: FailureTypes.httpHandleError, statusCode: StatusCodes.unknown);
   }
 
   // HttpResponse _buildHttpResponse(http.Response response) {

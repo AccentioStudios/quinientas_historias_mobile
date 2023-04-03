@@ -33,6 +33,15 @@ mixin ErrorHandling on Widget {
           linkBtnLabel: linkBtnLabel,
           linkBtnOnTap: linkBtnOnTap,
         );
+      case StatusCodes.notFound:
+        return _gotoNotFoundError<T>(
+          context,
+          httpFailure.message,
+          btnLabel: btnLabel,
+          onTap: onTap,
+          linkBtnLabel: linkBtnLabel,
+          linkBtnOnTap: linkBtnOnTap,
+        );
       default:
         return _gotoCommonError<T>(
           context,
@@ -119,8 +128,85 @@ mixin ErrorHandling on Widget {
         ));
   }
 
-  Future<T?> _gotoAuthError<T>(BuildContext context, FailureType? errorType) {
-    if (errorType == FailureType.userIsNotActive) {
+  Future<T?> _gotoNotFoundError<T>(
+    BuildContext context,
+    FailureTypes? errorType, {
+    String? btnLabel,
+    void Function()? onTap,
+    String? linkBtnLabel,
+    void Function()? linkBtnOnTap,
+  }) {
+    if (errorType == FailureTypes.inviteNotFound) {
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline: 'La invitación no existe',
+            message:
+                'Parece que has recibido una invitación que no existe. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
+            btnLabel: 'Entiendo',
+            svgImagePath: 'assets/images/broken-invitation-image.svg',
+            onBtnTap: () {
+              Navigator.of(context, rootNavigator: true)
+                  .popUntil((route) => route.isFirst);
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.homeNavigator);
+            },
+          ));
+    }
+    return _showErrorMessage<T>(
+        context,
+        CommonPageLayout(
+          headline: 'No encontramos lo que buscabas',
+          message: 'Verifica los datos que mandaste e intenta nuevamente.',
+          btnLabel: btnLabel,
+          onBtnTap: () {
+            if (onTap != null) {
+              return onTap();
+            }
+            Navigator.of(context, rootNavigator: true).pop(true);
+          },
+          linkBtnLabel: linkBtnLabel,
+          linkBtnOnTap: linkBtnOnTap,
+        ));
+  }
+
+  Future<T?> _gotoAuthError<T>(BuildContext context, FailureTypes? errorType) {
+    if (errorType == FailureTypes.inviteBelongToAnotherUser) {
+      // The invitation is for another user
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline: 'Invitación para otro usuario',
+            message:
+                'Esta invitación es para otro usuario. Si crees que esto fué un error entra en contacto con nosotros.',
+            svgImagePath: 'assets/images/hand-left-image.svg',
+            btnLabel: 'Entiendo',
+            onBtnTap: () {
+              Navigator.of(context, rootNavigator: true)
+                  .popUntil((route) => route.isFirst);
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.homeNavigator);
+            },
+          ));
+    }
+
+    if (errorType == FailureTypes.inviterDontBelongToTheTeam ||
+        errorType == FailureTypes.inviterDontBelongToTheSchool) {
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline:
+                'No perteneces al equipo o escuela para invitar a este usuario',
+            message:
+                'No puedes invitar a este usuario porque no perteneces al equipo o escuela.',
+            svgImagePath: 'assets/images/hand-left-image.svg',
+            btnLabel: 'Entiendo',
+            onBtnTap: () {
+              Navigator.of(context, rootNavigator: true).pop(true);
+            },
+          ));
+    }
+    if (errorType == FailureTypes.userIsNotActive) {
       return _showErrorMessage<T>(
           context,
           CommonPageLayout(
@@ -136,7 +222,7 @@ mixin ErrorHandling on Widget {
             },
           ));
     }
-    if (errorType == FailureType.userIsBanned) {
+    if (errorType == FailureTypes.userIsBanned) {
       return _showErrorMessage<T>(
           context,
           CommonPageLayout(
@@ -163,27 +249,6 @@ mixin ErrorHandling on Widget {
           linkBtnLabel: 'Cerrar sesión',
           linkBtnOnTap: () {
             SecureStorageHelper.deleteAll();
-            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
-          },
-        ));
-  }
-
-  Future<T?> _gotoInviteNotFoundError<T>(
-    BuildContext context, {
-    String? btnLabel,
-    void Function()? onTap,
-  }) {
-    return _showErrorMessage<T>(
-        context,
-        CommonPageLayout(
-          headline: 'La invitación no existe',
-          message:
-              'Parece que has recibido una invitación que no existe. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
-          btnLabel: 'Entiendo',
-          svgImagePath: 'assets/images/broken-invitation-image.svg',
-          onBtnTap: () {
-            Navigator.of(context, rootNavigator: true)
-                .popUntil((route) => route.isFirst);
             Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
           },
         ));

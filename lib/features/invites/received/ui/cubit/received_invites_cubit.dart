@@ -1,5 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
+import 'package:quinientas_historias/core/failures/failures.dart';
+import 'package:quinientas_historias/core/failures/status_codes.dart';
+import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
 
 import '../../../../../../core/mixins/form_validation.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
@@ -23,7 +27,7 @@ class ReceivedInvitesCubit extends Cubit<ReceivedInvitesState>
     emit(state.copyWith(isLoading: true, code: code));
     invitesUseCases
         .validateCode(VerifyInviteCodeRequest(code: state.code, email: email))
-        .listen((invite) {
+        .listen((invite) async {
       emit(state.copyWith(
         isLoading: false,
         invite: invite,

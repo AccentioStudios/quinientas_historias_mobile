@@ -45,8 +45,7 @@ class _EditUserPageState extends State<EditUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    final onChangeFields =
-        context.read<UserManagementCubit>().saveUserManagementRequestChanges;
+    final onChangeFields = context.read<UserManagementCubit>().saveChanges;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
@@ -172,8 +171,7 @@ class _EditUserPageState extends State<EditUserPage> {
       return;
     }
 
-    if ((state.userManagementRequest?.avatarUrl == null ||
-            state.userManagementRequest?.avatarUrl == '') &&
+    if ((state.user?.avatarUrl == null || state.user?.avatarUrl == '') &&
         state.avatarMemory == null) {
       widget.showAddUserAvatarMessage(context).then((value) async {
         if (value != null) {

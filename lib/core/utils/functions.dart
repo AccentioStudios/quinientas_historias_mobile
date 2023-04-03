@@ -1,7 +1,27 @@
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../data/entities/user_entity.dart';
 import '../theme/theme.dart';
+
+String getRoleText(Role role) {
+  switch (role) {
+    case Role.admin:
+      return 'Admin';
+    case Role.captain:
+      return 'Capitán';
+    case Role.public:
+      return 'Publico';
+    case Role.reader:
+      return 'Lector';
+    case Role.prof:
+      return 'Profesor';
+    case Role.jury:
+      return 'Jurado';
+    case Role.editor:
+      return 'Editor';
+  }
+}
 
 Future<CroppedFile?> pickPhoto({required WebUiSettings webUiSettings}) async {
   final imagePicker = ImagePicker();

@@ -42,13 +42,11 @@ class RegisterUserAvatar extends StatelessWidget {
           SizedBox(
             height: 138,
             width: 138,
-            child: state.userManagementRequest?.avatarUrl != null
+            child: state.user?.avatarUrl != null
                 ? CircleAvatar(
-                    backgroundImage:
-                        state.userManagementRequest?.avatarUrl != null
-                            ? NetworkImage(
-                                state.userManagementRequest?.avatarUrl ?? '')
-                            : null,
+                    backgroundImage: state.user?.avatarUrl != null
+                        ? NetworkImage(state.user?.avatarUrl ?? '')
+                        : null,
                   )
                 : OverflowBox(
                     maxHeight: 180,

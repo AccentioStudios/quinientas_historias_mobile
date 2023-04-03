@@ -54,7 +54,7 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
     emit(state.copyWith(sendingInvite: true));
     await Future.delayed(const Duration(seconds: 1));
 
-    invitesUseCases.sendInvite(request).listen((userProfile) {
+    invitesUseCases.sendInvite(request).listen((_) {
       onSuccess();
       emit(state.copyWith(sendingInvite: false));
     }, onError: (error) {
@@ -78,11 +78,11 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
       {required Function onSuccess, required Function onError}) {
     emit(state.copyWith(isLoading: true));
 
-    invitesUseCases.deleteInvitation(invite).listen((invites) {
-      emit(state.copyWith(invites: invites, isLoading: false));
+    invitesUseCases.deleteInvitation(invite).listen((_) {
       onSuccess();
     }, onError: (error) {
       onError(error);
+      emit(state.copyWith(isLoading: false));
     }).subscribe(this);
   }
 

@@ -7,8 +7,8 @@ part of 'failures.dart';
 // **************************************************************************
 
 HttpFailure _$HttpFailureFromJson(Map<String, dynamic> json) => HttpFailure(
-      message: $enumDecodeNullable(_$FailureTypeEnumMap, json['message'],
-          unknownValue: FailureType.unknown),
+      message: $enumDecodeNullable(_$FailureTypesEnumMap, json['message'],
+          unknownValue: FailureTypes.unknown),
       statusCode:
           $enumDecodeNullable(_$StatusCodesEnumMap, json['statusCode']) ??
               StatusCodes.internalServerError,
@@ -16,27 +16,31 @@ HttpFailure _$HttpFailureFromJson(Map<String, dynamic> json) => HttpFailure(
 
 Map<String, dynamic> _$HttpFailureToJson(HttpFailure instance) =>
     <String, dynamic>{
-      'message': _$FailureTypeEnumMap[instance.message],
+      'message': _$FailureTypesEnumMap[instance.message],
       'statusCode': _$StatusCodesEnumMap[instance.statusCode],
     };
 
-const _$FailureTypeEnumMap = {
-  FailureType.email: 'email-error',
-  FailureType.fieldsError: 'fields-error',
-  FailureType.invalidCode: 'invalid-code',
-  FailureType.unauthorized: 'unauthorized',
-  FailureType.invalidAccessToken: 'invalid-access-token',
-  FailureType.expiredAccessToken: 'expired-access-token',
-  FailureType.signatureAccessTokenInvalid: 'signature-access-token-invalid',
-  FailureType.userIsNotActive: 'user-is-not-active',
-  FailureType.userIsBanned: 'user-is-banned',
-  FailureType.roleNotValid: 'role-not-valid',
-  FailureType.userAlreadyInvited: 'user-already-invited',
-  FailureType.inviteNotFound: 'invite-not-found',
-  FailureType.formatException: 'format-exception',
-  FailureType.httpHandleError: 'http-handle-error',
-  FailureType.networkError: 'network-error',
-  FailureType.unknown: 'unknown',
+const _$FailureTypesEnumMap = {
+  FailureTypes.email: 'email-error',
+  FailureTypes.fieldsError: 'fields-error',
+  FailureTypes.invalidCode: 'invalid-code',
+  FailureTypes.unauthorized: 'unauthorized',
+  FailureTypes.invalidAccessToken: 'invalid-access-token',
+  FailureTypes.expiredAccessToken: 'expired-access-token',
+  FailureTypes.signatureAccessTokenInvalid: 'signature-access-token-invalid',
+  FailureTypes.userIsNotActive: 'user-is-not-active',
+  FailureTypes.userIsBanned: 'user-is-banned',
+  FailureTypes.roleNotValid: 'role-not-valid',
+  FailureTypes.userAlreadyInvited: 'user-already-invited',
+  FailureTypes.inviteNotFound: 'invite-not-found',
+  FailureTypes.invalidInvitationCode: 'invalid-invitation-code',
+  FailureTypes.inviterDontBelongToTheTeam: 'inviter-dont-belong-to-the-team',
+  FailureTypes.inviterDontBelongToTheSchool: 'inviter-dont-belong-to-the-team',
+  FailureTypes.inviteBelongToAnotherUser: 'invite-belong-to-another-user',
+  FailureTypes.formatException: 'format-exception',
+  FailureTypes.httpHandleError: 'http-handle-error',
+  FailureTypes.networkError: 'network-error',
+  FailureTypes.unknown: 'unknown',
 };
 
 const _$StatusCodesEnumMap = {

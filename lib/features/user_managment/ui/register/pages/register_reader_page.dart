@@ -19,11 +19,8 @@ import '../../widgets/user_management_user_avatar.dart';
 
 class RegisterReaderPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
-  const RegisterReaderPage(
-      {Key? key, required this.invite, required this.invitationCode})
-      : super(key: key);
+  const RegisterReaderPage({Key? key, required this.invite}) : super(key: key);
   final Invite invite;
-  final String invitationCode;
 
   @override
   State<RegisterReaderPage> createState() => _RegisterReaderPageState();
@@ -52,13 +49,12 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
     super.didChangeDependencies();
     context
         .read<UserManagementCubit>()
-        .initNewUser(widget.invite.invitedEmail, widget.invitationCode);
+        .initNewUser(widget.invite.invitedEmail, widget.invite);
   }
 
   @override
   Widget build(BuildContext context) {
-    final onChangeFields =
-        context.read<UserManagementCubit>().saveUserManagementRequestChanges;
+    final onChangeFields = context.read<UserManagementCubit>().saveChanges;
 
     return Scaffold(
       appBar: AppBar(elevation: 0),
@@ -222,8 +218,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
       return;
     }
 
-    if ((state.userManagementRequest?.avatarUrl == null ||
-            state.userManagementRequest?.avatarUrl == '') &&
+    if ((state.user?.avatarUrl == null || state.user?.avatarUrl == '') &&
         state.avatarMemory == null) {
       widget.showAddUserAvatarMessage(context).then((value) async {
         if (value != null) {

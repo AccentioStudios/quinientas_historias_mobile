@@ -17,10 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserManagementState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  UserManagementRequest? get userManagementRequest =>
-      throw _privateConstructorUsedError;
+  UserDto? get user => throw _privateConstructorUsedError;
   CroppedFile? get avatarMemory => throw _privateConstructorUsedError;
   HttpFailure? get error => throw _privateConstructorUsedError;
+  Invite? get invite => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserManagementStateCopyWith<UserManagementState> get copyWith =>
@@ -35,9 +35,10 @@ abstract class $UserManagementStateCopyWith<$Res> {
   @useResult
   $Res call(
       {dynamic isLoading,
-      UserManagementRequest? userManagementRequest,
+      UserDto? user,
       CroppedFile? avatarMemory,
-      HttpFailure? error});
+      HttpFailure? error,
+      Invite? invite});
 }
 
 /// @nodoc
@@ -54,19 +55,20 @@ class _$UserManagementStateCopyWithImpl<$Res, $Val extends UserManagementState>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? userManagementRequest = freezed,
+    Object? user = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
+    Object? invite = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      userManagementRequest: freezed == userManagementRequest
-          ? _value.userManagementRequest
-          : userManagementRequest // ignore: cast_nullable_to_non_nullable
-              as UserManagementRequest?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserDto?,
       avatarMemory: freezed == avatarMemory
           ? _value.avatarMemory
           : avatarMemory // ignore: cast_nullable_to_non_nullable
@@ -75,6 +77,10 @@ class _$UserManagementStateCopyWithImpl<$Res, $Val extends UserManagementState>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
+      invite: freezed == invite
+          ? _value.invite
+          : invite // ignore: cast_nullable_to_non_nullable
+              as Invite?,
     ) as $Val);
   }
 }
@@ -89,9 +95,10 @@ abstract class _$$_UserManagementStateCopyWith<$Res>
   @useResult
   $Res call(
       {dynamic isLoading,
-      UserManagementRequest? userManagementRequest,
+      UserDto? user,
       CroppedFile? avatarMemory,
-      HttpFailure? error});
+      HttpFailure? error,
+      Invite? invite});
 }
 
 /// @nodoc
@@ -106,16 +113,17 @@ class __$$_UserManagementStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? userManagementRequest = freezed,
+    Object? user = freezed,
     Object? avatarMemory = freezed,
     Object? error = freezed,
+    Object? invite = freezed,
   }) {
     return _then(_$_UserManagementState(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
-      userManagementRequest: freezed == userManagementRequest
-          ? _value.userManagementRequest
-          : userManagementRequest // ignore: cast_nullable_to_non_nullable
-              as UserManagementRequest?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserDto?,
       avatarMemory: freezed == avatarMemory
           ? _value.avatarMemory
           : avatarMemory // ignore: cast_nullable_to_non_nullable
@@ -124,6 +132,10 @@ class __$$_UserManagementStateCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as HttpFailure?,
+      invite: freezed == invite
+          ? _value.invite
+          : invite // ignore: cast_nullable_to_non_nullable
+              as Invite?,
     ));
   }
 }
@@ -135,23 +147,26 @@ class _$_UserManagementState
     implements _UserManagementState {
   const _$_UserManagementState(
       {this.isLoading = false,
-      this.userManagementRequest,
+      this.user,
       this.avatarMemory,
-      this.error});
+      this.error,
+      this.invite});
 
   @override
   @JsonKey()
   final dynamic isLoading;
   @override
-  final UserManagementRequest? userManagementRequest;
+  final UserDto? user;
   @override
   final CroppedFile? avatarMemory;
   @override
   final HttpFailure? error;
+  @override
+  final Invite? invite;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserManagementState(isLoading: $isLoading, userManagementRequest: $userManagementRequest, avatarMemory: $avatarMemory, error: $error)';
+    return 'UserManagementState(isLoading: $isLoading, user: $user, avatarMemory: $avatarMemory, error: $error, invite: $invite)';
   }
 
   @override
@@ -160,9 +175,10 @@ class _$_UserManagementState
     properties
       ..add(DiagnosticsProperty('type', 'UserManagementState'))
       ..add(DiagnosticsProperty('isLoading', isLoading))
-      ..add(DiagnosticsProperty('userManagementRequest', userManagementRequest))
+      ..add(DiagnosticsProperty('user', user))
       ..add(DiagnosticsProperty('avatarMemory', avatarMemory))
-      ..add(DiagnosticsProperty('error', error));
+      ..add(DiagnosticsProperty('error', error))
+      ..add(DiagnosticsProperty('invite', invite));
   }
 
   @override
@@ -171,20 +187,21 @@ class _$_UserManagementState
         (other.runtimeType == runtimeType &&
             other is _$_UserManagementState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            (identical(other.userManagementRequest, userManagementRequest) ||
-                other.userManagementRequest == userManagementRequest) &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.avatarMemory, avatarMemory) ||
                 other.avatarMemory == avatarMemory) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.invite, invite) || other.invite == invite));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(isLoading),
-      userManagementRequest,
+      user,
       avatarMemory,
-      error);
+      error,
+      invite);
 
   @JsonKey(ignore: true)
   @override
@@ -197,18 +214,21 @@ class _$_UserManagementState
 abstract class _UserManagementState implements UserManagementState {
   const factory _UserManagementState(
       {final dynamic isLoading,
-      final UserManagementRequest? userManagementRequest,
+      final UserDto? user,
       final CroppedFile? avatarMemory,
-      final HttpFailure? error}) = _$_UserManagementState;
+      final HttpFailure? error,
+      final Invite? invite}) = _$_UserManagementState;
 
   @override
   dynamic get isLoading;
   @override
-  UserManagementRequest? get userManagementRequest;
+  UserDto? get user;
   @override
   CroppedFile? get avatarMemory;
   @override
   HttpFailure? get error;
+  @override
+  Invite? get invite;
   @override
   @JsonKey(ignore: true)
   _$$_UserManagementStateCopyWith<_$_UserManagementState> get copyWith =>

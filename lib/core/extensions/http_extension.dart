@@ -17,9 +17,9 @@ extension HttpExtension on Future<Response> {
     _checkFailures(wrapper);
     if (response.statusCode == 200 || response.statusCode == 201) {
       try {
-        yield mapper(response.data);
+        yield mapper(response.data ?? {});
       } catch (error) {
-        throw HttpFailure(message: FailureType.httpHandleError);
+        throw HttpFailure(message: FailureTypes.httpHandleError);
       }
     }
   }
@@ -33,12 +33,12 @@ extension HttpExtension on Future<Response> {
         yield mapper(response.data);
       } catch (error) {
         if (error is FormatException) {
-          throw HttpFailure(message: FailureType.formatException);
+          throw HttpFailure(message: FailureTypes.formatException);
         }
-        throw HttpFailure(message: FailureType.httpHandleError);
+        throw HttpFailure(message: FailureTypes.httpHandleError);
       }
     } else {
-      throw HttpFailure(message: FailureType.httpHandleError);
+      throw HttpFailure(message: FailureTypes.httpHandleError);
     }
   }
 }
@@ -48,7 +48,7 @@ void _checkFailures(ResponseWrapper wrapper) {
 
   if (httpStatus == StatusCodes.networkError) {
     throw HttpFailure(
-        message: FailureType.networkError, statusCode: httpStatus);
+        message: FailureTypes.networkError, statusCode: httpStatus);
   }
 
   if (httpStatus == StatusCodes.unknown) {

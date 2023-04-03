@@ -9,20 +9,35 @@ part 'invites_entity.g.dart';
 class Invite {
   Invite({
     this.id,
+    required this.inviterUserId,
+    this.teamId,
+    this.schoolId,
     required this.invitedEmail,
-    required this.invitedType,
+    this.invitedId,
+    this.invitedFirstName,
+    this.invitedLastName,
+    required this.invitedRole,
+    required this.accepted,
+    required this.code,
     this.inviter,
     this.team,
     this.school,
-    required this.accepted,
   });
   final int? id;
+  final int inviterUserId;
+  final int? teamId;
+  final int? schoolId;
+  final int? invitedId;
   final String invitedEmail;
-  final Role invitedType;
+  final String? invitedFirstName;
+  final String? invitedLastName;
+  @JsonKey(defaultValue: Role.reader)
+  final Role invitedRole;
+  final bool accepted;
+  final String? code;
   final User? inviter;
   final Team? team;
   final School? school;
-  final int accepted;
 
   factory Invite.fromJson(Map<String, dynamic> json) => _$InviteFromJson(json);
 

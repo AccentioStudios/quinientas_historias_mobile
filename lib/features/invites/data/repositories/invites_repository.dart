@@ -43,7 +43,7 @@ class InvitesRepository with ApiService {
 
   Stream<void> sendInvite(InvitesRequest request) async* {
     yield* appApi
-        .post('/v1/invites/send', data: json.encode(request.toJson()))
+        .post('/v2/invite', data: json.encode(request.toJson()))
         .handle(mapper: (Object data) {});
   }
 
@@ -59,17 +59,15 @@ class InvitesRepository with ApiService {
     });
   }
 
-  Stream<List<Invite>> deleteInvitation(Invite invite) async* {
-    yield* appApi.post('/v1/invites/delete/${invite.id}').handle(
-        mapper: (Object data) =>
-            json.decode(data as String).map<Invite>((dynamic jsonMap) {
-              return Invite.fromJson(jsonMap as Map<String, dynamic>);
-            }).toList());
+  Stream<void> deleteInvitation(Invite invite) async* {
+    yield* appApi
+        .delete('/v2/invite/${invite.id}')
+        .handle(mapper: (Object data) {});
   }
 
   Stream<Invite> validateCode(VerifyInviteCodeRequest request) async* {
     yield* appApi
-        .post('/v1/invites/verify', data: json.encode(request.toJson()))
+        .post('/v2/invite/verify', data: json.encode(request.toJson()))
         .handleJson(mapper: (data) {
       return Invite.fromJson(data);
     });

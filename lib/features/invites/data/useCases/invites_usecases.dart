@@ -25,7 +25,7 @@ class InvitesUseCases {
     yield* repository.getInvitations(teamId: teamId);
   }
 
-  Stream<List<Invite>> deleteInvitation(Invite invite) async* {
+  Stream<void> deleteInvitation(Invite invite) async* {
     yield* repository.deleteInvitation(invite);
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
+import 'package:quinientas_historias/features/user_managment/ui/existingUser/confirmation_existing_user_accept_invite.dart';
 
 import '../../core/data/dto/team_profile_dto.dart';
 import '../../core/data/entities/invites_entity.dart';
@@ -82,7 +84,33 @@ class UserManagementProvider {
         builder: (context) => BlocProvider(
           create: (context) => userManagementcubit,
           child: RegisterReaderPage(
-            invitationCode: code,
+            invite: invite,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<bool?> openAcceptInvite(BuildContext context,
+      {required Invite invite, required JwtPayload? session}) {
+    if (session != null || invite.invitedId != null) {
+      return Navigator.of(context, rootNavigator: true).push<bool>(
+        MaterialPageRoute<bool>(
+          builder: (context) => BlocProvider(
+            create: (context) => userManagementcubit,
+            child: ConfirmationExistingUserAcceptInvite(
+              invite: invite,
+              session: session,
+            ),
+          ),
+        ),
+      );
+    }
+    return Navigator.of(context, rootNavigator: true).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (context) => BlocProvider(
+          create: (context) => userManagementcubit,
+          child: RegisterReaderPage(
             invite: invite,
           ),
         ),

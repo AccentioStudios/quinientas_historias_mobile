@@ -61,7 +61,10 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
       Function? onError}) async {
     emit(state.copyWith(loading: true));
     UpdateStoryProgressDto request = UpdateStoryProgressDto(
-        progress: 100, storyId: state.story!.id, tags: state.story!.tags);
+      progress: 100,
+      tags: state.story!.tags,
+      storyId: state.story!.id,
+    );
 
     await Future.delayed(const Duration(seconds: 1));
 
@@ -80,8 +83,11 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   updateProgressOfStory(progress,
       {Function? onSuccess, Function(SetStoryProgressResponse)? onError}) {
     if (state.story != null) {
-      UpdateStoryProgressDto request =
-          UpdateStoryProgressDto(progress: progress, storyId: state.story!.id);
+      UpdateStoryProgressDto request = UpdateStoryProgressDto(
+        progress: progress,
+        tags: state.story!.tags,
+        storyId: state.story!.id,
+      );
 
       readingStoryUseCases.setStoryProgress(request).listen((success) {
         emit(state.copyWith(storyProgress: progress));

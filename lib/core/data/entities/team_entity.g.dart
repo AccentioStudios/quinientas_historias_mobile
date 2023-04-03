@@ -16,6 +16,9 @@ Team _$TeamFromJson(Map<String, dynamic> json) => Team(
           ? null
           : School.fromJson(json['school'] as Map<String, dynamic>),
       canEdit: json['canEdit'] as bool?,
+      tournament: json['tournament'] == null
+          ? null
+          : Tournament.fromJson(json['tournament'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
@@ -26,4 +29,5 @@ Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'readed': instance.readed,
       'school': instance.school,
       'canEdit': instance.canEdit,
+      'tournament': instance.tournament,
     };

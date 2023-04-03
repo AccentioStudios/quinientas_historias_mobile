@@ -4,8 +4,9 @@ part of 'user_management_cubit.dart';
 class UserManagementState with _$UserManagementState {
   const factory UserManagementState({
     @Default(false) isLoading,
-    UserManagementRequest? userManagementRequest,
+    UserDto? user,
     CroppedFile? avatarMemory,
     HttpFailure? error,
+    Invite? invite,
   }) = _UserManagementState;
 }

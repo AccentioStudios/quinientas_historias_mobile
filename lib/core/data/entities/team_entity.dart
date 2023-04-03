@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/tournament_entity.dart';
 
 import 'school_entity.dart';
 
@@ -14,6 +15,7 @@ class Team {
     this.readed,
     this.school,
     this.canEdit,
+    this.tournament,
   });
 
   factory Team.fromJson(Map<String, dynamic> json) => _$TeamFromJson(json);
@@ -25,6 +27,7 @@ class Team {
   final int? readed;
   final School? school;
   final bool? canEdit;
+  final Tournament? tournament;
 
   Map<String, dynamic> toJson() => _$TeamToJson(this);
 }

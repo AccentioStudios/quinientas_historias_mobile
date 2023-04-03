@@ -35,7 +35,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
         '$authorizationEndpoint?response_type=code&client_id=$clientId&redirect_uri=$redirectUri&scope=$scopes&state=${const Uuid().v4()}';
 
     final result = await FlutterWebAuth.authenticate(
-        url: authUrl, callbackUrlScheme: 'qh-auth');
+        url: authUrl, callbackUrlScheme: 'qh-auth', preferEphemeral: true);
 
     final accessToken = Uri.parse(result).queryParameters['access_token'];
 
@@ -66,10 +66,10 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
           SecureStorageHelper.saveSession(jwtTokenModel);
           return onSuccess();
         } else {
-          onError(HttpFailure(message: FailureType.invalidAccessToken));
+          onError(HttpFailure(message: FailureTypes.invalidAccessToken));
         }
       } else {
-        onError(HttpFailure(message: FailureType.invalidAccessToken));
+        onError(HttpFailure(message: FailureTypes.invalidAccessToken));
       }
     }, onError: (error) {
       if (error is HttpFailure) {
@@ -109,16 +109,16 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
       if (accessToken != null) {
         return onSuccess(accessToken);
       } else {
-        onError(HttpFailure(message: FailureType.invalidAccessToken));
+        onError(HttpFailure(message: FailureTypes.invalidAccessToken));
       }
     } catch (error) {
       emit(
         state.copyWith(
           loading: false,
-          httpFailure: HttpFailure(message: FailureType.unauthorized),
+          httpFailure: HttpFailure(message: FailureTypes.unauthorized),
         ),
       );
-      onError(HttpFailure(message: FailureType.unauthorized));
+      onError(HttpFailure(message: FailureTypes.unauthorized));
     }
   }
 
@@ -143,7 +143,7 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
 
     if (state.code.length < 4) {
       if (onError != null) {
-        onError(HttpFailure(message: FailureType.invalidCode));
+        onError(HttpFailure(message: FailureTypes.invalidCode));
         emit(state.copyWith(loading: false));
         return;
       }

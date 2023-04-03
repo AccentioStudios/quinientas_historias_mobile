@@ -12,12 +12,14 @@ class TeamListItem extends StatelessWidget {
     this.secondaryLabel,
     this.trailingWidget,
     this.onTap,
+    this.secondRow,
   });
   final Widget avatarWidget;
   final Widget label;
   final Widget? secondaryLabel;
 
   final Widget? trailingWidget;
+  final List<Widget>? secondRow;
 
   final void Function()? onTap;
 
@@ -54,6 +56,11 @@ class TeamListItem extends StatelessWidget {
                   : const SizedBox.shrink(),
             ],
           ),
+          if (secondRow != null)
+            Flex(
+              direction: Axis.horizontal,
+              children: [...secondRow!],
+            )
         ],
       ),
     );
