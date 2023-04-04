@@ -22,6 +22,7 @@ Map<String, dynamic> _$AcceptInviteDtoToJson(AcceptInviteDto instance) =>
 
 UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
       id: json['id'] as int?,
+      username: json['username'] as String?,
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
       email: json['email'] as String,
@@ -34,6 +35,7 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
 
 Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
       'id': instance.id,
+      'username': instance.username,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'email': instance.email,

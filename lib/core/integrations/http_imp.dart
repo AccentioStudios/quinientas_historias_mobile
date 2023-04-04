@@ -209,7 +209,12 @@ class HttpHelperImp implements HttpHelper {
 
   _handleHttpError(Object error) {
     if (error is DioError) {
-      return HttpFailure.fromJson(error.response?.data);
+      if (error.response?.data is Map<String, dynamic>) {
+        return HttpFailure.fromJson(error.response?.data);
+      }
+      return HttpFailure(
+          message: FailureTypes.httpHandleError,
+          statusCode: StatusCodes.unknown);
     }
     if (error is SocketException) {
       return HttpFailure(

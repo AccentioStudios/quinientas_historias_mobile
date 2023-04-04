@@ -29,6 +29,7 @@ mixin ErrorHandling on Widget {
         return _gotoBadRequestError<T>(
           context,
           btnLabel: btnLabel,
+          failureType: httpFailure.message,
           onTap: onTap,
           linkBtnLabel: linkBtnLabel,
           linkBtnOnTap: linkBtnOnTap,
@@ -107,10 +108,57 @@ mixin ErrorHandling on Widget {
   Future<T?> _gotoBadRequestError<T>(
     BuildContext context, {
     String? btnLabel,
+    FailureTypes? failureType,
     void Function()? onTap,
     String? linkBtnLabel,
     void Function()? linkBtnOnTap,
   }) {
+    if (failureType == FailureTypes.existingUserLogin) {
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline: 'Esta cuenta ya existe',
+            message:
+                'Ya existe una cuenta con este correo electrónico. Intenta iniciar sesión con tu contraseña.',
+            btnLabel: 'Iniciar Sesión',
+            svgImagePath: 'assets/images/broken-invitation-image.svg',
+            onBtnTap: () async {
+              if (!context.mounted) return;
+              if (await SecureStorageHelper.getSessionData() != null) {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.homeNavigator);
+              } else {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.login);
+              }
+            },
+          ));
+    }
+    if (failureType == FailureTypes.invalidInvitationCode) {
+      return _showErrorMessage<T>(
+          context,
+          CommonPageLayout(
+            headline: 'Código de invitación inválido',
+            message:
+                'El código de invitación que ingresaste no es válido. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
+            btnLabel: 'Entiendo',
+            svgImagePath: 'assets/images/broken-invitation-image.svg',
+            onBtnTap: () async {
+              if (!context.mounted) return;
+              if (await SecureStorageHelper.getSessionData() != null) {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.homeNavigator);
+              } else {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.login);
+              }
+            },
+          ));
+    }
     return _showErrorMessage<T>(
         context,
         CommonPageLayout(
@@ -145,11 +193,17 @@ mixin ErrorHandling on Widget {
                 'Parece que has recibido una invitación que no existe. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
             btnLabel: 'Entiendo',
             svgImagePath: 'assets/images/broken-invitation-image.svg',
-            onBtnTap: () {
-              Navigator.of(context, rootNavigator: true)
-                  .popUntil((route) => route.isFirst);
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.homeNavigator);
+            onBtnTap: () async {
+              if (!context.mounted) return;
+              if (await SecureStorageHelper.getSessionData() != null) {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.homeNavigator);
+              } else {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.login);
+              }
             },
           ));
     }
@@ -181,11 +235,17 @@ mixin ErrorHandling on Widget {
                 'Esta invitación es para otro usuario. Si crees que esto fué un error entra en contacto con nosotros.',
             svgImagePath: 'assets/images/hand-left-image.svg',
             btnLabel: 'Entiendo',
-            onBtnTap: () {
-              Navigator.of(context, rootNavigator: true)
-                  .popUntil((route) => route.isFirst);
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.homeNavigator);
+            onBtnTap: () async {
+              if (!context.mounted) return;
+              if (await SecureStorageHelper.getSessionData() != null) {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.homeNavigator);
+              } else {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed(Routes.login);
+              }
             },
           ));
     }
@@ -202,7 +262,8 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/hand-left-image.svg',
             btnLabel: 'Entiendo',
             onBtnTap: () {
-              Navigator.of(context, rootNavigator: true).pop(true);
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(Routes.homeNavigator);
             },
           ));
     }

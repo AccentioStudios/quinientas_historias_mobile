@@ -22,6 +22,9 @@ Invite _$InviteFromJson(Map<String, dynamic> json) => Invite(
       inviter: json['inviter'] == null
           ? null
           : User.fromJson(json['inviter'] as Map<String, dynamic>),
+      invited: json['invited'] == null
+          ? null
+          : User.fromJson(json['invited'] as Map<String, dynamic>),
       team: json['team'] == null
           ? null
           : Team.fromJson(json['team'] as Map<String, dynamic>),
@@ -43,6 +46,7 @@ Map<String, dynamic> _$InviteToJson(Invite instance) => <String, dynamic>{
       'accepted': instance.accepted,
       'code': instance.code,
       'inviter': instance.inviter,
+      'invited': instance.invited,
       'team': instance.team,
       'school': instance.school,
     };

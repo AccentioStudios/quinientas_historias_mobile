@@ -56,6 +56,8 @@ enum FailureTypes {
   userIsBanned,
   @JsonValue('role-not-valid')
   roleNotValid,
+  @JsonValue('existing-user-login')
+  existingUserLogin,
 
   //Invites Failures Type
   @JsonValue('user-already-invited')

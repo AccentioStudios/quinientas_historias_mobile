@@ -18,8 +18,14 @@ import '../../../../core/routes/routes.dart';
 import '../bloc/cubit/auth_cubit.dart';
 
 class LoginPage extends StatefulWidget with ErrorHandling {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage(
+      {Key? key,
+      this.autoNavigateToShell = true,
+      this.byPassFirstScreen = false})
+      : super(key: key);
 
+  final bool autoNavigateToShell;
+  final bool byPassFirstScreen;
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -35,6 +41,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    if (widget.byPassFirstScreen == true) {
+      _loginFlow(context, firebaseMessagingService, context.read<AuthCubit>());
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
 
@@ -44,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
-          return state.loading
+          return state.loading || widget.byPassFirstScreen == true
               ? Scaffold(
                   body: SafeArea(
                     child: SizedBox(
@@ -123,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   BigButton(
                                     onPressed: () {
-                                      _loginAndNavigateToShell(context,
+                                      _loginFlow(context,
                                           firebaseMessagingService, authCubit);
                                     },
                                     text: 'Entrar a 500Historias',
@@ -147,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _loginAndNavigateToShell(
+  void _loginFlow(
       BuildContext context,
       FirebaseMessagingService firebaseMessagingService,
       AuthCubit authCubit) async {
@@ -161,13 +175,24 @@ class _LoginPageState extends State<LoginPage> {
       authCubit.loginIntoTelle(
           firebaseToken: firebaseToken,
           accessToken: accessToken,
-          onError: (error) => widget.handleError(context, error),
+          onError: (error) => widget.handleError(context, error, onTap: () {
+                Navigator.of(context).pop(false);
+                Navigator.of(context).pop(false);
+              }),
           onSuccess: () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
-            Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+            if (widget.autoNavigateToShell) {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+              return;
+            }
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(true);
           });
     }, onError: (HttpFailure error) {
-      widget.handleError(context, error);
+      widget.handleError(context, error, onTap: () {
+        Navigator.of(context).pop(false);
+        Navigator.of(context).pop(false);
+      });
     });
   }
 }

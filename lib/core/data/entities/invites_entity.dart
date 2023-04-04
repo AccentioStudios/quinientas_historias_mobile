@@ -20,6 +20,7 @@ class Invite {
     required this.accepted,
     required this.code,
     this.inviter,
+    this.invited,
     this.team,
     this.school,
   });
@@ -36,6 +37,7 @@ class Invite {
   final bool accepted;
   final String? code;
   final User? inviter;
+  final User? invited;
   final Team? team;
   final School? school;
 

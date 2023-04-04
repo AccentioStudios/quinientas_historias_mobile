@@ -88,12 +88,12 @@ class _ApplicationState extends State<Application> {
 
   _navigateToRouteFromDeepLink(Uri? uri) {
     if (uri != null) {
-      if (uri.queryParameters.keys.contains('email') &&
-          uri.queryParameters.keys.contains('invite')) {
+      if (uri.queryParameters.keys.contains('invitationCode') &&
+          uri.queryParameters.keys.contains('inviteId')) {
         ReceivedInviteProvider.open(null,
             navigatorKey: widget.navigatorKey,
-            email: uri.queryParameters['email'] ?? '',
-            code: uri.queryParameters['invite'] ?? '');
+            inviteId: int.tryParse(uri.queryParameters['inviteId'] ?? '0') ?? 0,
+            code: uri.queryParameters['invitationCode'] ?? '');
         return;
       }
       Fluttertoast.showToast(msg: 'Link inválido.');

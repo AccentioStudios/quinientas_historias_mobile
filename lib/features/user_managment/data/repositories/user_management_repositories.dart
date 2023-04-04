@@ -1,17 +1,21 @@
+import '../../../../core/data/dto/auth_dto.dart';
+import '../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../core/integrations/api_service.dart';
 import '../models/accept_invite.dto.dart';
 
 class UserManagementRepository with ApiService {
-  Stream<void> registerUser(AcceptInviteDto dto) async* {
-    yield* appApi
-        .post('/v1/users/register', data: dto.toJson())
-        .handle(mapper: (Object data) {});
-  }
-
   Stream<void> acceptInvite(AcceptInviteDto dto) async* {
-    yield* appApi
-        .post('/v2/invite/accept', data: dto.toJson())
-        .handle(mapper: (Object data) {});
+    final data = dto.toJson();
+    yield* appApi.post('/v2/invite/accept', data: data).handle(
+        mapper: (Object data) {
+      if (data is Map<String, dynamic>) {
+        if (data.containsKey('access_token')) {
+          AuthDto authModel = AuthDto.decode(data);
+          SecureStorageHelper.saveSession(authModel);
+          return;
+        }
+      }
+    });
   }
 
   Stream<void> editUser(UserDto request) async* {

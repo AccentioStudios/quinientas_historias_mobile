@@ -5,10 +5,6 @@ class UserManagementUseCases {
   UserManagementUseCases({required this.repository});
   final UserManagementRepository repository;
 
-  Stream<void> registerUser(AcceptInviteDto dto) async* {
-    yield* repository.registerUser(dto);
-  }
-
   //acceptInvite
   Stream<void> acceptInvite(AcceptInviteDto dto) async* {
     yield* repository.acceptInvite(dto);

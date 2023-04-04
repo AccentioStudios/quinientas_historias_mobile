@@ -5,10 +5,10 @@ part 'verify_invite_code_request_model.g.dart';
 @JsonSerializable()
 class VerifyInviteCodeRequest {
   VerifyInviteCodeRequest({
-    required this.email,
+    required this.inviteId,
     required this.code,
   });
-  final String email;
+  final int inviteId;
   final String code;
 
   factory VerifyInviteCodeRequest.fromJson(Map<String, dynamic> json) =>

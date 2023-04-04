@@ -9,13 +9,13 @@ part of 'verify_invite_code_request_model.dart';
 VerifyInviteCodeRequest _$VerifyInviteCodeRequestFromJson(
         Map<String, dynamic> json) =>
     VerifyInviteCodeRequest(
-      email: json['email'] as String,
+      inviteId: json['inviteId'] as int,
       code: json['code'] as String,
     );
 
 Map<String, dynamic> _$VerifyInviteCodeRequestToJson(
         VerifyInviteCodeRequest instance) =>
     <String, dynamic>{
-      'email': instance.email,
+      'inviteId': instance.inviteId,
       'code': instance.code,
     };

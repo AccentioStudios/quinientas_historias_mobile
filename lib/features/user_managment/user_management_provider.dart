@@ -77,7 +77,7 @@ class UserManagementProvider {
   }
 
   Future<bool?> openRegisterReader(BuildContext context,
-      {required Invite invite, required String code}) {
+      {required Invite invite, bool? autoNavigateToHome}) {
     SecureStorageHelper.deleteAll();
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute<bool>(
@@ -85,6 +85,7 @@ class UserManagementProvider {
           create: (context) => userManagementcubit,
           child: RegisterReaderPage(
             invite: invite,
+            autoNavigateToHome: autoNavigateToHome,
           ),
         ),
       ),

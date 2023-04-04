@@ -60,44 +60,49 @@ class _MessagesBottomSheetState extends State<MessagesBottomSheet> {
 
     TextStyle contentStyle = const TextStyle(fontSize: 16);
 
-    return SizedBox(
-      height: widget.height,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: Constants.space21, vertical: Constants.space30),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50,
-              child: widget.iconSvgPath != null
-                  ? SvgPicture.asset(
-                      widget.iconSvgPath!,
-                      width: 50,
-                      color: widget.iconColor,
-                    )
-                  : SvgPicture.asset(
-                      'assets/icons/information-circle-outline-icon.svg',
-                      width: 50,
-                      color: widget.iconColor,
-                    ),
-            ),
-            const SizedBox(height: Constants.space16),
-            Text(
-              widget.title,
-              style: header1Style,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: Constants.space21),
-            Text(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: Constants.space21, vertical: Constants.space30),
+      child: Flex(
+        direction: Axis.vertical,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 50,
+            child: widget.iconSvgPath != null
+                ? SvgPicture.asset(
+                    widget.iconSvgPath!,
+                    width: 50,
+                    color: widget.iconColor,
+                  )
+                : SvgPicture.asset(
+                    'assets/icons/information-circle-outline-icon.svg',
+                    width: 50,
+                    color: widget.iconColor,
+                  ),
+          ),
+          const SizedBox(height: Constants.space16),
+          Text(
+            widget.title,
+            style: header1Style,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: Constants.space21),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Constants.space8),
+            child: Text(
               widget.content,
               style: contentStyle,
               textAlign: TextAlign.center,
             ),
-            const Spacer(),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
+          ),
+          const SizedBox(height: Constants.space30),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: SizedBox(
+                  height: 50,
                   child: BigButton(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
@@ -111,11 +116,14 @@ class _MessagesBottomSheetState extends State<MessagesBottomSheet> {
                     text: widget.btnLabel ?? 'Ok',
                   ),
                 ),
-                if (widget.secondaryBtnLabel != null)
-                  const SizedBox(width: Constants.space16),
-                if (widget.secondaryBtnLabel != null)
-                  Expanded(
-                    flex: 1,
+              ),
+              if (widget.secondaryBtnLabel != null)
+                const SizedBox(width: Constants.space16),
+              if (widget.secondaryBtnLabel != null)
+                Expanded(
+                  flex: 1,
+                  child: SizedBox(
+                    height: 50,
                     child: BigButton(
                       filled: false,
                       padding: const EdgeInsets.symmetric(
@@ -130,10 +138,10 @@ class _MessagesBottomSheetState extends State<MessagesBottomSheet> {
                       text: widget.secondaryBtnLabel,
                     ),
                   ),
-              ],
-            ),
-          ],
-        ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }

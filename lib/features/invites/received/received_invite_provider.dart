@@ -11,11 +11,11 @@ class ReceivedInviteProvider extends StatelessWidget {
   const ReceivedInviteProvider(
       {Key? key,
       this.typeUserToInvite = Role.reader,
-      required this.email,
+      required this.inviteId,
       required this.code})
       : super(key: key);
   final Role typeUserToInvite;
-  final String email;
+  final int inviteId;
   final String code;
 
   @override
@@ -25,14 +25,15 @@ class ReceivedInviteProvider extends StatelessWidget {
           invitesUseCases: InvitesUseCases(repository: InvitesRepository())),
       child: ReceivedInvitesPage(
         code: code,
-        email: email,
+        inviteId: inviteId,
       ),
     );
   }
 
   static open(BuildContext? context,
       {GlobalKey<NavigatorState>? navigatorKey,
-      required String email,
+      required int inviteId,
+      String? email,
       required String code}) {
     final navigator = navigatorKey != null
         ? navigatorKey.currentState
@@ -44,7 +45,7 @@ class ReceivedInviteProvider extends StatelessWidget {
       navigator.push<void>(MaterialPageRoute<void>(
           builder: (context) => ReceivedInviteProvider(
                 code: code,
-                email: email,
+                inviteId: inviteId,
               )));
     }
   }

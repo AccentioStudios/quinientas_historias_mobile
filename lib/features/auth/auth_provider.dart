@@ -19,6 +19,21 @@ class AuthProvider extends StatelessWidget {
     );
   }
 
+  Future<bool?> login(BuildContext context) {
+    return Navigator.of(context, rootNavigator: true).push<bool>(
+      MaterialPageRoute<bool>(
+        builder: (_) => BlocProvider(
+          create: (BuildContext context) => AuthCubit(
+              authUseCases: AuthUseCases(repository: AuthRepository())),
+          child: const LoginPage(
+            autoNavigateToShell: false,
+            byPassFirstScreen: true,
+          ),
+        ),
+      ),
+    );
+  }
+
   static openIForgot(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(

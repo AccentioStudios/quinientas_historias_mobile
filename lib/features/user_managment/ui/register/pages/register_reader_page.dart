@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rive/rive.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/failures/failures.dart';
@@ -19,9 +20,11 @@ import '../../widgets/user_management_user_avatar.dart';
 
 class RegisterReaderPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
-  const RegisterReaderPage({Key? key, required this.invite}) : super(key: key);
+  const RegisterReaderPage(
+      {Key? key, required this.invite, this.autoNavigateToHome = true})
+      : super(key: key);
   final Invite invite;
-
+  final bool? autoNavigateToHome;
   @override
   State<RegisterReaderPage> createState() => _RegisterReaderPageState();
 }
@@ -31,6 +34,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
   late final TextEditingController passwordController;
   late final TextEditingController passwordConfirmationController;
   late final TextEditingController firstNameController;
+  late final TextEditingController usernameController;
   late final TextEditingController lastNameController;
   final formKey = GlobalKey<FormState>();
 
@@ -40,6 +44,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
     emailController = TextEditingController(text: widget.invite.invitedEmail);
     passwordController = TextEditingController();
     passwordConfirmationController = TextEditingController();
+    usernameController = TextEditingController();
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
   }
@@ -56,131 +61,191 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
   Widget build(BuildContext context) {
     final onChangeFields = context.read<UserManagementCubit>().saveChanges;
 
-    return Scaffold(
-      appBar: AppBar(elevation: 0),
-      body: SafeArea(
-        child: BlocBuilder<UserManagementCubit, UserManagementState>(
-          builder: (context, state) {
-            return state.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                    children: [
-                      const SizedBox(height: 24),
-                      PaddingColumn(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space30),
-                        children: <Widget>[
-                          RegisterUserAvatar(state: state),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 18),
-                            child: Headline(label: 'Crear Cuenta'),
-                          ),
-                          if (state.error != null)
-                            Column(
-                              children: [
-                                Text(
-                                  'Hay algun problema con tus datos, revise cada uno e intenta nuevmaente',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color:
-                                          Theme.of(context).colorScheme.error),
+    return BlocBuilder<UserManagementCubit, UserManagementState>(
+      builder: (context, state) {
+        return Scaffold(
+            appBar: (state.isLoading || state.registeringUser)
+                ? null
+                : AppBar(elevation: 0, backgroundColor: Colors.transparent),
+            body: SafeArea(
+              child: state.isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : state.registeringUser
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              SizedBox(
+                                width: 300,
+                                height: 300,
+                                child: RiveAnimation.asset(
+                                  'assets/images/circular-satelital-loading-animation.riv',
+                                  alignment: Alignment.center,
                                 ),
-                                const SizedBox(height: Constants.space21),
-                              ],
-                            ),
-                          Form(
-                              key: formKey,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Row(
+                              ),
+                              SizedBox(height: Constants.space21),
+                              Text(
+                                'Creando cuenta...',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(height: Constants.space21),
+                            ],
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics()
+                              .applyTo(const BouncingScrollPhysics()),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 24),
+                              PaddingColumn(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: Constants.space30),
+                                children: <Widget>[
+                                  RegisterUserAvatar(state: state),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 18),
+                                    child: Headline(label: 'Crear Cuenta'),
+                                  ),
+                                  if (state.error != null)
+                                    Column(
                                       children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: ThemedTextFormField(
-                                            keyboardType: TextInputType.name,
-                                            controller: firstNameController,
-                                            hintText: 'Nombre',
-                                            onChanged: (firstName) =>
-                                                onChangeFields(
-                                                    firstName: firstName),
-                                            validator: fieldValidate,
-                                          ),
+                                        Text(
+                                          'Hay algun problema con tus datos, revise cada uno e intenta nuevmaente',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error),
                                         ),
                                         const SizedBox(
-                                            width: Constants.space16),
-                                        Expanded(
-                                          flex: 1,
-                                          child: ThemedTextFormField(
-                                            keyboardType: TextInputType.name,
-                                            controller: lastNameController,
-                                            hintText: 'Apellido',
-                                            onChanged: (lastName) =>
-                                                onChangeFields(
-                                                    lastName: lastName),
-                                            validator: fieldValidate,
-                                          ),
-                                        ),
+                                            height: Constants.space21),
                                       ],
                                     ),
-                                  ),
-                                  const SizedBox(height: Constants.space16),
-                                  ThemedTextFormField(
-                                    keyboardType: TextInputType.emailAddress,
-                                    prefixIconSvgPath:
-                                        'assets/icons/mail-outline-icon.svg',
-                                    enabled: false,
-                                    hintText: 'Email',
-                                    controller: emailController,
-                                    validator: fieldValidate,
-                                  ),
-                                  const SizedBox(height: Constants.space16),
-                                  ThemedTextFormField(
-                                    keyboardType: TextInputType.visiblePassword,
-                                    prefixIconSvgPath:
-                                        'assets/icons/lock-outline-icon.svg',
-                                    controller: passwordController,
-                                    hintText: 'Contraseña',
-                                    obscureText: true,
-                                    onChanged: (password) =>
-                                        onChangeFields(password: password),
-                                    validator: fieldValidatePassword,
-                                  ),
-                                  const SizedBox(height: Constants.space16),
-                                  ThemedTextFormField(
-                                    keyboardType: TextInputType.visiblePassword,
-                                    prefixIconSvgPath:
-                                        'assets/icons/lock-outline-icon.svg',
-                                    controller: passwordConfirmationController,
-                                    hintText: 'Confirmar Constraseña',
-                                    obscureText: true,
-                                    onChanged: (passwordConfirmation) =>
-                                        onChangeFields(
-                                            passwordConfirmation:
-                                                passwordConfirmation),
-                                    validator:
-                                        fieldValidatePasswordConfirmation,
-                                    onFieldSubmitted: (_) =>
-                                        submit(context, state),
-                                  ),
+                                  Form(
+                                      key: formKey,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: ThemedTextFormField(
+                                                    keyboardType:
+                                                        TextInputType.name,
+                                                    controller:
+                                                        firstNameController,
+                                                    hintText: 'Nombre',
+                                                    onChanged: (firstName) =>
+                                                        onChangeFields(
+                                                            firstName:
+                                                                firstName),
+                                                    validator: fieldValidate,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                    width: Constants.space16),
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: ThemedTextFormField(
+                                                    keyboardType:
+                                                        TextInputType.name,
+                                                    controller:
+                                                        lastNameController,
+                                                    hintText: 'Apellido',
+                                                    onChanged: (lastName) =>
+                                                        onChangeFields(
+                                                            lastName: lastName),
+                                                    validator: fieldValidate,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                              height: Constants.space16),
+                                          ThemedTextFormField(
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            prefixIconSvgPath:
+                                                'assets/icons/mail-outline-icon.svg',
+                                            enabled: false,
+                                            hintText: 'Email',
+                                            controller: emailController,
+                                            validator: fieldValidate,
+                                          ),
+                                          const SizedBox(
+                                              height: Constants.space16),
+                                          ThemedTextFormField(
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            prefixIconSvgPath:
+                                                'assets/icons/user-outline-icon.svg',
+                                            enabled: true,
+                                            hintText: 'Nombre de usuario',
+                                            controller: usernameController,
+                                            onChanged: (username) =>
+                                                onChangeFields(
+                                                    username: username),
+                                            validator: fieldValidate,
+                                          ),
+                                          const SizedBox(
+                                              height: Constants.space16),
+                                          ThemedTextFormField(
+                                            keyboardType:
+                                                TextInputType.visiblePassword,
+                                            prefixIconSvgPath:
+                                                'assets/icons/lock-outline-icon.svg',
+                                            controller: passwordController,
+                                            hintText: 'Contraseña',
+                                            obscureText: true,
+                                            onChanged: (password) =>
+                                                onChangeFields(
+                                                    password: password),
+                                            validator: fieldValidatePassword,
+                                          ),
+                                          const SizedBox(
+                                              height: Constants.space16),
+                                          ThemedTextFormField(
+                                            keyboardType:
+                                                TextInputType.visiblePassword,
+                                            prefixIconSvgPath:
+                                                'assets/icons/lock-outline-icon.svg',
+                                            controller:
+                                                passwordConfirmationController,
+                                            hintText: 'Confirmar Constraseña',
+                                            obscureText: true,
+                                            onChanged: (passwordConfirmation) =>
+                                                onChangeFields(
+                                                    passwordConfirmation:
+                                                        passwordConfirmation),
+                                            validator:
+                                                fieldValidatePasswordConfirmation,
+                                            onFieldSubmitted: (_) =>
+                                                submit(context, state),
+                                          ),
+                                        ],
+                                      )),
+                                  const SizedBox(height: Constants.space21),
+                                  BigButton(
+                                      text: 'Crear mi cuenta',
+                                      isLoading: state.isLoading,
+                                      onPressed: () => submit(context, state)),
+                                  const SizedBox(height: Constants.space41),
                                 ],
-                              )),
-                          const SizedBox(height: Constants.space21),
-                          BigButton(
-                              text: 'Crear mi cuenta',
-                              isLoading: state.isLoading,
-                              onPressed: () => submit(context, state)),
-                        ],
-                      )
-                    ],
-                  ));
-          },
-        ),
-      ),
+                              )
+                            ],
+                          ),
+                        ),
+            ));
+      },
     );
   }
 
@@ -228,15 +293,19 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
       });
       return;
     }
-
     cubit.registerNewUser(onSuccess: () {
-      SecureStorageHelper.deleteAll();
-      Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
-
-      Fluttertoast.showToast(
-          msg: 'Bienvenido a 500Historias. Ahora puedes iniciar sesion');
+      if (widget.autoNavigateToHome == true) {
+        Navigator.of(context, rootNavigator: true)
+            .pushNamed(Routes.homeNavigator);
+        Fluttertoast.showToast(msg: 'Bienvenido a 500Historias');
+      } else {
+        Navigator.of(context).pop(true);
+        Fluttertoast.showToast(msg: 'Bienvenido a 500Historias');
+      }
     }, onError: (HttpFailure error) {
-      widget.handleError(context, error);
+      widget.handleError(context, error, onTap: () {
+        Navigator.of(context).pop(false);
+      });
     });
     return;
   }

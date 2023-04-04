@@ -31,6 +31,7 @@ const _$FailureTypesEnumMap = {
   FailureTypes.userIsNotActive: 'user-is-not-active',
   FailureTypes.userIsBanned: 'user-is-banned',
   FailureTypes.roleNotValid: 'role-not-valid',
+  FailureTypes.existingUserLogin: 'existing-user-login',
   FailureTypes.userAlreadyInvited: 'user-already-invited',
   FailureTypes.inviteNotFound: 'invite-not-found',
   FailureTypes.invalidInvitationCode: 'invalid-invitation-code',

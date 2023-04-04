@@ -6,6 +6,7 @@ import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/features/user_managment/ui/cubit/user_management_cubit.dart';
 
 import '../../../../core/data/entities/invites_entity.dart';
+import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/layouts/layout_with_footer.dart';
 import '../../../../core/ui/widgets/big_button.dart';
@@ -60,7 +61,7 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                     ),
                     const SizedBox(height: Constants.space30),
                     UserListTile(
-                      user: session?.toUserEntity(),
+                      user: getUserData(),
                       onTap: (_) {},
                       trailingWidget: Container(
                           padding: const EdgeInsets.symmetric(
@@ -129,6 +130,16 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
         },
       ),
     );
+  }
+
+  User? getUserData() {
+    // If invite is for a existing user, we return that user
+    // if not, we return the user that is logged in
+    if (invite.invited != null) {
+      return invite.invited;
+    } else {
+      return session?.toUserEntity();
+    }
   }
 
   confirmation(BuildContext context, Invite invite) {

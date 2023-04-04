@@ -10,18 +10,22 @@ import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/helpers/secure_storage_helper.dart';
+import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/layouts/layout_with_footer.dart';
 import '../../../../../core/ui/pages/common_page_layout.dart';
+import '../../../../auth/auth_provider.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../../../send/ui/widgets/team_list_item.dart';
 import '../cubit/received_invites_cubit.dart';
 
-class ReceivedInvitesPage extends StatefulWidget with ErrorHandling {
-  const ReceivedInvitesPage({Key? key, required this.email, required this.code})
+class ReceivedInvitesPage extends StatefulWidget
+    with ErrorHandling, SheetMessages {
+  const ReceivedInvitesPage(
+      {Key? key, required this.inviteId, required this.code})
       : super(key: key);
 
-  final String email;
+  final int inviteId;
   final String code;
 
   @override
@@ -36,8 +40,10 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
   }
 
   void validateCode() {
-    context.read<ReceivedInvitesCubit>().validateCode(widget.email, widget.code,
-        onSuccess: () {}, onError: (HttpFailure error) {
+    context
+        .read<ReceivedInvitesCubit>()
+        .validateCode(widget.inviteId, widget.code, onSuccess: () {},
+            onError: (HttpFailure error) {
       widget.handleError(context, error);
     });
   }
@@ -74,12 +80,60 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
   }
 
   navigateToAcceptInvite(BuildContext context, {required Invite invite}) async {
+    // If user is logged in, navigate to accept invite page
     final session = await SecureStorageHelper.getSessionData();
     if (session != null) {
-      // ignore: use_build_context_synchronously
-      UserManagementProvider()
-          .openAcceptInvite(context, invite: invite, session: session);
+      if (context.mounted) {
+        UserManagementProvider()
+            .openAcceptInvite(context, invite: invite, session: session);
+        return;
+      }
     }
+    // If invite has an invited user, try to login and then repeat the process with user logged in
+    if (invite.invitedId != null) {
+      if (context.mounted) {
+        await widget.showMessage<bool>(context,
+            content:
+                'Debes iniciar sesión, te mandaremos a la pantalla de inicio de sesión para que puedas continuar.',
+            title: 'Iniciar sesión');
+      }
+      final loginSuccess = await loginFirst();
+      if (loginSuccess) {
+        if (context.mounted) {
+          navigateToAcceptInvite(context, invite: invite);
+        }
+        return;
+      }
+    }
+
+    // If invite is for a new user, navigate to register page an then repeat the process with user logged in
+    if (invite.invited == null) {
+      if (context.mounted) {
+        await widget.showMessage<bool>(context,
+            content:
+                'Para continuar debes crear una cuenta.\nTe mandaremos a la pantalla de registro para que puedas continuar.',
+            title: 'Bienvenido a 500Historias');
+      }
+      if (context.mounted) {
+        final registerSuccess =
+            await registerUserFirst(context, invite: invite);
+        if (registerSuccess) {
+          if (context.mounted) {
+            navigateToAcceptInvite(context, invite: invite);
+          }
+          return;
+        }
+      }
+    }
+  }
+
+  loginFirst() {
+    return const AuthProvider().login(context);
+  }
+
+  registerUserFirst(BuildContext context, {required Invite invite}) {
+    return UserManagementProvider()
+        .openRegisterReader(context, invite: invite, autoNavigateToHome: false);
   }
 
   String getHeader(Invite? invite) {

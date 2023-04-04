@@ -31,8 +31,12 @@ class UserManagementCubit extends Cubit<UserManagementState>
   void initNewUser(String email, Invite invite) {
     emit(state.copyWith(
         invite: invite,
-        user:
-            UserDto(email: email, firstName: '', lastName: '', password: '')));
+        user: UserDto(
+            email: email,
+            firstName: '',
+            lastName: '',
+            password: '',
+            username: '')));
   }
 
   void loadUser(User user) {
@@ -51,20 +55,22 @@ class UserManagementCubit extends Cubit<UserManagementState>
     String? password,
     String? passwordConfirmation,
     String? firstName,
+    String? username,
     String? lastName,
     String? avatarUrl,
   }) {
     if (state.user != null) {
-      final user = UserDto(
+      emit(state.copyWith(
+          user: state.user!.copyWith(
+        username: username ?? state.user!.username,
         firstName: firstName ?? state.user!.firstName,
         lastName: lastName ?? state.user!.lastName,
         email: state.user!.email,
-        avatarUrl: avatarUrl ?? state.user!.avatarUrl!,
+        avatarUrl: avatarUrl ?? state.user!.avatarUrl,
         password: password ?? state.user!.password,
         passwordConfirmation:
             passwordConfirmation ?? state.user!.passwordConfirmation,
-      );
-      emit(state.copyWith(user: user));
+      )));
     }
   }
 
@@ -135,18 +141,18 @@ class UserManagementCubit extends Cubit<UserManagementState>
     if (state.error != null) {
       return;
     }
-    emit(state.copyWith(isLoading: true, error: null));
+    emit(state.copyWith(registeringUser: true, error: null));
     if (await handleSaveAvatarUrl()) {
       if (state.user != null) {
         userManagementUseCases
-            .registerUser(
+            .acceptInvite(
                 AcceptInviteDto(invite: state.invite!, user: state.user!))
             .listen((event) {
           onSuccess();
-          emit(state.copyWith(isLoading: false, error: null));
+          emit(state.copyWith(registeringUser: false, error: null));
         }, onError: (error) {
           onError(error);
-          emit(state.copyWith(isLoading: false, error: error));
+          emit(state.copyWith(registeringUser: false, error: error));
         }).subscribe(this);
       }
     }
@@ -175,6 +181,10 @@ class UserManagementCubit extends Cubit<UserManagementState>
       valid = false;
     }
     if (state.user?.email == null) {
+      valid = false;
+    }
+
+    if (state.user?.username == null) {
       valid = false;
     }
 
