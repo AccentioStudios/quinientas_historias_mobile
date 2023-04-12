@@ -1,15 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:quinientas_historias/core/routes/auto_router.dart';
 
 import '../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/mixins/error_handling.dart';
-import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../core/ui/widgets/user_avatar.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../profiles_module/user_profile/user_profile_provider.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 import '../../../../core/ui/widgets/leaderboard_list_item_widget.dart';
 import '../widgets/no_item_found_widget.dart';
@@ -164,11 +164,9 @@ class _LeaderboardAllTabViewState extends State<LeaderboardAllTabView>
 
   void _navigateToUserProfile(BuildContext context, User? user) {
     if (user != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.userProfile,
-        arguments: UserProfileArguments(
-          user.id,
+      AutoRouter.of(context).push(
+        UserProfileRoute(
+          userId: user.id,
         ),
       );
     }

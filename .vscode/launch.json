@@ -40,12 +40,12 @@
                 "--dart-define=ENV=dev",
                 "--dart-define=APP_ID_SUFFIX=.dev",
                 "--dart-define=https=true",
-                "--dart-define=API_URL=2f7c-2804-14d-32b7-474a-8c6-4bf-e6be-a2fd.sa.ngrok.io",
+                "--dart-define=API_URL=24d2-2804-14d-32b7-474a-d9b-f4b6-f7ca-4343.ngrok-free.app",
                 "--dart-define=JWT_SECRET=ebc209b12229abda06214b53beee0a77322d1f598a521dfae727cb74a9077320",
                 "--dart-define=JWT_REFRESH_SECRET=ebc209b12229abda06214b53beee0a77322d1f598a521dfae727cb74a9077320",
                 "--dart-define=OIDC_CLIENT_ID=aVOLsSKAiGAZkNxzkALGoNwRsMUdFYdH",
                 "--dart-define=OIDC_DISCOVER_URL=https://testing.500historias.com/wp-json/moserver/aVOLsSKAiGAZkNxzkALGoNwRsMUdFYdH",
-                "--dart-define=OIDC_REDIRECT_URI=https://2f7c-2804-14d-32b7-474a-8c6-4bf-e6be-a2fd.sa.ngrok.io/v2/auth/callback",
+                "--dart-define=OIDC_REDIRECT_URI=https://24d2-2804-14d-32b7-474a-d9b-f4b6-f7ca-4343.ngrok-free.app/v2/auth/callback",
             ]
           },
           {

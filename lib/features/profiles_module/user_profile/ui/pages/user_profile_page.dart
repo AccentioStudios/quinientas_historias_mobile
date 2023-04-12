@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:custom_nested_scroll_view/custom_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../core/failures/status_codes.dart';
 import '../../../../../core/libs/extended_tab_view.dart';
 import '../../../../../core/mixins/error_handling.dart';
-import '../../../../../core/routes/routes.dart';
+import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
@@ -207,9 +208,8 @@ class _UserProfilePageState extends State<UserProfilePage>
         widget.handleError<bool>(context, error,
             btnLabel: 'Intentar nuevamente',
             linkBtnLabel: 'Volver al home', linkBtnOnTap: () {
-          Navigator.of(context, rootNavigator: true)
-              .popUntil((route) => route.isFirst);
-          Navigator.of(context).pushNamed(Routes.home);
+          AutoRouter.of(context).popUntil((route) => route.isFirst);
+          AutoRouter.of(context).push(const HomeRoute());
         }).then((isRefresh) {
           if (isRefresh != null) {
             if (isRefresh) {

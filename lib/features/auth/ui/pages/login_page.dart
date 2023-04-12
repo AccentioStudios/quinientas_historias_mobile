@@ -1,12 +1,12 @@
+import 'dart:async';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/ui/widgets/big_button.dart';
-import '../../../../core/ui/widgets/link_button.dart';
-import '../../../../core/ui/widgets/padding_column.dart';
-import '../../../../core/utils/constants.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../core/failures/failures.dart';
@@ -14,24 +14,33 @@ import '../../../../core/integrations/alice_service.dart';
 import '../../../../core/integrations/firebase_messaging_service.dart';
 import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/mixins/error_handling.dart';
-import '../../../../core/routes/routes.dart';
+import '../../../../core/routes/auto_router.dart';
+import '../../../../core/ui/widgets/big_button.dart';
+import '../../../../core/ui/widgets/link_button.dart';
+import '../../../../core/ui/widgets/padding_column.dart';
+import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/auth_cubit.dart';
 
 class LoginPage extends StatefulWidget with ErrorHandling {
-  const LoginPage(
-      {Key? key,
-      this.autoNavigateToShell = true,
-      this.byPassFirstScreen = false})
-      : super(key: key);
+  const LoginPage({
+    Key? key,
+    this.autoNavigateToShell = true,
+    this.byPassFirstScreen = false,
+    this.onResult,
+  }) : super(key: key);
 
   final bool autoNavigateToShell;
   final bool byPassFirstScreen;
+  final Function(dynamic)? onResult;
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   late final FirebaseMessagingService firebaseMessagingService;
+
+  bool btnLoginLoading = false;
 
   @override
   void initState() {
@@ -136,9 +145,20 @@ class _LoginPageState extends State<LoginPage> {
                                         'assets/images/login-image.svg'),
                                   ),
                                   BigButton(
+                                    isLoading: btnLoginLoading,
                                     onPressed: () {
-                                      _loginFlow(context,
-                                          firebaseMessagingService, authCubit);
+                                      setState(() {
+                                        btnLoginLoading = true;
+                                      });
+                                      _loginFlow(
+                                              context,
+                                              firebaseMessagingService,
+                                              authCubit)
+                                          .then((logged) {
+                                        setState(() {
+                                          btnLoginLoading = false;
+                                        });
+                                      });
                                     },
                                     text: 'Entrar a 500Historias',
                                   ),
@@ -161,10 +181,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _loginFlow(
+  Future<bool> _loginFlow(
       BuildContext context,
       FirebaseMessagingService firebaseMessagingService,
       AuthCubit authCubit) async {
+    final completer = Completer<bool>();
+
     String? firebaseToken;
 
     if (!kIsWeb) {
@@ -176,23 +198,30 @@ class _LoginPageState extends State<LoginPage> {
           firebaseToken: firebaseToken,
           accessToken: accessToken,
           onError: (error) => widget.handleError(context, error, onTap: () {
+                if (widget.onResult != null) widget.onResult!(false);
                 Navigator.of(context).pop(false);
-                Navigator.of(context).pop(false);
+                completer.complete(false);
+                return;
               }),
           onSuccess: () {
+            if (widget.onResult != null) widget.onResult!(true);
+            Navigator.of(context).pop(true);
+
+            completer.complete(true);
+
             if (widget.autoNavigateToShell) {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+              context.router.navigate(const ShellRoute());
               return;
             }
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pop(true);
           });
     }, onError: (HttpFailure error) {
       widget.handleError(context, error, onTap: () {
+        if (widget.onResult != null) widget.onResult!(false);
         Navigator.of(context).pop(false);
-        Navigator.of(context).pop(false);
+        completer.complete(false);
       });
     });
+
+    return completer.future;
   }
 }

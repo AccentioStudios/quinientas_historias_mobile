@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,10 @@ class ThemeClass {
     scaffoldBackgroundColor: readingBackgroundColor,
     primaryColor: primaryColor,
     fontFamily: GoogleFonts.lato().fontFamily,
+    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+    }),
     colorScheme: const ColorScheme.light().copyWith(
       primary: primaryColor,
       onPrimary: onPrimaryColor,
@@ -35,6 +40,10 @@ class ThemeClass {
     scaffoldBackgroundColor: backgroundDarkColor,
     primaryColor: primaryDarkColor,
     fontFamily: GoogleFonts.lato().fontFamily,
+    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+    }),
     colorScheme: const ColorScheme.dark().copyWith(
       primary: primaryDarkColor,
       onPrimary: onPrimaryDarkColor,

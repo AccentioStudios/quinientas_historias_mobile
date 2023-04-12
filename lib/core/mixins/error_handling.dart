@@ -1,14 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:quinientas_historias/core/routes/auto_router.dart';
 
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
 import '../helpers/secure_storage_helper.dart';
-import '../routes/routes.dart';
 import '../ui/pages/common_page_layout.dart';
 
 mixin ErrorHandling on Widget {
   Future<T?> _showErrorMessage<T>(BuildContext context, Widget page) {
-    return Navigator.of(context, rootNavigator: true)
+    return Navigator.of(context)
         .push<T>(MaterialPageRoute<T>(builder: (context) => page));
   }
 
@@ -65,7 +66,7 @@ mixin ErrorHandling on Widget {
   }) {
     return _showErrorMessage<T>(
         context,
-        CommonPageLayout(
+        CommonInfoPage(
           btnLabel: btnLabel,
           onBtnTap: () {
             if (onTap != null) {
@@ -82,7 +83,7 @@ mixin ErrorHandling on Widget {
       [void Function()? onTap]) {
     return _showErrorMessage<T>(
         context,
-        CommonPageLayout(
+        CommonInfoPage(
             headline: 'What!?',
             message:
                 'Hay un problema de conexion a internet. Parece que alguién se llevó la conexión a internet ☹',
@@ -98,10 +99,7 @@ mixin ErrorHandling on Widget {
             linkBtnLabel: 'Cerrar Sesión',
             linkBtnOnTap: () {
               SecureStorageHelper.deleteAll();
-              Navigator.of(context, rootNavigator: true)
-                  .popUntil((route) => route.isFirst);
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.login);
+              AutoRouter.of(context).push(AuthRoute());
             }));
   }
 
@@ -116,7 +114,7 @@ mixin ErrorHandling on Widget {
     if (failureType == FailureTypes.existingUserLogin) {
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline: 'Esta cuenta ya existe',
             message:
                 'Ya existe una cuenta con este correo electrónico. Intenta iniciar sesión con tu contraseña.',
@@ -126,12 +124,10 @@ mixin ErrorHandling on Widget {
               if (!context.mounted) return;
               if (await SecureStorageHelper.getSessionData() != null) {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.homeNavigator);
+                AutoRouter.of(context).push(const ShellRoute());
               } else {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.login);
+                AutoRouter.of(context).push(AuthRoute());
               }
             },
           ));
@@ -139,7 +135,7 @@ mixin ErrorHandling on Widget {
     if (failureType == FailureTypes.invalidInvitationCode) {
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline: 'Código de invitación inválido',
             message:
                 'El código de invitación que ingresaste no es válido. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
@@ -149,19 +145,17 @@ mixin ErrorHandling on Widget {
               if (!context.mounted) return;
               if (await SecureStorageHelper.getSessionData() != null) {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.homeNavigator);
+                AutoRouter.of(context).push(const ShellRoute());
               } else {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.login);
+                AutoRouter.of(context).push(AuthRoute());
               }
             },
           ));
     }
     return _showErrorMessage<T>(
         context,
-        CommonPageLayout(
+        CommonInfoPage(
           headline: 'Hubo un error en tu solicitud',
           message: 'Verifica los datos que mandaste e intenta nuevamente.',
           btnLabel: btnLabel,
@@ -187,7 +181,7 @@ mixin ErrorHandling on Widget {
     if (errorType == FailureTypes.inviteNotFound) {
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline: 'La invitación no existe',
             message:
                 'Parece que has recibido una invitación que no existe. Revisa nuevamente tu e-mail en busqueda de una más nueva.',
@@ -197,19 +191,17 @@ mixin ErrorHandling on Widget {
               if (!context.mounted) return;
               if (await SecureStorageHelper.getSessionData() != null) {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.homeNavigator);
+                AutoRouter.of(context).push(const ShellRoute());
               } else {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.login);
+                AutoRouter.of(context).push(AuthRoute());
               }
             },
           ));
     }
     return _showErrorMessage<T>(
         context,
-        CommonPageLayout(
+        CommonInfoPage(
           headline: 'No encontramos lo que buscabas',
           message: 'Verifica los datos que mandaste e intenta nuevamente.',
           btnLabel: btnLabel,
@@ -229,7 +221,7 @@ mixin ErrorHandling on Widget {
       // The invitation is for another user
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline: 'Invitación para otro usuario',
             message:
                 'Esta invitación es para otro usuario. Si crees que esto fué un error entra en contacto con nosotros.',
@@ -239,12 +231,10 @@ mixin ErrorHandling on Widget {
               if (!context.mounted) return;
               if (await SecureStorageHelper.getSessionData() != null) {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.homeNavigator);
+                AutoRouter.of(context).push(const ShellRoute());
               } else {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context, rootNavigator: true)
-                    .pushNamed(Routes.login);
+                AutoRouter.of(context).push(AuthRoute());
               }
             },
           ));
@@ -254,7 +244,7 @@ mixin ErrorHandling on Widget {
         errorType == FailureTypes.inviterDontBelongToTheSchool) {
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline:
                 'No perteneces al equipo o escuela para invitar a este usuario',
             message:
@@ -262,15 +252,14 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/hand-left-image.svg',
             btnLabel: 'Entiendo',
             onBtnTap: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.homeNavigator);
+              AutoRouter.of(context).push(const ShellRoute());
             },
           ));
     }
     if (errorType == FailureTypes.userIsNotActive) {
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline: 'Usuario desactivado',
             message:
                 'Esta cuenta esta desactivada. Si crees que esto fué un error entra en contacto con nosotros.',
@@ -278,15 +267,14 @@ mixin ErrorHandling on Widget {
             btnLabel: 'Entiendo',
             onBtnTap: () {
               SecureStorageHelper.deleteAll();
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.login);
+              AutoRouter.of(context).push(AuthRoute());
             },
           ));
     }
     if (errorType == FailureTypes.userIsBanned) {
       return _showErrorMessage<T>(
           context,
-          CommonPageLayout(
+          CommonInfoPage(
             headline: 'Tu cuenta ha sido bloqueada',
             message:
                 'Esta cuenta esta bloqueada. Esto normalmente sucede por comportamiento indebido.\n\nSi crees que esto fué un error entra en contacto con nosotros.',
@@ -294,14 +282,13 @@ mixin ErrorHandling on Widget {
             btnLabel: 'Entiendo',
             onBtnTap: () {
               SecureStorageHelper.deleteAll();
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(Routes.login);
+              AutoRouter.of(context).push(AuthRoute());
             },
           ));
     }
     return _showErrorMessage<T>(
         context,
-        CommonPageLayout(
+        CommonInfoPage(
           headline: 'You shall not pass!!',
           message:
               'No reconocemos que tengas acceso aquí, intenta iniciar sesión nuevamente con los permisos correctos.',
@@ -310,7 +297,7 @@ mixin ErrorHandling on Widget {
           linkBtnLabel: 'Cerrar sesión',
           linkBtnOnTap: () {
             SecureStorageHelper.deleteAll();
-            Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+            AutoRouter.of(context).push(AuthRoute());
           },
         ));
   }

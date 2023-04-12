@@ -40,7 +40,7 @@ class FirebaseMessagingService {
             id: android.hashCode,
             title: notification.title ?? '500 Historias',
             body: notification.body!,
-            payload: message.data['route'] ?? '',
+            payload: message.data,
           ),
         );
       }
@@ -50,7 +50,7 @@ class FirebaseMessagingService {
             id: apple.hashCode,
             title: notification.title ?? '500 Historias',
             body: notification.body!,
-            payload: message.data['route'] ?? '',
+            payload: message.data,
           ),
         );
       }

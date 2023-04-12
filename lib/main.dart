@@ -3,6 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 import 'core/app.dart';
@@ -12,7 +13,7 @@ import 'core/integrations/firebase_messaging_service.dart';
 import 'core/integrations/notification_service.dart';
 import 'core/integrations/platform_environments.dart';
 import 'core/integrations/remote_config_service.dart';
-import 'core/routes/routes.dart';
+import 'core/routes/auto_router.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -37,30 +38,33 @@ void main() async {
     );
   }
 
-  GlobalKey<NavigatorState>? navigatorKey = Routes.navigatorKey;
-
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await SharedPreferencesHelper.init();
   await RemoteConfigService.init();
-  AliceService.init(navigatorKey!);
+
+  final getIt = GetIt.instance;
+  final appRouter = AppRouter();
+  AliceService.init(appRouter.navigatorKey);
 
   if (!kIsWeb) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
 
+  getIt.registerSingleton<AppRouter>(appRouter);
+
   runApp(MultiProvider(
     providers: [
       Provider<NotificationService>(
-        create: (context) => NotificationService(),
+        create: (context) => NotificationService(context),
       ),
       Provider<FirebaseMessagingService>(
         create: (context) =>
             FirebaseMessagingService(context.read<NotificationService>()),
       ),
     ],
-    child: Application(
-      navigatorKey: navigatorKey,
-    ),
+    builder: (context, child) {
+      return Application(router: appRouter);
+    },
   ));
 }

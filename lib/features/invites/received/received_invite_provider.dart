@@ -1,22 +1,23 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/data/entities/user_entity.dart';
 import '../data/repositories/invites_repository.dart';
 import '../data/useCases/invites_usecases.dart';
 import 'ui/cubit/received_invites_cubit.dart';
 import 'ui/pages/received_invites_page.dart';
 
+@RoutePage<bool?>()
 class ReceivedInviteProvider extends StatelessWidget {
   const ReceivedInviteProvider(
       {Key? key,
-      this.typeUserToInvite = Role.reader,
-      required this.inviteId,
-      required this.code})
+      @QueryParam('role') this.role,
+      @QueryParam('inviteId') this.inviteId,
+      @QueryParam('code') this.code})
       : super(key: key);
-  final Role typeUserToInvite;
-  final int inviteId;
-  final String code;
+  final String? role;
+  final int? inviteId;
+  final String? code;
 
   @override
   Widget build(BuildContext context) {
@@ -24,25 +25,16 @@ class ReceivedInviteProvider extends StatelessWidget {
       create: (context) => ReceivedInvitesCubit(
           invitesUseCases: InvitesUseCases(repository: InvitesRepository())),
       child: ReceivedInvitesPage(
-        code: code,
-        inviteId: inviteId,
+        code: code ?? '',
+        inviteId: inviteId ?? 0,
       ),
     );
   }
 
   static open(BuildContext? context,
-      {GlobalKey<NavigatorState>? navigatorKey,
-      required int inviteId,
-      String? email,
-      required String code}) {
-    final navigator = navigatorKey != null
-        ? navigatorKey.currentState
-        : Navigator.of(context!, rootNavigator: true);
-
-    if (navigator != null) {
-      // SecureStorageHelper.deleteAll();
-
-      navigator.push<void>(MaterialPageRoute<void>(
+      {required int inviteId, String? email, required String code}) {
+    if (context != null) {
+      Navigator.of(context).push<void>(MaterialPageRoute<void>(
           builder: (context) => ReceivedInviteProvider(
                 code: code,
                 inviteId: inviteId,

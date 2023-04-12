@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +10,7 @@ import 'ui/bloc/cubit/send_invites_cubit.dart';
 import 'ui/pages/choose_team_for_invite_page.dart';
 import 'ui/pages/send_invites_page.dart';
 
+@RoutePage<bool?>()
 class SendInviteProvider extends StatelessWidget {
   const SendInviteProvider(
       {Key? key,

@@ -38,8 +38,9 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<bool> _checkAccessToken() async {
-    final secureStorage = await SecureStorageHelper.getAccessToken();
-    return secureStorage != null;
+    final String? secureStorage = await SecureStorageHelper.getAccessToken();
+    final test = secureStorage != null;
+    return test;
   }
 
   bool _checkMaintenanceMode() {
@@ -98,7 +99,7 @@ class _LandingPageState extends State<LandingPage> {
         Navigator.push<void>(
             context,
             MaterialPageRoute<void>(
-                builder: (context) => const CommonPageLayout(
+                builder: (context) => const CommonInfoPage(
                       headline: 'Volveremos pronto',
                       message:
                           'Nuestro equipo esta trabajando fuertemente\npara hacer todavia mejor tu experiencia, volveremos lo mas rápido posible!, lo prometemos.',

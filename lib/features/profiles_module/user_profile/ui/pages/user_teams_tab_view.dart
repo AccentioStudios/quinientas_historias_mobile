@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,12 +6,11 @@ import 'package:rive/rive.dart';
 
 import '../../../../../core/data/dto/user_profile_dto.dart';
 import '../../../../../core/data/entities/team_entity.dart';
-import '../../../../../core/routes/routes.dart';
+import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../../core/ui/widgets/outlined_card.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../team_profile/team_profile_provider.dart';
 
 class UserTeamsTabView extends StatelessWidget {
   const UserTeamsTabView({super.key, required this.user});
@@ -57,13 +57,9 @@ class UserTeamsTabView extends StatelessWidget {
 
   void _navigateToTeamPage(BuildContext context, Team? team) {
     if (team != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.teamProfile,
-        arguments: TeamProfileArguments(
-          team.id,
-        ),
-      );
+      AutoRouter.of(context).root.push(TeamProfileRoute(teamId: team.id));
+      // AutoRouter.of(context).push(TeamProfileRoute(teamId: team.id));
+      // AutoRouter.of(context).push(TeamProfileRoute(teamId: team.id));
     }
   }
 }
@@ -156,7 +152,7 @@ class ProfileTeamCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    TextSpan(text: 'posición'),
+                    const TextSpan(text: 'posición'),
                   ],
                 ),
                 maxLines: 1,

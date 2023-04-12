@@ -43,11 +43,16 @@ class SecureStorageHelper {
   }
 
   static Future<String?> getAccessToken() {
-    if (kIsWeb) {
-      final Storage localStorage = window.localStorage;
-      return Future.value(localStorage['accessToken']);
+    try {
+      if (kIsWeb) {
+        final Storage localStorage = window.localStorage;
+        return Future.value(localStorage['accessToken']);
+      }
+      return instance.read(key: 'accessToken');
+    } catch (error) {
+      print(error);
+      return Future.value(null);
     }
-    return instance.read(key: 'accessToken');
   }
 
   static Future<JwtPayload?> getSessionData() async {

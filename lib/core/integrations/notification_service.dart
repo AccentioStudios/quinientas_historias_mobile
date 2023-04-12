@@ -1,24 +1,36 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 import '../libs/custom_notification.dart';
+import '../routes/routes.dart';
 
 class NotificationService {
   late FlutterLocalNotificationsPlugin localNotificationsPlugin;
   late AndroidNotificationDetails androidDetails;
   late DarwinNotificationDetails iOSDetails;
 
-  NotificationService() {
+  NotificationService(BuildContext context) {
     localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    localNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
+
     _setupDetails();
-    _setupNotifications();
+    _setupNotifications(context);
   }
 
-  _setupNotifications() async {
+  _setupNotifications(BuildContext context) async {
     await _setupTimezone();
-    await _initializeNotifications();
+    if (context.mounted) {
+      await _initializeNotifications(context);
+    }
   }
 
   Future<void> _setupTimezone() async {
@@ -40,35 +52,75 @@ class NotificationService {
     iOSDetails = const DarwinNotificationDetails();
   }
 
-  _initializeNotifications() async {
+  _initializeNotifications(BuildContext context) async {
     const android = AndroidInitializationSettings('@drawable/ic_notification');
-    const iOS = DarwinInitializationSettings(
+    const darwin = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
+    const pinguino =
+        LinuxInitializationSettings(defaultActionName: 'Open notification');
 
     // Fazer: macOs, iOS, Linux...
     await localNotificationsPlugin.initialize(
       const InitializationSettings(
         android: android,
-        iOS: iOS,
+        iOS: darwin,
+        macOS: darwin,
+        linux: pinguino,
       ),
+      onDidReceiveNotificationResponse: (notificationResponse) =>
+          onDidReceiveNotificationResponse(context, notificationResponse),
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
   }
 
+  void onDidReceiveNotificationResponse(
+      BuildContext context, NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+
+    if (payload != null) {
+      // Convert string to map
+      final Map<String, dynamic> payloadData = jsonDecode(payload);
+      debugPrint('notification payload: $payloadData');
+      if (payloadData.isNotEmpty) {
+        if (payloadData.containsKey('route')) {
+          if (Routes.shellNavigatorKey != null) {
+            Navigator.of(
+              Routes.shellNavigatorKey!.currentContext!,
+            ).pushNamed(payloadData['route'], arguments: payloadData['args']);
+          }
+        }
+      }
+    }
+  }
+
   @pragma('vm:entry-point')
-  static notificationTapBackground(NotificationResponse notificationResponse) {
-    if (notificationResponse.payload != null) {
-      if (notificationResponse.payload!.isNotEmpty) {
-        // Navigator.of(Routes.navigatorKey!.currentContext!)
-        //     .pushNamed(notificationResponse.payload!);
+  static void notificationTapBackground(
+      NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+
+    if (payload != null) {
+      // Convert string to map
+      final Map<String, dynamic> payloadData = jsonDecode(payload);
+      debugPrint('notification payload: $payloadData');
+      if (payloadData.isNotEmpty) {
+        if (payloadData.containsKey('route')) {
+          if (Routes.shellNavigatorKey != null) {
+            Navigator.of(
+              Routes.shellNavigatorKey!.currentContext!,
+            ).pushNamed(payloadData['route']);
+          }
+        }
       }
     }
   }
 
   showLocalNotification(CustomNotification notification) {
+    // convert map to string
+    final String payload = jsonEncode(notification.payload);
+
     localNotificationsPlugin.show(
       notification.id,
       notification.title,
@@ -77,7 +129,7 @@ class NotificationService {
         android: androidDetails,
         iOS: iOSDetails,
       ),
-      payload: notification.payload,
+      payload: payload,
     );
   }
 

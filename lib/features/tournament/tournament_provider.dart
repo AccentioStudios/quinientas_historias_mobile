@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quinientas_historias/core/data/entities/tournament_entity.dart';
@@ -8,6 +9,7 @@ import 'package:quinientas_historias/features/tournament/ui/pages/tournament_pag
 import 'ui/bloc/cubit/tournament_cubit.dart';
 import 'ui/pages/tournament_page.dart';
 
+@RoutePage<bool?>()
 class TournamentProvider extends StatelessWidget {
   const TournamentProvider({Key? key}) : super(key: key);
 
@@ -29,7 +31,7 @@ class TournamentProvider extends StatelessWidget {
           create: (context) => TournamentCubit(
               tournamentUseCases:
                   TournamentUseCases(repository: TournamentRepository())),
-          child: TournamentPageDetails(
+          child: TournamentDetailsPage(
             tournament: tournament,
           ),
         ),

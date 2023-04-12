@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/ui/widgets/headline.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
+
+import '../../../../../core/ui/widgets/headline.dart';
+import '../../../../../core/utils/constants.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
+
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../data/entities/dashboard_entity.dart';
@@ -77,7 +79,6 @@ class HomeReaderPage extends StatelessWidget {
   }
 
   void _navigateToStoryPage(BuildContext context, Story story) {
-    ReadingStoryProvider.openStory(context,
-        storyId: story.id, rootNavigator: true);
+    ReadingStoryProvider.openStory(context, storyId: story.id);
   }
 }

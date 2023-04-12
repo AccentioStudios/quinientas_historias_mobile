@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -64,15 +65,14 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
                     onAccept: () =>
                         navigateToAcceptInvite(context, invite: state.invite!),
                   )
-                : CommonPageLayout(
+                : CommonInfoPage(
                     headline: 'Esta invitación ya no es válida',
                     message:
                         'Has recibido una invitación para formar parte de 500Historias. Sin embargo, parece que ya no es válida o ya fué usada.',
                     svgImagePath: 'assets/images/broken-invitation-image.svg',
                     btnLabel: 'Entiendo',
                     onBtnTap: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .popUntil((route) => route.isFirst);
+                      Navigator.of(context).pop(false);
                     },
                   );
       },

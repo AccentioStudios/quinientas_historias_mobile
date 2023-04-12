@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../features/auth/auth_provider.dart';
-import '../../features/config/ui/pages/config_page.dart';
+
 import '../../features/home/home_provider.dart';
 import '../../features/home/ui/pages/home_navigator.dart';
 import '../../features/landing/ui/landing_provider.dart';
-import '../../features/profiles_module/school_profile/school_profile_provider.dart';
-import '../../features/profiles_module/team_profile/team_profile_provider.dart';
-import '../../features/profiles_module/user_profile/user_profile_provider.dart';
-import '../../features/reading_module/daily_challenge/daily_challange_provider.dart';
-import '../../features/tournament/tournament_provider.dart';
 
 abstract class Routes {
   static const String root = '/';
@@ -24,8 +19,11 @@ abstract class Routes {
   static const String teamProfile = '/teamProfile';
   static const String userProfile = '/userProfile';
   static const String config = '/config';
+  static const String challenges = '/challenges';
 
   static GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState>? shellNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static Map<String, WidgetBuilder> generateRoutes() {
     return <String, WidgetBuilder>{
@@ -39,12 +37,13 @@ abstract class Routes {
   static Map<String, WidgetBuilder> generateHomeNavigatorRoutes() {
     return <String, WidgetBuilder>{
       home: (context) => const HomeProvider(),
-      schoolProfile: (context) => const SchoolProfileProvider(),
-      dailyChallenge: (context) => const DailyChallangeProvider(),
-      tournament: (context) => const TournamentProvider(),
-      teamProfile: (context) => const TeamProfileProvider(),
-      userProfile: (context) => const UserProfileProvider(),
-      config: (context) => const ConfigPage(),
+      // schoolProfile: (context) => const SchoolProfileProvider(),
+      // dailyChallenge: (context) => const DailyChallangeProvider(),
+      // tournament: (context) => const TournamentProvider(),
+      // teamProfile: (context) => const TeamProfileProvider(),
+      // userProfile: (context) => const UserProfileProvider(),
+      // config: (context) => const ConfigPage(),
+      // challenges: (context) => const ChallengesProvider(),
     };
   }
 }

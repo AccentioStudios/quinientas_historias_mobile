@@ -14,25 +14,21 @@ import '../components/leaderboard_all_tab_view.dart';
 import '../components/leaderboard_by_teams_tab_view.dart';
 import '../components/leaderboard_tabs.dart';
 
-class TournamentPageDetails extends StatefulWidget with ErrorHandling {
-  const TournamentPageDetails({Key? key, required this.tournament})
+class TournamentDetailsPage extends StatefulWidget with ErrorHandling {
+  const TournamentDetailsPage({Key? key, required this.tournament})
       : super(key: key);
 
   final Tournament tournament;
 
   @override
-  State<TournamentPageDetails> createState() => _TournamentPageDetailsState();
+  State<TournamentDetailsPage> createState() => _TournamentDetailsPageState();
 }
 
-class _TournamentPageDetailsState extends State<TournamentPageDetails>
+class _TournamentDetailsPageState extends State<TournamentDetailsPage>
     with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // context.read<TournamentCubit>().getTournament(
-    //       widget.tournament.id,
-    //       onError: (error) => widget.handleError(context, error),
-    //     );
   }
 
   @override

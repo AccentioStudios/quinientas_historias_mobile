@@ -32,14 +32,15 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Scaffold(
-            body: state.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : RefreshIndicator(
-                    onRefresh: () async => getDashboard(context),
-                    child: selectHomePageForUserRole(state),
-                  ));
+          body: state.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : RefreshIndicator(
+                  onRefresh: () async => getDashboard(context),
+                  child: selectHomePageForUserRole(state),
+                ),
+        );
       },
     );
   }

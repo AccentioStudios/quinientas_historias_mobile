@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:quinientas_historias/core/utils/constants.dart';
 
 import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
@@ -10,13 +9,13 @@ import '../../../../../core/routes/routes.dart';
 import '../../../../../core/ui/widgets/chip.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
+import '../../../../../core/utils/constants.dart';
 import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../profiles_module/school_profile/school_profile_provider.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../../widgets/hero_header_widget.dart';
-import '../../widgets/my_summary_carousel.dart';
 
 class HomeProfPage extends StatelessWidget {
   const HomeProfPage({super.key, required this.state});
@@ -125,8 +124,7 @@ class HomeProfPage extends StatelessWidget {
   }
 
   void _navigateToStoryPage(BuildContext context, Story story) {
-    ReadingStoryProvider.openStory(context,
-        storyId: story.id, rootNavigator: true);
+    ReadingStoryProvider.openStory(context, storyId: story.id);
   }
 
   void navigateToInviteCaptains(BuildContext context,

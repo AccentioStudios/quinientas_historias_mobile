@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +12,7 @@ import 'package:quinientas_historias/features/profiles_module/team_profile/ui/wi
 
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/mixins/error_handling.dart';
-import '../../../../../core/routes/routes.dart';
+import '../../../../../core/routes/auto_router.dart';
 import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../components/user_profile_leaderboard_team_list.dart';
@@ -123,9 +124,8 @@ class _TeamProfilePageState extends State<TeamProfilePage> {
         widget.handleError<bool>(context, error,
             btnLabel: 'Intentar nuevamente',
             linkBtnLabel: 'Volver al home', linkBtnOnTap: () {
-          Navigator.of(context, rootNavigator: true)
-              .popUntil((route) => route.isFirst);
-          Navigator.of(context).pushNamed(Routes.home);
+          AutoRouter.of(context).popUntil((route) => route.isFirst);
+          AutoRouter.of(context).push(const HomeRoute());
         }).then((isRefresh) {
           if (isRefresh != null) {
             if (isRefresh) {

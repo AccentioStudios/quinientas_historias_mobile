@@ -15,9 +15,9 @@ class NotificationsDashPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: ListView(children: [
+      body: ListView(children: const [
         ListTile(
-          title: const Text('Notificacion Titulo'),
+          title: Text('Notificacion Titulo'),
           subtitle: Text('Notificacion Body'),
         ),
       ]),

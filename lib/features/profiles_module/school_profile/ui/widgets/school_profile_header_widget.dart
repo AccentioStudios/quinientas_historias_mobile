@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 
 import '../../../../../core/data/dto/school_profile_dto.dart';
 import '../../../../../core/ui/widgets/group_avatar.dart';

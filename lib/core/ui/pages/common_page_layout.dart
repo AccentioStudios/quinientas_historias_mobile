@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
 import 'package:rive/rive.dart';
 
 import '../../utils/constants.dart';
 import '../widgets/big_button.dart';
+import '../widgets/link_button.dart';
 
-class CommonPageLayout extends StatelessWidget {
-  const CommonPageLayout({
+@RoutePage<bool?>()
+class CommonInfoPage extends StatelessWidget {
+  const CommonInfoPage({
     Key? key,
     this.headline = 'Oops...',
     this.message =
@@ -124,6 +126,6 @@ class CommonPageLayout extends StatelessWidget {
   }
 
   void _navigatoToBack(BuildContext context) {
-    Navigator.of(context).pop(true);
+    context.router.pop(true);
   }
 }

@@ -4,7 +4,7 @@ class CustomNotification {
   final int id;
   final String title;
   final String body;
-  final String? payload;
+  final Map<String, dynamic>? payload;
   final RemoteMessage? remoteMessage;
 
   CustomNotification({

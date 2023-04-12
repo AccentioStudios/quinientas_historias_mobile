@@ -9,12 +9,12 @@ part 'team_profile_cubit.freezed.dart';
 part 'team_profile_state.dart';
 
 class TeamProfileCubit extends Cubit<TeamProfileState> with StreamDisposable {
-  TeamProfileCubit({required this.teamId, required this.teamProfileUseCases})
+  TeamProfileCubit({this.teamId, required this.teamProfileUseCases})
       : super(const TeamProfileState());
 
   final TeamProfileUseCases teamProfileUseCases;
 
-  final int teamId;
+  final int? teamId;
 
   getTeamProfileData(
       {required Function onSuccess, required Function onError}) async {

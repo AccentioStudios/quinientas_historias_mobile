@@ -31,10 +31,12 @@ class UserAvatar extends StatelessWidget {
         maxHeight: 140,
       ),
       decoration: BoxDecoration(
-        border: user?.role == Role.reader || user?.role == Role.captain
-            ? Border.all(
-                width: 2, color: getDivisionColor(userDivision?.current?.level))
-            : null,
+        border:
+            user?.role?.name == Role.reader || user?.role?.name == Role.captain
+                ? Border.all(
+                    width: 2,
+                    color: getDivisionColor(userDivision?.current?.level))
+                : null,
         shape: BoxShape.circle,
         image: getAvatarUrl() != null && getAvatarUrl() != ""
             ? DecorationImage(

@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
+import 'package:quinientas_historias/core/routes/auto_router.dart';
+import 'package:quinientas_historias/features/shell/ui/shell_page.dart';
 import 'package:quinientas_historias/features/user_managment/ui/cubit/user_management_cubit.dart';
 
 import '../../../../core/data/entities/invites_entity.dart';
@@ -151,7 +154,7 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
   }
 
   navigateToHome(BuildContext context) {
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.of(context).pushReplacementNamed(Routes.homeNavigator);
+    AutoRouter.of(context).popUntil((route) => route.isFirst);
+    AutoRouter.of(context).push(const ShellRoute());
   }
 }

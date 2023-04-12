@@ -1,5 +1,4 @@
 import 'dart:async' show Stream;
-import 'package:async/async.dart' show StreamGroup;
 
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 

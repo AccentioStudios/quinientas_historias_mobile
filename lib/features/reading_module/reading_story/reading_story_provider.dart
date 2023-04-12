@@ -1,14 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/routes/auto_router.dart';
 import '../../home/ui/bloc/cubit/home_cubit.dart';
 import 'data/repositories/reading_story_repository.dart';
 import 'data/useCases/reading_story_usecases.dart';
 import 'ui/bloc/cubit/reading_story_cubit.dart';
 import 'ui/pages/reading_story_page.dart';
 
+@RoutePage<bool?>()
 class ReadingStoryProvider extends StatelessWidget {
-  const ReadingStoryProvider({Key? key, required this.storyId, this.homeCubit})
+  const ReadingStoryProvider(
+      {Key? key, @PathParam('id') required this.storyId, this.homeCubit})
       : super(key: key);
   final HomeCubit? homeCubit;
   final int storyId;
@@ -32,14 +36,11 @@ class ReadingStoryProvider extends StatelessWidget {
     );
   }
 
-  static Future<bool?> openStory(BuildContext context,
-      {required int storyId, bool rootNavigator = false}) {
+  static Future<bool?> openStory(BuildContext context, {required int storyId}) {
     if (storyId != 0) {
-      return Navigator.of(context, rootNavigator: rootNavigator).push<bool>(
-        MaterialPageRoute<bool>(
-          builder: (context) => ReadingStoryProvider(
-            storyId: storyId,
-          ),
+      return AutoRouter.of(context).push<bool>(
+        ReadingStoryRoute(
+          storyId: storyId,
         ),
       );
     }

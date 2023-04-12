@@ -13,10 +13,9 @@ class HomeNavigator extends StatefulWidget {
 }
 
 class _HomeNavigatorState extends State<HomeNavigator> {
-  late GlobalKey<NavigatorState> homeNavigatorKey;
+  final GlobalKey<NavigatorState>? shellNavigatorKey = Routes.shellNavigatorKey;
   @override
   void initState() {
-    homeNavigatorKey = GlobalKey<NavigatorState>();
     super.initState();
   }
 
@@ -33,12 +32,12 @@ class _HomeNavigatorState extends State<HomeNavigator> {
       bottomNavigationBar: AppButtonBar(
         activeOption: getCurrentRouteOption(),
         onSelectOption: (activeOptionAppButtonBar) {
-          navigate(homeNavigatorKey.currentContext, activeOptionAppButtonBar);
+          navigate(shellNavigatorKey?.currentContext, activeOptionAppButtonBar);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: NestedNavigator(
-        navigationKey: homeNavigatorKey,
+        navigationKey: shellNavigatorKey,
         didPopNextRoute: (Route<dynamic> route, Route<Object?>? previousRoute) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             final String previousPageName = previousRoute?.settings.name ?? '';
@@ -132,7 +131,7 @@ class NestedNavigator extends StatefulWidget {
     required this.didPopNextRoute,
     required this.onChangeRoute,
   });
-  final GlobalKey<NavigatorState> navigationKey;
+  final GlobalKey<NavigatorState>? navigationKey;
   final String initialRoute;
   final Map<String, WidgetBuilder> routes;
   final Function(Route<dynamic>? route, Route<Object?>? previousRoute)
@@ -163,7 +162,7 @@ class _NestedNavigatorState extends State<NestedNavigator> {
     return WillPopScope(
       onWillPop: () async {
         final bool maybePop =
-            await widget.navigationKey.currentState?.maybePop() ?? false;
+            await widget.navigationKey?.currentState?.maybePop() ?? false;
         return !maybePop;
       },
       child: Navigator(

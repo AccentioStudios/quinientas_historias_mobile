@@ -1,11 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helpers/secure_storage_helper.dart';
 import '../../../../core/integrations/alice_service.dart';
 import '../../../../core/integrations/device_info.dart';
 import '../../../../core/integrations/platform_environments.dart';
-import '../../../../core/routes/routes.dart';
+import '../../../../core/routes/auto_router.dart';
 
+@RoutePage()
 class ConfigPage extends StatelessWidget {
   const ConfigPage({Key? key}) : super(key: key);
 
@@ -58,8 +60,6 @@ class ConfigPage extends StatelessWidget {
 
   void logout(BuildContext context) {
     SecureStorageHelper.deleteAll();
-    Navigator.of(context, rootNavigator: true)
-        .popUntil((route) => route.isFirst);
-    Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);
+    context.router.navigate(AuthRoute());
   }
 }
