@@ -2,7 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/routes/auto_router.dart';
 
 import 'data/repositories/auth_repository.dart';
 import 'data/useCases/auth_usecases.dart';

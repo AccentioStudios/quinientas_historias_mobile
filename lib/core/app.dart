@@ -5,12 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_links/uni_links.dart';
 
-import '../features/invites/received/received_invite_provider.dart';
 import 'integrations/firebase_messaging_service.dart';
 import 'integrations/notification_service.dart';
 import 'routes/auto_router.dart';

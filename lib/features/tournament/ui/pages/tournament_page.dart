@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_nested_scroll_view/custom_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quinientas_historias/core/routes/auto_router.dart';
+
 import '../../../../core/failures/failures.dart';
 import '../../../../core/ui/widgets/outlined_card.dart';
 

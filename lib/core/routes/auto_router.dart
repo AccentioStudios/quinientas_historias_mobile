@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/auth/auth_provider.dart';
 import '../../features/config/ui/pages/config_page.dart';
+import '../../features/explore/explore_provider.dart';
 import '../../features/home/home_provider.dart';
 import '../../features/home/ui/bloc/cubit/home_cubit.dart';
 import '../../features/invites/received/received_invite_provider.dart';
@@ -13,9 +14,7 @@ import '../../features/profiles_module/user_profile/user_profile_provider.dart';
 import '../../features/reading_module/reading_story/reading_story_provider.dart';
 import '../../features/shell/ui/shell_page.dart';
 import '../../features/tournament/tournament_provider.dart';
-import '../../features/tournament/ui/pages/tournament_page_details.dart';
 import '../data/entities/team_entity.dart';
-import '../data/entities/tournament_entity.dart';
 import '../data/entities/user_entity.dart';
 import '../helpers/secure_storage_helper.dart';
 import '../integrations/remote_config_service.dart';
@@ -46,7 +45,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         AutoRoute(path: '/story/:id', page: ReadingStoryRoute.page),
         AutoRoute(path: '/invite/received', page: ReceivedInviteRoute.page),
         AutoRoute(path: '/invite/send', page: SendInviteRoute.page),
-        AutoRoute(path: '/explore', page: ExploreRoute.page),
+        AutoRoute(path: '/explore', page: ExploreStoriesRoute.page),
       ];
 
   @override

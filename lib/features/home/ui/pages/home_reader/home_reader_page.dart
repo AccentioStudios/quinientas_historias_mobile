@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/utils/constants.dart';
 
@@ -89,6 +91,9 @@ class HomeReaderPage extends StatelessWidget {
                     ),
                   ),
                   child: ListTile(
+                    onTap: () {
+                      _navigateToExploreStories(context);
+                    },
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: Constants.space18),
                     title: Text(
@@ -114,5 +119,9 @@ class HomeReaderPage extends StatelessWidget {
 
   void _navigateToStoryPage(BuildContext context, Story story) {
     ReadingStoryProvider.openStory(context, storyId: story.id);
+  }
+
+  void _navigateToExploreStories(BuildContext context, {String? search}) {
+    AutoRouter.of(context).push(ExploreStoriesRoute(search: search));
   }
 }

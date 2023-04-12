@@ -8,7 +8,7 @@ import 'package:rive/rive.dart' as rive;
 import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
-import '../../../../../core/routes/routes.dart';
+
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/percentage_progress_bar.dart';

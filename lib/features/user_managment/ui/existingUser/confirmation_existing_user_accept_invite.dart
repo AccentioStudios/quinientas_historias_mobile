@@ -5,12 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/routes/auto_router.dart';
-import 'package:quinientas_historias/features/shell/ui/shell_page.dart';
+
 import 'package:quinientas_historias/features/user_managment/ui/cubit/user_management_cubit.dart';
 
 import '../../../../core/data/entities/invites_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
-import '../../../../core/routes/routes.dart';
+
 import '../../../../core/ui/layouts/layout_with_footer.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/group_avatar.dart';
