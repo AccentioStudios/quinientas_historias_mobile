@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/core/routes/auto_router.dart';
 import 'package:quinientas_historias/core/ui/widgets/outlined_card.dart';
 import 'package:rive/rive.dart' as rive;
 
@@ -234,9 +236,7 @@ class _ReadingStorySuccessPageState extends State<ReadingStorySuccessPage> {
                         // filled: false,
                         text: 'Ir al home',
                         onPressed: () {
-                          Navigator.of(context, rootNavigator: true)
-                              .pushNamedAndRemoveUntil(Routes.homeNavigator,
-                                  (Route<dynamic> route) => false);
+                          AutoRouter.of(context).navigate(const HomeRoute());
                         }),
                   ],
                 ),

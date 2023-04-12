@@ -46,6 +46,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         AutoRoute(path: '/story/:id', page: ReadingStoryRoute.page),
         AutoRoute(path: '/invite/received', page: ReceivedInviteRoute.page),
         AutoRoute(path: '/invite/send', page: SendInviteRoute.page),
+        AutoRoute(path: '/explore', page: ExploreRoute.page),
       ];
 
   @override

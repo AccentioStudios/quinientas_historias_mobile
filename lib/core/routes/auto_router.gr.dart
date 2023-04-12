@@ -54,6 +54,19 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ConfigPage(),
       );
     },
+    ExploreStoriesRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ExploreStoriesRouteArgs>(
+          orElse: () =>
+              ExploreStoriesRouteArgs(search: queryParams.optString('search')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ExploreStoriesProvider(
+          key: args.key,
+          search: args.search,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -300,6 +313,45 @@ class ConfigRoute extends PageRouteInfo<void> {
   static const String name = 'ConfigRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ExploreStoriesProvider]
+class ExploreStoriesRoute extends PageRouteInfo<ExploreStoriesRouteArgs> {
+  ExploreStoriesRoute({
+    Key? key,
+    String? search,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ExploreStoriesRoute.name,
+          args: ExploreStoriesRouteArgs(
+            key: key,
+            search: search,
+          ),
+          rawQueryParams: {'search': search},
+          initialChildren: children,
+        );
+
+  static const String name = 'ExploreStoriesRoute';
+
+  static const PageInfo<ExploreStoriesRouteArgs> page =
+      PageInfo<ExploreStoriesRouteArgs>(name);
+}
+
+class ExploreStoriesRouteArgs {
+  const ExploreStoriesRouteArgs({
+    this.key,
+    this.search,
+  });
+
+  final Key? key;
+
+  final String? search;
+
+  @override
+  String toString() {
+    return 'ExploreStoriesRouteArgs{key: $key, search: $search}';
+  }
 }
 
 /// generated route for

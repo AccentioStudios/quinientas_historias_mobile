@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,9 +7,11 @@ import 'data/useCases/explore_stories_use_cases.dart';
 import 'ui/cubit/explore_stories_cubit.dart';
 import 'ui/pages/explore_stories_page.dart';
 
+@RoutePage()
 class ExploreStoriesProvider extends StatelessWidget {
-  const ExploreStoriesProvider({Key? key}) : super(key: key);
-
+  const ExploreStoriesProvider({Key? key, @QueryParam('search') this.search})
+      : super(key: key);
+  final String? search;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -17,11 +20,5 @@ class ExploreStoriesProvider extends StatelessWidget {
               ExploreStoriesUseCases(repository: ExploreStoriesRepository())),
       child: const ExploreStoriesPage(),
     );
-  }
-
-  static Future<bool?> open(BuildContext context) {
-    return Navigator.of(context, rootNavigator: true).push<bool>(
-        MaterialPageRoute<bool>(
-            builder: (_) => const ExploreStoriesProvider()));
   }
 }
