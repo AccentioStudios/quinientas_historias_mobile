@@ -26,8 +26,10 @@ class AuthProvider extends StatelessWidget {
       create: (BuildContext context) =>
           AuthCubit(authUseCases: AuthUseCases(repository: AuthRepository())),
       child: LoginPage(
-          autoNavigateToShell: autoNavigateToShell ?? true,
-          byPassFirstScreen: byPassFirstScreen ?? false),
+        autoNavigateToShell: autoNavigateToShell ?? true,
+        byPassFirstScreen: byPassFirstScreen ?? false,
+        onResult: onResult,
+      ),
     );
   }
 

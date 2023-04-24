@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
+import 'package:get_it/get_it.dart';
+import 'package:quinientas_historias/core/integrations/secure_storage_service.dart';
 
 import '../../../../core/routes/routes.dart';
 import '../../../../core/ui/widgets/buttom_bar.dart';
@@ -102,7 +103,7 @@ class _HomeNavigatorState extends State<HomeNavigator> {
           Navigator.of(context).pushNamed(Routes.dailyChallenge);
           return;
         case ActiveOptionAppButtonBar.profile:
-          final user = await SecureStorageHelper.getSessionData();
+          final user = await GetIt.I<SecureStorageService>().getSessionData();
           if (!mounted) return;
           Navigator.of(context).pushNamed(
             Routes.userProfile,

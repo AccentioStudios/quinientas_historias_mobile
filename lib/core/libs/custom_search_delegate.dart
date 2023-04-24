@@ -126,6 +126,7 @@ abstract class CustomSearchDelegate<T> {
   /// ```
   /// {@end-tool}
   CustomSearchDelegate({
+    this.toolbarWidget,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -302,6 +303,11 @@ abstract class CustomSearchDelegate<T> {
       ..popUntil((Route<dynamic> route) => route == _route)
       ..pop(result);
   }
+
+  /// This is the toolbar below the search space.
+  ///
+  /// Kek.
+  final PreferredSize? toolbarWidget;
 
   /// The hint text that is shown in the search field when it is empty.
   ///
@@ -530,6 +536,8 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData theme = widget.delegate.appBarTheme(context);
+    final toolbarWidget = widget.delegate.toolbarWidget ?? Container();
+
     final String searchFieldLabel = widget.delegate.searchFieldLabel ??
         MaterialLocalizations.of(context).searchFieldLabel;
     Widget? body;
@@ -572,75 +580,93 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
         data: theme,
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(57.0),
+            preferredSize: const Size.fromHeight(57.0 + 56.0),
             child: Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 8,
-                bottom: 8,
-                left: 0,
-                right: 18,
-              ),
-              height: double.infinity,
               color: theme.colorScheme.primaryContainer,
-              child: Flex(
-                direction: Axis.horizontal,
-                children: [
-                  const SizedBox(width: 4),
-                  IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: theme.colorScheme.onSurface,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: double.infinity,
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(8.0),
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 7,
+                        bottom: 7,
+                        left: 0,
+                        right: 18,
                       ),
+                      height: 55,
+                      color: theme.colorScheme.primaryContainer,
                       child: Flex(
                         direction: Axis.horizontal,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const SizedBox(width: 4),
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
                           Expanded(
-                            child: TextField(
-                              textAlignVertical: TextAlignVertical.center,
-                              controller: widget.delegate._queryTextController,
-                              focusNode: focusNode,
-                              style: widget.delegate.searchFieldStyle ??
-                                  theme.textTheme.titleLarge,
-                              textInputAction: widget.delegate.textInputAction,
-                              keyboardType: widget.delegate.keyboardType,
-                              onSubmitted: (String _) {
-                                widget.delegate.showResults(context);
-                              },
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      bottom:
-                                          MediaQuery.of(context).padding.top /
-                                              2),
-                                  alignLabelWithHint: true,
-                                  hintText: searchFieldLabel,
-                                  icon: Icon(
-                                    Icons.search,
-                                    color: theme.colorScheme.onSurface,
-                                  )),
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              height: double.infinity,
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.08),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Flex(
+                                direction: Axis.horizontal,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      controller:
+                                          widget.delegate._queryTextController,
+                                      focusNode: focusNode,
+                                      style: widget.delegate.searchFieldStyle ??
+                                          theme.textTheme.titleLarge,
+                                      textInputAction:
+                                          widget.delegate.textInputAction,
+                                      keyboardType:
+                                          widget.delegate.keyboardType,
+                                      onSubmitted: (String _) {
+                                        widget.delegate.showResults(context);
+                                      },
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                      .padding
+                                                      .top /
+                                                  2),
+                                          alignLabelWithHint: true,
+                                          hintText: searchFieldLabel,
+                                          icon: Icon(
+                                            Icons.search,
+                                            color: theme.colorScheme.onSurface,
+                                          )),
+                                    ),
+                                  ),
+                                  if (widget.delegate.buildActions(context) !=
+                                      null)
+                                    ...widget.delegate.buildActions(context)!,
+                                ],
+                              ),
                             ),
                           ),
-                          if (widget.delegate.buildActions(context) != null)
-                            ...widget.delegate.buildActions(context)!,
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    toolbarWidget,
+                  ],
+                ),
               ),
             ),
           ),

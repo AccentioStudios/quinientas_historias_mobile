@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ExploreStoriesState {
   dynamic get isLoading => throw _privateConstructorUsedError;
-  List<Story> get exploreStories => throw _privateConstructorUsedError;
+  ListPage<Story>? get listPage => throw _privateConstructorUsedError;
+  ExploreSearchFilters get filters => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExploreStoriesStateCopyWith<ExploreStoriesState> get copyWith =>
@@ -30,7 +31,10 @@ abstract class $ExploreStoriesStateCopyWith<$Res> {
           ExploreStoriesState value, $Res Function(ExploreStoriesState) then) =
       _$ExploreStoriesStateCopyWithImpl<$Res, ExploreStoriesState>;
   @useResult
-  $Res call({dynamic isLoading, List<Story> exploreStories});
+  $Res call(
+      {dynamic isLoading,
+      ListPage<Story>? listPage,
+      ExploreSearchFilters filters});
 }
 
 /// @nodoc
@@ -47,17 +51,22 @@ class _$ExploreStoriesStateCopyWithImpl<$Res, $Val extends ExploreStoriesState>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? exploreStories = null,
+    Object? listPage = freezed,
+    Object? filters = null,
   }) {
     return _then(_value.copyWith(
       isLoading: freezed == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      exploreStories: null == exploreStories
-          ? _value.exploreStories
-          : exploreStories // ignore: cast_nullable_to_non_nullable
-              as List<Story>,
+      listPage: freezed == listPage
+          ? _value.listPage
+          : listPage // ignore: cast_nullable_to_non_nullable
+              as ListPage<Story>?,
+      filters: null == filters
+          ? _value.filters
+          : filters // ignore: cast_nullable_to_non_nullable
+              as ExploreSearchFilters,
     ) as $Val);
   }
 }
@@ -70,7 +79,10 @@ abstract class _$$_ExploreStoriesStateCopyWith<$Res>
       __$$_ExploreStoriesStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic isLoading, List<Story> exploreStories});
+  $Res call(
+      {dynamic isLoading,
+      ListPage<Story>? listPage,
+      ExploreSearchFilters filters});
 }
 
 /// @nodoc
@@ -85,14 +97,19 @@ class __$$_ExploreStoriesStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = freezed,
-    Object? exploreStories = null,
+    Object? listPage = freezed,
+    Object? filters = null,
   }) {
     return _then(_$_ExploreStoriesState(
       isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
-      exploreStories: null == exploreStories
-          ? _value._exploreStories
-          : exploreStories // ignore: cast_nullable_to_non_nullable
-              as List<Story>,
+      listPage: freezed == listPage
+          ? _value.listPage
+          : listPage // ignore: cast_nullable_to_non_nullable
+              as ListPage<Story>?,
+      filters: null == filters
+          ? _value.filters
+          : filters // ignore: cast_nullable_to_non_nullable
+              as ExploreSearchFilters,
     ));
   }
 }
@@ -101,24 +118,22 @@ class __$$_ExploreStoriesStateCopyWithImpl<$Res>
 
 class _$_ExploreStoriesState implements _ExploreStoriesState {
   const _$_ExploreStoriesState(
-      {this.isLoading = true, final List<Story> exploreStories = initState})
-      : _exploreStories = exploreStories;
+      {this.isLoading = true,
+      this.listPage,
+      this.filters = const ExploreSearchFilters()});
 
   @override
   @JsonKey()
   final dynamic isLoading;
-  final List<Story> _exploreStories;
+  @override
+  final ListPage<Story>? listPage;
   @override
   @JsonKey()
-  List<Story> get exploreStories {
-    if (_exploreStories is EqualUnmodifiableListView) return _exploreStories;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_exploreStories);
-  }
+  final ExploreSearchFilters filters;
 
   @override
   String toString() {
-    return 'ExploreStoriesState(isLoading: $isLoading, exploreStories: $exploreStories)';
+    return 'ExploreStoriesState(isLoading: $isLoading, listPage: $listPage, filters: $filters)';
   }
 
   @override
@@ -127,15 +142,14 @@ class _$_ExploreStoriesState implements _ExploreStoriesState {
         (other.runtimeType == runtimeType &&
             other is _$_ExploreStoriesState &&
             const DeepCollectionEquality().equals(other.isLoading, isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other._exploreStories, _exploreStories));
+            (identical(other.listPage, listPage) ||
+                other.listPage == listPage) &&
+            (identical(other.filters, filters) || other.filters == filters));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isLoading),
-      const DeepCollectionEquality().hash(_exploreStories));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(isLoading), listPage, filters);
 
   @JsonKey(ignore: true)
   @override
@@ -148,12 +162,15 @@ class _$_ExploreStoriesState implements _ExploreStoriesState {
 abstract class _ExploreStoriesState implements ExploreStoriesState {
   const factory _ExploreStoriesState(
       {final dynamic isLoading,
-      final List<Story> exploreStories}) = _$_ExploreStoriesState;
+      final ListPage<Story>? listPage,
+      final ExploreSearchFilters filters}) = _$_ExploreStoriesState;
 
   @override
   dynamic get isLoading;
   @override
-  List<Story> get exploreStories;
+  ListPage<Story>? get listPage;
+  @override
+  ExploreSearchFilters get filters;
   @override
   @JsonKey(ignore: true)
   _$$_ExploreStoriesStateCopyWith<_$_ExploreStoriesState> get copyWith =>

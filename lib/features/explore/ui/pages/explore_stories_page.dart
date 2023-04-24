@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/libs/custom_search_delegate.dart' as customSearch;
@@ -8,6 +9,7 @@ import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../home/ui/bloc/cubit/home_cubit.dart';
 import '../../../reading_module/reading_story/reading_story_provider.dart';
+import '../../../tournament/ui/widgets/no_item_found_widget.dart';
 import '../cubit/explore_stories_cubit.dart';
 
 class ExploreStoriesPage extends StatefulWidget {
@@ -18,10 +20,27 @@ class ExploreStoriesPage extends StatefulWidget {
 }
 
 class _ExploreStoriesPageState extends State<ExploreStoriesPage> {
+  final _pagingController = PagingController<int, Story>(firstPageKey: 1);
+  @override
+  initState() {
+    super.initState();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  @override
+  void dispose() {
+    _pagingController
+        .removePageRequestListener((pageKey) => _fetchPage(pageKey));
+    _pagingController.dispose();
+
+    super.dispose();
+  }
+
   @override
   didChangeDependencies() {
     super.didChangeDependencies();
-    getStories();
   }
 
   @override
@@ -29,116 +48,171 @@ class _ExploreStoriesPageState extends State<ExploreStoriesPage> {
     return BlocBuilder<ExploreStoriesCubit, ExploreStoriesState>(
       builder: (context, state) {
         return Scaffold(
-            appBar: AppBar(
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(57.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color:
-                              Theme.of(context).dividerColor.withOpacity(0.05),
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 11, horizontal: 18),
-                    child: Flex(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        direction: Axis.horizontal,
-                        children: [
-                          Container(
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .tertiaryContainer,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 12.0),
-                                SizedBox(
-                                    width: 17,
-                                    height: 17,
-                                    child: SvgPicture.asset(
-                                      'assets/icons/orderby-icon.svg',
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onTertiaryContainer,
-                                    )),
-                                const SizedBox(width: 12.0),
-                                Text('Mas gustados',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onTertiaryContainer)),
-                                const SizedBox(width: 12.0),
-                              ],
-                            ),
-                          ),
-                        ]),
-                  ),
-                ),
+          appBar: AppBar(
+            bottom: _filtersSearchToolbar(context),
+            title: const Text('Explorar'),
+            centerTitle: true,
+            elevation: 0,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  customSearch.showSearch(
+                      delegate: ExploreSearchDelegate(
+                          toolbar: _filtersSearchToolbar(context)),
+                      context: context);
+                },
+                icon: const Icon(Icons.search),
+              )
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
+            child: RefreshIndicator(
+              onRefresh: () => Future.sync(
+                () => _pagingController.refresh(),
               ),
-              title: const Text('Explorar'),
-              centerTitle: true,
-              elevation: 0,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    customSearch.showSearch(
-                        delegate: ExploreSearchDelegate(), context: context);
-                  },
-                  icon: const Icon(Icons.search),
-                )
-              ],
-            ),
-            body: RefreshIndicator(
-              onRefresh: () => getStories(),
-              child: GridView.count(
-                padding: EdgeInsets.zero,
+              child: PagedGridView(
+                showNewPageProgressIndicatorAsGridChild: false,
+                showNewPageErrorIndicatorAsGridChild: false,
+                showNoMoreItemsIndicatorAsGridChild: false,
                 physics: const AlwaysScrollableScrollPhysics()
                     .applyTo(const BouncingScrollPhysics()),
+                pagingController: _pagingController,
                 shrinkWrap: true,
-                crossAxisSpacing: Constants.space12,
-                mainAxisSpacing: Constants.space12,
-                childAspectRatio: 109 / 147,
-                crossAxisCount: 3,
-                children: [
-                  ...state.exploreStories.map((story) => StoryCover(
-                        story: story,
+                builderDelegate: PagedChildBuilderDelegate<Story>(
+                  noItemsFoundIndicatorBuilder: (context) =>
+                      const NoItemFound(),
+                  firstPageErrorIndicatorBuilder: (context) =>
+                      const PageErrorIndicator(),
+                  itemBuilder: (context, item, index) => Padding(
+                    padding: const EdgeInsets.only(top: Constants.space18),
+                    child: StoryCover(
+                        story: item,
                         onTap: () {
-                          _navigateToStoryPage(context, story);
-                        },
-                      )),
-                ],
+                          _navigateToStoryPage(context, item);
+                        }),
+                  ),
+
+                  // GridView.count(
+                  //   padding: EdgeInsets.zero,
+                  //   physics: const AlwaysScrollableScrollPhysics()
+                  //       .applyTo(const BouncingScrollPhysics()),
+                  //   shrinkWrap: true,
+                  //   crossAxisSpacing: Constants.space12,
+                  //   mainAxisSpacing: Constants.space12,
+                  //   childAspectRatio: 109 / 147,
+                  //   crossAxisCount: 3,
+                  //   children: [
+                  //     ...state.exploreStories.map((story) => StoryCover(
+                  //           story: story,
+                  //           onTap: () {
+                  //             _navigateToStoryPage(context, story);
+                  //           },
+                  //         )),
+                  //   ],
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 109 / (147 + 25),
+                  crossAxisSpacing: Constants.space12,
+                  // mainAxisSpacing: Constants.space12,
+                ),
               ),
-            ));
+            ),
+          ),
+        );
       },
     );
   }
 
-  Future<void> getStories() {
-    return BlocProvider.of<ExploreStoriesCubit>(context).getStories();
+  _fetchPage(int pageKey) {
+    if (mounted) {
+      BlocProvider.of<ExploreStoriesCubit>(context).getStories(pageKey).then(
+          (newPage) {
+        final previouslyFetchedItemsCount =
+            _pagingController.itemList?.length ?? 0;
+        final isLastPage = newPage.isLastPage(previouslyFetchedItemsCount);
+        final newItems = newPage.itemList;
+        if (isLastPage) {
+          _pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = pageKey + 1;
+          _pagingController.appendPage(newItems, nextPageKey);
+        }
+      }, onError: (e) {
+        _pagingController.error = e;
+      });
+    }
   }
 
   void _navigateToStoryPage(
     BuildContext context,
     Story story,
   ) {
-    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-        builder: (_) => ReadingStoryProvider(
-              homeCubit: BlocProvider.of<HomeCubit>(context),
-              storyId: story.id,
-            )));
+    ReadingStoryProvider.openStory(context, storyId: story.id);
   }
 }
 
+_filtersSearchToolbar(BuildContext context) {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(57.0),
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Theme.of(context).dividerColor.withOpacity(0.05),
+              width: 1.0,
+            ),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 18),
+        child: Flex(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            direction: Axis.horizontal,
+            children: [
+              Container(
+                height: 35,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 12.0),
+                    SizedBox(
+                        width: 17,
+                        height: 17,
+                        child: SvgPicture.asset(
+                          'assets/icons/orderby-icon.svg',
+                          color:
+                              Theme.of(context).colorScheme.onTertiaryContainer,
+                        )),
+                    const SizedBox(width: 12.0),
+                    Text('Mas gustados',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onTertiaryContainer)),
+                    const SizedBox(width: 12.0),
+                  ],
+                ),
+              ),
+            ]),
+      ),
+    ),
+  );
+}
+
 class ExploreSearchDelegate extends customSearch.CustomSearchDelegate {
+  ExploreSearchDelegate({required this.toolbar});
+
+  final PreferredSize toolbar;
+
+  @override
+  PreferredSize get toolbarWidget => toolbar;
+
   @override
   String get searchFieldLabel => 'Buscar historias...';
 
@@ -208,7 +282,7 @@ class ExploreSearchDelegate extends customSearch.CustomSearchDelegate {
           title: Text(suggestion),
           onTap: () {
             query = suggestion;
-            showResults(context);
+            close(context, query);
           },
         );
       },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 import 'package:quinientas_historias/core/ui/widgets/group_avatar.dart';
@@ -9,7 +10,7 @@ import 'package:quinientas_historias/core/utils/constants.dart';
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/failures/failures.dart';
-import '../../../../../core/helpers/secure_storage_helper.dart';
+import '../../../../../core/integrations/secure_storage_service.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/layouts/layout_with_footer.dart';
@@ -80,7 +81,7 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
 
   navigateToAcceptInvite(BuildContext context, {required Invite invite}) async {
     // If user is logged in, navigate to accept invite page
-    final session = await SecureStorageHelper.getSessionData();
+    final session = await GetIt.I<SecureStorageService>().getSessionData();
     if (session != null) {
       if (context.mounted) {
         UserManagementProvider()

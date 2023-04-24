@@ -126,6 +126,6 @@ class CommonInfoPage extends StatelessWidget {
   }
 
   void _navigatoToBack(BuildContext context) {
-    context.router.pop(true);
+    Navigator.of(context).pop(true);
   }
 }

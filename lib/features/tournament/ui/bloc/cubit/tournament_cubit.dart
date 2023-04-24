@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
-import 'package:quinientas_historias/core/helpers/secure_storage_helper.dart';
+import 'package:quinientas_historias/core/integrations/secure_storage_service.dart';
 
 import '../../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../../core/data/entities/tournament_entity.dart';
@@ -20,7 +21,7 @@ class TournamentCubit extends Cubit<TournamentState> with StreamDisposable {
   final TournamentUseCases tournamentUseCases;
 
   hideOrShowMyTeamTab() async {
-    final user = await SecureStorageHelper.getSessionData();
+    final user = await GetIt.I<SecureStorageService>().getSessionData();
     if (user?.role != Role.captain && user?.role != Role.reader) {
       emit(state.copyWith(teamTabShowed: false));
     }

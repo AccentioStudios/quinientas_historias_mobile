@@ -5,6 +5,13 @@
 /android/app/google-services.json
 
 # Miscellaneous
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
 *.class
 *.log
 *.pyc

@@ -17,8 +17,8 @@ import '../../../data/entities/dashboard_entity.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../../widgets/hero_header_widget.dart';
 
-class HomeProfPage extends StatelessWidget {
-  const HomeProfPage({super.key, required this.state});
+class HomeAdminPage extends StatelessWidget {
+  const HomeAdminPage({super.key, required this.state});
   final HomeState state;
   @override
   Widget build(BuildContext context) {

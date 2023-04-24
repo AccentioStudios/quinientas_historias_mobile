@@ -8,15 +8,21 @@ import 'package:provider/provider.dart';
 
 import 'core/app.dart';
 import 'core/helpers/shared_preferences_helper.dart';
-import 'core/integrations/alice_service.dart';
 import 'core/integrations/firebase_messaging_service.dart';
+import 'core/integrations/injections/get_it.dart';
 import 'core/integrations/notification_service.dart';
 import 'core/integrations/platform_environments.dart';
 import 'core/integrations/remote_config_service.dart';
+import 'core/integrations/secure_storage_service.dart';
 import 'core/routes/auto_router.dart';
+import 'features/challenges/data/entities/challenge_sar_event.dart';
+import 'features/challenges/sar_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  // Inject dependencies
+  GetItInjector.init();
+
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   if (!kIsWeb) {
@@ -39,20 +45,15 @@ void main() async {
   }
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
   await SharedPreferencesHelper.init();
   await RemoteConfigService.init();
-
-  final getIt = GetIt.instance;
-  final appRouter = AppRouter();
-  AliceService.init(appRouter.navigatorKey);
 
   if (!kIsWeb) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   }
 
-  getIt.registerSingleton<AppRouter>(appRouter);
-
+  // Check if it's the first open of the day and emit the trigger if it is the case (only if the user is logged in)
+  emitFirstOpenOfDayTrigger();
   runApp(MultiProvider(
     providers: [
       Provider<NotificationService>(
@@ -64,7 +65,36 @@ void main() async {
       ),
     ],
     builder: (context, child) {
-      return Application(router: appRouter);
+      return Application(router: GetIt.I<AppRouter>());
     },
   ));
+}
+
+checkFirstOpenOfDay() {
+  final sharedPreferences = SharedPreferencesHelper.instance;
+  final lastOpenString = sharedPreferences.getString('lastOpen');
+  if (lastOpenString != null) {
+    final now = DateTime.now();
+    final lastOpen = DateTime.tryParse(lastOpenString);
+
+    if (lastOpen == null ||
+        now.year != lastOpen.year ||
+        now.month != lastOpen.month ||
+        now.day != lastOpen.day) {
+      sharedPreferences.setString('lastOpen', now.toString());
+      return true;
+    }
+    return false;
+  }
+  return true;
+}
+
+emitFirstOpenOfDayTrigger() async {
+  final userData = await GetIt.I<SecureStorageService>().getSessionData();
+  if (userData != null) {
+    if (checkFirstOpenOfDay()) {
+      GetIt.I<SARService>()
+          .emit(ChallengeSarTriggers.firstSessionOfDay, userId: userData.id);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../../core/helpers/secure_storage_helper.dart';
+import '../../../../core/integrations/secure_storage_service.dart';
 import '../../../../core/integrations/device_info.dart';
 import '../../../../core/routes/routes.dart';
 
@@ -29,7 +30,7 @@ class NotificationsDashPage extends StatelessWidget {
   }
 
   void logout(BuildContext context) {
-    SecureStorageHelper.deleteAll();
+    GetIt.I<SecureStorageService>().deleteAll();
     Navigator.of(context, rootNavigator: true)
         .popUntil((route) => route.isFirst);
     Navigator.of(context, rootNavigator: true).pushNamed(Routes.login);

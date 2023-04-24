@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../helpers/secure_storage_helper.dart';
+import '../../integrations/secure_storage_service.dart';
 import '../auto_router.dart';
 
 class AuthGuard extends AutoRouteGuard {
@@ -27,7 +28,8 @@ class AuthGuard extends AutoRouteGuard {
   }
 
   static Future<bool> _checkAccessToken() async {
-    final String? secureStorage = await SecureStorageHelper.getAccessToken();
+    final String? secureStorage =
+        await GetIt.I<SecureStorageService>().getAccessToken();
     final test = secureStorage != null;
     return test;
   }

@@ -2,12 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:openid_client/openid_client_io.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/failures/failures.dart';
-import '../../../../../core/helpers/secure_storage_helper.dart';
+import '../../../../../core/integrations/secure_storage_service.dart';
 import '../../../../../core/integrations/platform_environments.dart';
 import '../../../../../core/mixins/stream_disposable.dart';
 import '../../../data/models/iforgot_request_model.dart';
@@ -60,10 +61,10 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
       firebaseToken: firebaseToken,
     );
 
-    authUseCases.login(authRequest).listen((AuthDto jwtTokenModel) {
+    authUseCases.login(authRequest).listen((AuthDto jwtTokenModel) async {
       if (jwtTokenModel.accessToken != null) {
         if (jwtTokenModel.accessToken!.isNotEmpty) {
-          SecureStorageHelper.saveSession(jwtTokenModel);
+          GetIt.I<SecureStorageService>().saveSession(jwtTokenModel);
           return onSuccess();
         } else {
           onError(HttpFailure(message: FailureTypes.invalidAccessToken));

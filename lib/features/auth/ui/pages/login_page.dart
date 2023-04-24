@@ -1,15 +1,16 @@
 import 'dart:async';
 
+import 'package:alice_lightweight/alice.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../core/failures/failures.dart';
-import '../../../../core/integrations/alice_service.dart';
 import '../../../../core/integrations/firebase_messaging_service.dart';
 import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/mixins/error_handling.dart';
@@ -105,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (PlatformEnvironment.env != 'prod')
                         TextButton.icon(
                             onPressed: () {
-                              AliceService.instance.showInspector();
+                              GetIt.I<Alice>().showInspector();
                             },
                             icon: const Icon(Icons.search),
                             label: const Text('Abrir Alice Inspector ')),

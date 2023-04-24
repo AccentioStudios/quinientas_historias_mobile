@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:quinientas_historias/core/routes/auto_router.dart';
 
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
-import '../helpers/secure_storage_helper.dart';
+import '../integrations/secure_storage_service.dart';
 import '../ui/pages/common_page_layout.dart';
 
 mixin ErrorHandling on Widget {
@@ -98,7 +99,7 @@ mixin ErrorHandling on Widget {
             },
             linkBtnLabel: 'Cerrar Sesión',
             linkBtnOnTap: () {
-              SecureStorageHelper.deleteAll();
+              GetIt.I<SecureStorageService>().deleteAll();
               AutoRouter.of(context).push(AuthRoute());
             }));
   }
@@ -122,7 +123,8 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/broken-invitation-image.svg',
             onBtnTap: () async {
               if (!context.mounted) return;
-              if (await SecureStorageHelper.getSessionData() != null) {
+              if (await GetIt.I<SecureStorageService>().getSessionData() !=
+                  null) {
                 // ignore: use_build_context_synchronously
                 AutoRouter.of(context).push(const ShellRoute());
               } else {
@@ -143,7 +145,8 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/broken-invitation-image.svg',
             onBtnTap: () async {
               if (!context.mounted) return;
-              if (await SecureStorageHelper.getSessionData() != null) {
+              if (await GetIt.I<SecureStorageService>().getSessionData() !=
+                  null) {
                 // ignore: use_build_context_synchronously
                 AutoRouter.of(context).push(const ShellRoute());
               } else {
@@ -189,7 +192,8 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/broken-invitation-image.svg',
             onBtnTap: () async {
               if (!context.mounted) return;
-              if (await SecureStorageHelper.getSessionData() != null) {
+              if (await GetIt.I<SecureStorageService>().getSessionData() !=
+                  null) {
                 // ignore: use_build_context_synchronously
                 AutoRouter.of(context).push(const ShellRoute());
               } else {
@@ -229,7 +233,8 @@ mixin ErrorHandling on Widget {
             btnLabel: 'Entiendo',
             onBtnTap: () async {
               if (!context.mounted) return;
-              if (await SecureStorageHelper.getSessionData() != null) {
+              if (await GetIt.I<SecureStorageService>().getSessionData() !=
+                  null) {
                 // ignore: use_build_context_synchronously
                 AutoRouter.of(context).push(const ShellRoute());
               } else {
@@ -266,7 +271,7 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/hand-left-image.svg',
             btnLabel: 'Entiendo',
             onBtnTap: () {
-              SecureStorageHelper.deleteAll();
+              GetIt.I<SecureStorageService>().deleteAll();
               AutoRouter.of(context).push(AuthRoute());
             },
           ));
@@ -281,7 +286,7 @@ mixin ErrorHandling on Widget {
             svgImagePath: 'assets/images/hand-left-image.svg',
             btnLabel: 'Entiendo',
             onBtnTap: () {
-              SecureStorageHelper.deleteAll();
+              GetIt.I<SecureStorageService>().deleteAll();
               AutoRouter.of(context).push(AuthRoute());
             },
           ));
@@ -293,10 +298,9 @@ mixin ErrorHandling on Widget {
           message:
               'No reconocemos que tengas acceso aquí, intenta iniciar sesión nuevamente con los permisos correctos.',
           svgImagePath: 'assets/images/hand-left-image.svg',
-          btnLabel: 'Volver',
-          linkBtnLabel: 'Cerrar sesión',
-          linkBtnOnTap: () {
-            SecureStorageHelper.deleteAll();
+          btnLabel: 'Cerrar sesión',
+          onBtnTap: () {
+            GetIt.I<SecureStorageService>().deleteAll();
             AutoRouter.of(context).push(AuthRoute());
           },
         ));

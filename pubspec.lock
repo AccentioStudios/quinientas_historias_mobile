@@ -1041,6 +1041,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.7"
+  opentelemetry:
+    dependency: "direct main"
+    description:
+      name: opentelemetry
+      sha256: "52e1e3844cba89c2e6d654b9ea7599d1d1fbdb108419c530a54b5d5e82cb62c8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.1"
   package_config:
     dependency: transitive
     description:
@@ -1201,6 +1209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  protobuf:
+    dependency: transitive
+    description:
+      name: protobuf
+      sha256: "01dd9bd0fa02548bf2ceee13545d4a0ec6046459d847b6b061d8a27237108a08"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   provider:
     dependency: "direct main"
     description:
@@ -1225,6 +1241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  queue:
+    dependency: "direct main"
+    description:
+      name: queue
+      sha256: "9a41ecadc15db79010108c06eae229a45c56b18db699760f34e8c9ac9b831ff9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0+2"
   quiver:
     dependency: transitive
     description:

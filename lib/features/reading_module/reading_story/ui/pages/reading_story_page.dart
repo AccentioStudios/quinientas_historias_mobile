@@ -5,16 +5,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
+import 'package:quinientas_historias/features/challenges/sar_service.dart';
 
 import '../../../../../core/data/dto/auth_dto.dart';
-import '../../../../../core/helpers/secure_storage_helper.dart';
+import '../../../../../core/integrations/secure_storage_service.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/theme/theme.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/custom_icon_button.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../challenges/data/entities/challenge_sar_event.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
 import '../widgets/reading_story_appbar.dart';
 import 'rate_story_sheet_view.dart';
@@ -38,6 +41,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   void initState() {
     SystemChrome.setSystemUIChangeCallback((callback) => listenerUi(callback));
     scrollController.addListener(sendProgressOfStory);
+    _sendTriggerStoryInit();
     super.initState();
   }
 
@@ -51,6 +55,16 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  _sendTriggerStoryInit() async {
+    JwtPayload? userInfo =
+        await GetIt.I<SecureStorageService>().getSessionData();
+    if (userInfo != null) {
+      // Trigger story init
+      GetIt.I<SARService>()
+          .emit(ChallengeSarTriggers.storyInit, userId: userInfo.id);
+    }
   }
 
   bool systemOverlaysAreVisible = false;
@@ -159,8 +173,8 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                             horizontal: Constants.space16),
                         child: BigButton(
                           onPressed: () async {
-                            final user =
-                                await SecureStorageHelper.getSessionData();
+                            final user = await GetIt.I<SecureStorageService>()
+                                .getSessionData();
                             if (user?.role != Role.prof &&
                                 user?.role != Role.admin) {
                               if (!mounted) return;
@@ -271,17 +285,24 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   void completeReading(ReadingStoryCubit cubit) async {
-    JwtPayload? userInfo = await SecureStorageHelper.getSessionData();
+    JwtPayload? userInfo =
+        await GetIt.I<SecureStorageService>().getSessionData();
     cubit.progressStreamController.close();
     cubit.completeStory(
         onSuccess: (response) {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => ReadingStorySuccessPage(
-              points: response.points,
-              dailyChallenge: response.dailyChallenge,
-              user: userInfo?.toUserEntity(),
-            ),
-          ));
+          if (userInfo != null) {
+            // Trigger story_ended
+            GetIt.I<SARService>()
+                .emit(ChallengeSarTriggers.storyEnded, userId: userInfo.id);
+
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => ReadingStorySuccessPage(
+                points: response.points,
+                dailyChallenge: response.dailyChallenge,
+                user: userInfo.toUserEntity(),
+              ),
+            ));
+          }
         },
         onError: (error) => widget.handleError(context, error));
   }

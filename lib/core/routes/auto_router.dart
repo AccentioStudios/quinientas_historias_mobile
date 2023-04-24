@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../features/auth/auth_provider.dart';
 import '../../features/config/ui/pages/config_page.dart';
@@ -16,7 +17,7 @@ import '../../features/shell/ui/shell_page.dart';
 import '../../features/tournament/tournament_provider.dart';
 import '../data/entities/team_entity.dart';
 import '../data/entities/user_entity.dart';
-import '../helpers/secure_storage_helper.dart';
+import '../integrations/secure_storage_service.dart';
 import '../integrations/remote_config_service.dart';
 import '../ui/pages/common_page_layout.dart';
 
@@ -92,7 +93,8 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
   }
 
   static Future<bool> _checkAccessToken() async {
-    final String? secureStorage = await SecureStorageHelper.getAccessToken();
+    final String? secureStorage =
+        await GetIt.I<SecureStorageService>().getAccessToken();
     final test = secureStorage != null;
     return test;
   }

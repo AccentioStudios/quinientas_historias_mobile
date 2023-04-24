@@ -1,8 +1,9 @@
+import 'package:alice_lightweight/alice.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../../core/helpers/secure_storage_helper.dart';
-import '../../../../core/integrations/alice_service.dart';
+import '../../../../core/integrations/secure_storage_service.dart';
 import '../../../../core/integrations/device_info.dart';
 import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/routes/auto_router.dart';
@@ -34,7 +35,7 @@ class ConfigPage extends StatelessWidget {
         ),
         if (PlatformEnvironment.env != 'prod')
           ListTile(
-            onTap: () => AliceService.instance.showInspector(),
+            onTap: () => GetIt.I<Alice>().showInspector(),
             title: const Text(
               'Abrir Alice (Debug HTTP requests)',
             ),
@@ -59,7 +60,7 @@ class ConfigPage extends StatelessWidget {
   }
 
   void logout(BuildContext context) {
-    SecureStorageHelper.deleteAll();
+    GetIt.I<SecureStorageService>().deleteAll();
     context.router.navigate(AuthRoute());
   }
 }

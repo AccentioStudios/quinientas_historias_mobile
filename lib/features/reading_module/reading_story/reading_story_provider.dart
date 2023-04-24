@@ -38,7 +38,7 @@ class ReadingStoryProvider extends StatelessWidget {
 
   static Future<bool?> openStory(BuildContext context, {required int storyId}) {
     if (storyId != 0) {
-      return AutoRouter.of(context).push<bool>(
+      return AutoRouter.of(context).push<bool?>(
         ReadingStoryRoute(
           storyId: storyId,
         ),

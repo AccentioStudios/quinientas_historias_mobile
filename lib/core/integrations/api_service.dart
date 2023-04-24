@@ -9,7 +9,7 @@ mixin ApiService {
         hostUrl: PlatformEnvironment.apiHostUrl,
       );
 
-  HttpHelper get sapApi => HttpHelperImp(
-        hostUrl: PlatformEnvironment.sapHostUrl,
+  HttpHelper get sarApi => HttpHelperImp(
+        hostUrl: PlatformEnvironment.sarHostUrl,
       );
 }

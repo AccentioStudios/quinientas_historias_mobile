@@ -30,7 +30,7 @@ class Story {
   final String? link;
 
   final String? coverUrl;
-  final String? coverColor;
+  String? coverColor;
   final String? content;
   final List<int>? tags;
 

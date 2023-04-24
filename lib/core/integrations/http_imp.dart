@@ -1,15 +1,17 @@
 import 'dart:io';
 
+import 'package:alice_lightweight/alice.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
+import '../data/dto/auth_dto.dart';
+import 'secure_storage_service.dart';
 
 import '../failures/failures.dart';
 import '../failures/status_codes.dart';
 import '../helpers/http_helper.dart';
-import '../helpers/secure_storage_helper.dart';
-import 'alice_service.dart';
+
 import 'platform_environments.dart';
 
 class HttpHelperImp implements HttpHelper {
@@ -31,7 +33,7 @@ class HttpHelperImp implements HttpHelper {
         requestBody: true,
         compact: false,
       ));
-      _dio.interceptors.add(AliceService.instance.getDioInterceptor());
+      _dio.interceptors.add(GetIt.I<Alice>().getDioInterceptor());
     }
     addAccessTokenInterceptor();
   }
@@ -46,7 +48,8 @@ class HttpHelperImp implements HttpHelper {
         if (e.response?.statusCode == 401 &&
             failure.message == FailureTypes.expiredAccessToken) {
           if (await refreshToken()) {
-            String? accessToken = await SecureStorageHelper.getAccessToken();
+            String? accessToken =
+                await GetIt.I<SecureStorageService>().getAccessToken();
             e.requestOptions.headers[HttpHeaders.authorizationHeader] =
                 'Bearer $accessToken';
             final newTry = await retry(e.requestOptions);
@@ -61,7 +64,8 @@ class HttpHelperImp implements HttpHelper {
 
   Future<bool> refreshToken() async {
     try {
-      String? refreshToken = await SecureStorageHelper.getRefreshToken();
+      String? refreshToken =
+          await GetIt.I<SecureStorageService>().getRefreshToken();
       final response = await _dio.get(
         _buildUrl('v2/auth/refresh', null),
         options: Options(headers: {
@@ -76,10 +80,10 @@ class HttpHelperImp implements HttpHelper {
       );
       if (response.statusCode == 200) {
         final token = AuthDto.decode(response.data);
-        SecureStorageHelper.saveSession(token);
+        await GetIt.I<SecureStorageService>().saveSession(token);
         return true;
       } else {
-        SecureStorageHelper.deleteAll();
+        await GetIt.I<SecureStorageService>().deleteAll();
         return false;
       }
     } catch (err) {
@@ -103,7 +107,8 @@ class HttpHelperImp implements HttpHelper {
   Future<Response> get(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      String? accessToken = await SecureStorageHelper.getAccessToken();
+      String? accessToken =
+          await GetIt.I<SecureStorageService>().getAccessToken();
       final response = await _dio.get(
         _buildUrl(path, queryParameters),
         options: Options(headers: {
@@ -127,7 +132,8 @@ class HttpHelperImp implements HttpHelper {
   Future<Response> post(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
-      String? accessToken = await SecureStorageHelper.getAccessToken();
+      String? accessToken =
+          await GetIt.I<SecureStorageService>().getAccessToken();
       final response = await _dio.post(
         _buildUrl(path, queryParameters),
         data: data,
@@ -151,7 +157,8 @@ class HttpHelperImp implements HttpHelper {
   Future<Response> put(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {
-      String? accessToken = await SecureStorageHelper.getAccessToken();
+      String? accessToken =
+          await GetIt.I<SecureStorageService>().getAccessToken();
 
       final response = await _dio.put(
         _buildUrl(path, queryParameters),
@@ -177,7 +184,8 @@ class HttpHelperImp implements HttpHelper {
   Future<Response> delete(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
-      String? accessToken = await SecureStorageHelper.getAccessToken();
+      String? accessToken =
+          await GetIt.I<SecureStorageService>().getAccessToken();
 
       final response = await _dio.delete(_buildUrl(path, queryParameters),
           options: Options(headers: {
