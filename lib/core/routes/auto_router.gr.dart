@@ -48,6 +48,26 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ChallengesRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ChallengesRouteArgs>(
+          orElse: () => ChallengesRouteArgs(
+                url: queryParams.optString('url'),
+                name: queryParams.optString('name'),
+                description: queryParams.optString('description'),
+                id: queryParams.optString('id'),
+              ));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChallengesProvider(
+          key: args.key,
+          url: args.url,
+          name: args.name,
+          description: args.description,
+          id: args.id,
+        ),
+      );
+    },
     ConfigRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -298,6 +318,65 @@ class AuthRouteArgs {
   @override
   String toString() {
     return 'AuthRouteArgs{key: $key, autoNavigateToShell: $autoNavigateToShell, byPassFirstScreen: $byPassFirstScreen, onResult: $onResult}';
+  }
+}
+
+/// generated route for
+/// [ChallengesProvider]
+class ChallengesRoute extends PageRouteInfo<ChallengesRouteArgs> {
+  ChallengesRoute({
+    Key? key,
+    String? url,
+    String? name,
+    String? description,
+    String? id,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChallengesRoute.name,
+          args: ChallengesRouteArgs(
+            key: key,
+            url: url,
+            name: name,
+            description: description,
+            id: id,
+          ),
+          rawQueryParams: {
+            'url': url,
+            'name': name,
+            'description': description,
+            'id': id,
+          },
+          initialChildren: children,
+        );
+
+  static const String name = 'ChallengesRoute';
+
+  static const PageInfo<ChallengesRouteArgs> page =
+      PageInfo<ChallengesRouteArgs>(name);
+}
+
+class ChallengesRouteArgs {
+  const ChallengesRouteArgs({
+    this.key,
+    this.url,
+    this.name,
+    this.description,
+    this.id,
+  });
+
+  final Key? key;
+
+  final String? url;
+
+  final String? name;
+
+  final String? description;
+
+  final String? id;
+
+  @override
+  String toString() {
+    return 'ChallengesRouteArgs{key: $key, url: $url, name: $name, description: $description, id: $id}';
   }
 }
 

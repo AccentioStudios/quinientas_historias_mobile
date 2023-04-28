@@ -1,11 +1,20 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../home/data/entities/dashboard_entity.dart';
+
+import 'package:webview_flutter/webview_flutter.dart';
+// #docregion platform_imports
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+// #enddocregion platform_imports
 
 class ChallengesMinigameWebView extends StatefulWidget with SheetMessages {
   const ChallengesMinigameWebView({
@@ -31,111 +40,172 @@ class ChallengesMinigameWebView extends StatefulWidget with SheetMessages {
 }
 
 class _ChallengesMinigameWebViewState extends State<ChallengesMinigameWebView> {
-  WebViewController? _webViewController;
+  late final WebViewController _controller;
 
   @override
   void initState() {
     super.initState();
+
+    // #docregion platform_features
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    final WebViewController controller =
+        WebViewController.fromPlatformCreationParams(params);
+
+    controller
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0xFF101C29))
+      ..setNavigationDelegate(NavigationDelegate(
+        onProgress: (int progress) {
+          debugPrint('WebView is loading (progress : $progress%)');
+        },
+        onWebResourceError: (WebResourceError error) {
+          debugPrint('''
+          Page resource error:
+          code: ${error.errorCode}
+          description: ${error.description}
+          errorType: ${error.errorType}
+          isForMainFrame: ${error.isForMainFrame}
+        ''');
+        },
+      ))
+      ..loadRequest(Uri.parse(widget.url), method: LoadRequestMethod.get)
+      ..addJavaScriptChannel('messageHandler',
+          onMessageReceived: onChallengeEnded);
+
+    // #docregion platform_features
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    // #enddocregion platform_features
+    _controller = controller;
   }
 
   @override
   void dispose() {
-    _webViewController?.clearCache();
+    _controller.clearCache();
     super.dispose();
+  }
+
+  onChallengeEnded(JavaScriptMessage message) {
+    if (kDebugMode) {
+      print("Challenge ended: ${message.message}");
+    }
+    if (message.message == 'true') {
+      AutoRouter.of(context).pop(true);
+      return;
+    }
+    AutoRouter.of(context).pop(false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leadingWidth: 85,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              _webViewController?.reload();
-            },
-          ),
-          TextButton.icon(
-            icon: const Icon(Icons.help_outline),
-            onPressed: () {
-              widget.showMessage(
-                context,
-                iconSvgPath: getChallengeIcon(widget.type),
-                content:
-                    'Juega libremente y suma puntos adicionales para el torneo.\n\nEste reto está desarrollado por terceros y si tienes algún inconveniente, puedes reportarlo haciendo clic en el botón de abajo.',
-                title: 'Esto es un minijuego de 500Historias',
-                secondaryBtnLabel: 'Reportar inconveniente',
-                secondaryBtnOnTap: () {
-                  reportChallenge(widget.name, widget.id);
-                },
-              );
-            },
-            label: const Text('Ayuda'),
-          ),
-        ],
-        leading: Flex(
-          direction: Axis.horizontal,
-          children: [
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leadingWidth: 85,
+          actions: [
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: const Icon(Icons.refresh),
               onPressed: () {
-                Navigator.of(context).pop(false);
+                _controller.reload();
               },
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: Constants.space12),
-              child: SizedBox(
-                  child: SvgPicture.asset(getChallengeIcon(widget.type))),
-            ),
-          ],
-        ),
-        elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.name,
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              widget.description,
-              style: const TextStyle(fontSize: 13),
-            )
-            // Text(
-            //   Uri.parse(widget.url).authority.toString(),
-            //   style: const TextStyle(fontSize: 13),
-            // )
-          ],
-        ),
-      ),
-      body: WebView(
-          initialUrl: 'about:blank',
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) async {
-            _webViewController = webViewController;
-            _webViewController?.loadRequest(
-              WebViewRequest(
-                  uri: Uri.parse(widget.url), method: WebViewRequestMethod.get),
-            );
-          },
-          javascriptChannels: <JavascriptChannel>{
-            JavascriptChannel(
-              name: 'messageHandler',
-              onMessageReceived: (JavascriptMessage message) {
-                print("message from the web view=\"${message.message}\"");
-                final script =
-                    "document.getElementById('value').innerText=\"${message.message}\"";
-                _webViewController?.runJavascript(script);
-                print("js from flutter run");
+            TextButton.icon(
+              icon: const Icon(Icons.help_outline),
+              onPressed: () {
+                widget.showMessage(
+                  context,
+                  iconSvgPath: getChallengeIcon(widget.type),
+                  content:
+                      'Juega libremente y suma puntos adicionales para el torneo.\n\nEste reto está desarrollado por terceros y si tienes algún inconveniente, puedes reportarlo haciendo clic en el botón de abajo.',
+                  title: 'Esto es un minijuego de 500Historias',
+                  secondaryBtnLabel: 'Reportar inconveniente',
+                  secondaryBtnOnTap: () {
+                    reportChallenge(widget.name, widget.id);
+                  },
+                );
               },
-            )
-          }),
-    );
+              label: const Text('Ayuda'),
+            ),
+          ],
+          leading: Flex(
+            direction: Axis.horizontal,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: Constants.space12),
+                child: SizedBox(
+                    child: SvgPicture.asset(getChallengeIcon(widget.type))),
+              ),
+            ],
+          ),
+          elevation: 0,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.name,
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                widget.description,
+                style: const TextStyle(fontSize: 13),
+              )
+              // Text(
+              //   Uri.parse(widget.url).authority.toString(),
+              //   style: const TextStyle(fontSize: 13),
+              // )
+            ],
+          ),
+        ),
+        body: WebViewWidget(controller: _controller
+            // initialUrl: 'about:blank',
+
+            // onWebViewCreated: (WebViewController webViewController) async {
+            //   _webViewController = webViewController;
+            //   _webViewController?.loadRequest(
+            //     WebViewRequest(
+            //         uri: Uri.parse(widget.url), method: WebViewRequestMethod.get),
+            //   );
+            // },
+            // javascriptChannels: <JavascriptChannel>{
+            //   JavascriptChannel(
+            //     name: 'challengeEnded',
+            //     onMessageReceived: (JavascriptMessage message) {
+            //       if (kDebugMode) {
+            //         print("Challenge ended: ${message.message}");
+            //         if (message.message == 'true') {
+            //           AutoRouter.of(context).pop(true);
+            //           return;
+            //         }
+            //         AutoRouter.of(context).pop(false);
+            //       }
+            //       // final script =
+            //       //     "document.getElementById('value').innerText=\"${message.message}\"";
+            //       // _webViewController?.runJavascript(script);
+            //     },
+            //   )
+            // }),
+            ));
   }
 
   String getChallengeIcon(String type) {

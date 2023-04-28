@@ -69,7 +69,9 @@ dependencies:
   universal_html: ^2.0.8
   url_launcher: ^6.0.4
   uuid: ^3.0.6
-  webview_flutter: ^2.1.1
+  webview_flutter: ^4.2.0
+  webview_flutter_android: ^3.6.1
+  webview_flutter_wkwebview: ^3.4.0
 
 dev_dependencies:
   auto_route_generator: ^6.1.0
