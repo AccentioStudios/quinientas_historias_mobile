@@ -5,6 +5,7 @@ import '../../../../../core/mixins/error_handling.dart';
 
 import '../../../../core/data/entities/user_entity.dart';
 import '../bloc/cubit/home_cubit.dart';
+import 'home_admin/home_admin_page.dart';
 import 'home_prof/home_prof_page.dart';
 import 'home_reader/home_reader_page.dart';
 
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       case Role.prof:
         return HomeProfPage(state: state);
       case Role.admin:
-        return HomeProfPage(state: state);
+        return HomeAdminPage(state: state);
       default:
         return HomeReaderPage(state: state);
     }

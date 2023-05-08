@@ -1,8 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../../features/challenges/data/dto/register_new_challenge_response.dto.dart';
 import '../data/entities/daily_challenge_entity.dart';
 import '../ui/widgets/custom_bottom_sheet.dart';
 import '../utils/colors.dart';
+import '../utils/constants.dart';
 
 mixin SheetMessages on Widget {
   Future<T?> showMessage<T>(
@@ -12,11 +16,13 @@ mixin SheetMessages on Widget {
     Color? iconColor,
     required String title,
     required String content,
+    Widget Function(BuildContext)? contentBuilder,
     Function? btnOnTap,
     String? btnLabel,
     Function? secondaryBtnOnTap,
     String? secondaryBtnLabel,
     double height = 320,
+    bool willPop = true,
     bool isDismissible = true,
   }) {
     return showModalBottomSheet<T>(
@@ -28,17 +34,27 @@ mixin SheetMessages on Widget {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
       ),
-      builder: (context) => MessagesBottomSheet(
-        iconSvgPath: iconSvgPath,
-        iconColor: iconColor,
-        title: title,
-        content: content,
-        btnOnTap: btnOnTap,
-        btnLabel: btnLabel,
-        secondaryBtnOnTap: secondaryBtnOnTap,
-        secondaryBtnLabel: secondaryBtnLabel,
-        height: height,
-        controller: controller,
+      builder: (context) => WillPopScope(
+        onWillPop: () async {
+          if (willPop) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        child: MessagesBottomSheet(
+          iconSvgPath: iconSvgPath,
+          iconColor: iconColor,
+          title: title,
+          content: content,
+          btnOnTap: btnOnTap,
+          btnLabel: btnLabel,
+          contentBuilder: contentBuilder,
+          secondaryBtnOnTap: secondaryBtnOnTap,
+          secondaryBtnLabel: secondaryBtnLabel,
+          height: height,
+          controller: controller,
+        ),
       ),
     );
   }
@@ -161,6 +177,104 @@ mixin SheetMessages on Widget {
           'Has creado tu equipo, ahora invita a tus amigos a formar parte de el.',
       btnLabel: 'Invitar amigos',
       isDismissible: false,
+    );
+  }
+
+  Future<T?> showSecretKeyFromNewChallenge<T>(
+      BuildContext context, RegisterNewChallengeResponseDto dto) {
+    return showMessage<T?>(
+      context,
+      iconSvgPath: 'assets/icons/secret-key-outline-xl-icon.svg',
+      title: 'Esta es tu ID y tu llave secreta',
+      content:
+          'Para poder conectar con el API, necesitas tus\ncredenciales. Guardalas bien ya que será\nIMPOSIBLE volver a verlas.',
+      contentBuilder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(children: [
+                const TextSpan(
+                  text:
+                      'Para poder conectar con el API, necesitas tus credenciales. Guardalas bien ya que sera ',
+                ),
+                TextSpan(
+                    text: 'IMPOSIBLE',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color:
+                            Theme.of(context).colorScheme.error.withBlue(100))),
+                const TextSpan(
+                  text: ' volver a verlas.',
+                ),
+              ])),
+          const SizedBox(height: Constants.space21),
+          Container(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 19),
+            height: 150,
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SelectableText.rich(
+                    TextSpan(
+                      text: '',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontWeight: FontWeight.w400,
+                          ),
+                      children: [
+                        TextSpan(
+                          text: 'uuid:\n',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                        TextSpan(
+                            text: dto.uuid, recognizer: TapGestureRecognizer()),
+                        TextSpan(
+                          text: '\n\nSecret Key:\n',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                        TextSpan(
+                            text: dto.secretKey,
+                            recognizer: TapGestureRecognizer()),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      btnLabel: 'Copiar y aceptar',
+      btnOnTap: () async {
+        await Clipboard.setData(ClipboardData(
+            text: 'uuid: ${dto.uuid}\n\nsecretKey: ${dto.secretKey}'));
+        if (context.mounted) {
+          Navigator.of(context)
+              .pop('uuid: ${dto.uuid}\n\nsecretKey: ${dto.secretKey}');
+        }
+      },
+      isDismissible: false,
+      willPop: false, // evita que se cierre al hacer tap fuera del bottom sheet
     );
   }
 }

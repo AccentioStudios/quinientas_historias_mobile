@@ -12,6 +12,7 @@ class MessagesBottomSheet extends StatefulWidget {
     this.iconColor,
     required this.title,
     required this.content,
+    this.contentBuilder,
     this.btnOnTap,
     this.btnLabel,
     this.secondaryBtnOnTap,
@@ -22,6 +23,7 @@ class MessagesBottomSheet extends StatefulWidget {
   final Color? iconColor;
   final String title;
   final String content;
+  final Widget Function(BuildContext)? contentBuilder;
   final Function? btnOnTap;
   final String? btnLabel;
   final Function? secondaryBtnOnTap;
@@ -88,14 +90,17 @@ class _MessagesBottomSheetState extends State<MessagesBottomSheet> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: Constants.space21),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Constants.space8),
-            child: Text(
-              widget.content,
-              style: contentStyle,
-              textAlign: TextAlign.center,
-            ),
-          ),
+          widget.contentBuilder != null
+              ? widget.contentBuilder!(context)
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: Constants.space8),
+                  child: Text(
+                    widget.content,
+                    style: contentStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
           const SizedBox(height: Constants.space30),
           Row(
             children: [

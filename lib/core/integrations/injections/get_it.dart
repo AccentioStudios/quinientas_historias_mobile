@@ -2,7 +2,6 @@ import 'package:alice_lightweight/alice.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../features/challenges/sar_service.dart';
-import '../../helpers/shared_preferences_helper.dart';
 import '../../routes/auto_router.dart';
 import '../secure_storage_service.dart';
 

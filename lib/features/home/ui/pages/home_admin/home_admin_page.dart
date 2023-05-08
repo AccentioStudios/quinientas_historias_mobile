@@ -1,17 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
-import '../../../../../core/routes/routes.dart';
+import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/ui/widgets/chip.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../invites/send/send_invite_provider.dart';
-import '../../../../profiles_module/school_profile/school_profile_provider.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../bloc/cubit/home_cubit.dart';
@@ -38,17 +37,6 @@ class HomeAdminPage extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomChip(
-                        svgIconPath: 'assets/icons/school-outline-icon.svg',
-                        title: 'Mi escuela',
-                        body: state.dashboard?.user.school?.name ??
-                            'Error al obtener nombre de escuela',
-                        onTap: () {
-                          _navigateToMySchoolPage(
-                              context, state.dashboard?.user.school);
-                        },
-                      ),
-                      const SizedBox(height: Constants.space16),
-                      CustomChip(
                         svgIconPath: 'assets/icons/user-plus-outline-icon.svg',
                         title: 'Invitar Capitanes',
                         body:
@@ -67,6 +55,17 @@ class HomeAdminPage extends StatelessWidget {
                         onTap: () {
                           navigateToInviteReaders(context,
                               schoolId: state.dashboard?.user.school?.id);
+                        },
+                      ),
+                      const SizedBox(height: Constants.space16),
+                      CustomChip(
+                        svgIconPath:
+                            'assets/icons/challenge-minigame-outline-icon.svg',
+                        title: 'Administrador de retos (SAR)',
+                        body:
+                            'Crea, elimina y edita retos en el sistema. Inicialos en modo de pruebas y revisa su funcionamiento.',
+                        onTap: () {
+                          _navigateToChallengeAdmin(context);
                         },
                       ),
                     ],
@@ -117,11 +116,55 @@ class HomeAdminPage extends StatelessWidget {
                     );
                   },
                 ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: Constants.space30),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // border 1px at the bottom and the top
+                      border: Border(
+                        top: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                          width: 1,
+                        ),
+                        bottom: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      onTap: () {
+                        _navigateToExploreStories(context);
+                      },
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: Constants.space18),
+                      title: Text(
+                        'Ver todas las lecturas',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               const SliverToBoxAdapter(
                   child: SizedBox(height: Constants.space41)),
             ]);
       },
     );
+  }
+
+  void _navigateToChallengeAdmin(BuildContext context) {
+    AutoRouter.of(context).push(ChallengesAdminRoute());
+  }
+
+  void _navigateToExploreStories(BuildContext context, {String? search}) {
+    AutoRouter.of(context).push(ExploreStoriesRoute(search: search));
   }
 
   void _navigateToStoryPage(BuildContext context, Story story) {
@@ -157,18 +200,6 @@ class HomeAdminPage extends StatelessWidget {
       Fluttertoast.cancel();
       Fluttertoast.showToast(
           msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
-    }
-  }
-
-  void _navigateToMySchoolPage(BuildContext context, School? mySchool) {
-    if (mySchool != null) {
-      Navigator.pushNamed<void>(
-        context,
-        Routes.schoolProfile,
-        arguments: SchoolProfileArguments(
-          mySchool.id,
-        ),
-      ).then((value) {});
     }
   }
 }

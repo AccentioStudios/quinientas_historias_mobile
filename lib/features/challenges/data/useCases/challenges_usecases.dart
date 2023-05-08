@@ -2,12 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/data/entities/challenge_sar_entity.dart';
+import '../dto/register_new_challenge_response.dto.dart';
 import '../entities/challenge_sar_event.dart';
 import '../repositories/challenges_repository.dart';
 
 class ChallengesUseCases {
   ChallengesUseCases({required this.repository});
   final ChallengesRepository repository;
+
+  //acceptInvite
+  Stream<RegisterNewChallengeResponseDto> registerNewChallenge(
+      ChallengeSar challenge) async* {
+    yield* repository.registerNewChallenge(challenge);
+  }
 
   Future<void> sendEvent(ChallengeSarEvent event) async {
     Completer<void> _completer = Completer();

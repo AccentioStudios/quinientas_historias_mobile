@@ -7,26 +7,35 @@ part of 'challenge_sar_entity.dart';
 // **************************************************************************
 
 ChallengeSar _$ChallengeSarFromJson(Map<String, dynamic> json) => ChallengeSar(
+      id: json['id'] as int?,
       name: json['name'] as String,
       url: json['url'] as String,
       probability: (json['probability'] as num).toDouble(),
       required: json['required'] as bool,
-      active: json['active'] as bool,
       tournaments:
           (json['tournaments'] as List<dynamic>).map((e) => e as int).toList(),
+      steps: json['steps'] as int?,
       params:
           (json['params'] as List<dynamic>).map((e) => e as String).toList(),
-      sessionToken: json['sessionToken'] as String?,
+      triggers:
+          (json['triggers'] as List<dynamic>).map((e) => e as String).toList(),
+      weight: (json['weight'] as num).toDouble(),
+      active: json['active'] as bool,
+      points: json['points'] as int?,
     );
 
 Map<String, dynamic> _$ChallengeSarToJson(ChallengeSar instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'url': instance.url,
       'probability': instance.probability,
+      'weight': instance.weight,
       'required': instance.required,
       'active': instance.active,
+      'triggers': instance.triggers,
       'tournaments': instance.tournaments,
+      'steps': instance.steps,
       'params': instance.params,
-      'sessionToken': instance.sessionToken,
+      'points': instance.points,
     };

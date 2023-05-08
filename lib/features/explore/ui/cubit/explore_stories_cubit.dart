@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/data/entities/leaderboard_entity.dart';
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/data/models/list_page.dart';
 import '../../../../core/utils/colors.dart';
 import '../../data/useCases/explore_stories_use_cases.dart';
 
-part 'explore_stories_state.dart';
 part 'explore_stories_cubit.freezed.dart';
+part 'explore_stories_state.dart';
 
 class ExploreStoriesCubit extends Cubit<ExploreStoriesState> {
   ExploreStoriesCubit({required this.useCases})

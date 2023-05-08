@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../core/data/entities/story_entity.dart';
+// ignore: library_prefixes
 import '../../../../core/libs/custom_search_delegate.dart' as customSearch;
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../home/ui/bloc/cubit/home_cubit.dart';
 import '../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../tournament/ui/widgets/no_item_found_widget.dart';
 import '../cubit/explore_stories_cubit.dart';

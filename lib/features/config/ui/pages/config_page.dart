@@ -2,13 +2,12 @@ import 'package:alice_lightweight/alice.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
 
-import '../../../../core/integrations/secure_storage_service.dart';
 import '../../../../core/integrations/device_info.dart';
 import '../../../../core/integrations/platform_environments.dart';
+import '../../../../core/integrations/secure_storage_service.dart';
+import '../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../core/routes/auto_router.dart';
-import '../../../../core/routes/routes.dart';
 
 @RoutePage()
 class ConfigPage extends StatelessWidget with SheetMessages {
@@ -38,6 +37,24 @@ class ConfigPage extends StatelessWidget with SheetMessages {
         if (PlatformEnvironment.env != 'prod')
           ListTile(
             onTap: () => openTestGame(context),
+            onLongPress: () {
+              showMessage(
+                context,
+                title: 'Quieres abrir el juego en modo no seguro? (no TLS)',
+                content:
+                    'Tienes la opcion de abrir el juego usando el protocolo HTTP sin TLS, esto es para pruebas de desarrollo, si no sabes que es esto, no lo uses \n\n Esta opción será imposible en la versión de producción.',
+                btnLabel: 'Si',
+                btnOnTap: () {
+                  openTestGame(context, useHttps: false);
+                  Navigator.pop(context, true);
+                },
+                secondaryBtnLabel: 'No, abrir en modo seguro',
+                secondaryBtnOnTap: () {
+                  openTestGame(context, useHttps: true);
+                  Navigator.pop(context, true);
+                },
+              );
+            },
             title: const Text(
               'Minijuego Testing (SAR)',
             ),
@@ -67,12 +84,15 @@ class ConfigPage extends StatelessWidget with SheetMessages {
     );
   }
 
-  openTestGame(BuildContext context) async {
+  openTestGame(BuildContext context,
+      {bool useHttps = PlatformEnvironment.https}) async {
     final challengeResult = await AutoRouter.of(context).push(ChallengesRoute(
-      url: 'http://localhost:5500/?userId=1196',
+      url: 'accentiostudios.github.io/500h-2048',
       name: 'Test Game',
       description: 'Test Desc',
       id: '1',
+      testMode: 'true',
+      useHttps: useHttps,
     ));
     if (challengeResult == true) {
       // ignore: use_build_context_synchronously

@@ -48,23 +48,56 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ChallengesAdminRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ChallengesAdminRouteArgs>(
+          orElse: () => ChallengesAdminRouteArgs(
+              testMode: queryParams.optString('testMode')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChallengesAdminProvider(
+          key: args.key,
+          testMode: args.testMode,
+        ),
+      );
+    },
     ChallengesRoute.name: (routeData) {
       final queryParams = routeData.queryParams;
       final args = routeData.argsAs<ChallengesRouteArgs>(
           orElse: () => ChallengesRouteArgs(
+                id: queryParams.optString('id'),
                 url: queryParams.optString('url'),
                 name: queryParams.optString('name'),
+                testMode: queryParams.optString('testMode'),
                 description: queryParams.optString('description'),
-                id: queryParams.optString('id'),
               ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: ChallengesProvider(
           key: args.key,
+          id: args.id,
           url: args.url,
           name: args.name,
+          testMode: args.testMode,
           description: args.description,
-          id: args.id,
+          useHttps: args.useHttps,
+        ),
+      );
+    },
+    ChallengesAdminRegisterRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ChallengesAdminRegisterPage(),
+      );
+    },
+    OnboardingNewChallengeRoute.name: (routeData) {
+      final args = routeData.argsAs<OnboardingNewChallengeRouteArgs>(
+          orElse: () => const OnboardingNewChallengeRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OnboardingNewChallengePage(
+          key: args.key,
+          onResult: args.onResult,
         ),
       );
     },
@@ -322,29 +355,73 @@ class AuthRouteArgs {
 }
 
 /// generated route for
+/// [ChallengesAdminProvider]
+class ChallengesAdminRoute extends PageRouteInfo<ChallengesAdminRouteArgs> {
+  ChallengesAdminRoute({
+    Key? key,
+    String? testMode,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChallengesAdminRoute.name,
+          args: ChallengesAdminRouteArgs(
+            key: key,
+            testMode: testMode,
+          ),
+          rawQueryParams: {'testMode': testMode},
+          initialChildren: children,
+        );
+
+  static const String name = 'ChallengesAdminRoute';
+
+  static const PageInfo<ChallengesAdminRouteArgs> page =
+      PageInfo<ChallengesAdminRouteArgs>(name);
+}
+
+class ChallengesAdminRouteArgs {
+  const ChallengesAdminRouteArgs({
+    this.key,
+    this.testMode,
+  });
+
+  final Key? key;
+
+  final String? testMode;
+
+  @override
+  String toString() {
+    return 'ChallengesAdminRouteArgs{key: $key, testMode: $testMode}';
+  }
+}
+
+/// generated route for
 /// [ChallengesProvider]
 class ChallengesRoute extends PageRouteInfo<ChallengesRouteArgs> {
   ChallengesRoute({
     Key? key,
+    String? id,
     String? url,
     String? name,
+    String? testMode,
     String? description,
-    String? id,
+    bool? useHttps,
     List<PageRouteInfo>? children,
   }) : super(
           ChallengesRoute.name,
           args: ChallengesRouteArgs(
             key: key,
+            id: id,
             url: url,
             name: name,
+            testMode: testMode,
             description: description,
-            id: id,
+            useHttps: useHttps,
           ),
           rawQueryParams: {
+            'id': id,
             'url': url,
             'name': name,
+            'testMode': testMode,
             'description': description,
-            'id': id,
           },
           initialChildren: children,
         );
@@ -358,25 +435,84 @@ class ChallengesRoute extends PageRouteInfo<ChallengesRouteArgs> {
 class ChallengesRouteArgs {
   const ChallengesRouteArgs({
     this.key,
+    this.id,
     this.url,
     this.name,
+    this.testMode,
     this.description,
-    this.id,
+    this.useHttps,
   });
 
   final Key? key;
+
+  final String? id;
 
   final String? url;
 
   final String? name;
 
+  final String? testMode;
+
   final String? description;
 
-  final String? id;
+  final bool? useHttps;
 
   @override
   String toString() {
-    return 'ChallengesRouteArgs{key: $key, url: $url, name: $name, description: $description, id: $id}';
+    return 'ChallengesRouteArgs{key: $key, id: $id, url: $url, name: $name, testMode: $testMode, description: $description, useHttps: $useHttps}';
+  }
+}
+
+/// generated route for
+/// [ChallengesAdminRegisterPage]
+class ChallengesAdminRegisterRoute extends PageRouteInfo<void> {
+  const ChallengesAdminRegisterRoute({List<PageRouteInfo>? children})
+      : super(
+          ChallengesAdminRegisterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChallengesAdminRegisterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OnboardingNewChallengePage]
+class OnboardingNewChallengeRoute
+    extends PageRouteInfo<OnboardingNewChallengeRouteArgs> {
+  OnboardingNewChallengeRoute({
+    Key? key,
+    dynamic Function(dynamic)? onResult,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OnboardingNewChallengeRoute.name,
+          args: OnboardingNewChallengeRouteArgs(
+            key: key,
+            onResult: onResult,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OnboardingNewChallengeRoute';
+
+  static const PageInfo<OnboardingNewChallengeRouteArgs> page =
+      PageInfo<OnboardingNewChallengeRouteArgs>(name);
+}
+
+class OnboardingNewChallengeRouteArgs {
+  const OnboardingNewChallengeRouteArgs({
+    this.key,
+    this.onResult,
+  });
+
+  final Key? key;
+
+  final dynamic Function(dynamic)? onResult;
+
+  @override
+  String toString() {
+    return 'OnboardingNewChallengeRouteArgs{key: $key, onResult: $onResult}';
   }
 }
 

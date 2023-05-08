@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/auth/auth_provider.dart';
+import '../../features/challenges/challenges_admin_provider.dart';
+import '../../features/challenges/ui/pages/admin/onboarding_new_challenge_page.dart';
 import '../../features/challenges/challenges_provider.dart';
+import '../../features/challenges/ui/pages/admin/challenges_admin_register.dart';
 import '../../features/config/ui/pages/config_page.dart';
 import '../../features/explore/explore_provider.dart';
 import '../../features/home/home_provider.dart';
@@ -21,6 +24,8 @@ import '../data/entities/user_entity.dart';
 import '../integrations/secure_storage_service.dart';
 import '../integrations/remote_config_service.dart';
 import '../ui/pages/common_page_layout.dart';
+import 'guards/admin_auth_guard.dart';
+import 'guards/new_challenge_onboarding_guard.dart';
 
 part 'auto_router.gr.dart';
 
@@ -49,6 +54,20 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         AutoRoute(path: '/invite/send', page: SendInviteRoute.page),
         AutoRoute(path: '/explore', page: ExploreStoriesRoute.page),
         AutoRoute(path: '/challenge', page: ChallengesRoute.page),
+        AutoRoute(
+          path: '/challenge/admin',
+          page: ChallengesAdminRoute.page,
+          children: [
+            AutoRoute(
+              path: 'register',
+              page: OnboardingNewChallengeRoute.page,
+              guards: [
+                AdminAuthGuard(),
+              ],
+            ),
+          ],
+          guards: [AdminAuthGuard()],
+        ),
       ];
 
   @override

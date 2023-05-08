@@ -52,6 +52,10 @@ dependencies:
   image_cropper: ^3.0.0
   image_picker: ^0.8.6
   infinite_scroll_pagination: ^3.2.0
+  introduction_screen: ^3.1.8
+  multiselect:
+    git:
+      url: https://github.com/alvarogabrielgomez/multiselect.git
   openid_client: ^0.4.7
   opentelemetry: ^0.15.1
   package_info_plus: ^3.0.3
