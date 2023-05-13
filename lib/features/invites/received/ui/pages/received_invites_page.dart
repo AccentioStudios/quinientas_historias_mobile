@@ -209,7 +209,7 @@ class ReceivedInvitationMessage extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           if (team != null)
-            TeamListItem(
+            GroupListItem(
               avatarWidget: GroupAvatar(
                 type: GroupAvatarType.team,
                 avatarUrl: team!.avatarUrl,

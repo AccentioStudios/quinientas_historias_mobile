@@ -1,26 +1,22 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:multiselect/multiselect.dart';
-import 'package:quinientas_historias/core/ui/widgets/themed_dropdown.dart';
-import 'package:rive/rive.dart';
+import 'package:quinientas_historias/core/routes/auto_router.dart';
 
-import '../../../../../core/helpers/shared_preferences_helper.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/creating_loading_screen.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
+import '../../../../../core/ui/widgets/themed_dropdown.dart';
 import '../../../../../core/ui/widgets/themed_multi_dropdown.dart';
 import '../../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../cubit/challenges_admin_cubit.dart';
-
-// class HomePage extends StatelessWidget implements AutoRouteWrapper { … @override Widget wrappedRoute (context) { return BlocProvider ( create: (context) => HomeBloc (), child: this, // this as the child Important! ); } }
 
 @RoutePage()
 class ChallengesAdminRegisterPage extends StatefulWidget
@@ -67,7 +63,17 @@ class _ChallengesAdminRegisterPageState
         return Scaffold(
             appBar: state.loading
                 ? null
-                : AppBar(elevation: 0, backgroundColor: Colors.transparent),
+                : AppBar(
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    actions: [
+                      // help button
+                      IconButton(
+                        icon: const Icon(Icons.help_outline),
+                        onPressed: () => navigateToOnBoarding(context),
+                      ),
+                    ],
+                  ),
             body: SafeArea(
               child: state.loading
                   ? const Center(
@@ -227,6 +233,12 @@ class _ChallengesAdminRegisterPageState
     );
   }
 
+  void navigateToOnBoarding(BuildContext context) {
+    context.router.push(OnboardingNewChallengeRoute(onResult: () {
+      AutoRouter.of(context).pop();
+    }));
+  }
+
   String? fieldValidate(String? value) {
     if (value == null || value.isEmpty) {
       return 'Requerido.';
@@ -273,7 +285,11 @@ class _ChallengesAdminRegisterPageState
       Fluttertoast.showToast(msg: 'Reto registrado correctamente.');
       await widget.showSecretKeyFromNewChallenge(context, value);
       if (context.mounted) {
-        Navigator.of(context).pop(value);
+        await Clipboard.setData(ClipboardData(
+            text: 'uuid: ${value.uuid}\n\nsecretKey: ${value.secretKey}'));
+      }
+      if (context.mounted) {
+        AutoRouter.of(context).pop(value);
       }
     }, onError: (error) {
       Fluttertoast.showToast(msg: 'Error al registrar el reto.');

@@ -4,8 +4,8 @@ import '../../../../../core/ui/widgets/outlined_card.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
 
-class TeamListItem extends StatelessWidget {
-  const TeamListItem({
+class GroupListItem extends StatelessWidget {
+  const GroupListItem({
     super.key,
     required this.avatarWidget,
     required this.label,

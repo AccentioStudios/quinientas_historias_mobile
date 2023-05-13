@@ -6,20 +6,25 @@ import '../../helpers/shared_preferences_helper.dart';
 class NewChallengeOnboardingGuard extends AutoRouteGuard {
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    final isFirstTime = await verifyIfFirstTime();
-    if (!isFirstTime) {
-      resolver.next(true);
-    } else {
-      router.push(OnboardingNewChallengeRoute(onResult: (_) {
-        resolver.next(true);
+    final isFirstTime = verifyIfFirstTime();
+    if (isFirstTime) {
+      router.push(OnboardingNewChallengeRoute(onResult: () {
+        SharedPreferencesHelper.instance
+            .setBool('newChallengeOnboarding', true);
+        router.pushAndPopUntil(const ChallengesAdminRegisterRoute(),
+            predicate: (route) {
+          return route.settings.name == ChallengesAdminRoute.name;
+        });
       }));
+    } else {
+      resolver.next(true);
     }
   }
 
-  static Future<bool> verifyIfFirstTime() async {
+  static bool verifyIfFirstTime() {
     final instance = SharedPreferencesHelper.instance;
     final isNotFirstTime = instance.getBool('newChallengeOnboarding');
-    if (isNotFirstTime != true) {
+    if (isNotFirstTime == true) {
       return false;
     }
     return true;

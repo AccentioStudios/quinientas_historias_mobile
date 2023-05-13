@@ -1,19 +1,23 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/routes/auto_router.dart';
 import '../../cubit/challenges_admin_cubit.dart';
 import 'challenges_admin_register.dart';
 
-class ChallengesAdminPage extends StatefulWidget {
-  const ChallengesAdminPage({Key? key, this.testMode}) : super(key: key);
+@RoutePage()
+class ChallengesAdminHomePage extends StatefulWidget {
+  const ChallengesAdminHomePage({Key? key, this.testMode}) : super(key: key);
   final String? testMode;
 
   @override
-  State<ChallengesAdminPage> createState() => _ChallengesAdminPageState();
+  State<ChallengesAdminHomePage> createState() =>
+      _ChallengesAdminHomePageState();
 }
 
-class _ChallengesAdminPageState extends State<ChallengesAdminPage> {
+class _ChallengesAdminHomePageState extends State<ChallengesAdminHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,27 +41,17 @@ class _ChallengesAdminPageState extends State<ChallengesAdminPage> {
               subtitle:
                   const Text('Busca retos e inícialos en modo de pruebas.'),
               trailing: const Icon(Icons.search),
-              onTap: () {},
+              onTap: () => _navigateToExploreChallenges(context),
             ),
           ]),
     );
   }
 
   void _navigateToRegisterNewChallenge(BuildContext context) {
-    final cubit = context.read<ChallengesAdminCubit>();
-    // Navigate passing BlocProvider.value to avoid creating a new instance of the cubit
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => BlocProvider.value(
-          value: cubit,
-          child: const ChallengesAdminRegisterPage(),
-        ),
-      ),
-    );
+    context.router.pushNamed('/challenge/admin/register');
+  }
 
-    // AutoRouter.of(context).push(CustomRoute(
-    //   page: ChallengesAdminRegisterPage,
-    //   customRouteBuilder: (context, child, page) {},
-    // ));
+  void _navigateToExploreChallenges(BuildContext context) {
+    context.router.pushNamed('/challenge/admin/explore');
   }
 }

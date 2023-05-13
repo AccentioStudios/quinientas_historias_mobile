@@ -73,10 +73,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height,
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           SizedBox(
                             width: 150,
                             height: 150,

@@ -90,7 +90,7 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                         child: SvgPicture.asset(
                             'assets/images/line-dotted-vertical.svg')),
                     const SizedBox(height: Constants.space30),
-                    TeamListItem(
+                    GroupListItem(
                       avatarWidget: GroupAvatar(
                         type: GroupAvatarType.team,
                         avatarUrl: invite.team!.avatarUrl,

@@ -92,30 +92,11 @@ class _ExploreStoriesPageState extends State<ExploreStoriesPage> {
                           _navigateToStoryPage(context, item);
                         }),
                   ),
-
-                  // GridView.count(
-                  //   padding: EdgeInsets.zero,
-                  //   physics: const AlwaysScrollableScrollPhysics()
-                  //       .applyTo(const BouncingScrollPhysics()),
-                  //   shrinkWrap: true,
-                  //   crossAxisSpacing: Constants.space12,
-                  //   mainAxisSpacing: Constants.space12,
-                  //   childAspectRatio: 109 / 147,
-                  //   crossAxisCount: 3,
-                  //   children: [
-                  //     ...state.exploreStories.map((story) => StoryCover(
-                  //           story: story,
-                  //           onTap: () {
-                  //             _navigateToStoryPage(context, story);
-                  //           },
-                  //         )),
-                  //   ],
                 ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 109 / (147 + 25),
                   crossAxisSpacing: Constants.space12,
-                  // mainAxisSpacing: Constants.space12,
                 ),
               ),
             ),

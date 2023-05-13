@@ -81,16 +81,16 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _navigateToRouteFromDeepLink(Uri? uri) async {
-    if (uri != null) {
-      if (uri.queryParameters.keys.contains('inviteId') &&
-          uri.queryParameters.keys.contains('invitationCode')) {
-        ReceivedInviteProvider.open(context,
-            inviteId: int.tryParse(uri.queryParameters['inviteId'] ?? '0') ?? 0,
-            email: uri.queryParameters['email'] ?? '',
-            code: uri.queryParameters['invitationCode'] ?? '');
-        return;
-      }
-    }
+    // if (uri != null) {
+    //   if (uri.queryParameters.keys.contains('inviteId') &&
+    //       uri.queryParameters.keys.contains('invitationCode')) {
+    //     ReceivedInviteProvider.open(context,
+    //         inviteId: int.tryParse(uri.queryParameters['inviteId'] ?? '0') ?? 0,
+    //         email: uri.queryParameters['email'] ?? '',
+    //         code: uri.queryParameters['invitationCode'] ?? '');
+    //     return;
+    //   }
+    // }
     _navigateToNext();
     return;
   }

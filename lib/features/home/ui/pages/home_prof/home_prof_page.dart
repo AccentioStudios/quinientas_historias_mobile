@@ -147,7 +147,7 @@ class HomeProfPage extends StatelessWidget {
 
   void navigateToInviteReaders(BuildContext context, {required int? schoolId}) {
     if (schoolId != null) {
-      SendInviteProvider.inviteReadersProf(context, schoolId: schoolId)
+      SendInviteProvider.inviteReadersProfAndAdmin(context, schoolId: schoolId)
           .then((refresh) {
         if (refresh == true) {
           // getDashboardFunction();

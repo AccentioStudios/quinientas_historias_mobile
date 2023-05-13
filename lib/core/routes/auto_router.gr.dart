@@ -84,15 +84,31 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ChallengesAdminHomeRoute.name: (routeData) {
+      final args = routeData.argsAs<ChallengesAdminHomeRouteArgs>(
+          orElse: () => const ChallengesAdminHomeRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChallengesAdminHomePage(
+          key: args.key,
+          testMode: args.testMode,
+        ),
+      );
+    },
     ChallengesAdminRegisterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ChallengesAdminRegisterPage(),
       );
     },
+    ChallengesAdminExploreRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ChallengesAdminExplorePage(),
+      );
+    },
     OnboardingNewChallengeRoute.name: (routeData) {
-      final args = routeData.argsAs<OnboardingNewChallengeRouteArgs>(
-          orElse: () => const OnboardingNewChallengeRouteArgs());
+      final args = routeData.argsAs<OnboardingNewChallengeRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: OnboardingNewChallengePage(
@@ -127,11 +143,12 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ReceivedInviteRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
       final queryParams = routeData.queryParams;
       final args = routeData.argsAs<ReceivedInviteRouteArgs>(
           orElse: () => ReceivedInviteRouteArgs(
-                role: queryParams.optString('role'),
-                inviteId: queryParams.optInt('inviteId'),
+                role: pathParams.optString('role'),
+                inviteId: pathParams.optInt('inviteId'),
                 code: queryParams.optString('code'),
               ));
       return AutoRoutePage<bool?>(
@@ -464,6 +481,45 @@ class ChallengesRouteArgs {
 }
 
 /// generated route for
+/// [ChallengesAdminHomePage]
+class ChallengesAdminHomeRoute
+    extends PageRouteInfo<ChallengesAdminHomeRouteArgs> {
+  ChallengesAdminHomeRoute({
+    Key? key,
+    String? testMode,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChallengesAdminHomeRoute.name,
+          args: ChallengesAdminHomeRouteArgs(
+            key: key,
+            testMode: testMode,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChallengesAdminHomeRoute';
+
+  static const PageInfo<ChallengesAdminHomeRouteArgs> page =
+      PageInfo<ChallengesAdminHomeRouteArgs>(name);
+}
+
+class ChallengesAdminHomeRouteArgs {
+  const ChallengesAdminHomeRouteArgs({
+    this.key,
+    this.testMode,
+  });
+
+  final Key? key;
+
+  final String? testMode;
+
+  @override
+  String toString() {
+    return 'ChallengesAdminHomeRouteArgs{key: $key, testMode: $testMode}';
+  }
+}
+
+/// generated route for
 /// [ChallengesAdminRegisterPage]
 class ChallengesAdminRegisterRoute extends PageRouteInfo<void> {
   const ChallengesAdminRegisterRoute({List<PageRouteInfo>? children})
@@ -478,12 +534,26 @@ class ChallengesAdminRegisterRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ChallengesAdminExplorePage]
+class ChallengesAdminExploreRoute extends PageRouteInfo<void> {
+  const ChallengesAdminExploreRoute({List<PageRouteInfo>? children})
+      : super(
+          ChallengesAdminExploreRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChallengesAdminExploreRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [OnboardingNewChallengePage]
 class OnboardingNewChallengeRoute
     extends PageRouteInfo<OnboardingNewChallengeRouteArgs> {
   OnboardingNewChallengeRoute({
     Key? key,
-    dynamic Function(dynamic)? onResult,
+    required void Function() onResult,
     List<PageRouteInfo>? children,
   }) : super(
           OnboardingNewChallengeRoute.name,
@@ -503,12 +573,12 @@ class OnboardingNewChallengeRoute
 class OnboardingNewChallengeRouteArgs {
   const OnboardingNewChallengeRouteArgs({
     this.key,
-    this.onResult,
+    required this.onResult,
   });
 
   final Key? key;
 
-  final dynamic Function(dynamic)? onResult;
+  final void Function() onResult;
 
   @override
   String toString() {
@@ -588,8 +658,8 @@ class HomeRoute extends PageRouteInfo<void> {
 class ReceivedInviteRoute extends PageRouteInfo<ReceivedInviteRouteArgs> {
   ReceivedInviteRoute({
     Key? key,
-    String? role,
-    int? inviteId,
+    required String? role,
+    required int? inviteId,
     String? code,
     List<PageRouteInfo>? children,
   }) : super(
@@ -600,11 +670,11 @@ class ReceivedInviteRoute extends PageRouteInfo<ReceivedInviteRouteArgs> {
             inviteId: inviteId,
             code: code,
           ),
-          rawQueryParams: {
+          rawPathParams: {
             'role': role,
             'inviteId': inviteId,
-            'code': code,
           },
+          rawQueryParams: {'code': code},
           initialChildren: children,
         );
 
@@ -617,8 +687,8 @@ class ReceivedInviteRoute extends PageRouteInfo<ReceivedInviteRouteArgs> {
 class ReceivedInviteRouteArgs {
   const ReceivedInviteRouteArgs({
     this.key,
-    this.role,
-    this.inviteId,
+    required this.role,
+    required this.inviteId,
     this.code,
   });
 

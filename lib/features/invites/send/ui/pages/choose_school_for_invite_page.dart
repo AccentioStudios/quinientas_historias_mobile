@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/data/entities/school_entity.dart';
 
-import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/error_handling.dart';
@@ -12,37 +12,34 @@ import '../../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../send_invite_provider.dart';
 import '../bloc/cubit/send_invites_cubit.dart';
 import '../widgets/team_list_item.dart';
 
-class ChooseTeamForInvitePage extends StatefulWidget with ErrorHandling {
-  const ChooseTeamForInvitePage(
-      {super.key, required this.schoolId, this.role = Role.reader});
-  final int schoolId;
+class ChooseSchoolForInvitePage extends StatefulWidget with ErrorHandling {
+  const ChooseSchoolForInvitePage({super.key, this.role = Role.reader});
   final Role role;
   @override
-  State<ChooseTeamForInvitePage> createState() =>
-      _ChooseTeamForInvitePageState();
+  State<ChooseSchoolForInvitePage> createState() =>
+      _ChooseSchoolForInvitePageState();
 }
 
-class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
+class _ChooseSchoolForInvitePageState extends State<ChooseSchoolForInvitePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    getTeams(widget.schoolId);
+    getSchools();
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => getTeams(widget.schoolId),
+      onRefresh: () => getSchools(),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
           title: const Text(
-            'Elige el equipo',
+            'Elige la escuela',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -64,21 +61,21 @@ class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
                           vertical: Constants.space16),
                       children: [
                           Text(
-                            'Selecciona el equipo al que quieres invitar nuevos ${formatRole(widget.role)}.',
+                            'Selecciona la escuela al que quieres invitar nuevos ${formatRole(widget.role)}.',
                             style: const TextStyle(fontSize: 16),
                           ),
-                          const Headline(label: 'Equipos'),
-                          ...state.profTeams.map(
-                            (team) => Padding(
+                          const Headline(label: 'Escuelas'),
+                          ...state.adminSchools.map(
+                            (school) => Padding(
                               padding: const EdgeInsets.only(
                                   bottom: Constants.space16),
                               child: GroupListItem(
                                   avatarWidget: GroupAvatar(
-                                    avatarUrl: team.avatarUrl,
-                                    type: GroupAvatarType.team,
+                                    avatarUrl: school.avatarUrl,
+                                    type: GroupAvatarType.school,
                                   ),
                                   label: AutoSizeText(
-                                    team.name,
+                                    school.name,
                                     textAlign: TextAlign.left,
                                     style: DefaultTextStyle.of(context)
                                         .style
@@ -87,7 +84,7 @@ class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   onTap: () {
-                                    chooseTeam(context, team);
+                                    chooseSchool(context, school);
                                   }),
                             ),
                           ),
@@ -116,14 +113,14 @@ class _ChooseTeamForInvitePageState extends State<ChooseTeamForInvitePage> {
     }
   }
 
-  void chooseTeam(BuildContext context, Team team) {
-    SendInviteProvider.open(context, team: team).then((value) {});
+  void chooseSchool(BuildContext context, School school) {
+    Navigator.of(context).pop(school);
   }
 
-  getTeams(int schoolId) {
+  getSchools() {
     context
         .read<SendInvitesCubit>()
-        .getTeamsFromProf(schoolId)
+        .getSchoolsForAdmin()
         .onError<HttpFailure>((error, stackTrace) {
       widget.handleError(context, error);
     });

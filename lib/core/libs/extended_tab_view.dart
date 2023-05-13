@@ -37,6 +37,7 @@ final PageMetrics _testPageMetrics = PageMetrics(
   pixels: 5,
   viewportDimension: 10,
   viewportFraction: 1.0,
+  devicePixelRatio: 1,
 );
 
 /// A page view that displays the widget which corresponds to the currently

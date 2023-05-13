@@ -11,8 +11,8 @@ import 'ui/pages/received_invites_page.dart';
 class ReceivedInviteProvider extends StatelessWidget {
   const ReceivedInviteProvider(
       {Key? key,
-      @QueryParam('role') this.role,
-      @QueryParam('inviteId') this.inviteId,
+      @PathParam('role') required this.role,
+      @PathParam('inviteId') required this.inviteId,
       @QueryParam('code') this.code})
       : super(key: key);
   final String? role;
@@ -32,10 +32,14 @@ class ReceivedInviteProvider extends StatelessWidget {
   }
 
   static open(BuildContext? context,
-      {required int inviteId, String? email, required String code}) {
+      {required int inviteId,
+      String? email,
+      required String code,
+      required String role}) {
     if (context != null) {
       Navigator.of(context).push<void>(MaterialPageRoute<void>(
           builder: (context) => ReceivedInviteProvider(
+                role: role,
                 code: code,
                 inviteId: inviteId,
               )));

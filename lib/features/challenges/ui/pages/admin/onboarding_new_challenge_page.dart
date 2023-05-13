@@ -1,14 +1,15 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 @RoutePage()
 class OnboardingNewChallengePage extends StatefulWidget {
-  const OnboardingNewChallengePage({super.key, this.onResult});
+  const OnboardingNewChallengePage({super.key, required this.onResult});
 
-  final dynamic Function(dynamic)? onResult;
+  final void Function() onResult;
+
   @override
   State<OnboardingNewChallengePage> createState() =>
       _OnboardingNewChallengePageState();
@@ -17,23 +18,25 @@ class OnboardingNewChallengePage extends StatefulWidget {
 class _OnboardingNewChallengePageState
     extends State<OnboardingNewChallengePage> {
   final introKey = GlobalKey<IntroductionScreenState>();
-  void _onIntroEnd(context) {
-    Navigator.of(context).pop();
+
+  void _onIntroEnd() {
+    widget.onResult();
   }
 
   Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/$assetName', width: width);
+    return SvgPicture.asset('assets/images/$assetName', width: width);
   }
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const bodyStyle = TextStyle(fontSize: 18.0);
 
-    const pageDecoration = PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+    final pageDecoration = PageDecoration(
+      titleTextStyle:
+          const TextStyle(fontSize: 21.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
-      bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-      pageColor: Colors.white,
+      bodyPadding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      pageColor: Theme.of(context).colorScheme.background,
       imagePadding: EdgeInsets.zero,
     );
 
@@ -41,50 +44,39 @@ class _OnboardingNewChallengePageState
       key: introKey,
       globalBackgroundColor: Theme.of(context).colorScheme.background,
       allowImplicitScrolling: true,
-      globalHeader: Align(
-        alignment: Alignment.topRight,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16, right: 16),
-            child: _buildImage('flutter.png', 100),
-          ),
-        ),
-      ),
-      globalFooter: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton(
-          child: const Text(
-            'Let\'s go right away!',
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-          ),
-          onPressed: () => _onIntroEnd(context),
+      globalHeader: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            AutoRouter.of(context).pop(false);
+          },
         ),
       ),
       pages: [
         PageViewModel(
-          title: "Fractional shares",
+          title: "Registra tu nuevo reto",
           body:
-              "Instead of having to buy an entire share, invest any amount you want.",
-          image: _buildImage('img1.jpg'),
+              "Crea tus propios retos donde los jugadores podrán ganar puntos adicionales en el torneo de lectura.",
+          image: _buildImage('challenge-minigame-image.svg', 132),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Learn as you go",
+          title: "Conecta con 500Historias",
           body:
-              "Download the Stockpile app and master the market with our mini-lesson.",
-          image: _buildImage('img2.jpg'),
+              "Integra tus retos registrados en la aplicación a la plataforma de 500Historias y obtener visibilidad al compartirlos con otros miembros de la comunidad de lectura",
+          image: _buildImage('connect-500h-image.svg', 251),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Kids and teens",
+          title: "Obtén tu identificación",
           body:
-              "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-          image: _buildImage('img3.jpg'),
+              "Después de registar tus retos, para conectar con 500Historias debes usar una llave especial y secreta. Una vez la tengas no la pierdas.",
+          image: _buildImage('secret-key-outline-image.svg', 150),
           decoration: pageDecoration,
         ),
       ],
-      onDone: () => _onIntroEnd(context),
+      onDone: () => _onIntroEnd(),
       showSkipButton: false,
       showBackButton: true,
       back: const Icon(Icons.arrow_back),
@@ -104,12 +96,12 @@ class _OnboardingNewChallengePageState
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
       ),
-      dotsContainerDecorator: const ShapeDecoration(
-        color: Colors.black87,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-      ),
+      // dotsContainerDecorator: const ShapeDecoration(
+      //   color: Colors.black87,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      //   ),
+      // ),
     );
   }
 }

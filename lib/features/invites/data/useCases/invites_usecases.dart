@@ -3,6 +3,7 @@ import 'dart:async' show Stream;
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
+import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
 import '../models/invites_request_model.dart';
 import '../models/verify_invite_code_request_model.dart';
@@ -34,5 +35,9 @@ class InvitesUseCases {
 
   Stream<List<Team>> getTeamsFromProf(int schoolId) async* {
     yield* repository.getTeamsFromProf(schoolId);
+  }
+
+  Stream<List<School>> getSchoolsForAdmin() async* {
+    yield* repository.getSchoolsForAdmin();
   }
 }

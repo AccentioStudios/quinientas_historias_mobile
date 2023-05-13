@@ -8,6 +8,7 @@ part of 'invites_request_model.dart';
 
 InvitesRequest _$InvitesRequestFromJson(Map<String, dynamic> json) =>
     InvitesRequest(
+      invitedId: json['invitedId'] as int?,
       email: json['email'] as String,
       type: $enumDecode(_$RoleEnumMap, json['type']),
       teamId: json['teamId'] as int?,
@@ -16,6 +17,7 @@ InvitesRequest _$InvitesRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$InvitesRequestToJson(InvitesRequest instance) =>
     <String, dynamic>{
+      'invitedId': instance.invitedId,
       'email': instance.email,
       'type': _$RoleEnumMap[instance.type]!,
       'teamId': instance.teamId,

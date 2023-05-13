@@ -21,6 +21,7 @@ mixin _$SendInvitesState {
   dynamic get sendingInvite => throw _privateConstructorUsedError;
   List<Invite> get invites => throw _privateConstructorUsedError;
   List<Team> get profTeams => throw _privateConstructorUsedError;
+  List<School> get adminSchools => throw _privateConstructorUsedError;
   dynamic get emailIsValid => throw _privateConstructorUsedError;
   dynamic get searchUsersList => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
@@ -42,6 +43,7 @@ abstract class $SendInvitesStateCopyWith<$Res> {
       dynamic sendingInvite,
       List<Invite> invites,
       List<Team> profTeams,
+      List<School> adminSchools,
       dynamic emailIsValid,
       dynamic searchUsersList,
       User? user});
@@ -65,6 +67,7 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
     Object? sendingInvite = freezed,
     Object? invites = null,
     Object? profTeams = null,
+    Object? adminSchools = null,
     Object? emailIsValid = freezed,
     Object? searchUsersList = freezed,
     Object? user = freezed,
@@ -90,6 +93,10 @@ class _$SendInvitesStateCopyWithImpl<$Res, $Val extends SendInvitesState>
           ? _value.profTeams
           : profTeams // ignore: cast_nullable_to_non_nullable
               as List<Team>,
+      adminSchools: null == adminSchools
+          ? _value.adminSchools
+          : adminSchools // ignore: cast_nullable_to_non_nullable
+              as List<School>,
       emailIsValid: freezed == emailIsValid
           ? _value.emailIsValid
           : emailIsValid // ignore: cast_nullable_to_non_nullable
@@ -120,6 +127,7 @@ abstract class _$$_SendInvitesStateCopyWith<$Res>
       dynamic sendingInvite,
       List<Invite> invites,
       List<Team> profTeams,
+      List<School> adminSchools,
       dynamic emailIsValid,
       dynamic searchUsersList,
       User? user});
@@ -141,6 +149,7 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
     Object? sendingInvite = freezed,
     Object? invites = null,
     Object? profTeams = null,
+    Object? adminSchools = null,
     Object? emailIsValid = freezed,
     Object? searchUsersList = freezed,
     Object? user = freezed,
@@ -160,6 +169,10 @@ class __$$_SendInvitesStateCopyWithImpl<$Res>
           ? _value._profTeams
           : profTeams // ignore: cast_nullable_to_non_nullable
               as List<Team>,
+      adminSchools: null == adminSchools
+          ? _value._adminSchools
+          : adminSchools // ignore: cast_nullable_to_non_nullable
+              as List<School>,
       emailIsValid:
           freezed == emailIsValid ? _value.emailIsValid! : emailIsValid,
       searchUsersList: freezed == searchUsersList
@@ -182,11 +195,13 @@ class _$_SendInvitesState implements _SendInvitesState {
       this.sendingInvite = false,
       final List<Invite> invites = initInvites,
       final List<Team> profTeams = initProfTeams,
+      final List<School> adminSchools = initAdminSchools,
       this.emailIsValid = false,
       this.searchUsersList = initSearchUsersList,
       this.user})
       : _invites = invites,
-        _profTeams = profTeams;
+        _profTeams = profTeams,
+        _adminSchools = adminSchools;
 
   @override
   @JsonKey()
@@ -215,6 +230,15 @@ class _$_SendInvitesState implements _SendInvitesState {
     return EqualUnmodifiableListView(_profTeams);
   }
 
+  final List<School> _adminSchools;
+  @override
+  @JsonKey()
+  List<School> get adminSchools {
+    if (_adminSchools is EqualUnmodifiableListView) return _adminSchools;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_adminSchools);
+  }
+
   @override
   @JsonKey()
   final dynamic emailIsValid;
@@ -226,7 +250,7 @@ class _$_SendInvitesState implements _SendInvitesState {
 
   @override
   String toString() {
-    return 'SendInvitesState(isLoading: $isLoading, isSearchingUsers: $isSearchingUsers, sendingInvite: $sendingInvite, invites: $invites, profTeams: $profTeams, emailIsValid: $emailIsValid, searchUsersList: $searchUsersList, user: $user)';
+    return 'SendInvitesState(isLoading: $isLoading, isSearchingUsers: $isSearchingUsers, sendingInvite: $sendingInvite, invites: $invites, profTeams: $profTeams, adminSchools: $adminSchools, emailIsValid: $emailIsValid, searchUsersList: $searchUsersList, user: $user)';
   }
 
   @override
@@ -243,6 +267,8 @@ class _$_SendInvitesState implements _SendInvitesState {
             const DeepCollectionEquality()
                 .equals(other._profTeams, _profTeams) &&
             const DeepCollectionEquality()
+                .equals(other._adminSchools, _adminSchools) &&
+            const DeepCollectionEquality()
                 .equals(other.emailIsValid, emailIsValid) &&
             const DeepCollectionEquality()
                 .equals(other.searchUsersList, searchUsersList) &&
@@ -257,6 +283,7 @@ class _$_SendInvitesState implements _SendInvitesState {
       const DeepCollectionEquality().hash(sendingInvite),
       const DeepCollectionEquality().hash(_invites),
       const DeepCollectionEquality().hash(_profTeams),
+      const DeepCollectionEquality().hash(_adminSchools),
       const DeepCollectionEquality().hash(emailIsValid),
       const DeepCollectionEquality().hash(searchUsersList),
       user);
@@ -275,6 +302,7 @@ abstract class _SendInvitesState implements SendInvitesState {
       final dynamic sendingInvite,
       final List<Invite> invites,
       final List<Team> profTeams,
+      final List<School> adminSchools,
       final dynamic emailIsValid,
       final dynamic searchUsersList,
       final User? user}) = _$_SendInvitesState;
@@ -289,6 +317,8 @@ abstract class _SendInvitesState implements SendInvitesState {
   List<Invite> get invites;
   @override
   List<Team> get profTeams;
+  @override
+  List<School> get adminSchools;
   @override
   dynamic get emailIsValid;
   @override

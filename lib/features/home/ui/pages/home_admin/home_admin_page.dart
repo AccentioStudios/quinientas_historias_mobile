@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/routes/auto_router.dart';
@@ -42,8 +40,7 @@ class HomeAdminPage extends StatelessWidget {
                         body:
                             'Invita a capitanes para que formen equipos en la escuela',
                         onTap: () {
-                          navigateToInviteCaptains(context,
-                              schoolId: state.dashboard?.user.school?.id);
+                          navigateToInviteCaptains(context);
                         },
                       ),
                       const SizedBox(height: Constants.space16),
@@ -53,8 +50,9 @@ class HomeAdminPage extends StatelessWidget {
                         body:
                             'Invita a lectores a formar parte de un equipo particular',
                         onTap: () {
-                          navigateToInviteReaders(context,
-                              schoolId: state.dashboard?.user.school?.id);
+                          navigateToInviteReaders(
+                            context,
+                          );
                         },
                       ),
                       const SizedBox(height: Constants.space16),
@@ -171,35 +169,34 @@ class HomeAdminPage extends StatelessWidget {
     ReadingStoryProvider.openStory(context, storyId: story.id);
   }
 
-  void navigateToInviteCaptains(BuildContext context,
-      {required int? schoolId}) {
-    if (schoolId != null) {
-      SendInviteProvider.open(context,
-              schoolId: schoolId, typeUserToInvite: Role.captain)
-          .then((refresh) {
-        if (refresh == true) {
-          // getDashboardFunction();
-        }
-      });
-    } else {
-      Fluttertoast.cancel();
-      Fluttertoast.showToast(
-          msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
-    }
+  void navigateToInviteCaptains(
+    BuildContext context,
+  ) {
+    SendInviteProvider.chooseSchoolForInviteAdmin(context, role: Role.captain)
+        .then((school) {
+      if (school != null) {
+        SendInviteProvider.open(context,
+                schoolId: school.id, typeUserToInvite: Role.captain)
+            .then((refresh) {
+          if (refresh == true) {
+            // getDashboardFunction();
+          }
+        });
+      }
+    });
   }
 
-  void navigateToInviteReaders(BuildContext context, {required int? schoolId}) {
-    if (schoolId != null) {
-      SendInviteProvider.inviteReadersProf(context, schoolId: schoolId)
-          .then((refresh) {
-        if (refresh == true) {
-          // getDashboardFunction();
-        }
-      });
-    } else {
-      Fluttertoast.cancel();
-      Fluttertoast.showToast(
-          msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
-    }
+  void navigateToInviteReaders(BuildContext context) {
+    SendInviteProvider.chooseSchoolForInviteAdmin(context).then((school) {
+      if (school != null) {
+        SendInviteProvider.inviteReadersProfAndAdmin(context,
+                schoolId: school.id)
+            .then((school) {
+          if (school == true) {
+            // getDashboardFunction();
+          }
+        });
+      }
+    });
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
@@ -15,6 +16,14 @@ class InvitesRepository with ApiService {
     }).handle(mapper: (Object data) {
       return (data as List<dynamic>).map<Team>((dynamic item) {
         return Team.fromJson(item as Map<String, dynamic>);
+      }).toList();
+    });
+  }
+
+  Stream<List<School>> getSchoolsForAdmin() async* {
+    yield* appApi.get('/v2/school').handle(mapper: (Object data) {
+      return (data as List<dynamic>).map<School>((dynamic item) {
+        return School.fromJson(item as Map<String, dynamic>);
       }).toList();
     });
   }

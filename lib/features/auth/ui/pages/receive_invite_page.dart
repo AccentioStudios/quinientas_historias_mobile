@@ -146,10 +146,10 @@ class _VerifyCodeFormState extends State<_VerifyCodeForm> {
       return;
     }
 
-    ReceivedInviteProvider.open(context,
-        inviteId: 0,
-        email: emailAddressLoginController.text,
-        code: inviteCodeController.text);
+    // ReceivedInviteProvider.open(context,
+    //     inviteId: 0,
+    //     email: emailAddressLoginController.text,
+    //     code: inviteCodeController.text);
   }
 }
 

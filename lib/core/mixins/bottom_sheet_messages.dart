@@ -265,14 +265,6 @@ mixin SheetMessages on Widget {
         ],
       ),
       btnLabel: 'Copiar y aceptar',
-      btnOnTap: () async {
-        await Clipboard.setData(ClipboardData(
-            text: 'uuid: ${dto.uuid}\n\nsecretKey: ${dto.secretKey}'));
-        if (context.mounted) {
-          Navigator.of(context)
-              .pop('uuid: ${dto.uuid}\n\nsecretKey: ${dto.secretKey}');
-        }
-      },
       isDismissible: false,
       willPop: false, // evita que se cierre al hacer tap fuera del bottom sheet
     );

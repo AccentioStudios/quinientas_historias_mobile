@@ -99,10 +99,11 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
                 emailController: emailController,
                 emailFocus: emailFocus,
                 role: widget.typeUserToInvite,
-                selectedUser: (email) => submit(email),
+                selectedUser: (user) =>
+                    submit(email: user.email, invitedId: user.id),
                 selectedEmail: (email) {
                   if (state.emailIsValid) {
-                    submit(email);
+                    submit(email: email);
                   }
                 },
               ),
@@ -119,7 +120,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
     );
   }
 
-  submit(String email) {
+  submit({required String email, int? invitedId}) {
     selectedEmail = email;
     if (currentPage == 0) {
       if (emailFocus.hasFocus) {
@@ -128,6 +129,7 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
       context.read<SendInvitesCubit>().sendInvite(
           InvitesRequest(
             email: email,
+            invitedId: invitedId,
             type: widget.typeUserToInvite,
             teamId: widget.team?.id,
             schoolId: widget.schoolId,
@@ -297,7 +299,7 @@ class _EnterEmailPageOne extends StatelessWidget {
   }) : super(key: key);
   final TextEditingController emailController;
   final FocusNode emailFocus;
-  final void Function(String) selectedUser;
+  final void Function(User) selectedUser;
   final void Function(String) selectedEmail;
   final String? errorText;
   final Role role;
@@ -355,7 +357,7 @@ class _EnterEmailPageOne extends StatelessWidget {
             const SizedBox(height: Constants.space21),
             SearchUserList(
               emailController: emailController,
-              selectedUser: (email) => selectedUser(email),
+              selectedUser: (user) => selectedUser(user),
               selectedEmail: (email) => selectedEmail(email),
             ),
           ],
@@ -370,7 +372,7 @@ class SearchUserList extends StatefulWidget {
       required this.selectedEmail,
       required this.emailController,
       this.forceUserExists = false});
-  final void Function(String) selectedUser;
+  final void Function(User) selectedUser;
   final void Function(String) selectedEmail;
   final TextEditingController emailController;
   final bool forceUserExists;
@@ -423,7 +425,7 @@ class _SearchUserListState extends State<SearchUserList> {
                       child: UserListTile(
                         user: state.searchUsersList![index],
                         onTap: (tapped) {
-                          widget.selectedUser(tapped);
+                          widget.selectedUser(state.searchUsersList![index]);
                         },
                         trailingWidget: SizedBox(
                           height: 35,

@@ -1,6 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/core/data/entities/school_entity.dart';
+import 'package:quinientas_historias/features/invites/send/ui/pages/choose_school_for_invite_page.dart';
 
 import '../../../core/data/entities/team_entity.dart';
 import '../../../core/data/entities/user_entity.dart';
@@ -48,7 +50,7 @@ class SendInviteProvider extends StatelessWidget {
     );
   }
 
-  static Future<bool?> inviteReadersProf(BuildContext context,
+  static Future<bool?> inviteReadersProfAndAdmin(BuildContext context,
       {required int schoolId}) {
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute<bool>(
@@ -58,6 +60,22 @@ class SendInviteProvider extends StatelessWidget {
                   InvitesUseCases(repository: InvitesRepository())),
           child: ChooseTeamForInvitePage(
             schoolId: schoolId,
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Future<School?> chooseSchoolForInviteAdmin(BuildContext context,
+      {Role role = Role.reader}) {
+    return Navigator.of(context, rootNavigator: true).push<School>(
+      MaterialPageRoute<School>(
+        builder: (context) => BlocProvider(
+          create: (context) => SendInvitesCubit(
+              invitesUseCases:
+                  InvitesUseCases(repository: InvitesRepository())),
+          child: ChooseSchoolForInvitePage(
+            role: role,
           ),
         ),
       ),

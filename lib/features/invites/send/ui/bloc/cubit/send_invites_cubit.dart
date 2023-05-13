@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../../core/data/entities/invites_entity.dart';
@@ -52,8 +53,6 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
   sendInvite(InvitesRequest request,
       {required Function onSuccess, required Function onError}) async {
     emit(state.copyWith(sendingInvite: true));
-    await Future.delayed(const Duration(seconds: 1));
-
     invitesUseCases.sendInvite(request).listen((_) {
       onSuccess();
       emit(state.copyWith(sendingInvite: false));
@@ -91,6 +90,18 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
     emit(state.copyWith(isLoading: true));
     invitesUseCases.getTeamsFromProf(schoolId).listen((teams) {
       emit(state.copyWith(profTeams: teams, isLoading: false));
+      completer.complete();
+    }, onError: (error) {
+      completer.completeError(error);
+    }).subscribe(this);
+    return completer.future;
+  }
+
+  Future<void> getSchoolsForAdmin() async {
+    var completer = Completer<void>();
+    emit(state.copyWith(isLoading: true));
+    invitesUseCases.getSchoolsForAdmin().listen((schools) {
+      emit(state.copyWith(adminSchools: schools, isLoading: false));
       completer.complete();
     }, onError: (error) {
       completer.completeError(error);

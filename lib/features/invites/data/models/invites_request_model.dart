@@ -7,11 +7,13 @@ part 'invites_request_model.g.dart';
 @JsonSerializable()
 class InvitesRequest {
   InvitesRequest({
+    this.invitedId,
     required this.email,
     required this.type,
     this.teamId,
     this.schoolId,
   });
+  final int? invitedId;
   final String email;
   final Role type;
   final int? teamId;
