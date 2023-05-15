@@ -79,7 +79,6 @@ class _ThemedMultiDropdownState<T> extends State<ThemedMultiDropdown<T>> {
           },
           items: widget.items.map(
             (e) {
-              final _check = selectedValues.contains(e.value) == true;
               return DropdownMenuItem<T>(
                   key: ObjectKey(e.value),
                   value: e.value,

@@ -170,6 +170,7 @@ abstract class _$AppRouter extends RootStackRouter {
           typeUserToInvite: args.typeUserToInvite,
           team: args.team,
           schoolId: args.schoolId,
+          tournamentId: args.tournamentId,
         ),
       );
     },
@@ -234,6 +235,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<bool?>(
         routeData: routeData,
         child: const TournamentProvider(),
+      );
+    },
+    OnboardingUserRoute.name: (routeData) {
+      final args = routeData.argsAs<OnboardingUserRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OnboardingUserPage(
+          key: args.key,
+          role: args.role,
+          onResult: args.onResult,
+        ),
       );
     },
   };
@@ -714,6 +726,7 @@ class SendInviteRoute extends PageRouteInfo<SendInviteRouteArgs> {
     Role typeUserToInvite = Role.reader,
     required Team? team,
     required int? schoolId,
+    int? tournamentId,
     List<PageRouteInfo>? children,
   }) : super(
           SendInviteRoute.name,
@@ -722,6 +735,7 @@ class SendInviteRoute extends PageRouteInfo<SendInviteRouteArgs> {
             typeUserToInvite: typeUserToInvite,
             team: team,
             schoolId: schoolId,
+            tournamentId: tournamentId,
           ),
           initialChildren: children,
         );
@@ -738,6 +752,7 @@ class SendInviteRouteArgs {
     this.typeUserToInvite = Role.reader,
     required this.team,
     required this.schoolId,
+    this.tournamentId,
   });
 
   final Key? key;
@@ -748,9 +763,11 @@ class SendInviteRouteArgs {
 
   final int? schoolId;
 
+  final int? tournamentId;
+
   @override
   String toString() {
-    return 'SendInviteRouteArgs{key: $key, typeUserToInvite: $typeUserToInvite, team: $team, schoolId: $schoolId}';
+    return 'SendInviteRouteArgs{key: $key, typeUserToInvite: $typeUserToInvite, team: $team, schoolId: $schoolId, tournamentId: $tournamentId}';
   }
 }
 
@@ -941,4 +958,47 @@ class TournamentRoute extends PageRouteInfo<void> {
   static const String name = 'TournamentRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OnboardingUserPage]
+class OnboardingUserRoute extends PageRouteInfo<OnboardingUserRouteArgs> {
+  OnboardingUserRoute({
+    Key? key,
+    required Role role,
+    required void Function() onResult,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OnboardingUserRoute.name,
+          args: OnboardingUserRouteArgs(
+            key: key,
+            role: role,
+            onResult: onResult,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OnboardingUserRoute';
+
+  static const PageInfo<OnboardingUserRouteArgs> page =
+      PageInfo<OnboardingUserRouteArgs>(name);
+}
+
+class OnboardingUserRouteArgs {
+  const OnboardingUserRouteArgs({
+    this.key,
+    required this.role,
+    required this.onResult,
+  });
+
+  final Key? key;
+
+  final Role role;
+
+  final void Function() onResult;
+
+  @override
+  String toString() {
+    return 'OnboardingUserRouteArgs{key: $key, role: $role, onResult: $onResult}';
+  }
 }

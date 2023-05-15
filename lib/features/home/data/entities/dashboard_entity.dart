@@ -70,7 +70,6 @@ class MySummaryChallenge extends MySummary {
     required String summaryDescription,
     required this.challengeType,
     required this.userChallengeId,
-    required this.points,
     this.steps,
     this.stepsCompleted,
     this.url,
@@ -79,8 +78,7 @@ class MySummaryChallenge extends MySummary {
             summaryTitle: summaryTitle, summaryDescription: summaryDescription);
   // Common
   final ChallengeType challengeType;
-  final String userChallengeId;
-  final int? points;
+  final int userChallengeId;
   // Steps
   final int? steps;
   final int? stepsCompleted;

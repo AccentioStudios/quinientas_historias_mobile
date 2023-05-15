@@ -100,7 +100,9 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
       final loginSuccess = await loginFirst();
       if (loginSuccess) {
         if (context.mounted) {
-          navigateToAcceptInvite(context, invite: invite);
+          Future.delayed(const Duration(seconds: 1), () {
+            navigateToAcceptInvite(context, invite: invite);
+          });
         }
         return;
       }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
+import 'package:quinientas_historias/core/data/entities/tournament_entity.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/integrations/api_service.dart';
@@ -28,6 +29,14 @@ class InvitesRepository with ApiService {
     });
   }
 
+  Stream<List<Tournament>> getTournamentsForAdmin() async* {
+    yield* appApi.get('/v2/tournament').handle(mapper: (Object data) {
+      return (data as List<dynamic>).map<Tournament>((dynamic item) {
+        return Tournament.fromJson(item as Map<String, dynamic>);
+      }).toList();
+    });
+  }
+
   Stream<List<User>> searchUsers(String email) async* {
     yield* appApi.get('/v2/user', queryParameters: {'email': email}).handle(
         mapper: (Object data) {
@@ -50,7 +59,7 @@ class InvitesRepository with ApiService {
     });
   }
 
-  Stream<void> sendInvite(InvitesRequest request) async* {
+  Stream<void> sendInvite(CreateInviteDto request) async* {
     yield* appApi
         .post('/v2/invite', data: json.encode(request.toJson()))
         .handle(mapper: (Object data) {});

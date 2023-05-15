@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:quinientas_historias/core/routes/guards/onboardings/user_onboarding_guard.dart';
 
 import '../../features/auth/auth_provider.dart';
 import '../../features/challenges/challenges_admin_provider.dart';
@@ -13,6 +14,7 @@ import '../../features/config/ui/pages/config_page.dart';
 import '../../features/explore/explore_provider.dart';
 import '../../features/home/home_provider.dart';
 import '../../features/home/ui/bloc/cubit/home_cubit.dart';
+import '../../features/home/ui/pages/onboarding_user_page.dart';
 import '../../features/invites/received/received_invite_provider.dart';
 import '../../features/invites/send/send_invite_provider.dart';
 import '../../features/profiles_module/school_profile/school_profile_provider.dart';
@@ -27,7 +29,7 @@ import '../integrations/remote_config_service.dart';
 import '../integrations/secure_storage_service.dart';
 import '../ui/pages/common_page_layout.dart';
 import 'guards/admin_auth_guard.dart';
-import 'guards/new_challenge_onboarding_guard.dart';
+import 'guards/onboardings/new_challenge_onboarding_guard.dart';
 
 part 'auto_router.gr.dart';
 
@@ -44,8 +46,10 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
             AutoRoute(path: 'user', page: UserProfileRoute.page),
             AutoRoute(path: 'config', page: ConfigRoute.page),
           ],
+          guards: [UserOnboardingGuard()],
         ),
         // AutoRoute(path: '/tournament', page: TournamentDetailsRoute.page),
+        AutoRoute(path: '/onboarding', page: OnboardingUserRoute.page),
         AutoRoute(path: '/user/:id', page: UserProfileRoute.page),
         AutoRoute(path: '/school/:id', page: SchoolProfileRoute.page),
         AutoRoute(path: '/team/:id', page: TeamProfileRoute.page),
@@ -80,7 +84,9 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
               page: ChallengesAdminExploreRoute.page,
             ),
           ],
-          guards: [AdminAuthGuard()],
+          guards: [
+            AdminAuthGuard(),
+          ],
         ),
       ];
 

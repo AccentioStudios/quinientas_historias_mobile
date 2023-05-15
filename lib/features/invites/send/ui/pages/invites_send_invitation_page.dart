@@ -24,12 +24,17 @@ import '../../../data/models/invites_request_model.dart';
 import '../bloc/cubit/send_invites_cubit.dart';
 
 class InvitesSendInvitationPage extends StatefulWidget with ErrorHandling {
-  const InvitesSendInvitationPage(
-      {Key? key, required this.typeUserToInvite, this.team, this.schoolId})
-      : super(key: key);
+  const InvitesSendInvitationPage({
+    Key? key,
+    required this.typeUserToInvite,
+    this.team,
+    this.schoolId,
+    this.tournamentId,
+  }) : super(key: key);
   final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;
+  final int? tournamentId;
   @override
   State<InvitesSendInvitationPage> createState() =>
       _InvitesSendInvitationPageState();
@@ -127,12 +132,13 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
         emailFocus.unfocus();
       }
       context.read<SendInvitesCubit>().sendInvite(
-          InvitesRequest(
+          CreateInviteDto(
             email: email,
             invitedId: invitedId,
             type: widget.typeUserToInvite,
             teamId: widget.team?.id,
             schoolId: widget.schoolId,
+            tournamentId: widget.tournamentId,
           ),
           onSuccess: () {}, onError: (HttpFailure error) {
         if (error.message == FailureTypes.userAlreadyInvited) {

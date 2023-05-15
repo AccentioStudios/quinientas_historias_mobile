@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:quinientas_historias/core/helpers/shared_preferences_helper.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/data/entities/invites_entity.dart';
@@ -124,10 +125,27 @@ class UserManagementCubit extends Cubit<UserManagementState>
 
   void acceptInvite(Invite invite,
       {required Function onSuccess, required Function onError}) async {
+    // We need to validate if the invite is for a captain, if it is, we need to verify the tournamentId
+    if (invite.invitedRole == Role.captain) {
+      if (invite.tournamentId != null) {
+      } else {
+        // If the invite is for a captain and the tournamentId is null, we need to throw an error
+        final error =
+            Exception('Error. Invitación de capitán no tiene asociado torneo');
+        Fluttertoast.showToast(
+            msg: 'Error. Invitación de capitán no tiene asociado torneo');
+        onError(error);
+      }
+    }
     emit(state.copyWith(isLoading: true, error: null));
     userManagementUseCases.acceptInvite(AcceptInviteDto(invite: invite)).listen(
         (event) {
       onSuccess();
+      // If the invite is for a captain, we need to save the tournamentId in the shared preferences
+      if (invite.invitedRole == Role.captain) {
+        SharedPreferencesHelper.instance
+            .setInt('captainTournamentId', invite.tournamentId!);
+      }
       emit(state.copyWith(isLoading: false, error: null));
     }, onError: (error) {
       onError(error);

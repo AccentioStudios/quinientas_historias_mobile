@@ -1,3 +1,5 @@
+import '../../../../core/integrations/secure_storage_service.dart';
+
 import '../../../../core/data/dto/auth_dto.dart';
 import '../../../../core/integrations/api_service.dart';
 import '../models/iforgot_request_model.dart';
@@ -5,6 +7,7 @@ import '../models/iforgot_response_model.dart';
 import '../models/login_model.dart';
 import '../models/verify_otp_code_request_model.dart';
 import '../models/verify_otp_code_response_model.dart';
+import 'package:get_it/get_it.dart';
 
 class AuthRepository with ApiService {
   Stream<AuthDto> login(AuthRequest login) async* {
@@ -13,6 +16,7 @@ class AuthRepository with ApiService {
       'firebase_token': login.firebaseToken
     }).handleJson(mapper: (data) {
       AuthDto authModel = AuthDto.decode(data);
+      GetIt.I<SecureStorageService>().saveSession(authModel);
       return authModel;
     });
   }

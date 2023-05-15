@@ -22,7 +22,7 @@ class HomeAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     const TextStyle userNameTextStyle =
         TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
-    const TextStyle RoleTextStyle = TextStyle(fontSize: 14);
+    const TextStyle roleTextStyle = TextStyle(fontSize: 14);
 
     return Container(
       width: double.infinity,
@@ -36,7 +36,7 @@ class HomeAppBar extends StatelessWidget {
             onTap: onTap,
             child: _Username(
               userNameTextStyle: userNameTextStyle,
-              RoleTextStyle: RoleTextStyle,
+              roleTextStyle: roleTextStyle,
               user: user,
             ),
           ),
@@ -46,10 +46,11 @@ class HomeAppBar extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _UserStreak extends StatelessWidget with SheetMessages {
   const _UserStreak({
     Key? key,
-    this.streakNumber = 0,
+    required this.streakNumber,
   }) : super(key: key);
 
   final int streakNumber;
@@ -88,12 +89,12 @@ class _Username extends StatelessWidget {
   const _Username({
     Key? key,
     required this.userNameTextStyle,
-    required this.RoleTextStyle,
+    required this.roleTextStyle,
     required this.user,
   }) : super(key: key);
 
   final TextStyle userNameTextStyle;
-  final TextStyle RoleTextStyle;
+  final TextStyle roleTextStyle;
   final User? user;
 
   @override
@@ -110,7 +111,7 @@ class _Username extends StatelessWidget {
           children: <Widget>[
             Text('${user?.firstName ?? ''} ${user?.lastName ?? ''}',
                 style: userNameTextStyle),
-            Text(formatRole(user?.role?.name), style: RoleTextStyle),
+            Text(formatRole(user?.role?.name), style: roleTextStyle),
           ],
         ),
       ],

@@ -9,6 +9,7 @@ class SendInvitesState with _$SendInvitesState {
     @Default(initInvites) List<Invite> invites,
     @Default(initProfTeams) List<Team> profTeams,
     @Default(initAdminSchools) List<School> adminSchools,
+    @Default(initTournamentsList) List<Tournament> tournaments,
     @Default(false) emailIsValid,
     @Default(initSearchUsersList) searchUsersList,
     User? user,
@@ -19,3 +20,4 @@ const List<Invite> initInvites = [];
 const List<Team> initProfTeams = [];
 const List<School> initAdminSchools = [];
 const List<User> initSearchUsersList = [];
+const List<Tournament> initTournamentsList = [];

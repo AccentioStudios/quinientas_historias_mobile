@@ -8,7 +8,6 @@ import '../../../core/integrations/remote_config_service.dart';
 import '../../../core/mixins/error_handling.dart';
 import '../../../core/routes/routes.dart';
 import '../../../core/ui/pages/common_page_layout.dart';
-import '../../invites/received/received_invite_provider.dart';
 
 class LandingPage extends StatefulWidget with ErrorHandling {
   const LandingPage({Key? key}) : super(key: key);

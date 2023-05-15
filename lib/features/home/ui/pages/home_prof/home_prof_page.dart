@@ -147,10 +147,17 @@ class HomeProfPage extends StatelessWidget {
 
   void navigateToInviteReaders(BuildContext context, {required int? schoolId}) {
     if (schoolId != null) {
-      SendInviteProvider.inviteReadersProfAndAdmin(context, schoolId: schoolId)
-          .then((refresh) {
-        if (refresh == true) {
-          // getDashboardFunction();
+      SendInviteProvider.chooseTeamForInviteProfAndAdmin(
+        context,
+        schoolId: schoolId,
+      ).then((team) {
+        if (team != null) {
+          SendInviteProvider.open(
+            context,
+            team: team,
+            tournamentId: team.tournament?.id,
+            typeUserToInvite: Role.reader,
+          ).then((value) {});
         }
       });
     } else {

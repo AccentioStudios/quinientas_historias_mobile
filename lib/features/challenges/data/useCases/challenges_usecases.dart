@@ -35,16 +35,16 @@ class ChallengesUseCases {
   }
 
   Future<void> sendEvent(ChallengeSarEvent event) async {
-    Completer<void> _completer = Completer();
+    Completer<void> completer = Completer();
     if (kDebugMode) {
       print('Sending SAR event to server. ${event.trigger}');
     }
     repository.sendEvent(event).listen((_) {
-      _completer.complete();
+      completer.complete();
     }, onError: (error) {
-      _completer.completeError(error);
+      completer.completeError(error);
     });
 
-    return _completer.future;
+    return completer.future;
   }
 }

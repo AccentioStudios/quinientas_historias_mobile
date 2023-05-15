@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quinientas_historias/features/home/ui/pages/home_captain/home_captain_page.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/error_handling.dart';
 
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
     switch (state.dashboard?.user.role?.name) {
       case Role.reader:
       case Role.captain:
-        return HomeReaderPage(state: state);
+        return HomeCaptainPage(state: state);
       case Role.prof:
         return HomeProfPage(state: state);
       case Role.admin:

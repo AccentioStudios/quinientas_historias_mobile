@@ -22,9 +22,9 @@ class Application extends StatefulWidget {
 }
 
 class _ApplicationState extends State<Application> {
-  StreamSubscription? _streamSubscription;
-  Uri? _initialUri;
-  bool _initialURILinkHandled = false;
+  StreamSubscription? _streamDeeplink;
+  // Uri? _initialUri;
+  // bool _initialURILinkHandled = false;
   @override
   void initState() {
     super.initState();
@@ -38,7 +38,7 @@ class _ApplicationState extends State<Application> {
 
   @override
   void dispose() {
-    _streamSubscription?.cancel();
+    _streamDeeplink?.cancel();
     super.dispose();
   }
 
@@ -75,66 +75,93 @@ class _ApplicationState extends State<Application> {
   }
 
   Future<void> initCheckings() async {
-    await _initURIHandler();
-    _incomingLinkHandler();
-    if (_initialUri != null) {
-      return;
-    }
+    initUniLinks();
   }
 
-  Future<void> _initURIHandler() async {
-    // 1
-    if (!_initialURILinkHandled) {
-      _initialURILinkHandled = true;
-      // 2
-      try {
-        // 3
-        final initialURI = await getInitialUri();
-        // 4
-        if (initialURI != null) {
-          debugPrint("Initial URI received $initialURI");
-          setState(() {
-            _initialUri = initialURI;
-          });
-          _navigateToRouteFromDeepLink(initialURI);
-        } else {
-          debugPrint("Null Initial URI received");
-        }
-      } on PlatformException {
-        // 5
-        debugPrint("Failed to receive initial uri");
-      } on FormatException catch (err) {
-        // 6
-        debugPrint('Malformed Initial URI received $err');
-      }
-    }
-  }
-
-  void _incomingLinkHandler() {
-    // 1
-    if (!kIsWeb) {
-      // 2
-      _streamSubscription = uriLinkStream.listen((Uri? uri) {
-        if (!mounted) {
-          return;
-        }
-        debugPrint('Received URI: $uri');
-        _navigateToRouteFromDeepLink(uri);
-        // 3
-      }, onError: (Object err) {
-        if (!mounted) {
-          return;
-        }
-        debugPrint('Error occurred: $err');
+  Future<void> initUniLinks() async {
+    try {
+      final initialUri = await getInitialUri();
+      debugPrint("Initial URI received $initialUri");
+      Future.delayed(const Duration(seconds: 1), () {
+        _navigateToRouteFromDeepLink(initialUri);
       });
+    } on PlatformException {
+      debugPrint("Failed to receive initial uri");
     }
+
+    // Attach a listener to the stream
+    _streamDeeplink = uriLinkStream.listen((Uri? uri) {
+      debugPrint("Stream listener URI received $uri");
+      _navigateToRouteFromDeepLink(uri);
+    }, onError: (err) {
+      debugPrint("Failed to receive stream listener uri");
+    });
   }
+
+  // Future<void> initCheckings() async {
+  //   await _initURIHandler();
+  //   _incomingLinkHandler();
+  //   if (_initialUri != null) {
+  //     return;
+  //   }
+  // }
+
+  // Future<void> _initURIHandler() async {
+  //   // 1
+  //   if (!_initialURILinkHandled) {
+  //     _initialURILinkHandled = true;
+  //     // 2
+  //     try {
+  //       // 3
+  //       final initialURI = await getInitialUri();
+  //       // 4
+  //       if (initialURI != null) {
+  //         debugPrint("Initial URI received $initialURI");
+  //         setState(() {
+  //           _initialUri = initialURI;
+  //         });
+  //         _navigateToRouteFromDeepLink(initialURI);
+  //       } else {
+  //         debugPrint("Null Initial URI received");
+  //       }
+  //     } on PlatformException {
+  //       // 5
+  //       debugPrint("Failed to receive initial uri");
+  //     } on FormatException catch (err) {
+  //       // 6
+  //       debugPrint('Malformed Initial URI received $err');
+  //     }
+  //   }
+  // }
+
+  // void _incomingLinkHandler() {
+  //   // 1
+  //   if (!kIsWeb) {
+  //     // 2
+  //     _streamSubscription = uriLinkStream.listen((Uri? uri) {
+  //       if (!mounted) {
+  //         return;
+  //       }
+  //       debugPrint('Received URI: $uri');
+  //       _navigateToRouteFromDeepLink(uri);
+  //       // 3
+  //     }, onError: (Object err) {
+  //       if (!mounted) {
+  //         return;
+  //       }
+  //       debugPrint('Error occurred: $err');
+  //     });
+  //   }
+  // }
 
   _navigateToRouteFromDeepLink(Uri? uri) {
     if (uri != null) {
       // convert map QueryParameters to url format query parameters string
+      // final uri = Uri.parse(url);
       final pathWithQueryParameters = '${uri.path}?${uri.query}';
+      // execute 2 seconts after app start
 
+      GetIt.I<AppRouter>().popUntil((route) => route.isFirst);
       GetIt.I<AppRouter>().pushNamed(pathWithQueryParameters);
     }
   }

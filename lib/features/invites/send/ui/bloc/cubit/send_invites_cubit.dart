@@ -6,6 +6,7 @@ import 'package:quinientas_historias/core/data/entities/school_entity.dart';
 import 'package:quinientas_historias/core/data/entities/team_entity.dart';
 
 import '../../../../../../core/data/entities/invites_entity.dart';
+import '../../../../../../core/data/entities/tournament_entity.dart';
 import '../../../../../../core/data/entities/user_entity.dart';
 import '../../../../../../core/mixins/form_validation.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
@@ -50,7 +51,7 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
     }
   }
 
-  sendInvite(InvitesRequest request,
+  sendInvite(CreateInviteDto request,
       {required Function onSuccess, required Function onError}) async {
     emit(state.copyWith(sendingInvite: true));
     invitesUseCases.sendInvite(request).listen((_) {
@@ -102,6 +103,18 @@ class SendInvitesCubit extends Cubit<SendInvitesState>
     emit(state.copyWith(isLoading: true));
     invitesUseCases.getSchoolsForAdmin().listen((schools) {
       emit(state.copyWith(adminSchools: schools, isLoading: false));
+      completer.complete();
+    }, onError: (error) {
+      completer.completeError(error);
+    }).subscribe(this);
+    return completer.future;
+  }
+
+  Future<void> getTournamentsForAdmin() async {
+    var completer = Completer<void>();
+    emit(state.copyWith(isLoading: true));
+    invitesUseCases.getTournamentsForAdmin().listen((tournaments) {
+      emit(state.copyWith(tournaments: tournaments, isLoading: false));
       completer.complete();
     }, onError: (error) {
       completer.completeError(error);

@@ -8,7 +8,6 @@ import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/headline.dart';
 import '../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../core/utils/constants.dart';
-import '../../../invites/received/received_invite_provider.dart';
 import '../bloc/cubit/auth_cubit.dart';
 
 class ReceiveInvitePage extends StatelessWidget with ErrorHandling {

@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
 import 'package:quinientas_historias/core/ui/widgets/link_button.dart';
-
+import '../../../../core/routes/auto_router.dart';
 import '../../../../core/ui/widgets/outlined_card.dart';
 import '../../../../core/utils/constants.dart';
 import '../../data/entities/dashboard_entity.dart';
 
-class MySummaryChallengeCard extends StatelessWidget {
+class MySummaryChallengeCard extends StatelessWidget with SheetMessages {
   const MySummaryChallengeCard({
     super.key,
     required this.summaryChallenge,
@@ -21,6 +23,9 @@ class MySummaryChallengeCard extends StatelessWidget {
       width: 277,
       height: 130,
       child: OutlinedCard(
+          onTap: () {
+            openTestGame(context, summaryChallenge: summaryChallenge);
+          },
           padding: const EdgeInsets.symmetric(
               horizontal: Constants.space18, vertical: Constants.space18),
           child: Column(
@@ -84,6 +89,29 @@ class MySummaryChallengeCard extends StatelessWidget {
             ],
           )),
     );
+  }
+
+  openTestGame(BuildContext context,
+      {required MySummaryChallenge summaryChallenge}) async {
+    final challengeResult = await AutoRouter.of(context).push(ChallengesRoute(
+      url: summaryChallenge.url,
+      name: summaryChallenge.summaryTitle,
+      description: summaryChallenge.summaryDescription,
+      id: summaryChallenge.userChallengeId.toString(),
+    ));
+    if (challengeResult == true) {
+      // // ignore: use_build_context_synchronously
+      // showMessage(context,
+      //     title: 'Minijuego testing',
+      //     content:
+      //         'Has completado el minijuego de testing con resultado positivo');
+    } else {
+      // // ignore: use_build_context_synchronously
+      // showMessage(context,
+      //     title: 'Minijuego testing',
+      //     content:
+      //         'Has completado el minijuego de testing con resultado negativo');
+    }
   }
 
   String getChallengeIcon() {

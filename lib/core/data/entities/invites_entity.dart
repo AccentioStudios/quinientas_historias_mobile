@@ -23,11 +23,13 @@ class Invite {
     this.invited,
     this.team,
     this.school,
+    this.tournamentId,
   });
   final int? id;
   final int inviterUserId;
   final int? teamId;
   final int? schoolId;
+  final int? tournamentId;
   final int? invitedId;
   final String invitedEmail;
   final String? invitedFirstName;

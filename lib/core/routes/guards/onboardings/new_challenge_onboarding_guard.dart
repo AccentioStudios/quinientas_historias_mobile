@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:quinientas_historias/core/routes/auto_router.dart';
 
-import '../../helpers/shared_preferences_helper.dart';
+import '../../../helpers/shared_preferences_helper.dart';
 
 class NewChallengeOnboardingGuard extends AutoRouteGuard {
   @override

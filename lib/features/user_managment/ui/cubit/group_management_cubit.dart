@@ -28,10 +28,14 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
   final GroupManagementUseCases groupManagementUseCases;
 
   void initNewTeam(
-    String schoolName,
+    School school,
+    int tournamentId,
   ) {
     emit(state.copyWith(
-        groupManagementRequest: GroupManagementRequest(name: schoolName)));
+        groupManagementRequest: GroupManagementRequest(
+      schoolId: school.id,
+      tournamentId: tournamentId,
+    )));
   }
 
   void loadTeam(Team team) {
@@ -59,12 +63,11 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
     String? avatarUrl,
   }) {
     if (state.groupManagementRequest != null) {
-      final GroupManagementRequest user = GroupManagementRequest(
-        id: state.groupManagementRequest!.id,
-        avatarUrl: avatarUrl ?? state.groupManagementRequest!.avatarUrl,
+      emit(state.copyWith(
+          groupManagementRequest: state.groupManagementRequest!.copyWith(
         name: name ?? state.groupManagementRequest!.name,
-      );
-      emit(state.copyWith(groupManagementRequest: user));
+        avatarUrl: avatarUrl ?? state.groupManagementRequest!.avatarUrl,
+      )));
     }
   }
 

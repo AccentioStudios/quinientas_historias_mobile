@@ -19,30 +19,35 @@ class MySummaryCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Column(children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: Constants.space18),
-          child: Headline(label: 'Mi resumen'),
-        ),
-        SizedBox(
-          height: 134,
-          width: double.infinity,
-          child: CarouselSlider(
-            items: [
-              ...buildSummaryChallengesCards(state),
-              buildSummaryTeamCard(state),
-              buildSummarySchoolCard(state),
-            ],
-            options: CarouselOptions(
-              scrollPhysics: const BouncingScrollPhysics(),
-              viewportFraction: 0.7,
-              padEnds: false,
-              aspectRatio: 277 / 130,
-              enableInfiniteScroll: false,
-            ),
-          ),
-        ),
-      ]),
+      child: state.dashboard == null
+          ? const SizedBox.shrink()
+          : state.dashboard!.mySummary.isEmpty
+              ? const SizedBox.shrink()
+              : Column(children: [
+                  const Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: Constants.space18),
+                    child: Headline(label: 'Mi resumen'),
+                  ),
+                  SizedBox(
+                    height: 134,
+                    width: double.infinity,
+                    child: CarouselSlider(
+                      items: [
+                        ...buildSummaryChallengesCards(state),
+                        buildSummaryTeamCard(state),
+                        buildSummarySchoolCard(state),
+                      ],
+                      options: CarouselOptions(
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        viewportFraction: 0.7,
+                        padEnds: false,
+                        aspectRatio: 277 / 130,
+                        enableInfiniteScroll: false,
+                      ),
+                    ),
+                  ),
+                ]),
     );
   }
 
@@ -53,24 +58,23 @@ class MySummaryCarousel extends StatelessWidget {
         (state.dashboard?.mySummary.whereType<MySummaryChallenge>())
                 ?.toList() ??
             []);
+    // challenges.add(MySummaryChallenge(
+    //   summaryTitle: 'El juego de la semana',
+    //   summaryDescription: '¡Juega y gana puntos!',
+    //   points: 12,
+    //   challengeType: ChallengeType.minigame,
+    //   userChallengeId: '11',
+    // ));
 
-    challenges.add(MySummaryChallenge(
-      summaryTitle: 'El juego de la semana',
-      summaryDescription: '¡Juega y gana puntos!',
-      points: 12,
-      challengeType: ChallengeType.minigame,
-      userChallengeId: '11',
-    ));
-
-    challenges.add(MySummaryChallenge(
-      summaryTitle: 'Reto de lecturas',
-      summaryDescription: 'Lee 7 lecturas diarias y gana puntos extras',
-      challengeType: ChallengeType.steps,
-      userChallengeId: '11',
-      points: null,
-      steps: 7,
-      stepsCompleted: 1,
-    ));
+    // challenges.add(MySummaryChallenge(
+    //   summaryTitle: 'Reto de lecturas',
+    //   summaryDescription: 'Lee 7 lecturas diarias y gana puntos extras',
+    //   challengeType: ChallengeType.steps,
+    //   userChallengeId: '11',
+    //   points: null,
+    //   steps: 7,
+    //   stepsCompleted: 1,
+    // ));
 
     for (final challenge in challenges) {
       list.add(Padding(
@@ -84,9 +88,12 @@ class MySummaryCarousel extends StatelessWidget {
   }
 
   Widget buildSummaryTeamCard(HomeState state) {
-    final team = (state.dashboard?.mySummary
-            .firstWhereOrNull((e) => e.groupType == GroupType.team))
-        as MySummaryGroup?;
+    final groups =
+        state.dashboard?.mySummary.whereType<MySummaryGroup>().toList();
+
+    final team =
+        (groups?.firstWhereOrNull((e) => e.groupType == GroupType.team));
+
     if (team != null) {
       return Padding(
         padding: const EdgeInsets.only(left: Constants.space18),
@@ -105,9 +112,11 @@ class MySummaryCarousel extends StatelessWidget {
   }
 
   Widget buildSummarySchoolCard(HomeState state) {
-    final school = (state.dashboard?.mySummary
-            .firstWhereOrNull((e) => e?.groupType == GroupType.school))
-        as MySummaryGroup?;
+    final groups =
+        state.dashboard?.mySummary.whereType<MySummaryGroup>().toList();
+
+    final school =
+        (groups?.firstWhereOrNull((e) => e.groupType == GroupType.school));
     if (school != null) {
       return Padding(
         padding: const EdgeInsets.only(left: Constants.space18),

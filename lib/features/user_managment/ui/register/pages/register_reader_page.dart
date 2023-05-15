@@ -72,11 +72,11 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
                       child: CircularProgressIndicator(),
                     )
                   : state.registeringUser
-                      ? Center(
+                      ? const Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
+                            children: [
                               SizedBox(
                                 width: 300,
                                 height: 300,

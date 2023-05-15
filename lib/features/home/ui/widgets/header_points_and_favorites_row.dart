@@ -10,8 +10,8 @@ class HeaderPointsAndFavoritesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: const <Widget>[
+    return const Row(
+      children: <Widget>[
         Flexible(
           flex: 1,
           child: SingleChip(

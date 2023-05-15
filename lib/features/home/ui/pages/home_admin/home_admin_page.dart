@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/routes/auto_router.dart';
@@ -172,29 +173,52 @@ class HomeAdminPage extends StatelessWidget {
   void navigateToInviteCaptains(
     BuildContext context,
   ) {
-    SendInviteProvider.chooseSchoolForInviteAdmin(context, role: Role.captain)
-        .then((school) {
-      if (school != null) {
-        SendInviteProvider.open(context,
-                schoolId: school.id, typeUserToInvite: Role.captain)
-            .then((refresh) {
-          if (refresh == true) {
-            // getDashboardFunction();
+    SendInviteProvider.chooseTournamentForInviteAdmin(context)
+        .then((tournament) {
+      if (tournament != null) {
+        SendInviteProvider.chooseSchoolForInviteAdmin(context,
+                role: Role.captain)
+            .then((school) {
+          if (school != null) {
+            SendInviteProvider.open(
+              context,
+              schoolId: school.id,
+              tournamentId: tournament.id,
+              typeUserToInvite: Role.captain,
+            ).then((refresh) {});
           }
+        });
+      } else {
+        Fluttertoast.cancel().then((value) {
+          Fluttertoast.showToast(msg: "Debes seleccionar un torneo");
         });
       }
     });
   }
 
   void navigateToInviteReaders(BuildContext context) {
-    SendInviteProvider.chooseSchoolForInviteAdmin(context).then((school) {
-      if (school != null) {
-        SendInviteProvider.inviteReadersProfAndAdmin(context,
-                schoolId: school.id)
-            .then((school) {
-          if (school == true) {
-            // getDashboardFunction();
+    SendInviteProvider.chooseTournamentForInviteAdmin(context)
+        .then((tournament) {
+      if (tournament != null) {
+        SendInviteProvider.chooseSchoolForInviteAdmin(context).then((school) {
+          if (school != null) {
+            SendInviteProvider.chooseTeamForInviteProfAndAdmin(
+              context,
+              schoolId: school.id,
+            ).then((team) {
+              if (team != null) {
+                SendInviteProvider.open(
+                  context,
+                  team: team,
+                  typeUserToInvite: Role.reader,
+                ).then((value) {});
+              }
+            });
           }
+        });
+      } else {
+        Fluttertoast.cancel().then((value) {
+          Fluttertoast.showToast(msg: "Debes seleccionar un torneo");
         });
       }
     });

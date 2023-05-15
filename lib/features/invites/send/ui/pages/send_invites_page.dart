@@ -21,11 +21,13 @@ class SendInvitesPage extends StatefulWidget with ErrorHandling {
     required this.typeUserToInvite,
     this.team,
     this.schoolId,
+    this.tournamentId,
   }) : super(key: key);
 
   final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;
+  final int? tournamentId;
   @override
   State<SendInvitesPage> createState() => _SendInvitesPageState();
 }
@@ -141,12 +143,12 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
 
   String getHeadlineList() {
     if (widget.team != null || widget.typeUserToInvite == Role.reader) {
-      return 'Lectores invitados al equipo';
+      return 'Lectores invitados al equipo por aceptar';
     }
     if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
-      return 'Capitanes invitados';
+      return 'Capitanes invitados por aceptar';
     }
-    return 'Invitaciones mandadas';
+    return 'Invitaciones mandadas por aceptar';
   }
 
   void deleteInvitation(Invite invite) {
@@ -179,6 +181,7 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
                     typeUserToInvite: widget.typeUserToInvite,
                     schoolId: widget.schoolId,
                     team: widget.team,
+                    tournamentId: widget.tournamentId,
                   ),
                 )))
         .then((refresh) {
@@ -255,7 +258,8 @@ class _InvitesList extends StatelessWidget {
         if (isLoading) const Center(child: CircularProgressIndicator()),
         if (!isLoading)
           ...invites.map((item) {
-            if (item.invitedRole == invitedTypeFilter) {
+            if (item.invitedRole == invitedTypeFilter &&
+                item.accepted == false) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: Constants.space12),
                 child: DismissibleListTile(

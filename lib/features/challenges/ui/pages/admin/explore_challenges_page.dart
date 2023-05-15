@@ -8,7 +8,6 @@ import '../../../../../core/data/entities/challenge_sar_entity.dart';
 // ignore: library_prefixes
 import '../../../../../core/libs/custom_search_delegate.dart' as customSearch;
 import '../../../../../core/utils/constants.dart';
-import '../../../../tournament/ui/widgets/no_item_found_widget.dart';
 import '../../cubit/challenges_admin_cubit.dart';
 
 @RoutePage()

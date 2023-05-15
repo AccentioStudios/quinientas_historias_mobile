@@ -18,8 +18,11 @@ import '../../widgets/group_management_avatar.dart';
 
 class RegisterTeamPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
-  const RegisterTeamPage({Key? key, required this.school}) : super(key: key);
+  const RegisterTeamPage(
+      {Key? key, required this.school, required this.tournamentId})
+      : super(key: key);
   final School school;
+  final int tournamentId;
   @override
   State<RegisterTeamPage> createState() => _RegisterTeamPageState();
 }
@@ -39,7 +42,9 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<GroupManagementCubit>().initNewTeam(widget.school.name);
+    context
+        .read<GroupManagementCubit>()
+        .initNewTeam(widget.school, widget.tournamentId);
   }
 
   @override

@@ -58,9 +58,9 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Al entrar al equipo pasarás a formar parte del torneo, cada puntos que hagas aparecerá en la tabla de posiciones representando al equipo.',
-                      style: TextStyle(fontSize: 16),
+                    Text(
+                      getRoleTextForDescription(invite.invitedRole),
+                      style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: Constants.space30),
                     UserListTile(
@@ -92,10 +92,16 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                     const SizedBox(height: Constants.space30),
                     GroupListItem(
                       avatarWidget: GroupAvatar(
-                        type: GroupAvatarType.team,
-                        avatarUrl: invite.team!.avatarUrl,
+                        type: invite.team != null
+                            ? GroupAvatarType.team
+                            : GroupAvatarType.school,
+                        avatarUrl: invite.team != null
+                            ? invite.team!.avatarUrl
+                            : invite.school!.avatarUrl,
                       ),
-                      label: Text(invite.team!.name),
+                      label: Text(invite.team != null
+                          ? invite.team!.name
+                          : invite.school!.name),
                       secondRow: invite.team?.tournament?.name != null
                           ? [
                               Padding(
@@ -133,6 +139,19 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
         },
       ),
     );
+  }
+
+  String getRoleTextForDescription(Role? role) {
+    switch (role) {
+      case Role.admin:
+        return '';
+      case Role.reader:
+        return 'Al entrar al equipo pasarás a formar parte del torneo, cada puntos que hagas aparecerá en la tabla de posiciones representando al equipo.';
+      case Role.captain:
+        return 'Al entrar al torneo deberás crear tu equipo y seleccionar a tus compañeros de equipo.';
+      default:
+        return '';
+    }
   }
 
   User? getUserData() {

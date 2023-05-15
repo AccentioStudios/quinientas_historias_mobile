@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../features/challenges/data/dto/register_new_challenge_response.dto.dart';
 import '../data/entities/daily_challenge_entity.dart';
