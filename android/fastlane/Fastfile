@@ -39,14 +39,31 @@ platform :android do
   desc "Build and Deploy App for Dev-QA (Firebase Distribution)"
   lane :devqa do
     api_url = ENV['API_URL']
-    jwt_sign_key = ENV['JWT_SIGN_KEY']
+    sar_api_url = ENV['SAR_API_URL']
+    jwt_secret = ENV['JWT_SECRET']
+    jwt_refresh_secret = ENV['JWT_REFRESH_SECRET']
+    oidc_client_id = ENV['OIDC_CLIENT_ID']
+    oidc_discover_url = ENV['OIDC_DISCOVER_URL']
+    oidc_redirect_url = ENV['OIDC_REDIRECT_URI']
     build_number = ENV['BUILD_NUMBER']
     firebase_app_id = ENV['FIREBASE_ANDROID_APP_ID']
     firebase_token = ENV['FIREBASE_CLI_TOKEN']
     Dir.chdir "../.." do
       sh("flutter", "packages", "get")
       sh("flutter", "clean")
-      sh("flutter", "build", "apk", "--release", "--build-number=#{build_number}", "--dart-define=API_URL=#{api_url}", "--dart-define=JWT_SIGN_KEY=#{jwt_sign_key}", "--dart-define=ENV=qa", "--dart-define=APP_ID_SUFFIX=.dev")
+      sh("flutter", "build", "apk", 
+        "--release", 
+        "--build-number=#{build_number}", 
+        "--dart-define=API_URL=#{api_url}", 
+        "--dart-define=SAR_API_URL=#{sar_api_url}", 
+        "--dart-define=JWT_SECRET=#{jwt_secret}", 
+        "--dart-define=JWT_REFRESH_SECRET=#{jwt_refresh_secret}", 
+        "--dart-define=OIDC_CLIENT_ID=#{oidc_client_id}", 
+        "--dart-define=OIDC_DISCOVER_URL=#{oidc_discover_url}", 
+        "--dart-define=OIDC_REDIRECT_URI=#{oidc_redirect_url}", 
+        "--dart-define=ENV=qa", 
+        "--dart-define=https=true", 
+        "--dart-define=APP_ID_SUFFIX=.dev")
     end
     firebase_app_distribution(
       app: firebase_app_id, 

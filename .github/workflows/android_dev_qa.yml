@@ -59,7 +59,12 @@ jobs:
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
           API_URL: ${{ secrets.API_URL_DEV_QA }}
-          JWT_SIGN_KEY: ${{ secrets.JWT_SIGN_KEY_DEV_QA }}
+          SAR_API_URL: ${{ secrets.SAR_API_URL_DEV_QA }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET_DEV_QA }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET_DEV_QA }}
+          OIDC_CLIENT_ID: ${{ secrets.OIDC_CLIENT_ID_DEV_QA }}
+          OIDC_DISCOVER_URL: ${{ secrets.OIDC_DISCOVER_URL_DEV_QA }}
+          OIDC_REDIRECT_URI: ${{ secrets.OIDC_REDIRECT_URI_DEV_QA }}
           BUILD_NUMBER: ${{env.BUILD_NUMBER}}
           FIREBASE_ANDROID_APP_ID: ${{secrets.FIREBASE_ANDROID_APP_ID_DEV_QA}}
           FIREBASE_CLI_TOKEN: ${{secrets.FIREBASE_CLI_TOKEN}}
