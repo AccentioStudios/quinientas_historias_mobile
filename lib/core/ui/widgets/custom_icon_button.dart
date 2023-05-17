@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatefulWidget {
   const CustomIconButton({
-    Key? key,
+    super.key,
     this.onPressed,
     required this.icon,
     this.loading = false,
-  }) : super(key: key);
+  });
   final VoidCallback? onPressed;
   final Widget icon;
   final bool loading;

@@ -14,10 +14,10 @@ enum ActiveOptionAppButtonBar {
 
 class AppButtonBar extends StatelessWidget {
   const AppButtonBar({
-    Key? key,
+    super.key,
     required this.activeOption,
     required this.onSelectOption,
-  }) : super(key: key);
+  });
 
   final ActiveOptionAppButtonBar activeOption;
   final Function(ActiveOptionAppButtonBar) onSelectOption;
@@ -90,13 +90,12 @@ class AppButtonBar extends StatelessWidget {
 
 class _Item extends StatelessWidget {
   const _Item({
-    Key? key,
     this.labelText,
     required this.iconSvgPath,
     required this.activeIconSvgPath,
     this.active = false,
     this.onPressed,
-  }) : super(key: key);
+  });
   final String? labelText;
   final String iconSvgPath;
   final String activeIconSvgPath;
@@ -145,7 +144,7 @@ class _Item extends StatelessWidget {
 }
 
 class FloatingActionBtnDocked extends StatelessWidget {
-  const FloatingActionBtnDocked({Key? key, this.onPressed}) : super(key: key);
+  const FloatingActionBtnDocked({super.key, this.onPressed});
 
   final VoidCallback? onPressed;
 

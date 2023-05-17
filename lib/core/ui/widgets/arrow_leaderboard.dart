@@ -5,10 +5,10 @@ import '../../utils/colors.dart';
 
 class ArrowLeaderBoard extends StatelessWidget {
   const ArrowLeaderBoard({
-    Key? key,
+    super.key,
     this.number = 0,
     this.positive = true,
-  }) : super(key: key);
+  });
   final int number;
   final bool positive;
   @override

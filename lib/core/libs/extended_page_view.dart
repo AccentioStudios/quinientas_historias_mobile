@@ -46,7 +46,7 @@ class ExtendedPageView extends StatefulWidget {
   /// child that could possibly be displayed in the page view, instead of just
   /// those children that are actually visible.
   ExtendedPageView({
-    Key? key,
+    super.key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
     PageController? controller,
@@ -60,8 +60,7 @@ class ExtendedPageView extends StatefulWidget {
     this.clipBehavior = Clip.hardEdge,
     this.cacheExtent = 0,
   })  : controller = controller ?? _defaultPageController,
-        childrenDelegate = SliverChildListDelegate(children),
-        super(key: key);
+        childrenDelegate = SliverChildListDelegate(children);
 
   /// Creates a scrollable list that works page by page using widgets that are
   /// created on demand.
@@ -76,7 +75,7 @@ class ExtendedPageView extends StatefulWidget {
   /// [itemBuilder] will be called only with indices greater than or equal to
   /// zero and less than [itemCount].
   ExtendedPageView.builder({
-    Key? key,
+    super.key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
     PageController? controller,
@@ -92,13 +91,12 @@ class ExtendedPageView extends StatefulWidget {
     this.cacheExtent = 0,
   })  : controller = controller ?? _defaultPageController,
         childrenDelegate =
-            SliverChildBuilderDelegate(itemBuilder, childCount: itemCount),
-        super(key: key);
+            SliverChildBuilderDelegate(itemBuilder, childCount: itemCount);
 
   /// Creates a scrollable list that works page by page with a custom child
   /// model.
   ExtendedPageView.custom({
-    Key? key,
+    super.key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
     PageController? controller,
@@ -111,8 +109,7 @@ class ExtendedPageView extends StatefulWidget {
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.cacheExtent = 0,
-  })  : controller = controller ?? _defaultPageController,
-        super(key: key);
+  })  : controller = controller ?? _defaultPageController;
 
   /// Controls whether the widget's pages will respond to
   /// [RenderObject.showOnScreen], which will allow for implicit accessibility
@@ -314,8 +311,8 @@ class _ExtendedPageViewState extends State<ExtendedPageView> {
 class _ForceImplicitScrollPhysics extends ScrollPhysics {
   const _ForceImplicitScrollPhysics({
     required this.allowImplicitScrolling,
-    ScrollPhysics? parent,
-  }) : super(parent: parent);
+    super.parent,
+  });
 
   @override
   _ForceImplicitScrollPhysics applyTo(ScrollPhysics? ancestor) {

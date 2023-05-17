@@ -5,7 +5,7 @@ import 'bloc/cubit/landing_cubit.dart';
 import 'landing_page.dart';
 
 class LandingProvider extends StatelessWidget {
-  const LandingProvider({Key? key}) : super(key: key);
+  const LandingProvider({super.key});
 
   @override
   Widget build(BuildContext context) {

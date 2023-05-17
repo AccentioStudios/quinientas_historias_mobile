@@ -9,8 +9,7 @@ import 'ui/pages/user_profile_page.dart';
 
 @RoutePage()
 class UserProfileProvider extends StatelessWidget {
-  const UserProfileProvider({Key? key, @PathParam('id') this.userId})
-      : super(key: key);
+  const UserProfileProvider({super.key, @PathParam('id') this.userId});
   final int? userId;
   @override
   Widget build(BuildContext context) {

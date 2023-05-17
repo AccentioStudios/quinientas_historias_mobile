@@ -10,7 +10,7 @@ import '../../../core/routes/routes.dart';
 import '../../../core/ui/pages/common_page_layout.dart';
 
 class LandingPage extends StatefulWidget with ErrorHandling {
-  const LandingPage({Key? key}) : super(key: key);
+  const LandingPage({super.key});
 
   @override
   State<LandingPage> createState() => _LandingPageState();

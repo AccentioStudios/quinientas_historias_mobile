@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class ChallengesAdminHomePage extends StatefulWidget {
-  const ChallengesAdminHomePage({Key? key, this.testMode}) : super(key: key);
+  const ChallengesAdminHomePage({super.key, this.testMode});
   final String? testMode;
 
   @override

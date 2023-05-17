@@ -20,7 +20,7 @@ import '../../cubit/challenges_admin_cubit.dart';
 @RoutePage()
 class ChallengesAdminRegisterPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
-  const ChallengesAdminRegisterPage({Key? key}) : super(key: key);
+  const ChallengesAdminRegisterPage({super.key});
 
   // final ChallengesAdminCubit cubit;
 

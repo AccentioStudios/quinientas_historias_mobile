@@ -4,12 +4,12 @@ enum GroupAvatarType { team, school }
 
 class GroupAvatar extends StatelessWidget {
   const GroupAvatar({
-    Key? key,
+    super.key,
     this.avatarUrl,
     this.width = 42,
     this.height = 42,
     required this.type,
-  }) : super(key: key);
+  });
 
   final String? avatarUrl;
   final double width;

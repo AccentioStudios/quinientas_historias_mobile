@@ -7,12 +7,12 @@ import '../../utils/constants.dart';
 
 class SingleChip extends StatelessWidget {
   const SingleChip({
-    Key? key,
+    super.key,
     required this.primaryLabel,
     required this.secondaryLabel,
     this.svgIconPath,
     this.onTap,
-  }) : super(key: key);
+  });
   final String primaryLabel;
   final String secondaryLabel;
   final String? svgIconPath;

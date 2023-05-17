@@ -6,13 +6,13 @@ import 'outlined_card.dart';
 
 class LeaderboardListItem extends StatelessWidget {
   const LeaderboardListItem({
-    Key? key,
+    super.key,
     required this.avatarWidget,
     required this.label,
     this.secondaryLabel,
     this.trailingWidget,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget avatarWidget;
   final Widget label;

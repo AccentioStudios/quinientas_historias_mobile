@@ -6,8 +6,7 @@ import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 
 class StoryCover extends StatelessWidget {
-  const StoryCover({Key? key, required this.story, this.onTap, this.coverColor})
-      : super(key: key);
+  const StoryCover({super.key, required this.story, this.onTap, this.coverColor});
 
   final Story story;
   final GestureTapCallback? onTap;

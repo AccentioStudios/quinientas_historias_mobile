@@ -38,17 +38,15 @@ class RecomendedStoriesDasboardDto {
 @JsonSerializable()
 class MySummaryGroup extends MySummary {
   MySummaryGroup(
-      {required String summaryTitle,
-      required String summaryDescription,
+      {required super.summaryTitle,
+      required super.summaryDescription,
       required this.groupType,
       required this.groupName,
       required this.groupId,
       required this.points,
       required this.userReads,
       required this.rankPlace,
-      this.avatarUrl})
-      : super(
-            summaryTitle: summaryTitle, summaryDescription: summaryDescription);
+      this.avatarUrl});
   final GroupType groupType;
   final String groupName;
   final int groupId;
@@ -66,16 +64,15 @@ class MySummaryGroup extends MySummary {
 @JsonSerializable()
 class MySummaryChallenge extends MySummary {
   MySummaryChallenge({
-    required String summaryTitle,
-    required String summaryDescription,
+    required super.summaryTitle,
+    required super.summaryDescription,
     required this.challengeType,
     required this.userChallengeId,
     this.steps,
     this.stepsCompleted,
     this.url,
     User? user,
-  }) : super(
-            summaryTitle: summaryTitle, summaryDescription: summaryDescription);
+  });
   // Common
   final ChallengeType challengeType;
   final int userChallengeId;

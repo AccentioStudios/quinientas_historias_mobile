@@ -8,9 +8,9 @@ import '../cubit/user_management_cubit.dart';
 
 class RegisterUserAvatar extends StatelessWidget {
   const RegisterUserAvatar({
-    Key? key,
+    super.key,
     required this.state,
-  }) : super(key: key);
+  });
 
   final UserManagementState state;
   @override

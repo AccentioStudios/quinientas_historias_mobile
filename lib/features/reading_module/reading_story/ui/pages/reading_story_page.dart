@@ -25,7 +25,7 @@ import 'reading_story_options_sheet_view.dart';
 import 'reading_story_success_page.dart';
 
 class ReadingStoryPage extends StatefulWidget with ErrorHandling {
-  const ReadingStoryPage({Key? key, required this.storyId}) : super(key: key);
+  const ReadingStoryPage({super.key, required this.storyId});
   final int storyId;
 
   @override
@@ -342,7 +342,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
 }
 
 class FavoriteBtn extends StatefulWidget with ErrorHandling {
-  const FavoriteBtn({Key? key, required this.state}) : super(key: key);
+  const FavoriteBtn({super.key, required this.state});
   final ReadingStoryState state;
 
   @override

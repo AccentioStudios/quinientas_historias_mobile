@@ -5,8 +5,8 @@ import '../../../../core/utils/constants.dart';
 
 class HeaderPointsAndFavoritesRow extends StatelessWidget {
   const HeaderPointsAndFavoritesRow({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

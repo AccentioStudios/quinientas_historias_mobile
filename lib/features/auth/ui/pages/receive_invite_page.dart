@@ -11,7 +11,7 @@ import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/auth_cubit.dart';
 
 class ReceiveInvitePage extends StatelessWidget with ErrorHandling {
-  const ReceiveInvitePage({Key? key}) : super(key: key);
+  const ReceiveInvitePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ReceiveInvitePage extends StatelessWidget with ErrorHandling {
 }
 
 class _VerifyCodeForm extends StatefulWidget with ErrorHandling {
-  const _VerifyCodeForm({Key? key}) : super(key: key);
+  const _VerifyCodeForm();
 
   @override
   State<_VerifyCodeForm> createState() => _VerifyCodeFormState();
@@ -153,7 +153,7 @@ class _VerifyCodeFormState extends State<_VerifyCodeForm> {
 }
 
 class GradientBackground extends StatelessWidget {
-  const GradientBackground({Key? key}) : super(key: key);
+  const GradientBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,7 @@ import '../components/user_profile_leaderboard_team_list.dart';
 import '../widgets/team_profile_cards_widget.dart';
 
 class TeamProfilePage extends StatefulWidget with ErrorHandling {
-  const TeamProfilePage({Key? key}) : super(key: key);
+  const TeamProfilePage({super.key});
 
   @override
   State<TeamProfilePage> createState() => _TeamProfilePageState();

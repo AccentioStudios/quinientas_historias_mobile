@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class LayoutWithFooter extends StatelessWidget {
   const LayoutWithFooter({
-    Key? key,
+    super.key,
     required this.footer,
     required this.children,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.alignmentFooter = Alignment.bottomCenter,
     this.padding,
     this.paddingFooter,
-  }) : super(key: key);
+  });
 
   final Widget footer;
   final List<Widget> children;

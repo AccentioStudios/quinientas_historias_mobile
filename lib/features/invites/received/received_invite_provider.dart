@@ -10,11 +10,10 @@ import 'ui/pages/received_invites_page.dart';
 @RoutePage<bool?>()
 class ReceivedInviteProvider extends StatelessWidget {
   const ReceivedInviteProvider(
-      {Key? key,
+      {super.key,
       @PathParam('role') required this.role,
       @PathParam('inviteId') required this.inviteId,
-      @QueryParam('code') this.code})
-      : super(key: key);
+      @QueryParam('code') this.code});
   final String? role;
   final int? inviteId;
   final String? code;

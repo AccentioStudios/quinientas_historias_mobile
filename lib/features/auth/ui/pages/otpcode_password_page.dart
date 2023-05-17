@@ -17,7 +17,7 @@ import '../bloc/cubit/auth_cubit.dart';
 import 'new_password_page.dart';
 
 class OtpCodePasswordPage extends StatelessWidget with ErrorHandling {
-  const OtpCodePasswordPage({Key? key}) : super(key: key);
+  const OtpCodePasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class OtpCodePasswordPage extends StatelessWidget with ErrorHandling {
 }
 
 class _HeroImage extends StatelessWidget {
-  const _HeroImage({Key? key}) : super(key: key);
+  const _HeroImage();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _HeroImage extends StatelessWidget {
 }
 
 class _OtpCodeForm extends StatefulWidget with ErrorHandling {
-  const _OtpCodeForm({Key? key}) : super(key: key);
+  const _OtpCodeForm();
 
   @override
   State<_OtpCodeForm> createState() => _OtpCodeFormState();
@@ -288,13 +288,13 @@ class _OtpCodeFormState extends State<_OtpCodeForm> {
 
 class OtpCodeInput extends StatefulWidget {
   const OtpCodeInput({
-    Key? key,
+    super.key,
     required this.controller,
     this.errorController,
     this.onCompleted,
     this.enabled = true,
     this.length = 4,
-  }) : super(key: key);
+  });
   final bool enabled;
   final TextEditingController controller;
   final void Function(String)? onCompleted;
@@ -353,7 +353,7 @@ class _OtpCodeInputState extends State<OtpCodeInput> {
 }
 
 class GradientBackground extends StatelessWidget {
-  const GradientBackground({Key? key}) : super(key: key);
+  const GradientBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

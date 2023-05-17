@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 part 'tab_scroll_view.dart';
 
 class FastScrollPhysics extends ClampingScrollPhysics {
-  const FastScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
+  const FastScrollPhysics({super.parent});
 
   @override
   FastScrollPhysics applyTo(ScrollPhysics? ancestor) {
@@ -57,7 +57,7 @@ class ExtendedTabBarView extends StatefulWidget {
   ///
   /// The length of [children] must be the same as the [controller]'s length.
   const ExtendedTabBarView({
-    Key? key,
+    super.key,
     required this.children,
     this.controller,
     this.physics = const FastScrollPhysics(),
@@ -66,7 +66,7 @@ class ExtendedTabBarView extends StatefulWidget {
     this.link = true,
     this.scrollDirection = Axis.horizontal,
     this.pageController,
-  }) : super(key: key);
+  });
 
   /// cache page count
   /// default is 0.

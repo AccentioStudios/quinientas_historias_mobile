@@ -20,8 +20,8 @@ import 'user_teams_tab_view.dart';
 
 class UserProfilePage extends StatefulWidget with ErrorHandling {
   const UserProfilePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();

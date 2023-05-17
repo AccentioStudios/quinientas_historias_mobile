@@ -6,7 +6,7 @@ import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
 
 class ReadingStoryOptionsSheetView extends StatefulWidget {
-  const ReadingStoryOptionsSheetView({Key? key}) : super(key: key);
+  const ReadingStoryOptionsSheetView({super.key});
 
   @override
   State<ReadingStoryOptionsSheetView> createState() =>

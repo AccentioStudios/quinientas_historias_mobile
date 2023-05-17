@@ -6,7 +6,7 @@ import '../../../../core/integrations/device_info.dart';
 import '../../../../core/routes/routes.dart';
 
 class NotificationsDashPage extends StatelessWidget {
-  const NotificationsDashPage({Key? key}) : super(key: key);
+  const NotificationsDashPage({super.key});
 
   @override
   Widget build(BuildContext context) {

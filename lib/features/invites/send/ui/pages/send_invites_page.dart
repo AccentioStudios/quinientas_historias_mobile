@@ -17,12 +17,12 @@ import 'invites_send_invitation_page.dart';
 
 class SendInvitesPage extends StatefulWidget with ErrorHandling {
   const SendInvitesPage({
-    Key? key,
+    super.key,
     required this.typeUserToInvite,
     this.team,
     this.schoolId,
     this.tournamentId,
-  }) : super(key: key);
+  });
 
   final Role typeUserToInvite;
   final Team? team;
@@ -94,7 +94,7 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
                     _InvitesList(
                       invites: state.invites,
                       isLoading: state.isLoading,
-                      invitedTypeFilter: getInvitedTypeFilter(),
+                      invitedTypeFilter: widget.typeUserToInvite,
                       onDismissed: deleteInvitation,
                     )
                   ],
@@ -116,39 +116,63 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
   }
 
   String getTitle() {
-    if (widget.team != null) return 'Invitar a un lector';
-    if (widget.schoolId != null) return 'Invitar a un capitán';
-    return 'Invitar';
+    switch (widget.typeUserToInvite) {
+      case Role.admin:
+        return 'Invitar a administradores';
+      case Role.reader:
+        return 'Invitar a lectores';
+      case Role.captain:
+        return 'Invitar a un capitán';
+      case Role.prof:
+        return 'Invitar a profesores';
+      default:
+        return 'Invitar';
+    }
   }
 
   String getHeader() {
-    if (widget.team != null || widget.typeUserToInvite == Role.reader) {
-      return 'Haz crecer el equipo';
+    switch (widget.typeUserToInvite) {
+      case Role.admin:
+        return 'Invita nuevos administradores a la plataforma';
+      case Role.reader:
+        return 'Haz crecer el equipo';
+      case Role.captain:
+        return 'Integra nuevos capitanes al torneo';
+      case Role.prof:
+        return 'Invita nuevos profesores a la plataforma';
+      default:
+        return '';
     }
-    if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
-      return 'Integra nuevos capitanes al torneo';
-    }
-    return 'Invita personas a 500Historias';
   }
 
   String getSubtitle() {
-    if (widget.team != null || widget.typeUserToInvite == Role.reader) {
-      return 'Invita a más lectores a formar parte de "${widget.team?.name}" y ganen juntos en esta temporada';
+    switch (widget.typeUserToInvite) {
+      case Role.admin:
+        return 'Los administradores pueden crear nuevos torneos, retos y administrar en general la plataforma';
+      case Role.reader:
+        return 'Invita a más lectores a formar parte de "${widget.team?.name}" y ganen juntos en esta temporada';
+      case Role.captain:
+        return 'Los capitanes pueden crear sus equipos e invitar nuevos lectores también';
+      case Role.prof:
+        return 'Los profesores pueden registrar sus escuelas e invitar capitanes y lectores';
+      default:
+        return '';
     }
-    if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
-      return 'Los capitanes pueden crear sus equipos e invitar nuevos lectores también';
-    }
-    return '';
   }
 
   String getHeadlineList() {
-    if (widget.team != null || widget.typeUserToInvite == Role.reader) {
-      return 'Lectores invitados al equipo por aceptar';
+    switch (widget.typeUserToInvite) {
+      case Role.admin:
+        return 'Administradores invitados por aceptar';
+      case Role.reader:
+        return 'Lectores invitados al equipo por aceptar';
+      case Role.captain:
+        return 'Capitanes invitados por aceptar';
+      case Role.prof:
+        return 'Profesores invitados por aceptar';
+      default:
+        return 'Invitaciones mandadas por aceptar';
     }
-    if (widget.schoolId != null || widget.typeUserToInvite == Role.captain) {
-      return 'Capitanes invitados por aceptar';
-    }
-    return 'Invitaciones mandadas por aceptar';
   }
 
   void deleteInvitation(Invite invite) {
@@ -192,10 +216,9 @@ class _SendInvitesPageState extends State<SendInvitesPage> {
 
 class _HeroImage extends StatelessWidget {
   const _HeroImage({
-    Key? key,
     this.team,
     this.schoolId,
-  }) : super(key: key);
+  });
 
   final Team? team;
   final int? schoolId;
@@ -241,12 +264,11 @@ class _HeroImage extends StatelessWidget {
 
 class _InvitesList extends StatelessWidget {
   const _InvitesList({
-    Key? key,
     required this.invites,
     required this.isLoading,
     required this.onDismissed,
     required this.invitedTypeFilter,
-  }) : super(key: key);
+  });
   final List<Invite> invites;
   final bool isLoading;
   final Function(Invite) onDismissed;
@@ -286,8 +308,7 @@ class _InvitesList extends StatelessWidget {
 }
 
 class _InvitationStateChip extends StatelessWidget {
-  const _InvitationStateChip({Key? key, required this.accepted})
-      : super(key: key);
+  const _InvitationStateChip({required this.accepted});
   final bool accepted;
   @override
   Widget build(BuildContext context) {

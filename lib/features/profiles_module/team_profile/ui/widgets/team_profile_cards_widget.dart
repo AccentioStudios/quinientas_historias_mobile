@@ -9,7 +9,7 @@ import '../../../school_profile/school_profile_provider.dart';
 import '../bloc/cubit/team_profile_cubit.dart';
 
 class TeamCards extends StatelessWidget {
-  const TeamCards({Key? key, required this.state}) : super(key: key);
+  const TeamCards({super.key, required this.state});
   final TeamProfileState state;
   @override
   Widget build(BuildContext context) {

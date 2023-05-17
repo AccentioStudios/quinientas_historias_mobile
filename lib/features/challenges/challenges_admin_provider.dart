@@ -9,9 +9,9 @@ import 'ui/cubit/challenges_admin_cubit.dart';
 @RoutePage()
 class ChallengesAdminProvider extends StatelessWidget {
   const ChallengesAdminProvider({
-    Key? key,
+    super.key,
     @QueryParam('testMode') this.testMode,
-  }) : super(key: key);
+  });
   final String? testMode;
   @override
   Widget build(BuildContext context) {

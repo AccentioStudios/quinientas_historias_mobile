@@ -13,7 +13,7 @@ import '../bloc/cubit/auth_cubit.dart';
 import 'otpcode_password_page.dart';
 
 class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  const ForgotPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class ForgotPasswordPage extends StatelessWidget with ErrorHandling {
 }
 
 class _ForgotPasswordForm extends StatefulWidget with ErrorHandling {
-  const _ForgotPasswordForm({Key? key}) : super(key: key);
+  const _ForgotPasswordForm();
 
   @override
   State<_ForgotPasswordForm> createState() => _ForgotPasswordFormState();
@@ -154,7 +154,7 @@ class _ForgotPasswordFormState extends State<_ForgotPasswordForm> {
 }
 
 class GradientBackground extends StatelessWidget {
-  const GradientBackground({Key? key}) : super(key: key);
+  const GradientBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

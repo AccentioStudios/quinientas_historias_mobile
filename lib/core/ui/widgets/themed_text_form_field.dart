@@ -5,7 +5,7 @@ import '../../utils/constants.dart';
 
 class ThemedTextFormField extends StatelessWidget {
   const ThemedTextFormField({
-    Key? key,
+    super.key,
     this.hintText,
     this.prefixIconSvgPath,
     this.keyboardType,
@@ -23,7 +23,7 @@ class ThemedTextFormField extends StatelessWidget {
     this.contentPadding,
     this.borderRadius,
     this.suffix,
-  }) : super(key: key);
+  });
 
   final String? hintText;
   final String? prefixIconSvgPath;

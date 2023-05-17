@@ -13,7 +13,7 @@ import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
 
 class RateStorySheetView extends StatefulWidget {
-  const RateStorySheetView({Key? key, required this.state}) : super(key: key);
+  const RateStorySheetView({super.key, required this.state});
 
   final ReadingStoryState state;
 
@@ -201,12 +201,11 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
 
 class RatingInput extends StatefulWidget {
   const RatingInput(
-      {Key? key,
+      {super.key,
       this.initRate,
       required this.label,
       required this.onChanged,
-      this.isRequired = false})
-      : super(key: key);
+      this.isRequired = false});
   final String label;
   final bool isRequired;
   final int? initRate;

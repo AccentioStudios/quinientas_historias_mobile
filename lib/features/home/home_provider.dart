@@ -9,7 +9,7 @@ import 'ui/bloc/cubit/home_cubit.dart';
 
 @RoutePage()
 class HomeProvider extends StatelessWidget {
-  const HomeProvider({Key? key}) : super(key: key);
+  const HomeProvider({super.key});
 
   @override
   Widget build(BuildContext context) {

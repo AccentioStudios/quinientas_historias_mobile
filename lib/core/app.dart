@@ -15,7 +15,7 @@ import 'routes/auto_router.dart';
 import 'theme/theme.dart';
 
 class Application extends StatefulWidget {
-  const Application({Key? key, required this.router}) : super(key: key);
+  const Application({super.key, required this.router});
   final AppRouter router;
   @override
   State<Application> createState() => _ApplicationState();

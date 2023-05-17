@@ -15,8 +15,7 @@ import '../bloc/cubit/school_profile_cubit.dart';
 
 class TeamsProfileLeaderboardTeamList extends StatelessWidget
     with ErrorHandling {
-  const TeamsProfileLeaderboardTeamList({Key? key, required this.state})
-      : super(key: key);
+  const TeamsProfileLeaderboardTeamList({super.key, required this.state});
 
   final SchoolProfileState state;
 

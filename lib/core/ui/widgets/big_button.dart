@@ -7,7 +7,7 @@ import '../../utils/constants.dart';
 
 class BigButton extends StatelessWidget {
   const BigButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.child,
     this.text,
@@ -20,7 +20,7 @@ class BigButton extends StatelessWidget {
     this.filled = true,
     // this.width,
     // this.height,
-  }) : super(key: key);
+  });
   final void Function()? onPressed;
   final Widget? child;
   final String? text;

@@ -16,7 +16,7 @@ import '../../cubit/user_management_cubit.dart';
 import '../../widgets/user_management_user_avatar.dart';
 
 class EditUserPage extends StatefulWidget with ErrorHandling, SheetMessages {
-  const EditUserPage({Key? key, required this.user}) : super(key: key);
+  const EditUserPage({super.key, required this.user});
   final User user;
 
   @override

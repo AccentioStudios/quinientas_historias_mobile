@@ -8,8 +8,7 @@ import '../../../../../core/utils/constants.dart';
 
 class ReadingCarouselStory extends StatelessWidget {
   const ReadingCarouselStory(
-      {Key? key, this.stories, this.onPageChanged, this.onTap})
-      : super(key: key);
+      {super.key, this.stories, this.onPageChanged, this.onTap});
 
   final List<StoryProgress>? stories;
   final Function(int index, CarouselPageChangedReason reason)? onPageChanged;
@@ -151,9 +150,8 @@ class ReadingCarouselStory extends StatelessWidget {
 
 class _ReadingBadge extends StatelessWidget {
   const _ReadingBadge({
-    Key? key,
     this.readingState = StoryStatus.unread,
-  }) : super(key: key);
+  });
 
   final StoryStatus readingState;
   @override

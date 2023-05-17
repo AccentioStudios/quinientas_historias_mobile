@@ -13,14 +13,14 @@ import 'ui/pages/webview_page.dart';
 @RoutePage()
 class ChallengesProvider extends StatelessWidget {
   const ChallengesProvider({
-    Key? key,
+    super.key,
     @QueryParam('id') this.id,
     @QueryParam('url') this.url,
     @QueryParam('name') this.name,
     @QueryParam('testMode') this.testMode,
     @QueryParam('description') this.description,
     this.useHttps,
-  }) : super(key: key);
+  });
   final String? url;
   final String? name;
   final String? description;

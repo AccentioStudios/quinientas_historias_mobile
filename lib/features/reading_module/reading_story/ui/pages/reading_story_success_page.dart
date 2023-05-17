@@ -20,12 +20,12 @@ import '../../reading_story_provider.dart';
 
 class ReadingStorySuccessPage extends StatefulWidget {
   const ReadingStorySuccessPage({
-    Key? key,
+    super.key,
     required this.points,
     this.recomended,
     this.dailyChallenge,
     required this.user,
-  }) : super(key: key);
+  });
 
   final Points points;
   final List<Story>? recomended;

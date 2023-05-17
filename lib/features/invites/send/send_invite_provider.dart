@@ -17,12 +17,12 @@ import 'ui/pages/send_invites_page.dart';
 @RoutePage<bool?>()
 class SendInviteProvider extends StatelessWidget {
   const SendInviteProvider({
-    Key? key,
+    super.key,
     this.typeUserToInvite = Role.reader,
     required this.team,
     required this.schoolId,
     this.tournamentId,
-  }) : super(key: key);
+  });
   final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;

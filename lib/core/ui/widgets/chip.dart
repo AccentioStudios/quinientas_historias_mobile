@@ -6,12 +6,12 @@ import 'outlined_card.dart';
 
 class CustomChip extends StatelessWidget {
   const CustomChip({
-    Key? key,
+    super.key,
     required this.title,
     required this.body,
     this.svgIconPath,
     this.onTap,
-  }) : super(key: key);
+  });
   final String title;
   final String body;
   final String? svgIconPath;

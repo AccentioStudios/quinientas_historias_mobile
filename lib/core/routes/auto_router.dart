@@ -17,6 +17,7 @@ import '../../features/home/ui/bloc/cubit/home_cubit.dart';
 import '../../features/home/ui/pages/onboarding_user_page.dart';
 import '../../features/invites/received/received_invite_provider.dart';
 import '../../features/invites/send/send_invite_provider.dart';
+import '../../features/invites/send/ui/pages/admin/invites_admin_home.dart';
 import '../../features/profiles_module/school_profile/school_profile_provider.dart';
 import '../../features/profiles_module/team_profile/team_profile_provider.dart';
 import '../../features/profiles_module/user_profile/user_profile_provider.dart';
@@ -60,6 +61,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
             path: '/invite/received/:inviteId/:role',
             page: ReceivedInviteRoute.page),
         AutoRoute(path: '/invite/send', page: SendInviteRoute.page),
+        AutoRoute(path: '/invite/admin', page: InvitesAdminRoute.page),
         AutoRoute(path: '/explore', page: ExploreStoriesRoute.page),
         AutoRoute(path: '/challenge', page: ChallengesRoute.page),
         AutoRoute(

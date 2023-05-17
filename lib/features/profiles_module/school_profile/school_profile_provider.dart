@@ -10,8 +10,7 @@ import 'ui/pages/school_profile_page.dart';
 @RoutePage()
 class SchoolProfileProvider extends StatelessWidget {
   const SchoolProfileProvider(
-      {Key? key, @PathParam('id') required this.schoolId})
-      : super(key: key);
+      {super.key, @PathParam('id') required this.schoolId});
   final int schoolId;
   @override
   Widget build(BuildContext context) {

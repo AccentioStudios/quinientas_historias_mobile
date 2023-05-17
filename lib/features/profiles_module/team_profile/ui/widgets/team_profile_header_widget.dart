@@ -7,7 +7,7 @@ import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/team_profile_cubit.dart';
 
 class TeamProfileHeader extends StatelessWidget {
-  const TeamProfileHeader({Key? key, required this.state}) : super(key: key);
+  const TeamProfileHeader({super.key, required this.state});
 
   final TeamProfileState state;
 
@@ -41,7 +41,7 @@ class TeamProfileHeader extends StatelessWidget {
 }
 
 class TeamProfileAvatar extends StatelessWidget {
-  const TeamProfileAvatar({Key? key, required this.team}) : super(key: key);
+  const TeamProfileAvatar({super.key, required this.team});
   final Team? team;
   @override
   Widget build(BuildContext context) {

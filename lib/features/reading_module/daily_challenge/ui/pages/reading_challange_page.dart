@@ -21,11 +21,10 @@ import '../widgets/reading_carousel_story.dart';
 class DailyChallengePage extends StatefulWidget
     with ErrorHandling, SheetMessages {
   const DailyChallengePage(
-      {Key? key,
+      {super.key,
       this.dailyChallenge,
       this.softGenerateNewChallenge = false,
-      this.forceGenerateNewChallenge = false})
-      : super(key: key);
+      this.forceGenerateNewChallenge = false});
 
   final DailyChallenge? dailyChallenge;
   final bool softGenerateNewChallenge;
@@ -240,7 +239,7 @@ class _DailyChallengePageState extends State<DailyChallengePage> {
 }
 
 class _FirstLinesOfStory extends StatelessWidget {
-  const _FirstLinesOfStory({Key? key, required this.text}) : super(key: key);
+  const _FirstLinesOfStory({required this.text});
   final String? text;
   @override
   Widget build(BuildContext context) {
@@ -288,8 +287,7 @@ class _FirstLinesOfStory extends StatelessWidget {
 }
 
 class _HaveNoChallengeTodayScreen extends StatelessWidget {
-  const _HaveNoChallengeTodayScreen({Key? key, required this.onTap})
-      : super(key: key);
+  const _HaveNoChallengeTodayScreen({required this.onTap});
 
   final Function onTap;
   @override

@@ -8,7 +8,7 @@ import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/utils/constants.dart';
 
 class NewPasswordSuccessPage extends StatelessWidget with ErrorHandling {
-  const NewPasswordSuccessPage({Key? key}) : super(key: key);
+  const NewPasswordSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class NewPasswordSuccessPage extends StatelessWidget with ErrorHandling {
 }
 
 class _HeroImage extends StatelessWidget {
-  const _HeroImage({Key? key}) : super(key: key);
+  const _HeroImage();
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _HeroImage extends StatelessWidget {
 }
 
 class _GradientBackground extends StatelessWidget {
-  const _GradientBackground({Key? key}) : super(key: key);
+  const _GradientBackground();
 
   @override
   Widget build(BuildContext context) {

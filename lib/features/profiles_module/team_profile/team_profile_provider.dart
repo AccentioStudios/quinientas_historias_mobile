@@ -9,8 +9,7 @@ import 'ui/pages/team_profile_page.dart';
 
 @RoutePage()
 class TeamProfileProvider extends StatelessWidget {
-  const TeamProfileProvider({Key? key, @PathParam('id') this.teamId})
-      : super(key: key);
+  const TeamProfileProvider({super.key, @PathParam('id') this.teamId});
   final int? teamId;
   @override
   Widget build(BuildContext context) {

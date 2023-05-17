@@ -10,12 +10,12 @@ import 'ui/pages/reading_challange_page.dart';
 
 class DailyChallangeProvider extends StatelessWidget {
   const DailyChallangeProvider({
-    Key? key,
+    super.key,
     this.dailyChallenge,
     this.homeCubit,
     this.softGenerateNewChallenge = false,
     this.forceGenerateNewChallenge = false,
-  }) : super(key: key);
+  });
 
   // pass a daily challenge to screen, if this is not null, we dont automatically load from server. Instead we use this.
   final DailyChallenge? dailyChallenge;

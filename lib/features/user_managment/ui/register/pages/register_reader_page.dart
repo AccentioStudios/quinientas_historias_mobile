@@ -20,8 +20,7 @@ import '../../widgets/user_management_user_avatar.dart';
 class RegisterReaderPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
   const RegisterReaderPage(
-      {Key? key, required this.invite, this.autoNavigateToHome = true})
-      : super(key: key);
+      {super.key, required this.invite, this.autoNavigateToHome = true});
   final Invite invite;
   final bool? autoNavigateToHome;
   @override

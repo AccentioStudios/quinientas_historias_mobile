@@ -5,12 +5,12 @@ import '../../utils/constants.dart';
 
 class MenuCardFeaturedItem extends StatelessWidget {
   const MenuCardFeaturedItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.desc,
     required this.price,
     required this.imgPath,
-  }) : super(key: key);
+  });
 
   final String title;
   final String desc;

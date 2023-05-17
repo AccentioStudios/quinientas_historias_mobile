@@ -5,7 +5,7 @@ import '../../utils/constants.dart';
 import 'user_avatar.dart';
 
 class AuthorNameChip extends StatelessWidget {
-  const AuthorNameChip({Key? key, this.author}) : super(key: key);
+  const AuthorNameChip({super.key, this.author});
   final Author? author;
   @override
   Widget build(BuildContext context) {

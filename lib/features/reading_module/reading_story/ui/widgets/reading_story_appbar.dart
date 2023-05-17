@@ -8,7 +8,7 @@ import '../bloc/cubit/reading_story_cubit.dart';
 import '../pages/reading_story_page.dart';
 
 class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
-  const ReadingStoryHeader({Key? key, required this.state}) : super(key: key);
+  const ReadingStoryHeader({super.key, required this.state});
 
   final ReadingStoryState state;
   @override

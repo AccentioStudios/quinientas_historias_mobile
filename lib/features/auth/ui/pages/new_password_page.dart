@@ -12,7 +12,7 @@ import '../bloc/cubit/auth_cubit.dart';
 import 'new_password_success_page.dart';
 
 class NewPasswordPage extends StatelessWidget with ErrorHandling {
-  const NewPasswordPage({Key? key}) : super(key: key);
+  const NewPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class NewPasswordPage extends StatelessWidget with ErrorHandling {
 }
 
 class _HeroImage extends StatelessWidget {
-  const _HeroImage({Key? key}) : super(key: key);
+  const _HeroImage();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +92,7 @@ class _HeroImage extends StatelessWidget {
 }
 
 class _NewPasswordForm extends StatefulWidget with ErrorHandling {
-  const _NewPasswordForm({Key? key}) : super(key: key);
+  const _NewPasswordForm();
 
   @override
   State<_NewPasswordForm> createState() => _NewPasswordFormState();
@@ -204,7 +204,7 @@ class _NewPasswordFormState extends State<_NewPasswordForm> {
 }
 
 class GradientBackground extends StatelessWidget {
-  const GradientBackground({Key? key}) : super(key: key);
+  const GradientBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

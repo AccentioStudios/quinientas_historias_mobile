@@ -6,7 +6,7 @@ import '../../utils/constants.dart';
 
 class MessagesBottomSheet extends StatefulWidget {
   const MessagesBottomSheet({
-    Key? key,
+    super.key,
     this.controller,
     this.iconSvgPath,
     this.iconColor,
@@ -18,7 +18,7 @@ class MessagesBottomSheet extends StatefulWidget {
     this.secondaryBtnOnTap,
     this.secondaryBtnLabel,
     this.height = 320,
-  }) : super(key: key);
+  });
   final String? iconSvgPath;
   final Color? iconColor;
   final String title;

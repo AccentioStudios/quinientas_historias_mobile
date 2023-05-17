@@ -19,8 +19,7 @@ import '../../widgets/group_management_avatar.dart';
 class RegisterTeamPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
   const RegisterTeamPage(
-      {Key? key, required this.school, required this.tournamentId})
-      : super(key: key);
+      {super.key, required this.school, required this.tournamentId});
   final School school;
   final int tournamentId;
   @override

@@ -13,7 +13,7 @@ import '../../../tournament/ui/widgets/no_item_found_widget.dart';
 import '../cubit/explore_stories_cubit.dart';
 
 class ExploreStoriesPage extends StatefulWidget {
-  const ExploreStoriesPage({Key? key}) : super(key: key);
+  const ExploreStoriesPage({super.key});
 
   @override
   State<ExploreStoriesPage> createState() => _ExploreStoriesPageState();

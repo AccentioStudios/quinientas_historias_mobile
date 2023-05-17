@@ -4,10 +4,10 @@ import '../../utils/constants.dart';
 
 class LayoutScreen extends StatelessWidget {
   const LayoutScreen({
-    Key? key,
+    super.key,
     required this.wideScreenLayout,
     required this.narrowScreenLayout,
-  }) : super(key: key);
+  });
 
   final Widget wideScreenLayout;
   final Widget narrowScreenLayout;

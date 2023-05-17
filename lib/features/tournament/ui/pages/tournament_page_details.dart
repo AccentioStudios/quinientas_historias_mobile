@@ -15,8 +15,7 @@ import '../components/leaderboard_by_teams_tab_view.dart';
 import '../components/leaderboard_tabs.dart';
 
 class TournamentDetailsPage extends StatefulWidget with ErrorHandling {
-  const TournamentDetailsPage({Key? key, required this.tournament})
-      : super(key: key);
+  const TournamentDetailsPage({super.key, required this.tournament});
 
   final Tournament tournament;
 

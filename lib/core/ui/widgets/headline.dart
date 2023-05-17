@@ -5,15 +5,14 @@ import '../../utils/constants.dart';
 
 class Headline extends StatelessWidget {
   const Headline(
-      {Key? key,
+      {super.key,
       required this.label,
       this.secondaryLabel,
       this.linkText,
       this.onTap,
       this.marginTop = Constants.space30,
       this.marginBottom = Constants.space21,
-      this.fontSize = 18})
-      : super(key: key);
+      this.fontSize = 18});
   final String label;
   final String? secondaryLabel;
   final String? linkText;

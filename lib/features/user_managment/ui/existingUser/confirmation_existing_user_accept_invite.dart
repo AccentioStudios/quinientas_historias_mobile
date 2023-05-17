@@ -45,8 +45,7 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                       horizontal: Constants.space21,
                       vertical: Constants.space21),
                   footer: BigButton(
-                      svgIconPath: 'assets/icons/arrow-forward.svg',
-                      text: 'Siguiente ',
+                      text: 'Confirmar',
                       onPressed: () {
                         confirmation(context, invite);
                       }),
@@ -86,59 +85,84 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                           )),
                     ),
                     const SizedBox(height: Constants.space30),
-                    Center(
-                        child: SvgPicture.asset(
-                            'assets/images/line-dotted-vertical.svg')),
+                    if (invite.invitedRole == Role.reader ||
+                        invite.invitedRole == Role.captain)
+                      Center(
+                          child: SvgPicture.asset(
+                              'assets/images/line-dotted-vertical.svg')),
                     const SizedBox(height: Constants.space30),
-                    GroupListItem(
-                      avatarWidget: GroupAvatar(
-                        type: invite.team != null
-                            ? GroupAvatarType.team
-                            : GroupAvatarType.school,
-                        avatarUrl: invite.team != null
-                            ? invite.team!.avatarUrl
-                            : invite.school!.avatarUrl,
-                      ),
-                      label: Text(invite.team != null
-                          ? invite.team!.name
-                          : invite.school!.name),
-                      secondRow: invite.team?.tournament?.name != null
-                          ? [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: Constants.space8,
-                                    right: Constants.space8),
-                                child: SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: SvgPicture.asset(
-                                    'assets/icons/trophy-outline-icon.svg',
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: Constants.space8),
-                                child: Text(
-                                  invite.team!.tournament!.name!,
-                                  style: TextStyle(
-                                      fontSize: 13,
+                    if (invite.invitedRole == Role.reader ||
+                        invite.invitedRole == Role.captain)
+                      GroupListItem(
+                        avatarWidget: buildGroupAvatar(),
+                        label: buildGroupLabel(),
+                        secondRow: invite.team?.tournament?.name != null
+                            ? [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: Constants.space8,
+                                      right: Constants.space8),
+                                  child: SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/trophy-outline-icon.svg',
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .onSurfaceVariant),
+                                          .onSurfaceVariant,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ]
-                          : [],
-                    ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: Constants.space8),
+                                  child: Text(
+                                    invite.team!.tournament!.name!,
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant),
+                                  ),
+                                ),
+                              ]
+                            : [],
+                      ),
                   ],
                 );
         },
       ),
     );
+  }
+
+  Widget buildGroupLabel() {
+    switch (invite.invitedRole) {
+      case Role.reader:
+        return Text(invite.team?.name ?? '');
+      case Role.captain:
+        return Text(invite.school?.name ?? '');
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Widget buildGroupAvatar() {
+    switch (invite.invitedRole) {
+      case Role.captain:
+        return GroupAvatar(
+          type: GroupAvatarType.team,
+          avatarUrl: invite.team!.avatarUrl,
+        );
+      case Role.prof:
+        return const SizedBox.shrink();
+      case Role.reader:
+        return GroupAvatar(
+          type: GroupAvatarType.team,
+          avatarUrl: invite.team!.avatarUrl,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
   }
 
   String getRoleTextForDescription(Role? role) {
@@ -149,6 +173,8 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
         return 'Al entrar al equipo pasarás a formar parte del torneo, cada puntos que hagas aparecerá en la tabla de posiciones representando al equipo.';
       case Role.captain:
         return 'Al entrar al torneo deberás crear tu equipo y seleccionar a tus compañeros de equipo.';
+      case Role.prof:
+        return 'Al entrar a la plataforma deberás crear tu escuela e invitar a capitanes.';
       default:
         return '';
     }

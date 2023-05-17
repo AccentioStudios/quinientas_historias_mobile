@@ -16,7 +16,7 @@ import '../bloc/cubit/tournament_cubit.dart';
 import '../widgets/tournament_header_widget.dart';
 
 class TournamentPage extends StatefulWidget with ErrorHandling {
-  const TournamentPage({Key? key}) : super(key: key);
+  const TournamentPage({super.key});
 
   @override
   State<TournamentPage> createState() => _TournamentPageState();
@@ -65,9 +65,7 @@ class _TournamentPageState extends State<TournamentPage>
                                     top: Constants.space21),
                                 children: [
                                   ...state.tournaments
-                                      .where((t) =>
-                                          t.active == true &&
-                                          t.endsAt.isAfter(DateTime.now()))
+                                      .where((t) => t.active == true)
                                       .map(
                                         (e) => TournamentListCard(
                                           tournament: e,
@@ -130,13 +128,13 @@ class TournamentListCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            if (tournament.participating == true)
+                            if (!tournament.endsAt.isAfter(DateTime.now()))
                               Text(
-                                'Participando',
+                                'Terminado',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.tertiary),
+                                        Theme.of(context).colorScheme.primary),
                               )
                           ],
                         ),

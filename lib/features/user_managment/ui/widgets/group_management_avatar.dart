@@ -9,10 +9,10 @@ import '../cubit/group_management_cubit.dart';
 
 class RegisterGroupAvatar extends StatelessWidget {
   const RegisterGroupAvatar({
-    Key? key,
+    super.key,
     required this.state,
     required this.type,
-  }) : super(key: key);
+  });
 
   final GroupManagementState state;
   final GroupAvatarType type;

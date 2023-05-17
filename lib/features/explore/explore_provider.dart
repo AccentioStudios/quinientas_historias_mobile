@@ -9,8 +9,7 @@ import 'ui/pages/explore_stories_page.dart';
 
 @RoutePage()
 class ExploreStoriesProvider extends StatelessWidget {
-  const ExploreStoriesProvider({Key? key, @QueryParam('search') this.search})
-      : super(key: key);
+  const ExploreStoriesProvider({super.key, @QueryParam('search') this.search});
   final String? search;
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import 'ui/pages/tournament_page.dart';
 
 @RoutePage<bool?>()
 class TournamentProvider extends StatelessWidget {
-  const TournamentProvider({Key? key}) : super(key: key);
+  const TournamentProvider({super.key});
 
   @override
   Widget build(BuildContext context) {

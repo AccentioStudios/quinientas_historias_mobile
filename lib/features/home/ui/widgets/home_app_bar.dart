@@ -9,11 +9,11 @@ import '../../../../core/utils/constants.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
-    Key? key,
+    super.key,
     this.user,
     this.onTap,
     this.hideStreak = false,
-  }) : super(key: key);
+  });
 
   final User? user;
   final GestureTapCallback? onTap;
@@ -49,9 +49,8 @@ class HomeAppBar extends StatelessWidget {
 // ignore: unused_element
 class _UserStreak extends StatelessWidget with SheetMessages {
   const _UserStreak({
-    Key? key,
     required this.streakNumber,
-  }) : super(key: key);
+  });
 
   final int streakNumber;
   @override
@@ -87,11 +86,10 @@ class _UserStreak extends StatelessWidget with SheetMessages {
 
 class _Username extends StatelessWidget {
   const _Username({
-    Key? key,
     required this.userNameTextStyle,
     required this.roleTextStyle,
     required this.user,
-  }) : super(key: key);
+  });
 
   final TextStyle userNameTextStyle;
   final TextStyle roleTextStyle;

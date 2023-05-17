@@ -4,14 +4,14 @@ import '../../utils/constants.dart';
 
 class OutlinedCard extends StatelessWidget {
   const OutlinedCard({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.onTap,
     this.border,
     this.borderRadius,
     this.backgroundColor,
-  }) : super(key: key);
+  });
   final Widget child;
   final EdgeInsets? padding;
   final GestureTapCallback? onTap;

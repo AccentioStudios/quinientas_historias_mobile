@@ -18,7 +18,7 @@ import '../widgets/school_profile_cards_widget.dart';
 import '../widgets/school_profile_header_widget.dart';
 
 class SchoolProfilePage extends StatefulWidget with ErrorHandling {
-  const SchoolProfilePage({Key? key}) : super(key: key);
+  const SchoolProfilePage({super.key});
 
   @override
   State<SchoolProfilePage> createState() => _SchoolProfilePageState();

@@ -194,11 +194,9 @@ class _SelectRow extends StatefulWidget {
   final Widget child;
 
   const _SelectRow(
-      {Key? key,
-      required this.onChange,
+      {required this.onChange,
       required this.selected,
-      required this.child})
-      : super(key: key);
+      required this.child});
 
   @override
   State<_SelectRow> createState() => _SelectRowState();

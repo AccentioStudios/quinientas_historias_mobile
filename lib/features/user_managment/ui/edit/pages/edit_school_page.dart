@@ -17,7 +17,7 @@ import '../../cubit/group_management_cubit.dart';
 import '../../widgets/group_management_avatar.dart';
 
 class EditSchoolPage extends StatefulWidget with ErrorHandling, SheetMessages {
-  const EditSchoolPage({Key? key, required this.school}) : super(key: key);
+  const EditSchoolPage({super.key, required this.school});
   final School school;
 
   @override

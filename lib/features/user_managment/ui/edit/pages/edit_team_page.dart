@@ -17,7 +17,7 @@ import '../../cubit/group_management_cubit.dart';
 import '../../widgets/group_management_avatar.dart';
 
 class EditTeamPage extends StatefulWidget with ErrorHandling, SheetMessages {
-  const EditTeamPage({Key? key, required this.team}) : super(key: key);
+  const EditTeamPage({super.key, required this.team});
   final TeamProfileDto team;
 
   @override

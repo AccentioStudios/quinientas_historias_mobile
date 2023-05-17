@@ -4,7 +4,7 @@ import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/tournament_cubit.dart';
 
 class LeaderboardTabs extends StatefulWidget {
-  const LeaderboardTabs({Key? key, required this.state}) : super(key: key);
+  const LeaderboardTabs({super.key, required this.state});
   final TournamentState state;
   @override
   State<LeaderboardTabs> createState() => _LeaderboardTabsState();

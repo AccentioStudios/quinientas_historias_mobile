@@ -6,13 +6,13 @@ import '../../utils/colors.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
-    Key? key,
+    super.key,
     this.user,
     this.userDivision,
     this.avatarUrl,
     this.width = 42,
     this.height = 42,
-  }) : super(key: key);
+  });
 
   final User? user;
   final UserDivision? userDivision;

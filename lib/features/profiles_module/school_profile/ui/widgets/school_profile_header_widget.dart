@@ -7,7 +7,7 @@ import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/school_profile_cubit.dart';
 
 class SchoolProfileHeader extends StatelessWidget {
-  const SchoolProfileHeader({Key? key, required this.state}) : super(key: key);
+  const SchoolProfileHeader({super.key, required this.state});
 
   final SchoolProfileState state;
 
@@ -39,7 +39,7 @@ class SchoolProfileHeader extends StatelessWidget {
 }
 
 class SchoolProfileAvatar extends StatelessWidget {
-  const SchoolProfileAvatar({Key? key, required this.school}) : super(key: key);
+  const SchoolProfileAvatar({super.key, required this.school});
 
   final SchoolProfileDto? school;
   @override

@@ -7,7 +7,7 @@ import '../../../../core/ui/widgets/buttom_bar.dart';
 import '../../../profiles_module/user_profile/user_profile_provider.dart';
 
 class HomeNavigator extends StatefulWidget {
-  const HomeNavigator({Key? key}) : super(key: key);
+  const HomeNavigator({super.key});
 
   @override
   State<HomeNavigator> createState() => _HomeNavigatorState();

@@ -6,10 +6,10 @@ import '../../utils/constants.dart';
 
 class SingleChipWithoutIcon extends StatelessWidget {
   const SingleChipWithoutIcon({
-    Key? key,
+    super.key,
     required this.primaryLabel,
     required this.secondaryLabel,
-  }) : super(key: key);
+  });
   final String primaryLabel;
   final String secondaryLabel;
 

@@ -25,12 +25,12 @@ import '../bloc/cubit/send_invites_cubit.dart';
 
 class InvitesSendInvitationPage extends StatefulWidget with ErrorHandling {
   const InvitesSendInvitationPage({
-    Key? key,
+    super.key,
     required this.typeUserToInvite,
     this.team,
     this.schoolId,
     this.tournamentId,
-  }) : super(key: key);
+  });
   final Role typeUserToInvite;
   final Team? team;
   final int? schoolId;
@@ -165,12 +165,11 @@ class _InvitesSendInvitationPageState extends State<InvitesSendInvitationPage> {
 
 class _SendEmailPageTwo extends StatelessWidget {
   const _SendEmailPageTwo({
-    Key? key,
     required this.state,
     required this.email,
     required this.pageController,
     required this.emailController,
-  }) : super(key: key);
+  });
 
   final SendInvitesState state;
   final String email;
@@ -295,14 +294,13 @@ class _SendEmailPageTwo extends StatelessWidget {
 
 class _EnterEmailPageOne extends StatelessWidget {
   const _EnterEmailPageOne({
-    Key? key,
     required this.emailFocus,
     required this.emailController,
     required this.selectedUser,
     required this.selectedEmail,
     required this.role,
     this.errorText,
-  }) : super(key: key);
+  });
   final TextEditingController emailController;
   final FocusNode emailFocus;
   final void Function(User) selectedUser;

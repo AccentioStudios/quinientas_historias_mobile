@@ -6,7 +6,7 @@ import '../../../../../core/utils/constants.dart';
 import '../bloc/cubit/school_profile_cubit.dart';
 
 class SchoolCards extends StatelessWidget {
-  const SchoolCards({Key? key, required this.state}) : super(key: key);
+  const SchoolCards({super.key, required this.state});
   final SchoolProfileState state;
   @override
   Widget build(BuildContext context) {

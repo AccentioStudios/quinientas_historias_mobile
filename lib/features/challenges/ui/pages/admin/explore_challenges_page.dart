@@ -205,6 +205,7 @@ class _ChallengesAdminExplorePageState
   }
 }
 
+// ignore: unused_element
 _filtersSearchToolbar(BuildContext context) {
   return const PreferredSize(
     preferredSize: Size.fromHeight(57.0),

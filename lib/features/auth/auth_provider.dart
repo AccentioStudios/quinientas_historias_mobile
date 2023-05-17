@@ -12,11 +12,11 @@ import 'ui/pages/login_page.dart';
 @RoutePage<bool?>()
 class AuthProvider extends StatelessWidget {
   const AuthProvider({
-    Key? key,
+    super.key,
     this.autoNavigateToShell,
     this.byPassFirstScreen,
     this.onResult,
-  }) : super(key: key);
+  });
   final bool? autoNavigateToShell;
   final bool? byPassFirstScreen;
   final Function(dynamic)? onResult;

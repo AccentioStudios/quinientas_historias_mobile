@@ -10,7 +10,7 @@ import '../widgets/link_button.dart';
 @RoutePage<bool?>()
 class CommonInfoPage extends StatelessWidget {
   const CommonInfoPage({
-    Key? key,
+    super.key,
     this.headline = 'Oops...',
     this.message =
         'Algo sucedió y no sabemos que pasó.\nIntenta nuevamente, quizás ya se solucionó',
@@ -22,7 +22,7 @@ class CommonInfoPage extends StatelessWidget {
     this.linkBtnLabel,
     this.linkBtnOnTap,
     this.withoutBtns = false,
-  }) : super(key: key);
+  });
 
   final String headline;
   final String message;

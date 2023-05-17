@@ -23,11 +23,11 @@ import '../bloc/cubit/auth_cubit.dart';
 
 class LoginPage extends StatefulWidget with ErrorHandling {
   const LoginPage({
-    Key? key,
+    super.key,
     this.autoNavigateToShell = true,
     this.byPassFirstScreen = false,
     this.onResult,
-  }) : super(key: key);
+  });
 
   final bool autoNavigateToShell;
   final bool byPassFirstScreen;
@@ -201,7 +201,6 @@ class _LoginPageState extends State<LoginPage> {
                 if (widget.onResult != null) widget.onResult!(false);
                 Navigator.of(context).pop(false);
                 completer.complete(false);
-                return;
               }),
           onSuccess: () {
             if (widget.onResult != null) widget.onResult!(true);
@@ -218,7 +217,8 @@ class _LoginPageState extends State<LoginPage> {
       widget.handleError(context, error, onTap: () {
         if (widget.onResult != null) widget.onResult!(false);
         Navigator.of(context).pop(false);
-        completer.complete(false);
+        Navigator.of(context).pop(false);
+        completer.completeError(false);
       });
     });
 

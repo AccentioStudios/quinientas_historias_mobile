@@ -23,8 +23,7 @@ import '../cubit/received_invites_cubit.dart';
 class ReceivedInvitesPage extends StatefulWidget
     with ErrorHandling, SheetMessages {
   const ReceivedInvitesPage(
-      {Key? key, required this.inviteId, required this.code})
-      : super(key: key);
+      {super.key, required this.inviteId, required this.code});
 
   final int inviteId;
   final String code;
@@ -97,14 +96,23 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
                 'Debes iniciar sesión, te mandaremos a la pantalla de inicio de sesión para que puedas continuar.',
             title: 'Iniciar sesión');
       }
-      final loginSuccess = await loginFirst();
-      if (loginSuccess) {
+      bool? loginSuccess = await loginFirst();
+      if (loginSuccess == true) {
         if (context.mounted) {
           Future.delayed(const Duration(seconds: 1), () {
             navigateToAcceptInvite(context, invite: invite);
           });
+          return;
         }
         return;
+      } else {
+        if (context.mounted) {
+          await widget.showMessage<bool>(context,
+              content:
+                  'No pudimos iniciar sesión, por favor intenta de nuevo más tarde.',
+              title: 'Error al iniciar sesión');
+          return;
+        }
       }
     }
 
@@ -129,7 +137,7 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
     }
   }
 
-  loginFirst() {
+  Future<bool?> loginFirst() {
     return const AuthProvider().login(context);
   }
 
@@ -139,23 +147,41 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
   }
 
   String getHeader(Invite? invite) {
-    if (invite?.invitedRole == Role.captain) {
-      return '${invite?.inviter?.firstName} te ha invitado a ser capitán';
+    if (invite != null) {
+      switch (invite.invitedRole) {
+        case Role.admin:
+          return '${invite.inviter?.firstName} te ha invitado a formar parte de 500Historias como administrador';
+        case Role.reader:
+          return '${invite.inviter?.firstName} te ha invitado a formar parte del torneo como lector';
+        case Role.captain:
+          return '${invite.inviter?.firstName} te ha invitado a ser capitán';
+        case Role.prof:
+          return '${invite.inviter?.firstName} te ha invitado a formar parte de 500Historias como profesor';
+        default:
+          return '${invite.inviter?.firstName} te ha invitado a formar parte de 500Historias';
+      }
+    } else {
+      return 'Error al cargar la invitación';
     }
-    if (invite?.invitedRole == Role.reader) {
-      return '${invite?.inviter?.firstName} te ha invitado a formar parte del torneo como lector';
-    }
-    return '${invite?.inviter?.firstName} te ha invitado a formar parte del torneo';
   }
 
   String getSubtitle(Invite? invite) {
-    if (invite?.invitedRole == Role.captain) {
-      return 'Has recibido una invitacion para ser capitán y formar tu equipo en la escuela "${invite?.school?.name}"';
+    if (invite != null) {
+      switch (invite.invitedRole) {
+        case Role.admin:
+          return '${invite.inviter?.firstName} te ha invitado a formar parte de 500Historias como administrador, esto significa que podrás administrar el sistema y crear torneos.';
+        case Role.reader:
+          return 'Has recibido una invitacion para formar parte del equipo:';
+        case Role.captain:
+          return 'Has recibido una invitacion para ser capitán y formar tu equipo en la escuela "${invite.school?.name}"';
+        case Role.prof:
+          return '${invite.inviter?.firstName} te ha invitado a formar parte de 500Historias, esto significa que podrás registrar tu escuela e invitar capitanes y lectores.';
+        default:
+          return 'Has recibido una invitacion para formar parte de 500 Historias';
+      }
+    } else {
+      return 'Error al cargar la invitación';
     }
-    if (invite?.invitedRole == Role.reader) {
-      return 'Has recibido una invitacion para formar parte del equipo:';
-    }
-    return 'Has recibido una invitacion para formar parte de 500 Historias';
   }
 }
 

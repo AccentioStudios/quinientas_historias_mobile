@@ -6,7 +6,7 @@ import '../widgets/author_name_chip.dart';
 import '../widgets/story_summary_metadata.dart';
 
 class SummaryStory extends StatelessWidget {
-  const SummaryStory({Key? key, required this.story}) : super(key: key);
+  const SummaryStory({super.key, required this.story});
   final Story? story;
 
   @override

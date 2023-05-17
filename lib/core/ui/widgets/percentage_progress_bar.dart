@@ -4,10 +4,10 @@ import '../../utils/constants.dart';
 
 class PercentageProgressBar extends StatelessWidget {
   const PercentageProgressBar({
-    Key? key,
+    super.key,
     this.completedPercentage = 0,
     this.backgroundColor,
-  }) : super(key: key);
+  });
   final int completedPercentage;
   final Color? backgroundColor;
   @override

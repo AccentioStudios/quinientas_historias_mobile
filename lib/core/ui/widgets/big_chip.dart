@@ -6,14 +6,14 @@ import '../../utils/constants.dart';
 
 class BigChip extends StatelessWidget {
   const BigChip({
-    Key? key,
+    super.key,
     this.primary,
     this.primaryLabel,
     this.secondary,
     this.secondaryLabel,
     this.padding,
     this.onTap,
-  }) : super(key: key);
+  });
   final Widget? primary;
   final String? primaryLabel;
   final Widget? secondary;

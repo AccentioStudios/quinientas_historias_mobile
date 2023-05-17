@@ -17,8 +17,7 @@ import '../widgets/no_item_found_widget.dart';
 
 class LeaderboardByTeamsTabView extends StatefulWidget with ErrorHandling {
   const LeaderboardByTeamsTabView(
-      {Key? key, required this.tournamentId, required this.cubit})
-      : super(key: key);
+      {super.key, required this.tournamentId, required this.cubit});
 
   final TournamentCubit cubit;
   final int tournamentId;

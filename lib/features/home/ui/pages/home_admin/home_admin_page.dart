@@ -1,15 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import '../../../../../core/data/entities/story_entity.dart';
-import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/ui/widgets/chip.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../bloc/cubit/home_cubit.dart';
@@ -37,23 +35,10 @@ class HomeAdminPage extends StatelessWidget {
                     children: [
                       CustomChip(
                         svgIconPath: 'assets/icons/user-plus-outline-icon.svg',
-                        title: 'Invitar Capitanes',
-                        body:
-                            'Invita a capitanes para que formen equipos en la escuela',
+                        title: 'Invitar usuarios',
+                        body: 'Invita a usuario a la plataforma.',
                         onTap: () {
                           navigateToInviteCaptains(context);
-                        },
-                      ),
-                      const SizedBox(height: Constants.space16),
-                      CustomChip(
-                        svgIconPath: 'assets/icons/user-plus-outline-icon.svg',
-                        title: 'Invitar Lectores',
-                        body:
-                            'Invita a lectores a formar parte de un equipo particular',
-                        onTap: () {
-                          navigateToInviteReaders(
-                            context,
-                          );
                         },
                       ),
                       const SizedBox(height: Constants.space16),
@@ -173,54 +158,6 @@ class HomeAdminPage extends StatelessWidget {
   void navigateToInviteCaptains(
     BuildContext context,
   ) {
-    SendInviteProvider.chooseTournamentForInviteAdmin(context)
-        .then((tournament) {
-      if (tournament != null) {
-        SendInviteProvider.chooseSchoolForInviteAdmin(context,
-                role: Role.captain)
-            .then((school) {
-          if (school != null) {
-            SendInviteProvider.open(
-              context,
-              schoolId: school.id,
-              tournamentId: tournament.id,
-              typeUserToInvite: Role.captain,
-            ).then((refresh) {});
-          }
-        });
-      } else {
-        Fluttertoast.cancel().then((value) {
-          Fluttertoast.showToast(msg: "Debes seleccionar un torneo");
-        });
-      }
-    });
-  }
-
-  void navigateToInviteReaders(BuildContext context) {
-    SendInviteProvider.chooseTournamentForInviteAdmin(context)
-        .then((tournament) {
-      if (tournament != null) {
-        SendInviteProvider.chooseSchoolForInviteAdmin(context).then((school) {
-          if (school != null) {
-            SendInviteProvider.chooseTeamForInviteProfAndAdmin(
-              context,
-              schoolId: school.id,
-            ).then((team) {
-              if (team != null) {
-                SendInviteProvider.open(
-                  context,
-                  team: team,
-                  typeUserToInvite: Role.reader,
-                ).then((value) {});
-              }
-            });
-          }
-        });
-      } else {
-        Fluttertoast.cancel().then((value) {
-          Fluttertoast.showToast(msg: "Debes seleccionar un torneo");
-        });
-      }
-    });
+    AutoRouter.of(context).push(InvitesAdminRoute());
   }
 }

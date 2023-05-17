@@ -5,7 +5,7 @@ import '../../../../core/data/entities/tournament_entity.dart';
 import '../../../../core/utils/constants.dart';
 
 class TournamentHeaderWidget extends StatelessWidget {
-  const TournamentHeaderWidget({Key? key}) : super(key: key);
+  const TournamentHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -4,10 +4,10 @@ import 'package:quinientas_historias/core/data/entities/story_entity.dart';
 
 class StorySummaryMetadata extends StatelessWidget {
   const StorySummaryMetadata({
-    Key? key,
+    super.key,
     this.readNumber = 0,
     this.readingTime,
-  }) : super(key: key);
+  });
 
   final int readNumber;
   final ReadTimeResults? readingTime;
@@ -41,11 +41,9 @@ class StorySummaryMetadata extends StatelessWidget {
 
 class _RowItem extends StatelessWidget {
   const _RowItem(
-      {Key? key,
-      required this.svgIconPath,
+      {required this.svgIconPath,
       required this.label,
-      required this.value})
-      : super(key: key);
+      required this.value});
   final String svgIconPath;
   final String label;
   final String value;

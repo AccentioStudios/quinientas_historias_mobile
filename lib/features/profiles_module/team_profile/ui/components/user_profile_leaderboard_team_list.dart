@@ -14,8 +14,7 @@ import '../../../../../core/utils/constants.dart';
 
 class UserProfileLeaderboardTeamList extends StatelessWidget {
   const UserProfileLeaderboardTeamList(
-      {Key? key, required this.leaderboardList})
-      : super(key: key);
+      {super.key, required this.leaderboardList});
 
   final List<Leaderboard> leaderboardList;
 

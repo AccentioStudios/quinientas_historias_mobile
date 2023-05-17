@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class PaddingColumn extends StatelessWidget {
   const PaddingColumn({
-    Key? key,
+    super.key,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.max,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -11,7 +11,7 @@ class PaddingColumn extends StatelessWidget {
     this.textBaseline,
     this.children = const <Widget>[],
     required this.padding,
-  }) : super(key: key);
+  });
 
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;

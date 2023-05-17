@@ -12,8 +12,7 @@ import 'ui/pages/reading_story_page.dart';
 @RoutePage<bool?>()
 class ReadingStoryProvider extends StatelessWidget {
   const ReadingStoryProvider(
-      {Key? key, @PathParam('id') required this.storyId, this.homeCubit})
-      : super(key: key);
+      {super.key, @PathParam('id') required this.storyId, this.homeCubit});
   final HomeCubit? homeCubit;
   final int storyId;
   @override

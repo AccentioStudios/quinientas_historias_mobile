@@ -11,7 +11,7 @@ import '../../../../core/routes/auto_router.dart';
 
 @RoutePage()
 class ConfigPage extends StatelessWidget with SheetMessages {
-  const ConfigPage({Key? key}) : super(key: key);
+  const ConfigPage({super.key});
 
   @override
   Widget build(BuildContext context) {
