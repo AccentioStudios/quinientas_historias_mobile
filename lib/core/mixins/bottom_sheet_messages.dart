@@ -179,6 +179,19 @@ mixin SheetMessages on Widget {
     );
   }
 
+  Future<T?> showInviteCaptainsMessage<T>(BuildContext context) {
+    return showMessage<T?>(
+      context,
+      height: 300,
+      iconSvgPath: 'assets/images/success-check-image.svg',
+      title: '¡Muy bien!',
+      content:
+          'Has registrado tu escuela, ahora invita a capitanes para que puedan crear equipos y participar en el torneo',
+      btnLabel: 'Invitar Capitanes',
+      isDismissible: false,
+    );
+  }
+
   Future<T?> showSecretKeyFromNewChallenge<T>(
       BuildContext context, RegisterNewChallengeResponseDto dto) {
     return showMessage<T?>(

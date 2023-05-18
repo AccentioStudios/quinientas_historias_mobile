@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
 import 'package:quinientas_historias/features/user_managment/ui/existingUser/confirmation_existing_user_accept_invite.dart';
+import 'package:quinientas_historias/features/user_managment/ui/register/pages/register_school_page.dart';
 
 import '../../core/data/dto/team_profile_dto.dart';
 import '../../core/data/entities/invites_entity.dart';
@@ -36,18 +37,33 @@ class UserManagementProvider {
   );
 
   Future<Team?> openRegisterTeam(BuildContext context,
-      {required School? school, required int tournamentId}) {
+      {required School? school,
+      required int tournamentId,
+      bool? join = false}) {
     if (school != null) {
       return Navigator.of(context, rootNavigator: true).push<Team>(
         MaterialPageRoute<Team>(
           builder: (context) => BlocProvider(
             create: (context) => groupManagementcubit,
-            child: RegisterTeamPage(school: school, tournamentId: tournamentId),
+            child: RegisterTeamPage(
+                school: school, tournamentId: tournamentId, join: join),
           ),
         ),
       );
     }
     return Future.value(null);
+  }
+
+  Future<School?> openRegisterSchool(BuildContext context,
+      {bool? join = false}) {
+    return Navigator.of(context, rootNavigator: true).push<School>(
+      MaterialPageRoute<School>(
+        builder: (context) => BlocProvider(
+          create: (context) => groupManagementcubit,
+          child: RegisterSchoolPage(join: join),
+        ),
+      ),
+    );
   }
 
   Future<bool?> openEditTeam(BuildContext context,

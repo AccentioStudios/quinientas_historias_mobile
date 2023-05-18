@@ -31,7 +31,7 @@ class StepCardItem extends StatelessWidget {
         color: done ? successDarkColor : Theme.of(context).colorScheme.primary);
 
     final border = done
-        ? Border.all(color: successDarkColor)
+        ? Border.all(color: successDarkColor.withOpacity(0.7))
         : Border.all(color: Colors.white.withOpacity(0.20));
 
     final TextStyle ctaStyle = TextStyle(
@@ -41,31 +41,36 @@ class StepCardItem extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: OutlinedCard(
-        onTap: onTap,
-        border: border,
-        padding: const EdgeInsets.symmetric(
-            horizontal: Constants.space16, vertical: Constants.space16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Flex(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              direction: Axis.horizontal,
-              children: [
-                Flexible(flex: 8, child: Text(title, style: titleStyle)),
-                Flexible(
-                    flex: 4,
-                    child: Text(done ? 'Listo' : 'Obligatorio',
-                        style: statusStyle)),
-              ],
-            ),
-            const SizedBox(height: Constants.space8),
-            Text(body, style: bodyStyle),
-            if (!done) const SizedBox(height: Constants.space8),
-            if (!done) Text(ctaLabel, style: ctaStyle),
-          ],
+      child: Opacity(
+        opacity: done ? 0.8 : 1,
+        child: OutlinedCard(
+          backgroundColor:
+              !done ? Theme.of(context).colorScheme.primaryContainer : null,
+          onTap: onTap,
+          border: border,
+          padding: const EdgeInsets.symmetric(
+              horizontal: Constants.space16, vertical: Constants.space16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flex(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                direction: Axis.horizontal,
+                children: [
+                  Flexible(flex: 8, child: Text(title, style: titleStyle)),
+                  Flexible(
+                      flex: 4,
+                      child: Text(done ? 'Listo' : 'Obligatorio',
+                          style: statusStyle)),
+                ],
+              ),
+              const SizedBox(height: Constants.space8),
+              Text(body, style: bodyStyle),
+              if (!done) const SizedBox(height: Constants.space8),
+              if (!done) Text(ctaLabel, style: ctaStyle),
+            ],
+          ),
         ),
       ),
     );

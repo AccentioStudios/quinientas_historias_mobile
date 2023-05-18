@@ -14,8 +14,11 @@ import '../../bloc/cubit/home_cubit.dart';
 import '../../widgets/hero_header_widget.dart';
 
 class HomeAdminPage extends StatelessWidget {
-  const HomeAdminPage({super.key, required this.state});
+  const HomeAdminPage(
+      {super.key, required this.state, required this.getDashboardFunction});
   final HomeState state;
+  final Function getDashboardFunction;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(

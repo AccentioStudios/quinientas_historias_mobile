@@ -174,7 +174,11 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
       case Role.captain:
         return 'Al entrar al torneo deberás crear tu equipo y seleccionar a tus compañeros de equipo.';
       case Role.prof:
-        return 'Al entrar a la plataforma deberás crear tu escuela e invitar a capitanes.';
+        if (invite.schoolId != null) {
+          return 'Al entrar a la plataforma ya podrás invitar a capitanes y lectores a tu escuela';
+        } else {
+          return 'Al entrar a la plataforma deberás crear tu escuela e invitar a capitanes.';
+        }
       default:
         return '';
     }

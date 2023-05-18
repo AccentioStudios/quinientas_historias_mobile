@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
 
 import '../../../../../../core/data/entities/user_entity.dart';
 import '../../../send_invite_provider.dart';
 
 @RoutePage()
-class InvitesAdminPage extends StatefulWidget {
+class InvitesAdminPage extends StatefulWidget with SheetMessages {
   const InvitesAdminPage({super.key, @QueryParam('role') String? role});
 
   @override
@@ -62,15 +63,41 @@ class _InvitesAdminPageState extends State<InvitesAdminPage> {
     );
   }
 
-  void _navigateToInvite(BuildContext context, Role role) {
+  void _navigateToInvite(BuildContext context, Role role) async {
     switch (role) {
       case Role.admin:
         break;
       case Role.prof:
-        SendInviteProvider.open(
+        final chooseSchool = await widget.showMessage<bool>(
           context,
-          typeUserToInvite: Role.prof,
-        ).then((refresh) {});
+          height: 350,
+          title: '¿Quieres invitar a un profesor a una escuela?',
+          content:
+              'Tienes la opcion de invitar a un profesor a una escuela en especifico o invitar a un profesor sin escuela y que el se encargue de crear una escuela.',
+          btnLabel: 'Invitar a escuela',
+          secondaryBtnLabel: 'Invitar sin escuela',
+        );
+        int? schoolId;
+        if (chooseSchool == true) {
+          if (context.mounted) {
+            final school = await SendInviteProvider.chooseSchoolForInviteAdmin(
+                context,
+                role: Role.prof);
+            if (school != null) {
+              schoolId = school.id;
+            } else {
+              return;
+            }
+          }
+        }
+        if (chooseSchool == null) return;
+        if (context.mounted) {
+          SendInviteProvider.open(
+            context,
+            schoolId: schoolId,
+            typeUserToInvite: Role.prof,
+          ).then((refresh) {});
+        }
 
         break;
       case Role.captain:

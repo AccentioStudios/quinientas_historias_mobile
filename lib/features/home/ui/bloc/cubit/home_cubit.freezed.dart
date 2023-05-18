@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   Dashboard? get dashboard => throw _privateConstructorUsedError;
   bool get loading => throw _privateConstructorUsedError;
+  Object? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({Dashboard? dashboard, bool loading});
+  $Res call({Dashboard? dashboard, bool loading, Object? error});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? dashboard = freezed,
     Object? loading = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       dashboard: freezed == dashboard
@@ -57,6 +59,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      error: freezed == error ? _value.error : error,
     ) as $Val);
   }
 }
@@ -68,7 +71,7 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Dashboard? dashboard, bool loading});
+  $Res call({Dashboard? dashboard, bool loading, Object? error});
 }
 
 /// @nodoc
@@ -84,6 +87,7 @@ class __$$_HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? dashboard = freezed,
     Object? loading = null,
+    Object? error = freezed,
   }) {
     return _then(_$_HomeState(
       dashboard: freezed == dashboard
@@ -94,6 +98,7 @@ class __$$_HomeStateCopyWithImpl<$Res>
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
+      error: freezed == error ? _value.error : error,
     ));
   }
 }
@@ -101,17 +106,19 @@ class __$$_HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeState implements _HomeState {
-  const _$_HomeState({this.dashboard, this.loading = false});
+  const _$_HomeState({this.dashboard, this.loading = false, this.error});
 
   @override
   final Dashboard? dashboard;
   @override
   @JsonKey()
   final bool loading;
+  @override
+  final Object? error;
 
   @override
   String toString() {
-    return 'HomeState(dashboard: $dashboard, loading: $loading)';
+    return 'HomeState(dashboard: $dashboard, loading: $loading, error: $error)';
   }
 
   @override
@@ -121,11 +128,13 @@ class _$_HomeState implements _HomeState {
             other is _$_HomeState &&
             (identical(other.dashboard, dashboard) ||
                 other.dashboard == dashboard) &&
-            (identical(other.loading, loading) || other.loading == loading));
+            (identical(other.loading, loading) || other.loading == loading) &&
+            const DeepCollectionEquality().equals(other.error, error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, dashboard, loading);
+  int get hashCode => Object.hash(runtimeType, dashboard, loading,
+      const DeepCollectionEquality().hash(error));
 
   @JsonKey(ignore: true)
   @override
@@ -135,13 +144,17 @@ class _$_HomeState implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({final Dashboard? dashboard, final bool loading}) =
-      _$_HomeState;
+  const factory _HomeState(
+      {final Dashboard? dashboard,
+      final bool loading,
+      final Object? error}) = _$_HomeState;
 
   @override
   Dashboard? get dashboard;
   @override
   bool get loading;
+  @override
+  Object? get error;
   @override
   @JsonKey(ignore: true)
   _$$_HomeStateCopyWith<_$_HomeState> get copyWith =>

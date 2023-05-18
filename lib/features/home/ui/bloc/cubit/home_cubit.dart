@@ -19,11 +19,12 @@ class HomeCubit extends Cubit<HomeState> with StreamDisposable {
   Future<void> getDashboard() async {
     var completer = Completer<void>();
 
-    emit(state.copyWith(loading: true));
+    emit(state.copyWith(loading: true, error: null));
     homeUseCases.getDashboard().listen((Dashboard dashboard) async {
-      emit(state.copyWith(dashboard: dashboard, loading: false));
+      emit(state.copyWith(dashboard: dashboard, loading: false, error: null));
       completer.complete();
     }, onError: (error) {
+      emit(state.copyWith(error: error, loading: false));
       completer.completeError(error);
     }).subscribe(this);
     return completer.future;

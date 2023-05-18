@@ -154,6 +154,31 @@ class HttpHelperImp implements HttpHelper {
   }
 
   @override
+  Future<Response> patch(String path,
+      {Object? data, Map<String, dynamic>? queryParameters}) async {
+    try {
+      String? accessToken =
+          await GetIt.I<SecureStorageService>().getAccessToken();
+      final response = await _dio.patch(
+        _buildUrl(path, queryParameters),
+        data: data,
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.accessControlAllowOriginHeader: '*',
+          HttpHeaders.accessControlAllowMethodsHeader:
+              'GET, POST, DELETE, HEAD, OPTIONS',
+          HttpHeaders.accessControlAllowCredentialsHeader: 'true',
+          if (accessToken != null)
+            HttpHeaders.authorizationHeader: 'Bearer $accessToken'
+        }),
+      );
+      return response;
+    } catch (e) {
+      throw _handleHttpError(e);
+    }
+  }
+
+  @override
   Future<Response> put(String path,
       {Object? data, Map<String, dynamic>? queryParameters}) async {
     try {

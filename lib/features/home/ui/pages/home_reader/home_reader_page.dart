@@ -16,7 +16,9 @@ import '../../widgets/hero_header_widget.dart';
 import '../../widgets/my_summary_carousel.dart';
 
 class HomeReaderPage extends StatelessWidget {
-  const HomeReaderPage({super.key, required this.state});
+  const HomeReaderPage(
+      {super.key, required this.state, required this.getDashboardFunction});
+  final Function getDashboardFunction;
 
   final HomeState state;
 

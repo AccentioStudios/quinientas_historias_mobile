@@ -38,6 +38,10 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
     )));
   }
 
+  void initNewSchool() {
+    emit(state.copyWith(groupManagementRequest: GroupManagementRequest()));
+  }
+
   void loadTeam(Team team) {
     emit(state.copyWith(
       groupManagementRequest: GroupManagementRequest(
@@ -84,6 +88,30 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
             .registerTeam(state.groupManagementRequest!)
             .listen((team) {
           onSuccess(team);
+          emit(state.copyWith(isLoading: false, error: null));
+        }, onError: (error) {
+          onError(error);
+          emit(state.copyWith(isLoading: false, error: error));
+        }).subscribe(this);
+      }
+    }
+  }
+
+  void registerNewSchool(
+      {required Function(School) onSuccess,
+      required Function onError,
+      bool? join = false}) async {
+    validateRegisterForm();
+    if (state.error != null) {
+      return;
+    }
+    emit(state.copyWith(isLoading: true, error: null));
+    if (await handleSaveAvatarUrl()) {
+      if (state.groupManagementRequest != null) {
+        groupManagementUseCases
+            .registerSchool(state.groupManagementRequest!, join: join)
+            .listen((school) {
+          onSuccess(school);
           emit(state.copyWith(isLoading: false, error: null));
         }, onError: (error) {
           onError(error);

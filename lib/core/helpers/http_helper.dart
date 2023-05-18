@@ -12,6 +12,12 @@ abstract class HttpHelper {
     Map<String, dynamic>? queryParameters,
   });
 
+  Future<Response> patch(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+  });
+
   Future<Response> delete(
     String path, {
     Map<String, dynamic>? queryParameters,

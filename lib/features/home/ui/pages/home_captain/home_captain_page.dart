@@ -27,7 +27,9 @@ import '../../widgets/my_summary_carousel.dart';
 import '../../widgets/step_card_item.dart';
 
 class HomeCaptainPage extends StatelessWidget {
-  const HomeCaptainPage({super.key, required this.state});
+  const HomeCaptainPage(
+      {super.key, required this.state, required this.getDashboardFunction});
+  final Function getDashboardFunction;
 
   final HomeState state;
 
@@ -227,7 +229,9 @@ class _FirstStepsListing extends StatelessWidget with SheetMessages {
       BuildContext context, School? school, int tournamentId) {
     UserManagementProvider()
         .openRegisterTeam(context,
-            school: state.dashboard!.user.school, tournamentId: tournamentId)
+            join: true,
+            school: state.dashboard!.user.school,
+            tournamentId: tournamentId)
         .then((newTeam) {
       if (newTeam != null) {
         showInviteReadersMessage<bool>(context).then((bool? value) {
@@ -286,13 +290,13 @@ class _StepsCardsTier0 extends StatelessWidget {
                 StepCardItem(
                   title: 'Primer acceso',
                   body:
-                      'Recibiste una invitacion para 500Historias y te registraste como capitan',
+                      'Recibiste una invitación para 500Historias y te registraste como capitan',
                   done: true,
                   onTap: () {},
                 ),
                 const SizedBox(height: Constants.space16),
                 StepCardItem(
-                  title: 'Crear equpo',
+                  title: 'Crear equipo',
                   body:
                       'Crea el equipo con el que vas a participar en el torneo',
                   ctaLabel: 'Click aquí para crear equipo',
