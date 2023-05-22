@@ -158,7 +158,7 @@ class _RegisterTeamPageState extends State<RegisterTeamPage> {
       });
       return;
     }
-    cubit.registerNewSchool(
+    cubit.registerNewTeam(
         join: widget.join ?? false,
         onSuccess: (team) {
           Navigator.of(context, rootNavigator: true).pop(team);

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../../../core/data/entities/challenge_sar_entity.dart';
 import '../../../../core/data/models/list_page.dart';
 import '../dto/register_new_challenge_response.dto.dart';
+import '../dto/sar_health_response.dto.dart';
 import '../entities/challenge_sar_event.dart';
 import '../repositories/challenges_repository.dart';
 
@@ -46,5 +47,9 @@ class ChallengesUseCases {
     });
 
     return completer.future;
+  }
+
+  Stream<SarHealthResponseDto> checkHealth() async* {
+    yield* repository.checkHealth();
   }
 }

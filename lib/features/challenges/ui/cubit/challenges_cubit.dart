@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -14,17 +12,4 @@ class ChallengesCubit extends Cubit<ChallengesState> with StreamDisposable {
     required this.challengesUseCases,
   }) : super(const ChallengesState());
   final ChallengesUseCases challengesUseCases;
-
-  Future<void> getDashboard() async {
-    // var completer = Completer<void>();
-
-    // emit(state.copyWith(loading: true));
-    // homeUseCases.getDashboard().listen((Dashboard dashboard) async {
-    //   emit(state.copyWith(dashboard: dashboard, loading: false));
-    //   completer.complete();
-    // }, onError: (error) {
-    //   completer.completeError(error);
-    // }).subscribe(this);
-    // return completer.future;
-  }
 }

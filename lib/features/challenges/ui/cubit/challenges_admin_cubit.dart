@@ -9,6 +9,7 @@ import '../../../../core/data/entities/challenge_sar_entity.dart';
 import '../../../../core/data/models/list_page.dart';
 import '../../../../core/failures/failures.dart';
 import '../../data/dto/register_new_challenge_response.dto.dart';
+import '../../data/dto/sar_health_response.dto.dart';
 import '../../data/useCases/challenges_usecases.dart';
 
 part 'challenges_admin_cubit.freezed.dart';
@@ -25,6 +26,7 @@ class ChallengesAdminCubit extends Cubit<ChallengesAdminState>
     emit(state.copyWith(
       challenge: ChallengeSar(
         name: '',
+        description: '',
         url: '',
         probability: 0,
         required: false,
@@ -41,6 +43,7 @@ class ChallengesAdminCubit extends Cubit<ChallengesAdminState>
 
   Future<void> saveChanges({
     String? name,
+    String? description,
     String? url,
     double? probability,
     bool? required,
@@ -53,6 +56,7 @@ class ChallengesAdminCubit extends Cubit<ChallengesAdminState>
     emit(state.copyWith(
         challenge: state.challenge!.copyWith(
       name: name ?? state.challenge!.name,
+      description: description ?? state.challenge!.description,
       url: url ?? state.challenge!.url,
       probability: probability ?? state.challenge!.probability,
       required: required ?? state.challenge!.required,
@@ -88,6 +92,8 @@ class ChallengesAdminCubit extends Cubit<ChallengesAdminState>
         id: 1,
         name:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor',
         url: 'https://www.google.com',
         probability: 0.5,
         required: false,
@@ -102,6 +108,8 @@ class ChallengesAdminCubit extends Cubit<ChallengesAdminState>
       ChallengeSar(
         id: 2,
         name:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor',
+        description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor',
         url: 'https://www.google.com',
         probability: 0.5,
@@ -127,6 +135,20 @@ class ChallengesAdminCubit extends Cubit<ChallengesAdminState>
       completer.completeError(error);
     });
 
+    return completer.future;
+  }
+
+  Future<void> checkHealth() async {
+    var completer = Completer<void>();
+
+    emit(state.copyWith(checkingHealth: true));
+    challengesUseCases.checkHealth().listen((SarHealthResponseDto dto) async {
+      emit(state.copyWith(health: dto, checkingHealth: false));
+      completer.complete();
+    }, onError: (error) {
+      emit(state.copyWith(errorHealth: error, checkingHealth: false));
+      completer.completeError(error);
+    }).subscribe(this);
     return completer.future;
   }
 }

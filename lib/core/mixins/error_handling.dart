@@ -298,8 +298,13 @@ mixin ErrorHandling on Widget {
           message:
               'No reconocemos que tengas acceso aquí, intenta iniciar sesión nuevamente con los permisos correctos.',
           svgImagePath: 'assets/images/hand-left-image.svg',
-          btnLabel: 'Cerrar sesión',
+          btnLabel: 'Volver',
           onBtnTap: () {
+            AutoRouter.of(context).pop(false);
+            Navigator.of(context, rootNavigator: true).pop(false);
+          },
+          linkBtnLabel: 'Cerrar sesión',
+          linkBtnOnTap: () {
             GetIt.I<SecureStorageService>().deleteAll();
             AutoRouter.of(context).push(AuthRoute());
           },

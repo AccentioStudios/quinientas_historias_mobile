@@ -76,7 +76,9 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
   }
 
   void registerNewTeam(
-      {required Function(Team) onSuccess, required Function onError}) async {
+      {bool? join = false,
+      required Function(Team) onSuccess,
+      required Function onError}) async {
     validateRegisterForm();
     if (state.error != null) {
       return;
@@ -85,7 +87,7 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
     if (await handleSaveAvatarUrl()) {
       if (state.groupManagementRequest != null) {
         groupManagementUseCases
-            .registerTeam(state.groupManagementRequest!)
+            .registerTeam(state.groupManagementRequest!, join: join)
             .listen((team) {
           onSuccess(team);
           emit(state.copyWith(isLoading: false, error: null));

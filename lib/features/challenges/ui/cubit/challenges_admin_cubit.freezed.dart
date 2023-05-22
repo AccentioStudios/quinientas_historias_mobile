@@ -20,6 +20,9 @@ mixin _$ChallengesAdminState {
   bool get registeringChallenge => throw _privateConstructorUsedError;
   HttpFailure? get error => throw _privateConstructorUsedError;
   ChallengeSar? get challenge => throw _privateConstructorUsedError;
+  bool get checkingHealth => throw _privateConstructorUsedError;
+  SarHealthResponseDto? get health => throw _privateConstructorUsedError;
+  Object? get errorHealth => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChallengesAdminStateCopyWith<ChallengesAdminState> get copyWith =>
@@ -36,7 +39,10 @@ abstract class $ChallengesAdminStateCopyWith<$Res> {
       {bool loading,
       bool registeringChallenge,
       HttpFailure? error,
-      ChallengeSar? challenge});
+      ChallengeSar? challenge,
+      bool checkingHealth,
+      SarHealthResponseDto? health,
+      Object? errorHealth});
 }
 
 /// @nodoc
@@ -57,6 +63,9 @@ class _$ChallengesAdminStateCopyWithImpl<$Res,
     Object? registeringChallenge = null,
     Object? error = freezed,
     Object? challenge = freezed,
+    Object? checkingHealth = null,
+    Object? health = freezed,
+    Object? errorHealth = freezed,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -75,6 +84,15 @@ class _$ChallengesAdminStateCopyWithImpl<$Res,
           ? _value.challenge
           : challenge // ignore: cast_nullable_to_non_nullable
               as ChallengeSar?,
+      checkingHealth: null == checkingHealth
+          ? _value.checkingHealth
+          : checkingHealth // ignore: cast_nullable_to_non_nullable
+              as bool,
+      health: freezed == health
+          ? _value.health
+          : health // ignore: cast_nullable_to_non_nullable
+              as SarHealthResponseDto?,
+      errorHealth: freezed == errorHealth ? _value.errorHealth : errorHealth,
     ) as $Val);
   }
 }
@@ -91,7 +109,10 @@ abstract class _$$_ChallengesAdminStateCopyWith<$Res>
       {bool loading,
       bool registeringChallenge,
       HttpFailure? error,
-      ChallengeSar? challenge});
+      ChallengeSar? challenge,
+      bool checkingHealth,
+      SarHealthResponseDto? health,
+      Object? errorHealth});
 }
 
 /// @nodoc
@@ -109,6 +130,9 @@ class __$$_ChallengesAdminStateCopyWithImpl<$Res>
     Object? registeringChallenge = null,
     Object? error = freezed,
     Object? challenge = freezed,
+    Object? checkingHealth = null,
+    Object? health = freezed,
+    Object? errorHealth = freezed,
   }) {
     return _then(_$_ChallengesAdminState(
       loading: null == loading
@@ -127,6 +151,15 @@ class __$$_ChallengesAdminStateCopyWithImpl<$Res>
           ? _value.challenge
           : challenge // ignore: cast_nullable_to_non_nullable
               as ChallengeSar?,
+      checkingHealth: null == checkingHealth
+          ? _value.checkingHealth
+          : checkingHealth // ignore: cast_nullable_to_non_nullable
+              as bool,
+      health: freezed == health
+          ? _value.health
+          : health // ignore: cast_nullable_to_non_nullable
+              as SarHealthResponseDto?,
+      errorHealth: freezed == errorHealth ? _value.errorHealth : errorHealth,
     ));
   }
 }
@@ -138,7 +171,10 @@ class _$_ChallengesAdminState implements _ChallengesAdminState {
       {this.loading = false,
       this.registeringChallenge = false,
       this.error,
-      this.challenge});
+      this.challenge,
+      this.checkingHealth = false,
+      this.health,
+      this.errorHealth});
 
   @override
   @JsonKey()
@@ -150,10 +186,17 @@ class _$_ChallengesAdminState implements _ChallengesAdminState {
   final HttpFailure? error;
   @override
   final ChallengeSar? challenge;
+  @override
+  @JsonKey()
+  final bool checkingHealth;
+  @override
+  final SarHealthResponseDto? health;
+  @override
+  final Object? errorHealth;
 
   @override
   String toString() {
-    return 'ChallengesAdminState(loading: $loading, registeringChallenge: $registeringChallenge, error: $error, challenge: $challenge)';
+    return 'ChallengesAdminState(loading: $loading, registeringChallenge: $registeringChallenge, error: $error, challenge: $challenge, checkingHealth: $checkingHealth, health: $health, errorHealth: $errorHealth)';
   }
 
   @override
@@ -166,12 +209,24 @@ class _$_ChallengesAdminState implements _ChallengesAdminState {
                 other.registeringChallenge == registeringChallenge) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.challenge, challenge) ||
-                other.challenge == challenge));
+                other.challenge == challenge) &&
+            (identical(other.checkingHealth, checkingHealth) ||
+                other.checkingHealth == checkingHealth) &&
+            (identical(other.health, health) || other.health == health) &&
+            const DeepCollectionEquality()
+                .equals(other.errorHealth, errorHealth));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, loading, registeringChallenge, error, challenge);
+  int get hashCode => Object.hash(
+      runtimeType,
+      loading,
+      registeringChallenge,
+      error,
+      challenge,
+      checkingHealth,
+      health,
+      const DeepCollectionEquality().hash(errorHealth));
 
   @JsonKey(ignore: true)
   @override
@@ -186,7 +241,10 @@ abstract class _ChallengesAdminState implements ChallengesAdminState {
       {final bool loading,
       final bool registeringChallenge,
       final HttpFailure? error,
-      final ChallengeSar? challenge}) = _$_ChallengesAdminState;
+      final ChallengeSar? challenge,
+      final bool checkingHealth,
+      final SarHealthResponseDto? health,
+      final Object? errorHealth}) = _$_ChallengesAdminState;
 
   @override
   bool get loading;
@@ -196,6 +254,12 @@ abstract class _ChallengesAdminState implements ChallengesAdminState {
   HttpFailure? get error;
   @override
   ChallengeSar? get challenge;
+  @override
+  bool get checkingHealth;
+  @override
+  SarHealthResponseDto? get health;
+  @override
+  Object? get errorHealth;
   @override
   @JsonKey(ignore: true)
   _$$_ChallengesAdminStateCopyWith<_$_ChallengesAdminState> get copyWith =>

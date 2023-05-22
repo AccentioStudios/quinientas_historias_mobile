@@ -62,6 +62,7 @@ class HttpHelperImp implements HttpHelper {
     }));
   }
 
+  @override
   Future<bool> refreshToken() async {
     try {
       String? refreshToken =

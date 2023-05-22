@@ -150,8 +150,8 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
     switch (invite.invitedRole) {
       case Role.captain:
         return GroupAvatar(
-          type: GroupAvatarType.team,
-          avatarUrl: invite.team!.avatarUrl,
+          type: GroupAvatarType.school,
+          avatarUrl: invite.school!.avatarUrl,
         );
       case Role.prof:
         return const SizedBox.shrink();

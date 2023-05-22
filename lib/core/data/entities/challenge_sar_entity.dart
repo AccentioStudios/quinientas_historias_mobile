@@ -8,6 +8,7 @@ class ChallengeSar {
   ChallengeSar({
     this.id,
     required this.name,
+    required this.description,
     required this.url,
     required this.probability,
     required this.required,
@@ -24,6 +25,7 @@ class ChallengeSar {
       _$ChallengeSarFromJson(json);
   final int? id;
   final String name;
+  final String description;
   final String url;
   final double probability;
   final double weight;
@@ -40,6 +42,7 @@ class ChallengeSar {
   ChallengeSar copyWith({
     int? id,
     String? name,
+    String? description,
     String? url,
     double? probability,
     double? weight,
@@ -54,6 +57,7 @@ class ChallengeSar {
     return ChallengeSar(
       id: id ?? this.id,
       name: name ?? this.name,
+      description: description ?? this.description,
       url: url ?? this.url,
       probability: probability ?? this.probability,
       weight: weight ?? this.weight,

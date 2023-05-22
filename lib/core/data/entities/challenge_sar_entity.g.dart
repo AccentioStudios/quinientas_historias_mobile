@@ -9,6 +9,7 @@ part of 'challenge_sar_entity.dart';
 ChallengeSar _$ChallengeSarFromJson(Map<String, dynamic> json) => ChallengeSar(
       id: json['id'] as int?,
       name: json['name'] as String,
+      description: json['description'] as String,
       url: json['url'] as String,
       probability: (json['probability'] as num).toDouble(),
       required: json['required'] as bool,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$ChallengeSarToJson(ChallengeSar instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'description': instance.description,
       'url': instance.url,
       'probability': instance.probability,
       'weight': instance.weight,

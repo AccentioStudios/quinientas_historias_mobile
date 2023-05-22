@@ -28,4 +28,6 @@ abstract class HttpHelper {
     Object? data,
     Map<String, dynamic>? queryParameters,
   });
+
+  Future<bool> refreshToken();
 }

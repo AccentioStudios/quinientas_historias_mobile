@@ -37,6 +37,7 @@ class ChallengesAdminRegisterPage extends StatefulWidget
 class _ChallengesAdminRegisterPageState
     extends State<ChallengesAdminRegisterPage> {
   late final TextEditingController nameController;
+  late final TextEditingController descriptionController;
   late final TextEditingController urlController;
   final formKey = GlobalKey<FormState>();
 
@@ -44,6 +45,7 @@ class _ChallengesAdminRegisterPageState
   void initState() {
     super.initState();
     nameController = TextEditingController();
+    descriptionController = TextEditingController();
     urlController = TextEditingController();
   }
 
@@ -120,8 +122,19 @@ class _ChallengesAdminRegisterPageState
                                             keyboardType: TextInputType.name,
                                             controller: nameController,
                                             hintText: 'Nombre del reto',
-                                            onChanged: (firstName) =>
-                                                onChangeFields(name: firstName),
+                                            onChanged: (name) =>
+                                                onChangeFields(name: name),
+                                            validator: fieldValidate,
+                                          ),
+                                          const SizedBox(
+                                              height: Constants.space16),
+                                          ThemedTextFormField(
+                                            keyboardType: TextInputType.name,
+                                            controller: descriptionController,
+                                            hintText: 'Descripción del reto',
+                                            onChanged: (description) =>
+                                                onChangeFields(
+                                                    description: description),
                                             validator: fieldValidate,
                                           ),
                                           const SizedBox(

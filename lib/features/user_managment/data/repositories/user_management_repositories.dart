@@ -14,6 +14,7 @@ class UserManagementRepository with ApiService {
         if (data.containsKey('access_token')) {
           AuthDto authModel = AuthDto.decode(data);
           await GetIt.I<SecureStorageService>().saveSession(authModel);
+          await appApi.refreshToken();
           return;
         }
       }
@@ -21,8 +22,10 @@ class UserManagementRepository with ApiService {
   }
 
   Stream<void> editUser(UserDto request) async* {
-    yield* appApi
-        .post('/v1/users/edit', data: request.toJson())
-        .handle(mapper: (Object data) {});
+    yield* appApi.post('/v1/users/edit', data: request.toJson()).handle(
+        mapper: (Object data) async {
+      await appApi.refreshToken();
+      return;
+    });
   }
 }

@@ -7,5 +7,8 @@ class ChallengesAdminState with _$ChallengesAdminState {
     @Default(false) bool registeringChallenge,
     HttpFailure? error,
     ChallengeSar? challenge,
+    @Default(false) bool checkingHealth,
+    SarHealthResponseDto? health,
+    Object? errorHealth,
   }) = _ChallengesAdminState;
 }
