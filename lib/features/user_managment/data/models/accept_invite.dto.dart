@@ -46,8 +46,8 @@ class UserDto {
   final String? password;
   final String? passwordConfirmation;
   final String? avatarUrl;
-  final String? teamId;
-  final String? schoolId;
+  final int? teamId;
+  final int? schoolId;
 
   Map<String, dynamic> toJson() => _$UserDtoToJson(this);
 
@@ -60,8 +60,8 @@ class UserDto {
     String? password,
     String? passwordConfirmation,
     String? avatarUrl,
-    String? teamId,
-    String? schoolId,
+    int? teamId,
+    int? schoolId,
   }) {
     return UserDto(
       id: id ?? this.id,

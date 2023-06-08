@@ -255,10 +255,38 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ShellPage(),
       );
     },
+    TournamentAdminRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TournamentAdminProvider(),
+      );
+    },
     TournamentRoute.name: (routeData) {
       return AutoRoutePage<bool?>(
         routeData: routeData,
         child: const TournamentProvider(),
+      );
+    },
+    TournamentAdminHomeRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TournamentAdminHomePage(),
+      );
+    },
+    TournamentAdminRegisterRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TournamentAdminRegisterPage(),
+      );
+    },
+    TournamentAdminEditRoute.name: (routeData) {
+      final args = routeData.argsAs<TournamentAdminEditRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TournamentAdminEditPage(
+          key: args.key,
+          tournament: args.tournament,
+        ),
       );
     },
   };
@@ -1042,6 +1070,20 @@ class ShellRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [TournamentAdminProvider]
+class TournamentAdminRoute extends PageRouteInfo<void> {
+  const TournamentAdminRoute({List<PageRouteInfo>? children})
+      : super(
+          TournamentAdminRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TournamentAdminRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [TournamentProvider]
 class TournamentRoute extends PageRouteInfo<void> {
   const TournamentRoute({List<PageRouteInfo>? children})
@@ -1053,4 +1095,71 @@ class TournamentRoute extends PageRouteInfo<void> {
   static const String name = 'TournamentRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TournamentAdminHomePage]
+class TournamentAdminHomeRoute extends PageRouteInfo<void> {
+  const TournamentAdminHomeRoute({List<PageRouteInfo>? children})
+      : super(
+          TournamentAdminHomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TournamentAdminHomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TournamentAdminRegisterPage]
+class TournamentAdminRegisterRoute extends PageRouteInfo<void> {
+  const TournamentAdminRegisterRoute({List<PageRouteInfo>? children})
+      : super(
+          TournamentAdminRegisterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TournamentAdminRegisterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TournamentAdminEditPage]
+class TournamentAdminEditRoute
+    extends PageRouteInfo<TournamentAdminEditRouteArgs> {
+  TournamentAdminEditRoute({
+    Key? key,
+    required Tournament tournament,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TournamentAdminEditRoute.name,
+          args: TournamentAdminEditRouteArgs(
+            key: key,
+            tournament: tournament,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TournamentAdminEditRoute';
+
+  static const PageInfo<TournamentAdminEditRouteArgs> page =
+      PageInfo<TournamentAdminEditRouteArgs>(name);
+}
+
+class TournamentAdminEditRouteArgs {
+  const TournamentAdminEditRouteArgs({
+    this.key,
+    required this.tournament,
+  });
+
+  final Key? key;
+
+  final Tournament tournament;
+
+  @override
+  String toString() {
+    return 'TournamentAdminEditRouteArgs{key: $key, tournament: $tournament}';
+  }
 }

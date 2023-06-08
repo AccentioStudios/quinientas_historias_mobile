@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/data/entities/story_entity.dart';
 import '../../../../core/data/models/list_page.dart';
 import '../../../../core/utils/colors.dart';
+import '../../data/dto/explore_stories_filtes.dto.dart';
 import '../../data/useCases/explore_stories_use_cases.dart';
 
 part 'explore_stories_cubit.freezed.dart';
@@ -20,7 +21,13 @@ class ExploreStoriesCubit extends Cubit<ExploreStoriesState> {
   Future<ListPage<Story>> getStories(int pageKey) async {
     final completer = Completer<ListPage<Story>>();
     // emit(state.copyWith(isLoading: true));
-    useCases.getStories(pageKey: pageKey).listen((stories) {
+    useCases
+        .getStories(
+      pageKey: pageKey,
+      orderBy: state.filters.orderBy,
+      title: state.filters.title,
+    )
+        .listen((stories) {
       for (var story in stories.itemList) {
         story.coverColor = generateRandomColors().toHex();
       }
@@ -34,11 +41,16 @@ class ExploreStoriesCubit extends Cubit<ExploreStoriesState> {
     return completer.future;
   }
 
+  clearFilters() {
+    emit(state.copyWith(
+        filters: ExploreSearchFilters(orderBy: state.filters.orderBy)));
+  }
+
   applyFilters({
     int? id,
     String? title,
     int? tournamentId,
-    String? orderBy,
+    StoryOrderBy? orderBy,
   }) {
     emit(state.copyWith(
         filters: state.filters.copyWith(

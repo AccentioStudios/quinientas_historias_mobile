@@ -83,3 +83,47 @@ class ReadTimeResults {
 
   Map<String, dynamic> toJson() => _$ReadTimeResultsToJson(this);
 }
+
+enum StoryOrderBy {
+  niceRating,
+  qualityRating,
+  veracityRating,
+  originalityRating,
+  educationalRating,
+}
+
+extension StoryOrderByExtension on StoryOrderBy {
+  String get value {
+    switch (this) {
+      case StoryOrderBy.niceRating:
+        return 'niceRating';
+      case StoryOrderBy.qualityRating:
+        return 'qualityRating';
+      case StoryOrderBy.veracityRating:
+        return 'veracityRating';
+      case StoryOrderBy.originalityRating:
+        return 'originalityRating';
+      case StoryOrderBy.educationalRating:
+        return 'educationalRating';
+      default:
+        return 'niceRating';
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case StoryOrderBy.niceRating:
+        return 'Mas gustado';
+      case StoryOrderBy.qualityRating:
+        return 'Calidad de escritura';
+      case StoryOrderBy.veracityRating:
+        return 'Veracidad';
+      case StoryOrderBy.originalityRating:
+        return 'Originalidad';
+      case StoryOrderBy.educationalRating:
+        return 'Educacional';
+      default:
+        return 'Mas gustado';
+    }
+  }
+}

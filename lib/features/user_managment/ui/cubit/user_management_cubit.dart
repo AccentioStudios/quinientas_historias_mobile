@@ -9,6 +9,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:quinientas_historias/core/helpers/shared_preferences_helper.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/data/dto/user_profile_dto.dart';
 import '../../../../core/data/entities/invites_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
 import '../../../../core/failures/failures.dart';
@@ -40,7 +41,7 @@ class UserManagementCubit extends Cubit<UserManagementState>
             username: '')));
   }
 
-  void loadUser(User user) {
+  void loadUser(UserProfileDto user) {
     emit(state.copyWith(
       user: UserDto(
         id: user.id,
@@ -48,6 +49,8 @@ class UserManagementCubit extends Cubit<UserManagementState>
         firstName: user.firstName,
         lastName: user.lastName!,
         avatarUrl: user.avatarUrl!,
+        teamId: user.team?.id,
+        schoolId: user.school?.id,
       ),
     ));
   }

@@ -149,11 +149,19 @@ class HomeProfPage extends StatelessWidget {
   void navigateToInviteCaptains(BuildContext context,
       {required int? schoolId}) {
     if (schoolId != null) {
-      SendInviteProvider.open(context,
-              schoolId: schoolId, typeUserToInvite: Role.captain)
-          .then((refresh) {
-        if (refresh == true) {
-          // getDashboardFunction();
+      SendInviteProvider.chooseTournamentForInviteAdmin(
+        context,
+      ).then((tournament) {
+        if (tournament != null) {
+          SendInviteProvider.open(context,
+                  tournamentId: tournament.id,
+                  schoolId: schoolId,
+                  typeUserToInvite: Role.captain)
+              .then((refresh) {
+            if (refresh == true) {
+              // getDashboardFunction();
+            }
+          });
         }
       });
     } else {
@@ -165,6 +173,9 @@ class HomeProfPage extends StatelessWidget {
 
   void navigateToInviteReaders(BuildContext context, {required int? schoolId}) {
     if (schoolId != null) {
+      // SendInviteProvider.chooseTournamentForInviteAdmin(
+      //   context,
+      // ).then((tournament) {
       SendInviteProvider.chooseTeamForInviteProfAndAdmin(
         context,
         schoolId: schoolId,
@@ -178,6 +189,7 @@ class HomeProfPage extends StatelessWidget {
           ).then((value) {});
         }
       });
+      // });
     } else {
       Fluttertoast.cancel();
       Fluttertoast.showToast(

@@ -9,31 +9,3 @@ class ExploreStoriesState with _$ExploreStoriesState {
     @Default(ExploreSearchFilters()) ExploreSearchFilters filters,
   }) = _ExploreStoriesState;
 }
-
-class ExploreSearchFilters {
-  const ExploreSearchFilters({
-    this.id,
-    this.title,
-    this.tournamentId,
-    this.orderBy,
-  });
-
-  final int? id;
-  final String? title;
-  final int? tournamentId;
-  final String? orderBy;
-
-  ExploreSearchFilters copyWith({
-    int? id,
-    String? title,
-    int? tournamentId,
-    String? orderBy,
-  }) {
-    return ExploreSearchFilters(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      tournamentId: tournamentId ?? this.tournamentId,
-      orderBy: orderBy ?? this.orderBy,
-    );
-  }
-}

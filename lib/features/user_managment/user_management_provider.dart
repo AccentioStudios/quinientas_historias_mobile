@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
-import 'package:quinientas_historias/features/user_managment/ui/existingUser/confirmation_existing_user_accept_invite.dart';
-import 'package:quinientas_historias/features/user_managment/ui/register/pages/register_school_page.dart';
+import '../../core/data/dto/auth_dto.dart';
+import 'ui/existingUser/confirmation_existing_user_accept_invite.dart';
+import 'ui/register/pages/register_school_page.dart';
 
 import '../../core/data/dto/team_profile_dto.dart';
+import '../../core/data/dto/user_profile_dto.dart';
 import '../../core/data/entities/invites_entity.dart';
 import '../../core/data/entities/school_entity.dart';
 import '../../core/data/entities/team_entity.dart';
-import '../../core/data/entities/user_entity.dart';
 import '../../core/integrations/secure_storage_service.dart';
 import 'data/repositories/group_management_repositories.dart';
 import 'data/repositories/user_management_repositories.dart';
@@ -136,7 +136,8 @@ class UserManagementProvider {
     );
   }
 
-  Future<bool?> openEditUser(BuildContext context, {required User user}) {
+  Future<bool?> openEditUser(BuildContext context,
+      {required UserProfileDto user}) {
     return Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute<bool>(
         builder: (context) => BlocProvider(

@@ -22,8 +22,9 @@ class UserManagementRepository with ApiService {
   }
 
   Stream<void> editUser(UserDto request) async* {
-    yield* appApi.post('/v1/users/edit', data: request.toJson()).handle(
-        mapper: (Object data) async {
+    yield* appApi
+        .patch('/v2/user/${request.id}', data: request.toJson())
+        .handle(mapper: (Object data) async {
       await appApi.refreshToken();
       return;
     });

@@ -25,25 +25,25 @@ class UserProfileHeader extends StatelessWidget with SheetMessages {
             height: 55 + MediaQuery.of(context).padding.top,
             width: double.infinity,
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + 8,
-                  right: Constants.space18),
-              child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: Constants.space8, vertical: Constants.space4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      width: 1,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  child: const Text('Nivel {nivel}')),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.topRight,
+          //   child: Padding(
+          //     padding: EdgeInsets.only(
+          //         top: MediaQuery.of(context).padding.top + 8,
+          //         right: Constants.space18),
+          //     child: Container(
+          //         padding: const EdgeInsets.symmetric(
+          //             horizontal: Constants.space8, vertical: Constants.space4),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(50),
+          //           border: Border.all(
+          //             width: 1,
+          //             color: Theme.of(context).colorScheme.onSurface,
+          //           ),
+          //         ),
+          //         child: const Text('Nivel {nivel}')),
+          //   ),
+          // ),
           PaddingColumn(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

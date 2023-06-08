@@ -10,7 +10,7 @@ Tournament _$TournamentFromJson(Map<String, dynamic> json) => Tournament(
       id: json['id'] as int,
       name: json['name'] as String?,
       active: json['active'] as bool?,
-      desc: json['desc'] as String?,
+      description: json['description'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -25,6 +25,8 @@ Tournament _$TournamentFromJson(Map<String, dynamic> json) => Tournament(
       usersCount: json['usersCount'] as int?,
       storyCount: json['storyCount'] as int?,
       participating: json['participating'] as bool?,
+      tagId: json['tagId'] as int?,
+      coverUrl: json['coverUrl'] as String?,
     );
 
 Map<String, dynamic> _$TournamentToJson(Tournament instance) =>
@@ -32,7 +34,9 @@ Map<String, dynamic> _$TournamentToJson(Tournament instance) =>
       'id': instance.id,
       'name': instance.name,
       'active': instance.active,
-      'desc': instance.desc,
+      'description': instance.description,
+      'tagId': instance.tagId,
+      'coverUrl': instance.coverUrl,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'startAt': instance.startAt.toIso8601String(),

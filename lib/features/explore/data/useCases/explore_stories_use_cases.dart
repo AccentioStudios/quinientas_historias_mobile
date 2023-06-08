@@ -10,7 +10,7 @@ class ExploreStoriesUseCases {
     int? id,
     String? title,
     int? tournamentId,
-    String? orderBy,
+    StoryOrderBy? orderBy,
     int? pageKey,
   }) async* {
     yield* repository.getStories(

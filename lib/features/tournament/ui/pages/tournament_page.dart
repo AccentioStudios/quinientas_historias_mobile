@@ -90,7 +90,7 @@ class _TournamentPageState extends State<TournamentPage>
   }
 }
 
-class TournamentListCard extends StatelessWidget {
+class TournamentListCard extends StatelessWidget with ErrorHandling {
   const TournamentListCard({super.key, required this.tournament});
 
   final Tournament tournament;
@@ -197,6 +197,16 @@ class TournamentListCard extends StatelessWidget {
   }
 
   _openTournament(BuildContext context, Tournament tournament) {
-    TournamentProvider.openTournament(context, tournament: tournament);
+    TournamentProvider.openTournament(context, tournament: tournament)
+        .then((value) => {
+              if (value == true)
+                {
+                  context
+                      .read<TournamentCubit>()
+                      .getAllTournaments()
+                      .onError<HttpFailure>(
+                          (error, stackTrace) => handleError(context, error))
+                }
+            });
   }
 }

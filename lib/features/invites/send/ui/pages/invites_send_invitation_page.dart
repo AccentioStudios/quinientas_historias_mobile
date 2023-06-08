@@ -192,19 +192,19 @@ class _SendEmailPageTwo extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: Constants.space16),
                 children: [
-                  SizedBox(
-                    height: 55,
-                    child: BigButton(
-                      elevation: 5,
-                      onPressed: () {
-                        emailController.clear();
-                        pageController.animateToPage(0,
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeInOutCubic);
-                      },
-                      text: 'Invitar a alguien más',
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 55,
+                  //   child: BigButton(
+                  //     elevation: 5,
+                  //     onPressed: () {
+                  //       emailController.clear();
+                  //       pageController.animateToPage(0,
+                  //           duration: const Duration(milliseconds: 400),
+                  //           curve: Curves.easeInOutCubic);
+                  //     },
+                  //     text: 'Invitar a alguien más',
+                  //   ),
+                  // ),
                   const SizedBox(height: Constants.space16),
                   SizedBox(
                     height: 55,
@@ -214,10 +214,9 @@ class _SendEmailPageTwo extends StatelessWidget {
                         Navigator.of(context).pop(true);
                       },
                       text: 'Volver',
-                      filled: false,
                     ),
                   ),
-                  const SizedBox(height: Constants.space12),
+                  const SizedBox(height: Constants.space16),
                 ],
               ),
             ),

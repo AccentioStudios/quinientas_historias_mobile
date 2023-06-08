@@ -8,6 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:quinientas_historias/features/user_managment/data/useCases/group_management_use_cases.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/data/dto/team_profile_dto.dart';
 import '../../../../core/data/entities/school_entity.dart';
 import '../../../../core/data/entities/team_entity.dart';
 import '../../../../core/failures/failures.dart';
@@ -42,12 +43,14 @@ class GroupManagementCubit extends Cubit<GroupManagementState>
     emit(state.copyWith(groupManagementRequest: GroupManagementRequest()));
   }
 
-  void loadTeam(Team team) {
+  void loadTeam(TeamProfileDto team) {
     emit(state.copyWith(
       groupManagementRequest: GroupManagementRequest(
         id: team.id,
         name: team.name,
         avatarUrl: team.avatarUrl!,
+        schoolId: team.school?.id,
+        tournamentId: team.tournament.id,
       ),
     ));
   }

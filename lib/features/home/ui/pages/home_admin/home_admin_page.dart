@@ -55,6 +55,15 @@ class HomeAdminPage extends StatelessWidget {
                           _navigateToChallengeAdmin(context);
                         },
                       ),
+                      const SizedBox(height: Constants.space16),
+                      CustomChip(
+                        svgIconPath: 'assets/icons/trophy-outline-icon.svg',
+                        title: 'Crear Torneos nuevos',
+                        body: 'Crea torneos en el sistema',
+                        onTap: () {
+                          _navigateToTournamentAdmin(context);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -148,6 +157,11 @@ class HomeAdminPage extends StatelessWidget {
 
   void _navigateToChallengeAdmin(BuildContext context) {
     AutoRouter.of(context).push(ChallengesAdminRoute());
+  }
+
+  void _navigateToTournamentAdmin(BuildContext context) {
+    // AutoRouter.of(context).push(TournamentAdminRoute());
+    context.router.pushNamed('/tournament/admin/register');
   }
 
   void _navigateToExploreStories(BuildContext context, {String? search}) {

@@ -23,8 +23,13 @@ import '../../features/profiles_module/team_profile/team_profile_provider.dart';
 import '../../features/profiles_module/user_profile/user_profile_provider.dart';
 import '../../features/reading_module/reading_story/reading_story_provider.dart';
 import '../../features/shell/ui/shell_page.dart';
+import '../../features/tournament/tournament_admin_provider.dart';
 import '../../features/tournament/tournament_provider.dart';
+import '../../features/tournament/ui/pages/admin/tournament_admin_edit.dart';
+import '../../features/tournament/ui/pages/admin/tournament_admin_home.dart';
+import '../../features/tournament/ui/pages/admin/tournament_admin_register.dart';
 import '../data/entities/team_entity.dart';
+import '../data/entities/tournament_entity.dart';
 import '../data/entities/user_entity.dart';
 import '../integrations/remote_config_service.dart';
 import '../integrations/secure_storage_service.dart';
@@ -64,6 +69,28 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
         AutoRoute(path: '/invite/admin', page: InvitesAdminRoute.page),
         AutoRoute(path: '/explore', page: ExploreStoriesRoute.page),
         AutoRoute(path: '/challenge', page: ChallengesRoute.page),
+        AutoRoute(
+          path: '/tournament/admin',
+          page: TournamentAdminRoute.page,
+          children: [
+            AutoRoute(
+              path: '',
+              page: TournamentAdminHomeRoute.page,
+            ),
+            AutoRoute(
+              path: 'edit/:id',
+              page: TournamentAdminEditRoute.page,
+            ),
+            AutoRoute(
+              path: 'register',
+              page: TournamentAdminRegisterRoute.page,
+              // guards: [NewChallengeOnboardingGuard()],
+            ),
+          ],
+          guards: [
+            AdminAuthGuard(),
+          ],
+        ),
         AutoRoute(
           path: '/challenge/admin',
           page: ChallengesAdminRoute.page,

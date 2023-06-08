@@ -81,5 +81,8 @@ enum FailureTypes {
   httpHandleError,
   @JsonValue('network-error')
   networkError,
+
+  @JsonValue('too-many-requests')
+  tooManyRequests,
   unknown,
 }

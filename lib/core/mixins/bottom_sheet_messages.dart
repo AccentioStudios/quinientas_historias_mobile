@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../features/challenges/data/dto/register_new_challenge_response.dto.dart';
 import '../data/entities/daily_challenge_entity.dart';
+import '../data/entities/story_entity.dart';
 import '../ui/widgets/custom_bottom_sheet.dart';
+import '../ui/widgets/custom_inkwell.dart';
+import '../ui/widgets/padding_column.dart';
 import '../utils/colors.dart';
 import '../utils/constants.dart';
 
@@ -53,6 +56,55 @@ mixin SheetMessages on Widget {
           secondaryBtnLabel: secondaryBtnLabel,
           height: height,
           controller: controller,
+        ),
+      ),
+    );
+  }
+
+  Future<T?> showCompactMessage<T>(
+    BuildContext context, {
+    CustomBottomSheetController? controller,
+    String? iconSvgPath,
+    Color? iconColor,
+    required String title,
+    Widget Function(BuildContext)? contentBuilder,
+    Function? btnOnTap,
+    String? btnLabel,
+    Function? secondaryBtnOnTap,
+    String? secondaryBtnLabel,
+    double height = 320,
+    bool willPop = true,
+    bool isDismissible = true,
+    bool withoutButtons = false,
+  }) {
+    return showModalBottomSheet<T>(
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      context: context,
+      useRootNavigator: true,
+      isDismissible: isDismissible,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(23.0), topRight: Radius.circular(23.0)),
+      ),
+      builder: (context) => WillPopScope(
+        onWillPop: () async {
+          if (willPop) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        child: MessagesBottomSheet.compact(
+          iconSvgPath: iconSvgPath,
+          title: title,
+          btnOnTap: btnOnTap,
+          btnLabel: btnLabel,
+          contentBuilder: contentBuilder,
+          secondaryBtnOnTap: secondaryBtnOnTap,
+          secondaryBtnLabel: secondaryBtnLabel,
+          height: height,
+          controller: controller,
+          withoutButtons: withoutButtons,
         ),
       ),
     );
@@ -190,6 +242,87 @@ mixin SheetMessages on Widget {
       btnLabel: 'Invitar Capitanes',
       isDismissible: false,
     );
+  }
+
+  Future<T?> showExploreStoryOrderBy<T>(BuildContext context,
+      {StoryOrderBy? selectedOption}) {
+    return showCompactMessage<T?>(context,
+        height: 300,
+        iconSvgPath: 'assets/icons/order-down-icon.svg',
+        title: 'Ordenar por',
+        withoutButtons: true,
+        contentBuilder: (context) => PaddingColumn(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Constants.space21),
+              children: [
+                const SizedBox(height: Constants.space16),
+                Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    Icon(Icons.info_outline,
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer),
+                    const SizedBox(width: 12.0),
+                    Expanded(
+                      child: Text(
+                          'El orden viene dictado por las votaciones de los lectores a las historias.',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: Constants.space21),
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: StoryOrderBy.values.length,
+                  itemBuilder: (context, index) {
+                    final bool selected = index == selectedOption?.index;
+                    return CustomInkWell(
+                      borderRadius: BorderRadius.circular(8),
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .onPrimaryContainer
+                          .withOpacity(0.04),
+                      splashColor:
+                          Theme.of(context).colorScheme.tertiaryContainer,
+                      selected: selected,
+                      onTap: () {
+                        Navigator.of(context).pop(StoryOrderBy.values[index]);
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space21),
+                          width: double.infinity,
+                          height: 47,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              StoryOrderBy.values[index].name,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: selected
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .onTertiaryContainer
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                            ),
+                          )),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(height: Constants.space12);
+                  },
+                ),
+              ],
+            ));
   }
 
   Future<T?> showSecretKeyFromNewChallenge<T>(

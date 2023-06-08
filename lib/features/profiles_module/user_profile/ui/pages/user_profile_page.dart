@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../core/data/dto/auth_dto.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/failures/status_codes.dart';
+import '../../../../../core/integrations/secure_storage_service.dart';
 import '../../../../../core/libs/extended_tab_view.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/auto_router.dart';
@@ -64,18 +67,28 @@ class _UserProfilePageState extends State<UserProfilePage>
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             actions: [
-              if (state.isMyProfile)
-                TextButton.icon(
-                  onPressed: () {
-                    openEditUser(context, state);
-                  },
-                  icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
-                  label: Text(
-                    'Editar Perfil',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                ),
+              FutureBuilder<JwtPayload?>(
+                  future: SecureStorageService().getSessionData(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SizedBox.shrink();
+                    }
+                    final role = snapshot.data!.role;
+                    if (role != Role.admin && !state.isMyProfile) {
+                      return const SizedBox.shrink();
+                    }
+                    return TextButton.icon(
+                      onPressed: () {
+                        openEditUser(context, state);
+                      },
+                      icon: SvgPicture.asset('assets/icons/edit-icon.svg'),
+                      label: Text(
+                        'Editar Perfil',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                    );
+                  }),
               const SizedBox(width: 8),
             ],
             elevation: 0,
@@ -187,7 +200,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   void openEditUser(BuildContext context, UserProfileState state) {
     UserManagementProvider()
-        .openEditUser(context, user: state.user!.toEntity())
+        .openEditUser(context, user: state.user!)
         .then((refresh) {
       if (refresh == true) {
         getUserData();

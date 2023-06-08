@@ -33,6 +33,7 @@ class ReceivedInvitesPage extends StatefulWidget
 }
 
 class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
+  bool acceptingIsLoading = false;
   @override
   void didChangeDependencies() {
     validateCode();
@@ -58,6 +59,7 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
               )
             : state.invite?.accepted == false
                 ? ReceivedInvitationMessage(
+                    isLoading: acceptingIsLoading,
                     headline: getHeader(state.invite),
                     message: getSubtitle(state.invite),
                     team: state.invite?.team,
@@ -79,12 +81,20 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
   }
 
   navigateToAcceptInvite(BuildContext context, {required Invite invite}) async {
+    setState(() {
+      acceptingIsLoading = true;
+    });
     // If user is logged in, navigate to accept invite page
     final session = await GetIt.I<SecureStorageService>().getSessionData();
     if (session != null) {
       if (context.mounted) {
         UserManagementProvider()
-            .openAcceptInvite(context, invite: invite, session: session);
+            .openAcceptInvite(context, invite: invite, session: session)
+            .then((value) {
+          setState(() {
+            acceptingIsLoading = false;
+          });
+        });
         return;
       }
     }
@@ -107,6 +117,9 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
         return;
       } else {
         if (context.mounted) {
+          setState(() {
+            acceptingIsLoading = false;
+          });
           await widget.showMessage<bool>(context,
               content:
                   'No pudimos iniciar sesión, por favor intenta de nuevo más tarde.',
@@ -132,6 +145,17 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
             navigateToAcceptInvite(context, invite: invite);
           }
           return;
+        } else {
+          if (context.mounted) {
+            setState(() {
+              acceptingIsLoading = false;
+            });
+            await widget.showMessage<bool>(context,
+                content:
+                    'No pudimos crear tu cuenta, por favor intenta de nuevo más tarde.',
+                title: 'Error al crear tu cuenta');
+            return;
+          }
         }
       }
     }
@@ -192,6 +216,7 @@ class ReceivedInvitationMessage extends StatelessWidget {
     this.message =
         'Has recibido una invitacion para formar parte de 500 Historias en el equipo:',
     this.team,
+    this.isLoading = false,
     required this.onAccept,
   });
 
@@ -199,6 +224,8 @@ class ReceivedInvitationMessage extends StatelessWidget {
   final String message;
   final Team? team;
   final VoidCallback onAccept;
+  final bool isLoading;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,7 +245,11 @@ class ReceivedInvitationMessage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: Constants.space21),
         paddingFooter: const EdgeInsets.symmetric(
             horizontal: Constants.space21, vertical: Constants.space21),
-        footer: BigButton(text: 'Aceptar invitación', onPressed: onAccept),
+        footer: BigButton(
+          text: 'Aceptar invitación',
+          onPressed: onAccept,
+          isLoading: isLoading,
+        ),
         children: [
           const SizedBox(height: 20),
           SizedBox(

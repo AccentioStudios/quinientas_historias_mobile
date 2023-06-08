@@ -39,7 +39,7 @@ class _EditTeamPageState extends State<EditTeamPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<GroupManagementCubit>().loadTeam(widget.team.toEntity());
+    context.read<GroupManagementCubit>().loadTeam(widget.team);
   }
 
   @override

@@ -46,6 +46,8 @@ Team _$TeamProfileDtoToEntity(TeamProfileDto instance) {
     name: instance.name,
     avatarUrl: instance.avatarUrl,
     school: instance.school,
+    tournament: instance.tournament,
+
     // Empty because Dto does not have those fields
   );
 }

@@ -6,13 +6,16 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../core/data/entities/story_entity.dart';
 // ignore: library_prefixes
 import '../../../../core/libs/custom_search_delegate.dart' as customSearch;
+import '../../../../core/mixins/bottom_sheet_messages.dart';
+import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/ui/widgets/story_cover.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../tournament/ui/widgets/no_item_found_widget.dart';
+import '../../data/dto/explore_stories_filtes.dto.dart';
 import '../cubit/explore_stories_cubit.dart';
 
-class ExploreStoriesPage extends StatefulWidget {
+class ExploreStoriesPage extends StatefulWidget with SheetMessages {
   const ExploreStoriesPage({super.key});
 
   @override
@@ -49,17 +52,17 @@ class _ExploreStoriesPageState extends State<ExploreStoriesPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            bottom: _filtersSearchToolbar(context),
+            bottom: _filtersSearchToolbar(context, filters: state.filters,
+                onTapOrderBy: () {
+              _openOrderBySheet(state.filters.orderBy);
+            }),
             title: const Text('Explorar'),
             centerTitle: true,
             elevation: 0,
             actions: [
               IconButton(
                 onPressed: () {
-                  customSearch.showSearch(
-                      delegate: ExploreSearchDelegate(
-                          toolbar: _filtersSearchToolbar(context)),
-                      context: context);
+                  _showSearch(context);
                 },
                 icon: const Icon(Icons.search),
               )
@@ -106,6 +109,24 @@ class _ExploreStoriesPageState extends State<ExploreStoriesPage> {
     );
   }
 
+  _showSearch(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).push(SearchBarPopupRoute<void>(
+        filters: context.read<ExploreStoriesCubit>().state.filters,
+        onSearch: (newFilters) {
+          context.read<ExploreStoriesCubit>().applyFilters(
+                id: newFilters?.id,
+                title: newFilters?.title,
+                tournamentId: newFilters?.tournamentId,
+                orderBy: newFilters?.orderBy,
+              );
+          _pagingController.refresh();
+        },
+        onClear: () {
+          context.read<ExploreStoriesCubit>().clearFilters();
+          _pagingController.refresh();
+        }));
+  }
+
   _fetchPage(int pageKey) {
     if (mounted) {
       BlocProvider.of<ExploreStoriesCubit>(context).getStories(pageKey).then(
@@ -132,9 +153,30 @@ class _ExploreStoriesPageState extends State<ExploreStoriesPage> {
   ) {
     ReadingStoryProvider.openStory(context, storyId: story.id);
   }
+
+  void _openOrderBySheet(StoryOrderBy selectedOrderBy) {
+    widget
+        .showExploreStoryOrderBy<StoryOrderBy>(
+          context,
+          selectedOption: selectedOrderBy,
+        )
+        .then((newSelectedOrderBy) => {
+              if (newSelectedOrderBy != null)
+                {
+                  setState(() {
+                    context
+                        .read<ExploreStoriesCubit>()
+                        .applyFilters(orderBy: newSelectedOrderBy);
+                    _pagingController.refresh();
+                  })
+                }
+            });
+  }
 }
 
-_filtersSearchToolbar(BuildContext context) {
+_filtersSearchToolbar(BuildContext context,
+    {required void Function() onTapOrderBy,
+    required ExploreSearchFilters filters}) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(57.0),
     child: Align(
@@ -153,31 +195,35 @@ _filtersSearchToolbar(BuildContext context) {
             crossAxisAlignment: CrossAxisAlignment.center,
             direction: Axis.horizontal,
             children: [
-              Container(
-                height: 35,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 12.0),
-                    SizedBox(
-                        width: 17,
-                        height: 17,
-                        child: SvgPicture.asset(
-                          'assets/icons/orderby-icon.svg',
-                          color:
-                              Theme.of(context).colorScheme.onTertiaryContainer,
-                        )),
-                    const SizedBox(width: 12.0),
-                    Text('Mas gustados',
-                        style: TextStyle(
+              GestureDetector(
+                onTap: onTapOrderBy,
+                child: Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.tertiaryContainer,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 12.0),
+                      SizedBox(
+                          width: 17,
+                          height: 17,
+                          child: SvgPicture.asset(
+                            'assets/icons/orderby-icon.svg',
                             color: Theme.of(context)
                                 .colorScheme
-                                .onTertiaryContainer)),
-                    const SizedBox(width: 12.0),
-                  ],
+                                .onTertiaryContainer,
+                          )),
+                      const SizedBox(width: 12.0),
+                      Text(filters.orderBy.name,
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onTertiaryContainer)),
+                      const SizedBox(width: 12.0),
+                    ],
+                  ),
                 ),
               ),
             ]),
@@ -187,12 +233,10 @@ _filtersSearchToolbar(BuildContext context) {
 }
 
 class ExploreSearchDelegate extends customSearch.CustomSearchDelegate {
-  ExploreSearchDelegate({required this.toolbar});
+  ExploreSearchDelegate({required this.context, required this.state});
 
-  final PreferredSize toolbar;
-
-  @override
-  PreferredSize get toolbarWidget => toolbar;
+  final BuildContext context;
+  final ExploreStoriesState state;
 
   @override
   String get searchFieldLabel => 'Buscar historias...';
@@ -269,4 +313,121 @@ class ExploreSearchDelegate extends customSearch.CustomSearchDelegate {
       },
     );
   }
+}
+
+class SearchBarPopupRoute<T> extends PopupRoute<T> {
+  SearchBarPopupRoute(
+      {required this.filters, required this.onSearch, required this.onClear});
+  final ExploreSearchFilters? filters;
+  final void Function(ExploreSearchFilters?) onSearch;
+  final void Function() onClear;
+  TextEditingController? _searchFieldController;
+
+  @override
+  Color get barrierColor => Colors.black.withOpacity(0.3);
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  String get barrierLabel => 'SearchBarPopupRoute';
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    _searchFieldController = TextEditingController(text: filters?.title);
+    final top = MediaQuery.of(context).padding.top;
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: Material(
+        type: MaterialType.transparency,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            width: double.infinity,
+            height: 112 + top,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+            child: PaddingColumn(
+              padding: EdgeInsets.only(
+                  top: top + 3,
+                  left: 4,
+                  right: Constants.space16,
+                  bottom: Constants.space16),
+              children: [
+                Row(
+                  children: [
+                    // Back button
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back),
+                    ),
+                    // Search field with icon and close button
+                    Expanded(
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimaryContainer
+                              .withOpacity(0.08),
+                        ),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            const SizedBox(width: 8),
+                            const Icon(Icons.search),
+                            Expanded(
+                              child: Transform.translate(
+                                offset: const Offset(0, -3),
+                                child: TextField(
+                                    autofocus: true,
+                                    controller: _searchFieldController,
+                                    style: const TextStyle(
+                                        height: 1, fontSize: 15),
+                                    decoration: const InputDecoration(
+                                      hintText: 'Buscar historias...',
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 0),
+                                    ),
+                                    onSubmitted: (value) {
+                                      final newFilter = filters?.copyWith(
+                                        title: value,
+                                      );
+                                      Navigator.of(context).pop(value);
+                                      onSearch(newFilter);
+                                    }),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                onClear();
+                                _searchFieldController?.clear();
+                                Navigator.of(context).pop(null);
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 200);
 }

@@ -41,6 +41,7 @@ const _$FailureTypesEnumMap = {
   FailureTypes.formatException: 'format-exception',
   FailureTypes.httpHandleError: 'http-handle-error',
   FailureTypes.networkError: 'network-error',
+  FailureTypes.tooManyRequests: 'too-many-requests',
   FailureTypes.unknown: 'unknown',
 };
 
@@ -56,5 +57,6 @@ const _$StatusCodesEnumMap = {
   StatusCodes.fordbidden: 403,
   StatusCodes.notFound: 404,
   StatusCodes.internalServerError: 500,
+  StatusCodes.tooManyRequests: 429,
   StatusCodes.iforgotError: 452,
 };

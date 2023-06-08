@@ -7,14 +7,14 @@ class ExploreStoriesRepository with ApiService {
     int? id,
     String? title,
     int? tournamentId,
-    String? orderBy,
+    StoryOrderBy? orderBy,
     int? pageKey,
   }) async* {
     yield* appApi.get('/v2/story/search', queryParameters: {
       'id': id?.toString(),
-      'title': title,
+      'title': title?.toString(),
       'tournamentId': tournamentId?.toString(),
-      'orderBy': orderBy,
+      'orderBy': orderBy?.value.toString(),
       'page': pageKey?.toString(),
     }).handle(mapper: (data) {
       final stories = ((data as dynamic)['itemList'] as List<dynamic>)

@@ -29,8 +29,8 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
       password: json['password'] as String?,
       passwordConfirmation: json['passwordConfirmation'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
-      teamId: json['teamId'] as String?,
-      schoolId: json['schoolId'] as String?,
+      teamId: json['teamId'] as int?,
+      schoolId: json['schoolId'] as int?,
     );
 
 Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{

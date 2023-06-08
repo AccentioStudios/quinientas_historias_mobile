@@ -32,5 +32,6 @@ const _$StatusCodesEnumMap = {
   StatusCodes.fordbidden: 403,
   StatusCodes.notFound: 404,
   StatusCodes.internalServerError: 500,
+  StatusCodes.tooManyRequests: 429,
   StatusCodes.iforgotError: 452,
 };

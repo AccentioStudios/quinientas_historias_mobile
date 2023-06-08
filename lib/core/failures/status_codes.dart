@@ -20,6 +20,9 @@ enum StatusCodes {
   @JsonValue(500)
   internalServerError,
 
+  @JsonValue(429)
+  tooManyRequests,
+
   // Custom errors
 
   @JsonValue(452)

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../../../core/data/entities/user_entity.dart';
+import '../../../../../core/data/dto/user_profile_dto.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
@@ -17,7 +17,7 @@ import '../../widgets/user_management_user_avatar.dart';
 
 class EditUserPage extends StatefulWidget with ErrorHandling, SheetMessages {
   const EditUserPage({super.key, required this.user});
-  final User user;
+  final UserProfileDto user;
 
   @override
   State<EditUserPage> createState() => _EditUserPageState();
