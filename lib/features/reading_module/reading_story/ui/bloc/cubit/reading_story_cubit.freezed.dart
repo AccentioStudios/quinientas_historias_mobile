@@ -22,6 +22,11 @@ mixin _$ReadingStoryState {
   int get storyProgress => throw _privateConstructorUsedError;
   Story? get story => throw _privateConstructorUsedError;
   StoryRatings? get myRating => throw _privateConstructorUsedError;
+  bool get quizFinished => throw _privateConstructorUsedError;
+  int get correctAnswers => throw _privateConstructorUsedError;
+  Points? get readPoints => throw _privateConstructorUsedError;
+  int get bonusTotalPoints => throw _privateConstructorUsedError;
+  List<QuizItem> get quizItems => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReadingStoryStateCopyWith<ReadingStoryState> get copyWith =>
@@ -40,7 +45,12 @@ abstract class $ReadingStoryStateCopyWith<$Res> {
       bool saveFavoriteloading,
       int storyProgress,
       Story? story,
-      StoryRatings? myRating});
+      StoryRatings? myRating,
+      bool quizFinished,
+      int correctAnswers,
+      Points? readPoints,
+      int bonusTotalPoints,
+      List<QuizItem> quizItems});
 }
 
 /// @nodoc
@@ -62,6 +72,11 @@ class _$ReadingStoryStateCopyWithImpl<$Res, $Val extends ReadingStoryState>
     Object? storyProgress = null,
     Object? story = freezed,
     Object? myRating = freezed,
+    Object? quizFinished = null,
+    Object? correctAnswers = null,
+    Object? readPoints = freezed,
+    Object? bonusTotalPoints = null,
+    Object? quizItems = null,
   }) {
     return _then(_value.copyWith(
       readingOptions: null == readingOptions
@@ -88,6 +103,26 @@ class _$ReadingStoryStateCopyWithImpl<$Res, $Val extends ReadingStoryState>
           ? _value.myRating
           : myRating // ignore: cast_nullable_to_non_nullable
               as StoryRatings?,
+      quizFinished: null == quizFinished
+          ? _value.quizFinished
+          : quizFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
+      correctAnswers: null == correctAnswers
+          ? _value.correctAnswers
+          : correctAnswers // ignore: cast_nullable_to_non_nullable
+              as int,
+      readPoints: freezed == readPoints
+          ? _value.readPoints
+          : readPoints // ignore: cast_nullable_to_non_nullable
+              as Points?,
+      bonusTotalPoints: null == bonusTotalPoints
+          ? _value.bonusTotalPoints
+          : bonusTotalPoints // ignore: cast_nullable_to_non_nullable
+              as int,
+      quizItems: null == quizItems
+          ? _value.quizItems
+          : quizItems // ignore: cast_nullable_to_non_nullable
+              as List<QuizItem>,
     ) as $Val);
   }
 }
@@ -106,7 +141,12 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
       bool saveFavoriteloading,
       int storyProgress,
       Story? story,
-      StoryRatings? myRating});
+      StoryRatings? myRating,
+      bool quizFinished,
+      int correctAnswers,
+      Points? readPoints,
+      int bonusTotalPoints,
+      List<QuizItem> quizItems});
 }
 
 /// @nodoc
@@ -126,6 +166,11 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
     Object? storyProgress = null,
     Object? story = freezed,
     Object? myRating = freezed,
+    Object? quizFinished = null,
+    Object? correctAnswers = null,
+    Object? readPoints = freezed,
+    Object? bonusTotalPoints = null,
+    Object? quizItems = null,
   }) {
     return _then(_$_ReadingStoryState(
       readingOptions: null == readingOptions
@@ -152,6 +197,26 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
           ? _value.myRating
           : myRating // ignore: cast_nullable_to_non_nullable
               as StoryRatings?,
+      quizFinished: null == quizFinished
+          ? _value.quizFinished
+          : quizFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
+      correctAnswers: null == correctAnswers
+          ? _value.correctAnswers
+          : correctAnswers // ignore: cast_nullable_to_non_nullable
+              as int,
+      readPoints: freezed == readPoints
+          ? _value.readPoints
+          : readPoints // ignore: cast_nullable_to_non_nullable
+              as Points?,
+      bonusTotalPoints: null == bonusTotalPoints
+          ? _value.bonusTotalPoints
+          : bonusTotalPoints // ignore: cast_nullable_to_non_nullable
+              as int,
+      quizItems: null == quizItems
+          ? _value._quizItems
+          : quizItems // ignore: cast_nullable_to_non_nullable
+              as List<QuizItem>,
     ));
   }
 }
@@ -165,7 +230,13 @@ class _$_ReadingStoryState implements _ReadingStoryState {
       this.saveFavoriteloading = false,
       this.storyProgress = 0,
       this.story,
-      this.myRating});
+      this.myRating,
+      this.quizFinished = false,
+      this.correctAnswers = 0,
+      this.readPoints,
+      this.bonusTotalPoints = 0,
+      final List<QuizItem> quizItems = const []})
+      : _quizItems = quizItems;
 
   @override
   final ReadingOptions readingOptions;
@@ -182,10 +253,29 @@ class _$_ReadingStoryState implements _ReadingStoryState {
   final Story? story;
   @override
   final StoryRatings? myRating;
+  @override
+  @JsonKey()
+  final bool quizFinished;
+  @override
+  @JsonKey()
+  final int correctAnswers;
+  @override
+  final Points? readPoints;
+  @override
+  @JsonKey()
+  final int bonusTotalPoints;
+  final List<QuizItem> _quizItems;
+  @override
+  @JsonKey()
+  List<QuizItem> get quizItems {
+    if (_quizItems is EqualUnmodifiableListView) return _quizItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_quizItems);
+  }
 
   @override
   String toString() {
-    return 'ReadingStoryState(readingOptions: $readingOptions, loading: $loading, saveFavoriteloading: $saveFavoriteloading, storyProgress: $storyProgress, story: $story, myRating: $myRating)';
+    return 'ReadingStoryState(readingOptions: $readingOptions, loading: $loading, saveFavoriteloading: $saveFavoriteloading, storyProgress: $storyProgress, story: $story, myRating: $myRating, quizFinished: $quizFinished, correctAnswers: $correctAnswers, readPoints: $readPoints, bonusTotalPoints: $bonusTotalPoints, quizItems: $quizItems)';
   }
 
   @override
@@ -202,12 +292,33 @@ class _$_ReadingStoryState implements _ReadingStoryState {
                 other.storyProgress == storyProgress) &&
             (identical(other.story, story) || other.story == story) &&
             (identical(other.myRating, myRating) ||
-                other.myRating == myRating));
+                other.myRating == myRating) &&
+            (identical(other.quizFinished, quizFinished) ||
+                other.quizFinished == quizFinished) &&
+            (identical(other.correctAnswers, correctAnswers) ||
+                other.correctAnswers == correctAnswers) &&
+            (identical(other.readPoints, readPoints) ||
+                other.readPoints == readPoints) &&
+            (identical(other.bonusTotalPoints, bonusTotalPoints) ||
+                other.bonusTotalPoints == bonusTotalPoints) &&
+            const DeepCollectionEquality()
+                .equals(other._quizItems, _quizItems));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, readingOptions, loading,
-      saveFavoriteloading, storyProgress, story, myRating);
+  int get hashCode => Object.hash(
+      runtimeType,
+      readingOptions,
+      loading,
+      saveFavoriteloading,
+      storyProgress,
+      story,
+      myRating,
+      quizFinished,
+      correctAnswers,
+      readPoints,
+      bonusTotalPoints,
+      const DeepCollectionEquality().hash(_quizItems));
 
   @JsonKey(ignore: true)
   @override
@@ -224,7 +335,12 @@ abstract class _ReadingStoryState implements ReadingStoryState {
       final bool saveFavoriteloading,
       final int storyProgress,
       final Story? story,
-      final StoryRatings? myRating}) = _$_ReadingStoryState;
+      final StoryRatings? myRating,
+      final bool quizFinished,
+      final int correctAnswers,
+      final Points? readPoints,
+      final int bonusTotalPoints,
+      final List<QuizItem> quizItems}) = _$_ReadingStoryState;
 
   @override
   ReadingOptions get readingOptions;
@@ -238,6 +354,16 @@ abstract class _ReadingStoryState implements ReadingStoryState {
   Story? get story;
   @override
   StoryRatings? get myRating;
+  @override
+  bool get quizFinished;
+  @override
+  int get correctAnswers;
+  @override
+  Points? get readPoints;
+  @override
+  int get bonusTotalPoints;
+  @override
+  List<QuizItem> get quizItems;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingStoryStateCopyWith<_$_ReadingStoryState> get copyWith =>

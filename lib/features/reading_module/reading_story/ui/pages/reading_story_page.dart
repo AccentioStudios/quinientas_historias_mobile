@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/features/challenges/sar_service.dart';
+import 'package:quinientas_historias/features/reading_module/reading_story/data/entities/quiz_items.entity.dart';
 
 import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/integrations/secure_storage_service.dart';
@@ -22,7 +23,7 @@ import '../bloc/cubit/reading_story_cubit.dart';
 import '../widgets/reading_story_appbar.dart';
 import 'rate_story_sheet_view.dart';
 import 'reading_story_options_sheet_view.dart';
-import 'reading_story_success_page.dart';
+import 'reading_story_post_read_page.dart';
 
 class ReadingStoryPage extends StatefulWidget with ErrorHandling {
   const ReadingStoryPage({super.key, required this.storyId});
@@ -39,7 +40,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
 
   @override
   void initState() {
-    SystemChrome.setSystemUIChangeCallback((callback) => listenerUi(callback));
     scrollController.addListener(sendProgressOfStory);
     _sendTriggerStoryInit();
     super.initState();
@@ -252,12 +252,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
-  Future<void> listenerUi(bool change) async {
-    setState(() {
-      systemOverlaysAreVisible = change;
-    });
-  }
-
   void jumpToProgressOfStory() {
     final storyProgress =
         BlocProvider.of<ReadingStoryCubit>(context).state.storyProgress;
@@ -289,19 +283,56 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
         await GetIt.I<SecureStorageService>().getSessionData();
     cubit.progressStreamController.close();
     cubit.completeStory(
-        onSuccess: (response) {
+        onSuccess: (response) async {
           if (userInfo != null) {
             // Trigger story_ended
             GetIt.I<SARService>()
                 .emit(ChallengeSarTriggers.storyEnded, userId: userInfo.id);
 
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => ReadingStorySuccessPage(
-                points: response.points,
-                dailyChallenge: response.dailyChallenge,
-                user: userInfo.toUserEntity(),
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: cubit,
+                child: ReadingStoryPostReadPage(
+                  points: response.points,
+                  dailyChallenge: response.dailyChallenge,
+                  user: userInfo.toUserEntity(),
+                  // quizItems: response.quizItems,
+                  quizItems: [
+                    QuizItem(
+                        id: 1,
+                        question:
+                            '1. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
+                        options: [
+                          'Lorem ipsum dolor sit amet 1',
+                          'Lorem ipsum dolor sit amet 2',
+                          'Lorem ipsum dolor sit amet 3',
+                          'Lorem ipsum dolor sit amet 4'
+                        ],
+                        correctAnswer: 'Lorem ipsum dolor sit amet 1',
+                        explanation:
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper, dui non efficitur fermentum, neque orci efficitur ex, vel pretium tortor augue eu ligula. Nulla congue porttitor purus sit amet dictum. Suspendisse bibendum justo vitae dolor.',
+                        points: 15),
+                    QuizItem(
+                        id: 1,
+                        question:
+                            '2. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
+                        options: [
+                          'Lorem ipsum dolor sit amet 1',
+                          'Lorem ipsum dolor sit amet 2',
+                          'Lorem ipsum dolor sit amet 3',
+                          'Lorem ipsum dolor sit amet 4'
+                        ],
+                        correctAnswer: 'Lorem ipsum dolor sit amet 1',
+                        explanation: 'Lorem ipsum dolor sit amet explain. 1',
+                        points: 15),
+                  ],
+                ),
               ),
-            ));
+            ))
+                .then((value) {
+              Navigator.of(context).pop();
+            });
           }
         },
         onError: (error) => widget.handleError(context, error));

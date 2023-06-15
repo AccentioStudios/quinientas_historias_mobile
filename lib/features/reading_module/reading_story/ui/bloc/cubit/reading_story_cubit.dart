@@ -13,6 +13,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../../core/data/entities/story_entity.dart';
 import '../../../../../../core/data/models/save_favorite_request.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
+import '../../../data/entities/quiz_items.entity.dart';
 import '../../../data/models/reading_options_model.dart';
 import '../../../data/models/set_story_progress_request.dart';
 import '../../../data/models/set_story_progress_response.dart';
@@ -39,6 +40,31 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
   reloadReadingOptions() {
     emit(state.copyWith(
         readingOptions: readingStoryUseCases.loadReadingOptions()));
+  }
+
+  updateQuizAnswers(List<QuizItem> quizItems) {
+    emit(state.copyWith(quizItems: quizItems));
+  }
+
+  Future<void> finishQuiz(List<QuizItem> quizItems) {
+    final Completer<void> completer = Completer<void>();
+    int correctAnswers = 0;
+    int totalPoints = 0;
+    for (var element in quizItems) {
+      if (element.wasCorrect == true) {
+        correctAnswers++;
+        totalPoints += element.points;
+      }
+    }
+    emit(state.copyWith(
+        quizFinished: true,
+        correctAnswers: correctAnswers,
+        bonusTotalPoints: totalPoints,
+        quizItems: quizItems));
+
+    completer.complete();
+
+    return completer.future;
   }
 
   load(int storyId, {Function? onSuccess, Function? onError}) {
@@ -69,12 +95,14 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
 
     await Future.delayed(const Duration(seconds: 1));
 
-    readingStoryUseCases.completeStory(request).listen((success) {
+    readingStoryUseCases.completeStory(request).listen((success) async {
       if (success.saved) {
+        emit(state.copyWith(loading: false, readPoints: success.points));
         if (onSuccess != null) onSuccess(success);
+        return;
       }
-      if (onError != null) onError();
       emit(state.copyWith(loading: false));
+      if (onError != null) onError();
     }, onError: (error) {
       if (onError != null) onError(error);
       emit(state.copyWith(loading: false));

@@ -19,6 +19,9 @@ SetStoryProgressResponse _$SetStoryProgressResponseFromJson(
           ?.map((e) => Story.fromJson(e as Map<String, dynamic>))
           .toList(),
       errorMessage: json['errorMessage'] as String?,
+      quizItems: (json['quizItems'] as List<dynamic>?)
+          ?.map((e) => QuizItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SetStoryProgressResponseToJson(
@@ -29,6 +32,7 @@ Map<String, dynamic> _$SetStoryProgressResponseToJson(
       'dailyChallenge': instance.dailyChallenge,
       'recomended': instance.recomended,
       'errorMessage': instance.errorMessage,
+      'quizItems': instance.quizItems,
     };
 
 Points _$PointsFromJson(Map<String, dynamic> json) => Points(
