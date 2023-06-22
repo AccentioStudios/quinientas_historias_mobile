@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/failures/failures.dart';
+import '../../../../../core/integrations/firebase_messaging_service.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/routes.dart';
@@ -34,6 +37,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
   late final TextEditingController firstNameController;
   late final TextEditingController usernameController;
   late final TextEditingController lastNameController;
+  late final FirebaseMessagingService firebaseMessagingService;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -45,6 +49,8 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
     usernameController = TextEditingController();
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
+    firebaseMessagingService =
+        Provider.of<FirebaseMessagingService>(context, listen: false);
   }
 
   @override
@@ -226,8 +232,10 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
                                                         passwordConfirmation),
                                             validator:
                                                 fieldValidatePasswordConfirmation,
-                                            onFieldSubmitted: (_) =>
-                                                submit(context, state),
+                                            onFieldSubmitted: (_) => submit(
+                                                context,
+                                                state,
+                                                firebaseMessagingService),
                                           ),
                                         ],
                                       )),
@@ -235,7 +243,8 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
                                   BigButton(
                                       text: 'Crear mi cuenta',
                                       isLoading: state.isLoading,
-                                      onPressed: () => submit(context, state)),
+                                      onPressed: () => submit(context, state,
+                                          firebaseMessagingService)),
                                   const SizedBox(height: Constants.space41),
                                 ],
                               )
@@ -274,7 +283,15 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
     return null;
   }
 
-  void submit(BuildContext context, UserManagementState state) {
+  void submit(BuildContext context, UserManagementState state,
+      FirebaseMessagingService firebaseMessagingService) {
+    // Get Firebase Token
+    String? firebaseToken;
+    if (!kIsWeb) {
+      firebaseMessagingService
+          .getDeviceFirebaseToken()
+          .then((value) => {firebaseToken = value});
+    }
     UserManagementCubit cubit = context.read<UserManagementCubit>();
     if (!formKey.currentState!.validate()) {
       Fluttertoast.showToast(msg: 'Verifica los datos e intenta nuevamente.');
@@ -291,7 +308,7 @@ class _RegisterReaderPageState extends State<RegisterReaderPage> {
       });
       return;
     }
-    cubit.registerNewUser(onSuccess: () {
+    cubit.registerNewUser(firebaseToken, onSuccess: () {
       if (widget.autoNavigateToHome == true) {
         Navigator.of(context, rootNavigator: true)
             .pushNamed(Routes.homeNavigator);

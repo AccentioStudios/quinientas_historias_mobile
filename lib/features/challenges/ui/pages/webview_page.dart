@@ -21,6 +21,7 @@ class ChallengesMinigameWebView extends StatefulWidget with SheetMessages {
   const ChallengesMinigameWebView({
     super.key,
     required this.userId,
+    this.storyId,
     required this.id,
     required this.url,
     required this.name,
@@ -31,6 +32,7 @@ class ChallengesMinigameWebView extends StatefulWidget with SheetMessages {
   });
 
   final String userId;
+  final String? storyId;
   final int id;
   final String name;
   final String description;
@@ -121,6 +123,7 @@ class _ChallengesMinigameWebViewState extends State<ChallengesMinigameWebView> {
         {
           'userId': widget.userId,
           if (widget.testMode == 'true') 'testMode': widget.testMode!,
+          if (widget.storyId != null) 'storyId': widget.storyId.toString(),
         },
         https: currentHttpsSwitch);
   }

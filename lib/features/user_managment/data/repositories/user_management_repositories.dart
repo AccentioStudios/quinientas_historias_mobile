@@ -6,6 +6,13 @@ import '../../../../core/integrations/api_service.dart';
 import '../models/accept_invite.dto.dart';
 
 class UserManagementRepository with ApiService {
+  Stream<void> sendNotification(int userId, dynamic body) {
+    return appApi.post('/v2/user/send-notification/$userId', data: body).handle(
+        mapper: (Object data) async {
+      return;
+    });
+  }
+
   Stream<void> acceptInvite(AcceptInviteDto dto) async* {
     final data = dto.toJson();
     yield* appApi.post('/v2/invite/accept', data: data).handle(

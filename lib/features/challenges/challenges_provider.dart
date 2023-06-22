@@ -16,12 +16,14 @@ class ChallengesProvider extends StatelessWidget {
     super.key,
     @QueryParam('id') this.id,
     @QueryParam('url') this.url,
+    @QueryParam('storyId') this.storyId,
     @QueryParam('name') this.name,
     @QueryParam('testMode') this.testMode,
     @QueryParam('description') this.description,
     this.useHttps,
   });
   final String? url;
+  final String? storyId;
   final String? name;
   final String? description;
   final String? id;
@@ -50,6 +52,7 @@ class ChallengesProvider extends StatelessWidget {
             if (snapshot.data != null) {
               return ChallengesMinigameWebView(
                 userId: snapshot.data!.id.toString(),
+                storyId: storyId,
                 id: int.tryParse(id!)!,
                 url: url!,
                 name: name!,

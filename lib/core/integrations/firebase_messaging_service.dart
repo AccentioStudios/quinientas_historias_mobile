@@ -30,6 +30,10 @@ class FirebaseMessagingService {
 
   _onMessage() {
     FirebaseMessaging.onMessage.listen((message) {
+      debugPrint('=======================================');
+      debugPrint('onMessage: $message');
+      debugPrint('=======================================');
+
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       AppleNotification? apple = message.notification?.apple;

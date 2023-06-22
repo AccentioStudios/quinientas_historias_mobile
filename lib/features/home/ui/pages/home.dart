@@ -56,6 +56,8 @@ class _HomePageState extends State<HomePage> {
   selectHomePageForUserRole(HomeState state) {
     switch (state.dashboard?.user.role?.name) {
       case Role.reader:
+        return HomeReaderPage(
+            state: state, getDashboardFunction: () => getDashboard(context));
       case Role.captain:
         return HomeCaptainPage(
             state: state, getDashboardFunction: () => getDashboard(context));

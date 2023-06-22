@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/data/entities/school_entity.dart';
-import '../../../../../core/routes/routes.dart';
+import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/single_chip.dart';
 import '../../../../../core/utils/constants.dart';
-import '../../../school_profile/school_profile_provider.dart';
 import '../bloc/cubit/team_profile_cubit.dart';
 
 class TeamCards extends StatelessWidget {
@@ -50,11 +50,9 @@ class TeamCards extends StatelessWidget {
 
   void _navigateToSchoolPage(BuildContext context, School? school) {
     if (school != null) {
-      Navigator.pushNamed(
-        context,
-        Routes.schoolProfile,
-        arguments: SchoolProfileArguments(
-          school.id,
+      AutoRouter.of(context).push(
+        SchoolProfileRoute(
+          schoolId: school.id,
         ),
       );
     }

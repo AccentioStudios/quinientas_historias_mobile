@@ -15,12 +15,16 @@ class SARService {
     return Future.value(true);
   }
 
-  Future<void> _sendEvent(ChallengeSarEvent event) async {
+  Future<void> _sendEvent(ChallengeSarEvent event, {bool force = false}) async {
     if (await isSARAvailable) {
       if (kDebugMode) {
         print('Added SAR event to queue. ${event.trigger}');
       }
-      queue.add(() => _challengeUseCases.sendEvent(event));
+      if (force) {
+        return _challengeUseCases.sendEvent(event);
+      } else {
+        return queue.add<void>(() => _challengeUseCases.sendEvent(event));
+      }
     }
   }
 
@@ -28,6 +32,7 @@ class SARService {
     ChallengeSarTriggers trigger, {
     required int userId,
     int? storyId,
+    bool force = false,
   }) {
     final DateTime now = DateTime.now();
     final event = ChallengeSarEvent(
@@ -37,6 +42,6 @@ class SARService {
       storyId: storyId,
     );
 
-    return _sendEvent(event);
+    return _sendEvent(event, force: force);
   }
 }

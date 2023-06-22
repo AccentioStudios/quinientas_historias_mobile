@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:get_it/get_it.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 import '../libs/custom_notification.dart';
+import '../routes/auto_router.dart';
 import '../routes/routes.dart';
 
 class NotificationService {
@@ -87,9 +89,17 @@ class NotificationService {
       if (payloadData.isNotEmpty) {
         if (payloadData.containsKey('route')) {
           if (Routes.shellNavigatorKey != null) {
-            Navigator.of(
-              Routes.shellNavigatorKey!.currentContext!,
-            ).pushNamed(payloadData['route'], arguments: payloadData['args']);
+            final queryParameters =
+                (json.decode(payloadData['args']) as Map<String, dynamic>).map(
+                    (key, value) =>
+                        MapEntry(key, value.toString().toLowerCase()));
+            final String path = Uri(
+                    path: payloadData['route'],
+                    queryParameters: queryParameters)
+                .toString();
+            GetIt.I<AppRouter>().pushNamed(
+              path,
+            );
           }
         }
       }

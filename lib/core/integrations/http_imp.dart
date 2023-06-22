@@ -42,7 +42,7 @@ class HttpHelperImp implements HttpHelper {
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
       return handler.next(options);
-    }, onError: (DioError e, handler) async {
+    }, onError: (DioException e, handler) async {
       if (e.response?.data is Map<String, dynamic>) {
         final failure = HttpFailure.fromJson(e.response?.data);
         if (e.response?.statusCode == 401 &&
@@ -242,7 +242,7 @@ class HttpHelperImp implements HttpHelper {
   }
 
   _handleHttpError(Object error) {
-    if (error is DioError) {
+    if (error is DioException) {
       if (error.response?.data is Map<String, dynamic>) {
         return HttpFailure.fromJson(error.response?.data);
       }

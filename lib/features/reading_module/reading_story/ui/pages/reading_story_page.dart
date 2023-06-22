@@ -109,7 +109,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                         child: Html(
                           style: {
                             "*": Style(
-                              padding: EdgeInsets.zero,
+                              padding: HtmlPaddings.zero,
                               margin: Margins.zero,
                               letterSpacing: 0.4,
                               fontFamily: 'Literata',

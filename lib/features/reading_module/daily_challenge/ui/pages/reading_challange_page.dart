@@ -255,7 +255,7 @@ class _FirstLinesOfStory extends StatelessWidget {
                     style: {
                       "*": Style(
                         textAlign: TextAlign.justify,
-                        padding: EdgeInsets.zero,
+                        padding: HtmlPaddings.zero,
                         margin: Margins.zero,
                         fontFamily: 'Literata',
                         fontSize: FontSize(16),

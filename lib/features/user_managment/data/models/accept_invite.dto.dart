@@ -10,12 +10,14 @@ class AcceptInviteDto {
   AcceptInviteDto({
     required this.invite,
     this.user,
+    this.firebaseToken,
   });
   factory AcceptInviteDto.fromJson(Map<String, dynamic> json) =>
       _$AcceptInviteDtoFromJson(json);
 
   final Invite invite;
   final UserDto? user;
+  final String? firebaseToken;
 
   Map<String, dynamic> toJson() => _$AcceptInviteDtoToJson(this);
 }

@@ -14,6 +14,7 @@ class ChallengesRepository with ApiService {
 
   Stream<RegisterNewChallengeResponseDto> registerNewChallenge(
       ChallengeSar challenge) async* {
+    await sarApi.refreshToken();
     yield* sarApi.post('/v1/challenge', data: challenge.toJson()).handleJson(
         mapper: (json) {
       return RegisterNewChallengeResponseDto.fromMap(json);
@@ -21,8 +22,8 @@ class ChallengesRepository with ApiService {
   }
 
   Stream<void> sendEvent(ChallengeSarEvent event) async* {
-    yield* sarApi
-        .post('/v1/event', data: event.toJson())
+    yield* appApi
+        .post('/v2/sar/event', data: event.toJson())
         .handleJson(mapper: (json) => ChallengeSarEvent.fromJson(json));
   }
 

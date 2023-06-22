@@ -67,6 +67,7 @@ abstract class _$AppRouter extends RootStackRouter {
           orElse: () => ChallengesRouteArgs(
                 id: queryParams.optString('id'),
                 url: queryParams.optString('url'),
+                storyId: queryParams.optString('storyId'),
                 name: queryParams.optString('name'),
                 testMode: queryParams.optString('testMode'),
                 description: queryParams.optString('description'),
@@ -77,6 +78,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           id: args.id,
           url: args.url,
+          storyId: args.storyId,
           name: args.name,
           testMode: args.testMode,
           description: args.description,
@@ -470,6 +472,7 @@ class ChallengesRoute extends PageRouteInfo<ChallengesRouteArgs> {
     Key? key,
     String? id,
     String? url,
+    String? storyId,
     String? name,
     String? testMode,
     String? description,
@@ -481,6 +484,7 @@ class ChallengesRoute extends PageRouteInfo<ChallengesRouteArgs> {
             key: key,
             id: id,
             url: url,
+            storyId: storyId,
             name: name,
             testMode: testMode,
             description: description,
@@ -489,6 +493,7 @@ class ChallengesRoute extends PageRouteInfo<ChallengesRouteArgs> {
           rawQueryParams: {
             'id': id,
             'url': url,
+            'storyId': storyId,
             'name': name,
             'testMode': testMode,
             'description': description,
@@ -507,6 +512,7 @@ class ChallengesRouteArgs {
     this.key,
     this.id,
     this.url,
+    this.storyId,
     this.name,
     this.testMode,
     this.description,
@@ -519,6 +525,8 @@ class ChallengesRouteArgs {
 
   final String? url;
 
+  final String? storyId;
+
   final String? name;
 
   final String? testMode;
@@ -529,7 +537,7 @@ class ChallengesRouteArgs {
 
   @override
   String toString() {
-    return 'ChallengesRouteArgs{key: $key, id: $id, url: $url, name: $name, testMode: $testMode, description: $description, useHttps: $useHttps}';
+    return 'ChallengesRouteArgs{key: $key, id: $id, url: $url, storyId: $storyId, name: $name, testMode: $testMode, description: $description, useHttps: $useHttps}';
   }
 }
 

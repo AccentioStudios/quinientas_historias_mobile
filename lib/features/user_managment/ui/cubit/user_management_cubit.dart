@@ -156,7 +156,7 @@ class UserManagementCubit extends Cubit<UserManagementState>
     }).subscribe(this);
   }
 
-  void registerNewUser(
+  void registerNewUser(String? firebaseToken,
       {required Function onSuccess, required Function onError}) async {
     validateRegisterForm();
     if (state.error != null) {
@@ -166,8 +166,10 @@ class UserManagementCubit extends Cubit<UserManagementState>
     if (await handleSaveAvatarUrl()) {
       if (state.user != null) {
         userManagementUseCases
-            .acceptInvite(
-                AcceptInviteDto(invite: state.invite!, user: state.user!))
+            .acceptInvite(AcceptInviteDto(
+                invite: state.invite!,
+                user: state.user!,
+                firebaseToken: firebaseToken))
             .listen((event) {
           onSuccess();
           emit(state.copyWith(registeringUser: false, error: null));

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/routes/auto_router.dart';
@@ -9,6 +10,8 @@ import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
+import '../../../../user_managment/data/repositories/user_management_repositories.dart';
+import '../../../../user_managment/user_management_provider.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../bloc/cubit/home_cubit.dart';
 import '../../widgets/hero_header_widget.dart';
@@ -36,12 +39,46 @@ class HomeAdminPage extends StatelessWidget {
                       top: Constants.space21),
                   child: Column(
                     children: [
+                      // BigButton(
+                      //     onPressed: () {
+                      //       GetIt.I<SARService>().emit(
+                      //           ChallengeSarTriggers.storyInit,
+                      //           userId: state.dashboard!.user.id,
+                      //           storyId: 1111,
+                      //           force: true);
+                      //     },
+                      //     text: 'Story Init'),
+                      // const SizedBox(height: Constants.space16),
+                      // BigButton(
+                      //     onPressed: () {
+                      //       GetIt.I<SARService>().emit(
+                      //           ChallengeSarTriggers.firstSessionOfDay,
+                      //           userId: state.dashboard!.user.id,
+                      //           force: true);
+                      //     },
+                      //     text: 'First Session Of Day'),
+                      // const SizedBox(height: Constants.space16),
+                      // BigButton(
+                      //     onPressed: () {
+                      //       _sendTestNotification(state.dashboard!.user.id);
+                      //     },
+                      //     text: 'Mandar notificacion a mi mismo'),
+                      // const SizedBox(height: Constants.space16),
                       CustomChip(
                         svgIconPath: 'assets/icons/user-plus-outline-icon.svg',
                         title: 'Invitar usuarios',
                         body: 'Invita a usuario a la plataforma.',
                         onTap: () {
                           navigateToInviteCaptains(context);
+                        },
+                      ),
+                      const SizedBox(height: Constants.space16),
+                      CustomChip(
+                        svgIconPath: 'assets/icons/school-outline-icon.svg',
+                        title: 'Crear escuela',
+                        body: 'Crea una nueva escuela.',
+                        onTap: () {
+                          openRegisterSchool(context);
                         },
                       ),
                       const SizedBox(height: Constants.space16),
@@ -155,6 +192,28 @@ class HomeAdminPage extends StatelessWidget {
     );
   }
 
+  Future<void> _sendTestNotification(int userId) async {
+    // send post request /api/v1/notifications
+    var asd = UserManagementRepository();
+
+    asd.sendNotification(userId, {
+      'title': 'Test notification',
+      'body': 'This is a test notification',
+      'data': {
+        'route': '/challenge',
+        'args': {
+          'id': 1,
+          'url': 'https://www.google.com',
+          'description': 'description',
+          'type': 'minigame',
+          'required': false,
+          'name': 'Testing'
+        }
+      },
+      'topic': 'test'
+    });
+  }
+
   void _navigateToChallengeAdmin(BuildContext context) {
     AutoRouter.of(context).push(ChallengesAdminRoute());
   }
@@ -176,5 +235,19 @@ class HomeAdminPage extends StatelessWidget {
     BuildContext context,
   ) {
     AutoRouter.of(context).push(InvitesAdminRoute());
+  }
+
+  void openRegisterSchool(BuildContext context) {
+    UserManagementProvider()
+        .openRegisterSchool(context, join: true)
+        .then((newSchool) {
+      if (newSchool != null) {
+        getDashboardFunction();
+      } else {
+        Fluttertoast.cancel();
+        Fluttertoast.showToast(
+            msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
+      }
+    });
   }
 }
