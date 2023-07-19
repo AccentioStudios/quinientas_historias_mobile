@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 
+import '../../../../../core/data/entities/story_entity.dart';
 import '../../../../../core/ui/components/story_summary.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../../core/utils/functions.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
 import '../pages/reading_story_page.dart';
 
@@ -20,7 +22,7 @@ class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
       toolbarHeight: 64,
       flexibleSpace: SingleChildScrollView(
         child: Column(children: [
-          SizedBox(height: MediaQuery.of(context).padding.top),
+          SizedBox(height: MediaQuery.paddingOf(context).top),
           const SizedBox(height: 64),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Constants.space16),
@@ -37,6 +39,18 @@ class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
         ]),
       ),
       actions: <Widget>[
+        TextButton.icon(
+            onPressed: () {
+              _share(state.story);
+            },
+            icon: Icon(Icons.share,
+                color: Theme.of(context).colorScheme.onBackground),
+            label: Text(
+              'Compartir',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  fontWeight: FontWeight.bold),
+            )),
         Padding(
           padding: const EdgeInsets.only(right: Constants.space12),
           child: TextButton.icon(
@@ -56,6 +70,14 @@ class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
         ),
       ],
     );
+  }
+
+  _share(Story? story) async {
+    if (story != null) {
+      Uri link = await generateDynamicLinkForStory(story);
+      debugPrint('Link to story: $link');
+      shareLink(link.toString(), story.title);
+    }
   }
 
   void saveFavorite(BuildContext context, {bool? favorited}) {

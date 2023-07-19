@@ -5,6 +5,7 @@ import 'package:custom_nested_scroll_view/custom_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quinientas_historias/features/profiles_module/user_profile/ui/pages/pending_quiz_items_to_approve_tab_view.dart';
 
 import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/data/entities/user_entity.dart';
@@ -14,6 +15,7 @@ import '../../../../../core/libs/extended_tab_view.dart';
 import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/routes/auto_router.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../quiz/domain/entities/quiz_items.entity.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../bloc/cubit/user_profile_cubit.dart';
 import '../widgets/user_profile_header.dart';
@@ -31,12 +33,14 @@ class UserProfilePage extends StatefulWidget with ErrorHandling {
 }
 
 class _UserProfilePageState extends State<UserProfilePage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
+  int tabNumber = 3;
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    getUserData();
+    _tabController = TabController(length: tabNumber, vsync: this);
     _tabController.addListener(_handleTabSelection);
     super.initState();
   }
@@ -49,7 +53,6 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   @override
   void didChangeDependencies() {
-    getUserData();
     super.didChangeDependencies();
   }
 
@@ -127,6 +130,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                             child: SizedBox(
                               height: 34,
                               child: TabBar(
+                                isScrollable: true,
                                 controller: _tabController,
                                 unselectedLabelColor:
                                     Theme.of(context).colorScheme.primary,
@@ -135,34 +139,62 @@ class _UserProfilePageState extends State<UserProfilePage>
                                     borderRadius: BorderRadius.circular(50),
                                     color:
                                         Theme.of(context).colorScheme.primary),
-                                tabs: const <Widget>[
-                                  Tab(
+                                tabs: <Widget>[
+                                  const Tab(
                                     child: Align(
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        "Favoritos",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: Constants.space16),
+                                        child: Text(
+                                          "Favoritos",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Tab(
+                                  const Tab(
                                     child: Align(
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        "Equipos",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: Constants.space16),
+                                        child: Text(
+                                          "Equipos",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  Tab(
+                                  if (state.user!.pendingQuizItemsToReview
+                                      .isNotEmpty)
+                                    const Tab(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: Constants.space16),
+                                          child: Text(
+                                            "Por aprobar",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  const Tab(
                                     child: Align(
                                       alignment: Alignment.center,
-                                      child: Text(
-                                        "Logros",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: Constants.space16),
+                                        child: Text(
+                                          "Logros",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -185,6 +217,25 @@ class _UserProfilePageState extends State<UserProfilePage>
                               UserTeamsTabView(
                                 user: state.user!,
                               ),
+                              if (state
+                                  .user!.pendingQuizItemsToReview.isNotEmpty)
+                                PendingQuizItemsToApproveTabView(
+                                  user: state.user!,
+                                  quizItems:
+                                      state.user!.pendingQuizItemsToReview,
+                                  updateQuizAnswers: (List<QuizItem> update) {
+                                    context
+                                        .read<UserProfileCubit>()
+                                        .updatePendingQuizItemsToReview(update);
+                                    if (update.isEmpty) {
+                                      setState(() {
+                                        tabNumber = 3;
+                                        _tabController = TabController(
+                                            length: tabNumber, vsync: this);
+                                      });
+                                    }
+                                  },
+                                ),
                               UserAchievementsTabView(
                                 user: state.user!,
                               ),
@@ -211,8 +262,19 @@ class _UserProfilePageState extends State<UserProfilePage>
   Future<dynamic> getUserData() {
     var completer = Completer();
     context.read<UserProfileCubit>().getUserData(
-      onSuccess: () {
+      onSuccess: (user) {
         completer.complete();
+        if (user.pendingQuizItemsToReview.isNotEmpty) {
+          setState(() {
+            tabNumber = 4;
+            _tabController = TabController(length: tabNumber, vsync: this);
+          });
+        } else {
+          setState(() {
+            tabNumber = 3;
+            _tabController = TabController(length: tabNumber, vsync: this);
+          });
+        }
       },
       onError: (error) {
         if (error.statusCode == StatusCodes.notFound) {

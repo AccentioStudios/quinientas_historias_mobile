@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/data/entities/daily_challenge_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
-import '../entities/quiz_items.entity.dart';
+import '../../../../quiz/domain/entities/quiz_items.entity.dart';
 
 part 'set_story_progress_response.g.dart';
 

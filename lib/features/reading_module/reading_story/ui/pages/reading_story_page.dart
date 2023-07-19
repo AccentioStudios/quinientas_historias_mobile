@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:get_it/get_it.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
 import 'package:quinientas_historias/features/challenges/sar_service.dart';
-import 'package:quinientas_historias/features/reading_module/reading_story/data/entities/quiz_items.entity.dart';
 
 import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/integrations/secure_storage_service.dart';
@@ -26,8 +26,10 @@ import 'reading_story_options_sheet_view.dart';
 import 'reading_story_post_read_page.dart';
 
 class ReadingStoryPage extends StatefulWidget with ErrorHandling {
-  const ReadingStoryPage({super.key, required this.storyId});
+  const ReadingStoryPage(
+      {super.key, required this.storyId, required this.isQuickView});
   final int storyId;
+  final bool isQuickView;
 
   @override
   State<ReadingStoryPage> createState() => _ReadingStoryPageState();
@@ -40,8 +42,10 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
 
   @override
   void initState() {
-    scrollController.addListener(sendProgressOfStory);
-    _sendTriggerStoryInit();
+    if (!widget.isQuickView) {
+      scrollController.addListener(sendProgressOfStory);
+      _sendTriggerStoryInit();
+    }
     super.initState();
   }
 
@@ -74,28 +78,92 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
 
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {
+        var bigButtonEndStory = BigButton(
+          onPressed: () async {
+            final user = await GetIt.I<SecureStorageService>().getSessionData();
+            if (user?.role != Role.prof && user?.role != Role.admin) {
+              if (!mounted) return;
+              openRateStorySheet(context, state);
+              return;
+            }
+            if (!mounted) return;
+            completeReading(context.read<ReadingStoryCubit>());
+          },
+          text: 'Terminar Lectura',
+        );
+        var bigButtonBackFromQuickView = BigButton(
+          onPressed: () async {
+            if (!mounted) return;
+            AutoRouter.of(context).pop(true);
+          },
+          text: 'Volver',
+        );
         return Theme(
           data: state.readingOptions.isDarkMode
               ? ThemeClass.darkTheme
               : ThemeClass.lightTheme,
           child: Scaffold(
             floatingActionButton: SizedBox(
-              width: 93,
-              child: FloatingActionButton(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primaryContainer,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16))),
-                  child: SizedBox(
-                      width: 60,
-                      height: 24,
-                      child: SvgPicture.asset(
-                        'assets/icons/reading-options-icon.svg',
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      )),
-                  onPressed: () {
-                    showReadingOptions(context);
-                  }),
+              width: MediaQuery.sizeOf(context).width - 34,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (widget.isQuickView)
+                    Expanded(
+                      child: FloatingActionButton(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16))),
+                          child: Center(
+                              child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Constants.space18),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  const Icon(Icons.arrow_back),
+                                  const SizedBox(width: 8),
+                                  Text('Volver',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                ]),
+                                const Icon(Icons.remove_red_eye),
+                              ],
+                            ),
+                          )),
+                          onPressed: () {
+                            AutoRouter.of(context).pop(true);
+                          }),
+                    ),
+                  if (widget.isQuickView) const SizedBox(width: 10),
+                  SizedBox(
+                    width: 93,
+                    child: FloatingActionButton(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primaryContainer,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16))),
+                        child: SizedBox(
+                            width: 60,
+                            height: 24,
+                            child: SvgPicture.asset(
+                              'assets/icons/reading-options-icon.svg',
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
+                            )),
+                        onPressed: () {
+                          showReadingOptions(context);
+                        }),
+                  ),
+                ],
+              ),
             ),
             body: state.loading
                 ? const Center(child: CircularProgressIndicator())
@@ -171,21 +239,9 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space16),
-                        child: BigButton(
-                          onPressed: () async {
-                            final user = await GetIt.I<SecureStorageService>()
-                                .getSessionData();
-                            if (user?.role != Role.prof &&
-                                user?.role != Role.admin) {
-                              if (!mounted) return;
-                              openRateStorySheet(context, state);
-                              return;
-                            }
-                            if (!mounted) return;
-                            completeReading(context.read<ReadingStoryCubit>());
-                          },
-                          text: 'Terminar Lectura',
-                        ),
+                        child: widget.isQuickView
+                            ? bigButtonBackFromQuickView
+                            : bigButtonEndStory,
                       ),
                       const SizedBox(height: 100),
                     ],
@@ -298,35 +354,37 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                   dailyChallenge: response.dailyChallenge,
                   user: userInfo.toUserEntity(),
                   // quizItems: response.quizItems,
-                  quizItems: [
-                    QuizItem(
-                        id: 1,
-                        question:
-                            '1. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
-                        options: [
-                          'Lorem ipsum dolor sit amet 1',
-                          'Lorem ipsum dolor sit amet 2',
-                          'Lorem ipsum dolor sit amet 3',
-                          'Lorem ipsum dolor sit amet 4'
-                        ],
-                        correctAnswer: 'Lorem ipsum dolor sit amet 1',
-                        explanation:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper, dui non efficitur fermentum, neque orci efficitur ex, vel pretium tortor augue eu ligula. Nulla congue porttitor purus sit amet dictum. Suspendisse bibendum justo vitae dolor.',
-                        points: 15),
-                    QuizItem(
-                        id: 1,
-                        question:
-                            '2. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
-                        options: [
-                          'Lorem ipsum dolor sit amet 1',
-                          'Lorem ipsum dolor sit amet 2',
-                          'Lorem ipsum dolor sit amet 3',
-                          'Lorem ipsum dolor sit amet 4'
-                        ],
-                        correctAnswer: 'Lorem ipsum dolor sit amet 1',
-                        explanation: 'Lorem ipsum dolor sit amet explain. 1',
-                        points: 15),
-                  ],
+                  quizItems: response.quizItems,
+                  story: cubit.state.story!,
+                  //[
+                  // QuizItem(
+                  //     id: 1,
+                  //     question:
+                  //         '1. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
+                  //     options: [
+                  //       'Lorem ipsum dolor sit amet 1',
+                  //       'Lorem ipsum dolor sit amet 2',
+                  //       'Lorem ipsum dolor sit amet 3',
+                  //       'Lorem ipsum dolor sit amet 4'
+                  //     ],
+                  //     correctAnswer: 'Lorem ipsum dolor sit amet 1',
+                  //     explanation:
+                  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper, dui non efficitur fermentum, neque orci efficitur ex, vel pretium tortor augue eu ligula. Nulla congue porttitor purus sit amet dictum. Suspendisse bibendum justo vitae dolor.',
+                  //     points: 15),
+                  // QuizItem(
+                  //     id: 1,
+                  //     question:
+                  //         '2. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
+                  //     options: [
+                  //       'Lorem ipsum dolor sit amet 1',
+                  //       'Lorem ipsum dolor sit amet 2',
+                  //       'Lorem ipsum dolor sit amet 3',
+                  //       'Lorem ipsum dolor sit amet 4'
+                  //     ],
+                  //     correctAnswer: 'Lorem ipsum dolor sit amet 1',
+                  //     explanation: 'Lorem ipsum dolor sit amet explain. 1',
+                  //     points: 15),
+                  //],
                 ),
               ),
             ))

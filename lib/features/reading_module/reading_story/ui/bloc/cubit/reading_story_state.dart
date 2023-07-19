@@ -6,6 +6,8 @@ class ReadingStoryState with _$ReadingStoryState {
     required ReadingOptions readingOptions,
     @Default(false) bool loading,
     @Default(false) bool saveFavoriteloading,
+    @Default(false) bool registeringQuizItem,
+    @Default(false) bool notAskForRegisteringQuizItem,
     @Default(0) int storyProgress,
     Story? story,
     StoryRatings? myRating,
@@ -13,6 +15,7 @@ class ReadingStoryState with _$ReadingStoryState {
     @Default(0) int correctAnswers,
     Points? readPoints,
     @Default(0) int bonusTotalPoints,
-    @Default([]) List<QuizItem> quizItems,
+    @Default(false) bool answerLoading,
+    @Default(false) bool votingLikeDislikeLoading,
   }) = _ReadingStoryState;
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:http/http.dart' as http;
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -157,12 +158,19 @@ class _ApplicationState extends State<Application> {
   _navigateToRouteFromDeepLink(Uri? uri) {
     if (uri != null) {
       // convert map QueryParameters to url format query parameters string
-      // final uri = Uri.parse(url);
-      final pathWithQueryParameters = '${uri.path}?${uri.query}';
-      // execute 2 seconts after app start
+      final scheme = uri.scheme;
+      final host = uri.host;
+      final path = uri.path;
+      final query = uri.query;
 
-      GetIt.I<AppRouter>().popUntil((route) => route.isFirst);
+      var pathWithQueryParameters = '';
+      if (scheme == 'qh-app') {
+        pathWithQueryParameters = '/$host$path?$query';
+      } else {
+        pathWithQueryParameters = '$path?$query';
+      }
       GetIt.I<AppRouter>().pushNamed(pathWithQueryParameters);
+      // GetIt.I<AppRouter>().popUntil((route) => route.isFirst);
     }
   }
 }

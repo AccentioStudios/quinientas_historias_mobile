@@ -585,7 +585,7 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
               color: theme.colorScheme.primaryContainer,
               child: Padding(
                 padding:
-                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                    EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
                 child: Column(
                   children: [
                     Container(

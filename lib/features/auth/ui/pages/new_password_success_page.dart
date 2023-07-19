@@ -12,7 +12,7 @@ class NewPasswordSuccessPage extends StatelessWidget with ErrorHandling {
 
   @override
   Widget build(BuildContext context) {
-    double bottom = MediaQuery.of(context).size.height -
+    double bottom = MediaQuery.sizeOf(context).height -
         MediaQuery.of(context).viewInsets.vertical;
 
     return Scaffold(
@@ -23,7 +23,7 @@ class NewPasswordSuccessPage extends StatelessWidget with ErrorHandling {
           children: [
             Positioned(
               top: bottom * 0.19 - (300 / 2),
-              left: MediaQuery.of(context).size.width / 2 - (300 / 2),
+              left: MediaQuery.sizeOf(context).width / 2 - (300 / 2),
               child: const _GradientBackground(),
             ),
             AppBar(

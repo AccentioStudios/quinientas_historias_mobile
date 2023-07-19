@@ -21,7 +21,7 @@ class HomeReaderHeader extends StatelessWidget {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       floating: false,
-      expandedHeight: 130 + MediaQuery.of(context).padding.top,
+      expandedHeight: 130 + MediaQuery.paddingOf(context).top,
       flexibleSpace: FlexibleSpaceBar(
         title: SingleChildScrollView(
           child: Column(

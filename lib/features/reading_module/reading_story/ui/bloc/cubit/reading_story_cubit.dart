@@ -13,7 +13,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../../core/data/entities/story_entity.dart';
 import '../../../../../../core/data/models/save_favorite_request.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
-import '../../../data/entities/quiz_items.entity.dart';
 import '../../../data/models/reading_options_model.dart';
 import '../../../data/models/set_story_progress_request.dart';
 import '../../../data/models/set_story_progress_response.dart';
@@ -42,29 +41,8 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
         readingOptions: readingStoryUseCases.loadReadingOptions()));
   }
 
-  updateQuizAnswers(List<QuizItem> quizItems) {
-    emit(state.copyWith(quizItems: quizItems));
-  }
-
-  Future<void> finishQuiz(List<QuizItem> quizItems) {
-    final Completer<void> completer = Completer<void>();
-    int correctAnswers = 0;
-    int totalPoints = 0;
-    for (var element in quizItems) {
-      if (element.wasCorrect == true) {
-        correctAnswers++;
-        totalPoints += element.points;
-      }
-    }
-    emit(state.copyWith(
-        quizFinished: true,
-        correctAnswers: correctAnswers,
-        bonusTotalPoints: totalPoints,
-        quizItems: quizItems));
-
-    completer.complete();
-
-    return completer.future;
+  notAskForRegisteringQuizItem() {
+    emit(state.copyWith(notAskForRegisteringQuizItem: true));
   }
 
   load(int storyId, {Function? onSuccess, Function? onError}) {

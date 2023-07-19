@@ -253,9 +253,9 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(
-//       width: MediaQuery.of(context).size.width,
-//       height: 84 + MediaQuery.of(context).padding.top,
-//       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+//       width: MediaQuery.sizeOf(context).width,
+//       height: 84 + MediaQuery.paddingOf(context).top,
+//       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
 //       decoration: BoxDecoration(
 //         borderRadius: const BorderRadius.only(
 //             bottomRight: Radius.circular(30), bottomLeft: Radius.circular(30)),

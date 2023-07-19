@@ -7,6 +7,7 @@ import '../../../../../../core/data/dto/user_profile_dto.dart';
 import '../../../../../../core/failures/failures.dart';
 import '../../../../../../core/integrations/secure_storage_service.dart';
 import '../../../../../../core/mixins/stream_disposable.dart';
+import '../../../../../quiz/domain/entities/quiz_items.entity.dart';
 import '../../../data/useCases/user_profile_usecases.dart';
 
 part 'user_profile_cubit.freezed.dart';
@@ -22,7 +23,9 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
 
   final int? userId;
 
-  getUserData({required Function onSuccess, required Function onError}) {
+  getUserData(
+      {required Function(UserProfileDto) onSuccess,
+      required Function onError}) {
     emit(state.copyWith(isLoading: true, httpFailure: null));
 
     userProfileUseCases.getUserProfile(userId).listen((userProfile) async {
@@ -35,11 +38,16 @@ class UserProfileCubit extends Cubit<UserProfileState> with StreamDisposable {
       if (userInfo?.id == userProfile.id) {
         emit(state.copyWith(isMyProfile: true));
       }
-      onSuccess();
+      onSuccess(userProfile);
       emit(state.copyWith(isLoading: false));
     }, onError: (httpFailure) {
       emit(state.copyWith(httpFailure: httpFailure, isLoading: false));
       onError(httpFailure);
     }).subscribe(this);
+  }
+
+  updatePendingQuizItemsToReview(List<QuizItem> update) {
+    emit(state.copyWith(
+        user: state.user?.copyWith(pendingQuizItemsToReview: update)));
   }
 }

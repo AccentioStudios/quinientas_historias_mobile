@@ -87,7 +87,7 @@ class _EditUserPageState extends State<EditUserPage> {
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width,
+                                    width: MediaQuery.sizeOf(context).width,
                                     child: Row(
                                       children: [
                                         Expanded(

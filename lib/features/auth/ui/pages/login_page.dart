@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   body: SafeArea(
                     child: SizedBox(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.sizeOf(context).height,
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

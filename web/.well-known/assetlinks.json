@@ -1,0 +1,11 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.accentiostudios.quinientas",
+        "sha256_cert_fingerprints":
+          ["81:06:21:C2:8F:C7:AA:99:F5:6A:40:C5:E3:EA:04:71:79:73:4D:0E:8B:98:76:DC:1E:ED:AF:4D:23:71:8D:01"]
+      }
+    }
+  ]

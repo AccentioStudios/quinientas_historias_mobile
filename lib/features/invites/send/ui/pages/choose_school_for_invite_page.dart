@@ -48,7 +48,7 @@ class _ChooseSchoolForInvitePageState extends State<ChooseSchoolForInvitePage> {
             builder: (context, state) {
               return state.isLoading
                   ? SizedBox(
-                      height: MediaQuery.of(context).size.height -
+                      height: MediaQuery.sizeOf(context).height -
                           MediaQuery.of(context).viewInsets.top -
                           80,
                       child: const Center(

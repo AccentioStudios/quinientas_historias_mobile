@@ -12,12 +12,14 @@ AcceptInviteDto _$AcceptInviteDtoFromJson(Map<String, dynamic> json) =>
       user: json['user'] == null
           ? null
           : UserDto.fromJson(json['user'] as Map<String, dynamic>),
+      firebaseToken: json['firebaseToken'] as String?,
     );
 
 Map<String, dynamic> _$AcceptInviteDtoToJson(AcceptInviteDto instance) =>
     <String, dynamic>{
       'invite': instance.invite,
       'user': instance.user,
+      'firebaseToken': instance.firebaseToken,
     };
 
 UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(

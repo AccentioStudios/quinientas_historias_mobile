@@ -186,7 +186,7 @@ class _SendEmailPageTwo extends StatelessWidget {
             duration: const Duration(milliseconds: 500),
             opacity: state.sendingInvite ? 0 : 1.0,
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               color: Colors.transparent,
               child: PaddingColumn(
                 padding:
@@ -232,7 +232,7 @@ class _SendEmailPageTwo extends StatelessWidget {
                   curve: Curves.easeInOutCubic,
                   child: SizedBox(
                       height: state.sendingInvite
-                          ? MediaQuery.of(context).size.height / 2 - 200
+                          ? MediaQuery.sizeOf(context).height / 2 - 200
                           : 0)),
               AnimatedContainer(
                 width: state.sendingInvite ? 120 : 100,

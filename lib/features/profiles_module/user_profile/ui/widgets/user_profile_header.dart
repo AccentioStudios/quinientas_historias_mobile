@@ -22,14 +22,14 @@ class UserProfileHeader extends StatelessWidget with SheetMessages {
         children: [
           Container(
             color: Theme.of(context).colorScheme.primaryContainer,
-            height: 55 + MediaQuery.of(context).padding.top,
+            height: 55 + MediaQuery.paddingOf(context).top,
             width: double.infinity,
           ),
           // Align(
           //   alignment: Alignment.topRight,
           //   child: Padding(
           //     padding: EdgeInsets.only(
-          //         top: MediaQuery.of(context).padding.top + 8,
+          //         top: MediaQuery.paddingOf(context).top + 8,
           //         right: Constants.space18),
           //     child: Container(
           //         padding: const EdgeInsets.symmetric(
@@ -49,7 +49,7 @@ class UserProfileHeader extends StatelessWidget with SheetMessages {
             crossAxisAlignment: CrossAxisAlignment.start,
             padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
             children: [
-              SizedBox(height: MediaQuery.of(context).padding.top + 8),
+              SizedBox(height: MediaQuery.paddingOf(context).top + 8),
               UserAvatar(width: 82, height: 82, user: state.user?.toEntity()),
               const SizedBox(height: Constants.space18),
               RichText(

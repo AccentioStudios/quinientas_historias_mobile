@@ -244,6 +244,20 @@ mixin SheetMessages on Widget {
     );
   }
 
+  Future<T?> showAddQuizItemQuestion<T>(BuildContext context) {
+    return showMessage<T?>(
+      context,
+      height: 300,
+      iconSvgPath: 'assets/images/success-check-image.svg',
+      title: 'Te gustaría aportar con una\npregunta nueva?',
+      content:
+          'Puedes crear preguntas nuevas que otros lectores pueden responder al terminar esta lectura.',
+      btnLabel: 'Si',
+      secondaryBtnLabel: 'No',
+      isDismissible: false,
+    );
+  }
+
   Future<T?> showExploreStoryOrderBy<T>(BuildContext context,
       {StoryOrderBy? selectedOption}) {
     return showCompactMessage<T?>(context,

@@ -63,7 +63,7 @@ class CommonInfoPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
           child: SizedBox(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             child: Column(children: [
               Expanded(
                 flex: 1,

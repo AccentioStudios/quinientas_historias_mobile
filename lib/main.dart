@@ -33,13 +33,13 @@ void main() async {
   } else {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyBiaXDU4ki0LYQu9-JfV2QqFvEZBU5-wmg',
-        appId: '1:591116256365:web:47670f9262fb2d46dbab64',
-        messagingSenderId: '591116256365',
-        projectId: 'historias-dev-e781f',
-        authDomain: 'historias-dev-e781f.firebaseapp.com',
-        storageBucket: 'historias-dev-e781f.appspot.com',
-        measurementId: 'G-W2ZC5P98WT',
+        apiKey: "AIzaSyBFUY50O5JI5kpAJ_5MpFjgple3PBM1xtg",
+        authDomain: "historias-dev-e781f.firebaseapp.com",
+        projectId: "historias-dev-e781f",
+        storageBucket: "historias-dev-e781f.appspot.com",
+        messagingSenderId: "591116256365",
+        appId: "1:591116256365:web:cfa0c17d2508eb71dbab64",
+        measurementId: "G-YGKL975CV6",
       ),
     );
   }
@@ -86,7 +86,7 @@ checkFirstOpenOfDay() {
     }
     return false;
   }
-  return true;
+  return false;
 }
 
 emitFirstOpenOfDayTrigger() async {

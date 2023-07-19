@@ -336,7 +336,7 @@ class SearchBarPopupRoute<T> extends PopupRoute<T> {
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
     _searchFieldController = TextEditingController(text: filters?.title);
-    final top = MediaQuery.of(context).padding.top;
+    final top = MediaQuery.paddingOf(context).top;
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pop();

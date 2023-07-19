@@ -294,7 +294,7 @@ class _HaveNoChallengeTodayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.sizeOf(context).height,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
         child: Column(

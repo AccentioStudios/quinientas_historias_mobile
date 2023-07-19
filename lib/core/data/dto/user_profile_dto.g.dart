@@ -31,6 +31,10 @@ UserProfileDto _$UserProfileDtoFromJson(Map<String, dynamic> json) =>
       userReadsCount: json['userReadsCount'] as int,
       userTeamRank: json['userTeamRank'] as int,
       userTeamPoints: json['userTeamPoints'] as int,
+      pendingQuizItemsToReview:
+          (json['pendingQuizItemsToReview'] as List<dynamic>)
+              .map((e) => QuizItem.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
 
 Map<String, dynamic> _$UserProfileDtoToJson(UserProfileDto instance) =>
@@ -49,6 +53,7 @@ Map<String, dynamic> _$UserProfileDtoToJson(UserProfileDto instance) =>
       'team': instance.team,
       'school': instance.school,
       'previousTeams': instance.previousTeams,
+      'pendingQuizItemsToReview': instance.pendingQuizItemsToReview,
     };
 
 const _$RoleEnumMap = {

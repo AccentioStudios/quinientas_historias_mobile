@@ -308,8 +308,7 @@ class _TournamentAdminEditPageState extends State<TournamentAdminEditPage> {
                                       ),
                                       const SizedBox(height: Constants.space16),
                                       SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width,
+                                        width: MediaQuery.sizeOf(context).width,
                                         child: const Row(
                                           children: [],
                                         ),

@@ -12,9 +12,13 @@ import 'ui/pages/reading_story_page.dart';
 @RoutePage<bool?>()
 class ReadingStoryProvider extends StatelessWidget {
   const ReadingStoryProvider(
-      {super.key, @PathParam('id') required this.storyId, this.homeCubit});
+      {super.key,
+      @PathParam('id') required this.storyId,
+      this.homeCubit,
+      this.isQuickView = false});
   final HomeCubit? homeCubit;
   final int storyId;
+  final bool isQuickView;
   @override
   Widget build(BuildContext context) {
     final useCases = ReadingStoryUseCases(repository: ReadingStoryRepository());
@@ -29,17 +33,17 @@ class ReadingStoryProvider extends StatelessWidget {
             value: homeCubit!,
           ),
       ],
-      child: ReadingStoryPage(
-        storyId: storyId,
-      ),
+      child: ReadingStoryPage(storyId: storyId, isQuickView: isQuickView),
     );
   }
 
-  static Future<bool?> openStory(BuildContext context, {required int storyId}) {
+  static Future<bool?> openStory(BuildContext context,
+      {required int storyId, bool isQuickView = false}) {
     if (storyId != 0) {
       return AutoRouter.of(context).push<bool?>(
         ReadingStoryRoute(
           storyId: storyId,
+          isQuickView: isQuickView,
         ),
       );
     }

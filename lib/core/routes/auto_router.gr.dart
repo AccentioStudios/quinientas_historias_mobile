@@ -248,6 +248,7 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           storyId: args.storyId,
           homeCubit: args.homeCubit,
+          isQuickView: args.isQuickView,
         ),
       );
     },
@@ -289,6 +290,27 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const TournamentAdminRegisterPage(),
+      );
+    },
+    QuizRoute.name: (routeData) {
+      final args = routeData.argsAs<QuizRouteArgs>();
+      return AutoRoutePage<bool?>(
+        routeData: routeData,
+        child: QuizProvider(
+          key: args.key,
+          quizItems: args.quizItems,
+          onPressedSeeStory: args.onPressedSeeStory,
+        ),
+      );
+    },
+    RegisterQuizItemRoute.name: (routeData) {
+      final args = routeData.argsAs<RegisterQuizItemRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: RegisterQuizItemPage(
+          key: args.key,
+          story: args.story,
+        ),
       );
     },
   };
@@ -1026,6 +1048,7 @@ class ReadingStoryRoute extends PageRouteInfo<ReadingStoryRouteArgs> {
     Key? key,
     required int storyId,
     HomeCubit? homeCubit,
+    bool isQuickView = false,
     List<PageRouteInfo>? children,
   }) : super(
           ReadingStoryRoute.name,
@@ -1033,6 +1056,7 @@ class ReadingStoryRoute extends PageRouteInfo<ReadingStoryRouteArgs> {
             key: key,
             storyId: storyId,
             homeCubit: homeCubit,
+            isQuickView: isQuickView,
           ),
           rawPathParams: {'id': storyId},
           initialChildren: children,
@@ -1049,6 +1073,7 @@ class ReadingStoryRouteArgs {
     this.key,
     required this.storyId,
     this.homeCubit,
+    this.isQuickView = false,
   });
 
   final Key? key;
@@ -1057,9 +1082,11 @@ class ReadingStoryRouteArgs {
 
   final HomeCubit? homeCubit;
 
+  final bool isQuickView;
+
   @override
   String toString() {
-    return 'ReadingStoryRouteArgs{key: $key, storyId: $storyId, homeCubit: $homeCubit}';
+    return 'ReadingStoryRouteArgs{key: $key, storyId: $storyId, homeCubit: $homeCubit, isQuickView: $isQuickView}';
   }
 }
 
@@ -1170,4 +1197,84 @@ class TournamentAdminRegisterRoute extends PageRouteInfo<void> {
   static const String name = 'TournamentAdminRegisterRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [QuizProvider]
+class QuizRoute extends PageRouteInfo<QuizRouteArgs> {
+  QuizRoute({
+    Key? key,
+    required List<QuizItem> quizItems,
+    required dynamic Function()? onPressedSeeStory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          QuizRoute.name,
+          args: QuizRouteArgs(
+            key: key,
+            quizItems: quizItems,
+            onPressedSeeStory: onPressedSeeStory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'QuizRoute';
+
+  static const PageInfo<QuizRouteArgs> page = PageInfo<QuizRouteArgs>(name);
+}
+
+class QuizRouteArgs {
+  const QuizRouteArgs({
+    this.key,
+    required this.quizItems,
+    required this.onPressedSeeStory,
+  });
+
+  final Key? key;
+
+  final List<QuizItem> quizItems;
+
+  final dynamic Function()? onPressedSeeStory;
+
+  @override
+  String toString() {
+    return 'QuizRouteArgs{key: $key, quizItems: $quizItems, onPressedSeeStory: $onPressedSeeStory}';
+  }
+}
+
+/// generated route for
+/// [RegisterQuizItemPage]
+class RegisterQuizItemRoute extends PageRouteInfo<RegisterQuizItemRouteArgs> {
+  RegisterQuizItemRoute({
+    Key? key,
+    required Story story,
+    List<PageRouteInfo>? children,
+  }) : super(
+          RegisterQuizItemRoute.name,
+          args: RegisterQuizItemRouteArgs(
+            key: key,
+            story: story,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterQuizItemRoute';
+
+  static const PageInfo<RegisterQuizItemRouteArgs> page =
+      PageInfo<RegisterQuizItemRouteArgs>(name);
+}
+
+class RegisterQuizItemRouteArgs {
+  const RegisterQuizItemRouteArgs({
+    this.key,
+    required this.story,
+  });
+
+  final Key? key;
+
+  final Story story;
+
+  @override
+  String toString() {
+    return 'RegisterQuizItemRouteArgs{key: $key, story: $story}';
+  }
 }

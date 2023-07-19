@@ -24,12 +24,12 @@ class Constants {
         enableResize: true,
         mouseWheelZoom: true,
         boundary: CroppieBoundary(
-          width: MediaQuery.of(context).size.width.toInt() - 150,
-          height: MediaQuery.of(context).size.width.toInt() - 150,
+          width: MediaQuery.sizeOf(context).width.toInt() - 150,
+          height: MediaQuery.sizeOf(context).width.toInt() - 150,
         ),
         viewPort: CroppieViewPort(
-          width: MediaQuery.of(context).size.width.toInt() - 160,
-          height: MediaQuery.of(context).size.width.toInt() - 160,
+          width: MediaQuery.sizeOf(context).width.toInt() - 160,
+          height: MediaQuery.sizeOf(context).width.toInt() - 160,
         ),
       );
 }

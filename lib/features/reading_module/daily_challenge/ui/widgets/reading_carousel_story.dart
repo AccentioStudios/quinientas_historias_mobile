@@ -31,7 +31,7 @@ class ReadingCarouselStory extends StatelessWidget {
 
     return SizedBox(
       height: heightCarousel,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.sizeOf(context).width,
       child: !verifyIfHaveStories(stories)
           ? const SizedBox.shrink()
           : CarouselSlider(

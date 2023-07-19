@@ -17,7 +17,7 @@ class TournamentHeaderWidget extends StatelessWidget {
         horizontal: Constants.space18, vertical: Constants.space18);
     return SliverToBoxAdapter(
       child: Container(
-        height: 158 + MediaQuery.of(context).padding.top,
+        height: 158 + MediaQuery.paddingOf(context).top,
         color: Theme.of(context).colorScheme.primaryContainer,
         child: Column(
           children: [
