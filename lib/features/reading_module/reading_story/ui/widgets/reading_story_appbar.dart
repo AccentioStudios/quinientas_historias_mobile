@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 
 import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/ui/components/story_summary.dart';
+import '../../../../../core/ui/widgets/role_widget.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../../core/utils/functions.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
@@ -51,20 +53,28 @@ class ReadingStoryHeader extends StatelessWidget with ErrorHandling {
                   color: Theme.of(context).colorScheme.onBackground,
                   fontWeight: FontWeight.bold),
             )),
-        Padding(
-          padding: const EdgeInsets.only(right: Constants.space12),
-          child: TextButton.icon(
-            onPressed: () {
-              saveFavorite(context, favorited: state.story?.favorited);
-            },
-            icon: FavoriteBtn(state: state),
-            label: Text(
-              state.story?.favorited == true
-                  ? 'Quitar favorito'
-                  : 'Agregar a favoritos',
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontWeight: FontWeight.bold),
+        RoleWidget(
+          roles: const [
+            Role.admin,
+            Role.editor,
+            Role.captain,
+            Role.reader,
+          ],
+          child: Padding(
+            padding: const EdgeInsets.only(right: Constants.space12),
+            child: TextButton.icon(
+              onPressed: () {
+                saveFavorite(context, favorited: state.story?.favorited);
+              },
+              icon: FavoriteBtn(state: state),
+              label: Text(
+                state.story?.favorited == true
+                    ? 'Quitar favorito'
+                    : 'Agregar a favoritos',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),

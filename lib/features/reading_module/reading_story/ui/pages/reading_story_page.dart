@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:quinientas_historias/core/data/entities/user_entity.dart';
+import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
 import 'package:quinientas_historias/features/challenges/sar_service.dart';
 
 import '../../../../../core/data/dto/auth_dto.dart';
@@ -17,6 +18,9 @@ import '../../../../../core/mixins/error_handling.dart';
 import '../../../../../core/theme/theme.dart';
 import '../../../../../core/ui/widgets/big_button.dart';
 import '../../../../../core/ui/widgets/custom_icon_button.dart';
+import '../../../../../core/ui/widgets/padding_column.dart';
+import '../../../../../core/ui/widgets/role_widget.dart';
+import '../../../../../core/ui/widgets/themed_text_form_field.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../challenges/data/entities/challenge_sar_event.dart';
 import '../bloc/cubit/reading_story_cubit.dart';
@@ -25,7 +29,8 @@ import 'rate_story_sheet_view.dart';
 import 'reading_story_options_sheet_view.dart';
 import 'reading_story_post_read_page.dart';
 
-class ReadingStoryPage extends StatefulWidget with ErrorHandling {
+class ReadingStoryPage extends StatefulWidget
+    with ErrorHandling, SheetMessages {
   const ReadingStoryPage(
       {super.key, required this.storyId, required this.isQuickView});
   final int storyId;
@@ -78,19 +83,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
 
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {
-        var bigButtonEndStory = BigButton(
-          onPressed: () async {
-            final user = await GetIt.I<SecureStorageService>().getSessionData();
-            if (user?.role != Role.prof && user?.role != Role.admin) {
-              if (!mounted) return;
-              openRateStorySheet(context, state);
-              return;
-            }
-            if (!mounted) return;
-            completeReading(context.read<ReadingStoryCubit>());
-          },
-          text: 'Terminar Lectura',
-        );
         var bigButtonBackFromQuickView = BigButton(
           onPressed: () async {
             if (!mounted) return;
@@ -103,6 +95,7 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
               ? ThemeClass.darkTheme
               : ThemeClass.lightTheme,
           child: Scaffold(
+            resizeToAvoidBottomInset: true,
             floatingActionButton: SizedBox(
               width: MediaQuery.sizeOf(context).width - 34,
               child: Row(
@@ -174,74 +167,111 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Constants.space21),
-                        child: Html(
-                          style: {
-                            "*": Style(
-                              padding: HtmlPaddings.zero,
-                              margin: Margins.zero,
-                              letterSpacing: 0.4,
-                              fontFamily: 'Literata',
-                              fontSize: state.readingOptions.fontSize,
-                              lineHeight: state.readingOptions.lineHeight,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                                minWidth: 100, maxWidth: 500),
+                            child: Html(
+                              style: {
+                                "*": Style(
+                                  padding: HtmlPaddings.zero,
+                                  margin: Margins.zero,
+                                  letterSpacing: 0.4,
+                                  fontFamily: 'Literata',
+                                  fontSize: state.readingOptions.fontSize,
+                                  lineHeight: state.readingOptions.lineHeight,
+                                ),
+                                "p": Style(
+                                  textAlign: state.readingOptions.pTextAlign,
+                                  margin: Margins.only(bottom: 21),
+                                ),
+                                "h1": Style(
+                                  fontSize: state.readingOptions.h1fontSize,
+                                  textAlign: TextAlign.center,
+                                  margin: Margins.only(bottom: 21),
+                                ),
+                                "h2": Style(
+                                  fontSize: state.readingOptions.h2fontSize,
+                                  textAlign: TextAlign.left,
+                                  margin: Margins.only(bottom: 21),
+                                ),
+                                "ul": Style(
+                                  margin: Margins.only(bottom: 21),
+                                ),
+                                "br": Style(
+                                  margin: Margins.only(bottom: 21),
+                                ),
+                              },
+                              data:
+                                  unescape.convert(state.story?.content ?? ''),
                             ),
-                            "p": Style(
-                              textAlign: state.readingOptions.pTextAlign,
-                              margin: Margins.only(bottom: 21),
-                            ),
-                            "h1": Style(
-                              fontSize: state.readingOptions.h1fontSize,
-                              textAlign: TextAlign.center,
-                              margin: Margins.only(bottom: 21),
-                            ),
-                            "h2": Style(
-                              fontSize: state.readingOptions.h2fontSize,
-                              textAlign: TextAlign.left,
-                              margin: Margins.only(bottom: 21),
-                            ),
-                            "ul": Style(
-                              margin: Margins.only(bottom: 21),
-                            ),
-                            "br": Style(
-                              margin: Margins.only(bottom: 21),
-                            ),
-                          },
-                          data: unescape.convert(state.story?.content ?? ''),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 50),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space16),
-                        child: InkWell(
-                          borderRadius: Constants.borderRadius50,
-                          onTap: () {
-                            saveFavorite(context,
-                                favorited: state.story?.favorited);
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FavoriteBtn(state: state),
-                              Text(
-                                  state.story?.favorited == true
-                                      ? 'Quitar favorito'
-                                      : 'Agregar a favoritos',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                              const SizedBox(width: 10),
-                            ],
+                      RoleWidget(
+                        roles: const [
+                          Role.prof,
+                          Role.admin,
+                          Role.reader,
+                          Role.captain
+                        ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space16),
+                          child: InkWell(
+                            borderRadius: Constants.borderRadius50,
+                            onTap: () {
+                              saveFavorite(context,
+                                  favorited: state.story?.favorited);
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FavoriteBtn(state: state),
+                                Text(
+                                    state.story?.favorited == true
+                                        ? 'Quitar favorito'
+                                        : 'Agregar a favoritos',
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(width: 10),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(height: Constants.space21),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space16),
-                        child: widget.isQuickView
-                            ? bigButtonBackFromQuickView
-                            : bigButtonEndStory,
+                      ConstrainedBox(
+                        constraints:
+                            const BoxConstraints(minWidth: 100, maxWidth: 500),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space16),
+                          child: widget.isQuickView
+                              ? bigButtonBackFromQuickView
+                              : BigButton(
+                                  onPressed: () async {
+                                    final user =
+                                        await GetIt.I<SecureStorageService>()
+                                            .getSessionData();
+                                    if (user?.role != Role.prof &&
+                                        user?.role != Role.admin) {
+                                      if (!mounted) return;
+                                      openRateStorySheet(context, state,
+                                          isPublic: user == null);
+                                      return;
+                                    }
+                                    if (!mounted) return;
+                                    completeReading(
+                                        context.read<ReadingStoryCubit>());
+                                  },
+                                  text: 'Terminar Lectura',
+                                ),
+                        ),
                       ),
                       const SizedBox(height: 100),
                     ],
@@ -279,7 +309,56 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     );
   }
 
-  void openRateStorySheet(BuildContext context, ReadingStoryState state) {
+  Future<String?> openEnterEmailSheet(BuildContext context) async {
+    final controller = TextEditingController();
+    return widget.showCompactMessage<String>(
+      context,
+      useRootNavigator: false,
+      btnLabel: 'Enviar',
+      btnOnTap: () {
+        context.read<ReadingStoryCubit>().setPublicEmail(controller.text);
+        Navigator.pop(context, controller.text);
+      },
+      title: 'Ingresa tu correo electrónico',
+      contentBuilder: (_) => BlocProvider.value(
+        value: context.read<ReadingStoryCubit>(),
+        child: PaddingColumn(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                  'Ingresa tu correo electrónico para poder puntuar en esta historia'),
+              const SizedBox(height: 20),
+              ThemedTextFormField(
+                  controller: controller,
+                  hintText: 'Email',
+                  prefixIconSvgPath: 'assets/icons/mail-outline-icon.svg',
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: false,
+                  fillColor: Theme.of(context)
+                      .colorScheme
+                      .onPrimaryContainer
+                      .withOpacity(.15)),
+            ]),
+      ),
+    );
+  }
+
+  void openRateStorySheet(BuildContext context, ReadingStoryState state,
+      {bool isPublic = false}) async {
+    if (isPublic) {
+      final email = await GetIt.I<SecureStorageService>().getPublicEmail();
+      if (email != null) {
+        if (!mounted) return;
+        context.read<ReadingStoryCubit>().setPublicEmail(email);
+      } else {
+        if (!mounted) return;
+        final email = await openEnterEmailSheet(context);
+        if (email == null) return;
+      }
+    }
+    if (!mounted) return;
     showModalBottomSheet<bool>(
       elevation: 0,
       isDismissible: false,
@@ -320,80 +399,54 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
     });
   }
 
-  void sendProgressOfStory() {
-    progressValue =
-        ((scrollController.offset / scrollController.position.maxScrollExtent) *
-                100)
-            .toInt();
-    if (progressValue >= 100) {
-      progressValue = 99;
+  void sendProgressOfStory() async {
+    JwtPayload? userInfo =
+        await GetIt.I<SecureStorageService>().getSessionData();
+    if (userInfo != null) {
+      progressValue = ((scrollController.offset /
+                  scrollController.position.maxScrollExtent) *
+              100)
+          .toInt();
+      if (progressValue >= 100) {
+        progressValue = 99;
+      }
+      if (!mounted) return;
+      BlocProvider.of<ReadingStoryCubit>(context)
+          .progressStreamController
+          .add(progressValue);
     }
-
-    BlocProvider.of<ReadingStoryCubit>(context)
-        .progressStreamController
-        .add(progressValue);
   }
 
   void completeReading(ReadingStoryCubit cubit) async {
     JwtPayload? userInfo =
         await GetIt.I<SecureStorageService>().getSessionData();
     cubit.progressStreamController.close();
-    cubit.completeStory(
-        onSuccess: (response) async {
-          if (userInfo != null) {
-            // Trigger story_ended
-            GetIt.I<SARService>()
-                .emit(ChallengeSarTriggers.storyEnded, userId: userInfo.id);
-
-            Navigator.of(context)
-                .push(MaterialPageRoute(
-              builder: (_) => BlocProvider.value(
-                value: cubit,
-                child: ReadingStoryPostReadPage(
-                  points: response.points,
-                  dailyChallenge: response.dailyChallenge,
-                  user: userInfo.toUserEntity(),
-                  // quizItems: response.quizItems,
-                  quizItems: response.quizItems,
-                  story: cubit.state.story!,
-                  //[
-                  // QuizItem(
-                  //     id: 1,
-                  //     question:
-                  //         '1. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
-                  //     options: [
-                  //       'Lorem ipsum dolor sit amet 1',
-                  //       'Lorem ipsum dolor sit amet 2',
-                  //       'Lorem ipsum dolor sit amet 3',
-                  //       'Lorem ipsum dolor sit amet 4'
-                  //     ],
-                  //     correctAnswer: 'Lorem ipsum dolor sit amet 1',
-                  //     explanation:
-                  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In semper, dui non efficitur fermentum, neque orci efficitur ex, vel pretium tortor augue eu ligula. Nulla congue porttitor purus sit amet dictum. Suspendisse bibendum justo vitae dolor.',
-                  //     points: 15),
-                  // QuizItem(
-                  //     id: 1,
-                  //     question:
-                  //         '2. Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet  Lorem ipsum dolor sit amet ',
-                  //     options: [
-                  //       'Lorem ipsum dolor sit amet 1',
-                  //       'Lorem ipsum dolor sit amet 2',
-                  //       'Lorem ipsum dolor sit amet 3',
-                  //       'Lorem ipsum dolor sit amet 4'
-                  //     ],
-                  //     correctAnswer: 'Lorem ipsum dolor sit amet 1',
-                  //     explanation: 'Lorem ipsum dolor sit amet explain. 1',
-                  //     points: 15),
-                  //],
-                ),
-              ),
-            ))
-                .then((value) {
-              Navigator.of(context).pop();
-            });
-          }
-        },
-        onError: (error) => widget.handleError(context, error));
+    cubit.completeStory(onSuccess: (response) async {
+      if (userInfo != null) {
+        // Trigger story_ended
+        GetIt.I<SARService>()
+            .emit(ChallengeSarTriggers.storyEnded, userId: userInfo.id);
+      }
+      if (!mounted) return;
+      Navigator.of(context)
+          .push(MaterialPageRoute(
+        builder: (_) => BlocProvider.value(
+          value: cubit,
+          child: ReadingStoryPostReadPage(
+            points: response.points,
+            dailyChallenge: response.dailyChallenge,
+            user: userInfo?.toUserEntity(),
+            quizItems: response.quizItems,
+            story: cubit.state.story!,
+          ),
+        ),
+      ))
+          .then((value) {
+        Navigator.of(context).pop();
+      });
+    }, onError: (error) {
+      widget.handleError(context, error);
+    });
   }
 
   void reloadReadingOptions() {

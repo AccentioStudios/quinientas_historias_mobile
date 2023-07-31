@@ -76,11 +76,13 @@ mixin SheetMessages on Widget {
     bool willPop = true,
     bool isDismissible = true,
     bool withoutButtons = false,
+    bool useRootNavigator = true,
   }) {
     return showModalBottomSheet<T>(
+      isScrollControlled: true,
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       context: context,
-      useRootNavigator: true,
+      useRootNavigator: useRootNavigator,
       isDismissible: isDismissible,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -347,7 +349,8 @@ mixin SheetMessages on Widget {
       title: 'Esta es tu ID y tu llave secreta',
       content:
           'Para poder conectar con el API, necesitas tus\ncredenciales. Guardalas bien ya que será\nIMPOSIBLE volver a verlas.',
-      contentBuilder: (context) => Column(
+      contentBuilder: (context) => PaddingColumn(
+        padding: const EdgeInsets.symmetric(horizontal: Constants.space18),
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           RichText(

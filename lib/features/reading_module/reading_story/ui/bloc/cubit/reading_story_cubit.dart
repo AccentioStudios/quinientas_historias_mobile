@@ -45,6 +45,12 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
     emit(state.copyWith(notAskForRegisteringQuizItem: true));
   }
 
+  setPublicEmail(String email) {
+    emit(state.copyWith(publicEmail: email));
+    // set public email to session
+    GetIt.I<SecureStorageService>().setPublicEmail(email);
+  }
+
   load(int storyId, {Function? onSuccess, Function? onError}) {
     emit(state.copyWith(loading: true));
     readingStoryUseCases.loadStory(storyId).listen((storyProgress) {
@@ -71,8 +77,6 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
       storyId: state.story!.id,
     );
 
-    await Future.delayed(const Duration(seconds: 1));
-
     readingStoryUseCases.completeStory(request).listen((success) async {
       if (success.saved) {
         emit(state.copyWith(loading: false, readPoints: success.points));
@@ -80,7 +84,7 @@ class ReadingStoryCubit extends Cubit<ReadingStoryState> with StreamDisposable {
         return;
       }
       emit(state.copyWith(loading: false));
-      if (onError != null) onError();
+      if (onSuccess != null) onSuccess(success);
     }, onError: (error) {
       if (onError != null) onError(error);
       emit(state.copyWith(loading: false));

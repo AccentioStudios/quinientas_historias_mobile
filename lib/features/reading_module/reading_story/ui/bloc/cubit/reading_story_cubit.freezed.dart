@@ -30,6 +30,7 @@ mixin _$ReadingStoryState {
   int get bonusTotalPoints => throw _privateConstructorUsedError;
   bool get answerLoading => throw _privateConstructorUsedError;
   bool get votingLikeDislikeLoading => throw _privateConstructorUsedError;
+  String? get publicEmail => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReadingStoryStateCopyWith<ReadingStoryState> get copyWith =>
@@ -56,7 +57,8 @@ abstract class $ReadingStoryStateCopyWith<$Res> {
       Points? readPoints,
       int bonusTotalPoints,
       bool answerLoading,
-      bool votingLikeDislikeLoading});
+      bool votingLikeDislikeLoading,
+      String? publicEmail});
 }
 
 /// @nodoc
@@ -86,6 +88,7 @@ class _$ReadingStoryStateCopyWithImpl<$Res, $Val extends ReadingStoryState>
     Object? bonusTotalPoints = null,
     Object? answerLoading = null,
     Object? votingLikeDislikeLoading = null,
+    Object? publicEmail = freezed,
   }) {
     return _then(_value.copyWith(
       readingOptions: null == readingOptions
@@ -144,6 +147,10 @@ class _$ReadingStoryStateCopyWithImpl<$Res, $Val extends ReadingStoryState>
           ? _value.votingLikeDislikeLoading
           : votingLikeDislikeLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      publicEmail: freezed == publicEmail
+          ? _value.publicEmail
+          : publicEmail // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -170,7 +177,8 @@ abstract class _$$_ReadingStoryStateCopyWith<$Res>
       Points? readPoints,
       int bonusTotalPoints,
       bool answerLoading,
-      bool votingLikeDislikeLoading});
+      bool votingLikeDislikeLoading,
+      String? publicEmail});
 }
 
 /// @nodoc
@@ -198,6 +206,7 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
     Object? bonusTotalPoints = null,
     Object? answerLoading = null,
     Object? votingLikeDislikeLoading = null,
+    Object? publicEmail = freezed,
   }) {
     return _then(_$_ReadingStoryState(
       readingOptions: null == readingOptions
@@ -256,6 +265,10 @@ class __$$_ReadingStoryStateCopyWithImpl<$Res>
           ? _value.votingLikeDislikeLoading
           : votingLikeDislikeLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      publicEmail: freezed == publicEmail
+          ? _value.publicEmail
+          : publicEmail // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -277,7 +290,8 @@ class _$_ReadingStoryState implements _ReadingStoryState {
       this.readPoints,
       this.bonusTotalPoints = 0,
       this.answerLoading = false,
-      this.votingLikeDislikeLoading = false});
+      this.votingLikeDislikeLoading = false,
+      this.publicEmail});
 
   @override
   final ReadingOptions readingOptions;
@@ -317,10 +331,12 @@ class _$_ReadingStoryState implements _ReadingStoryState {
   @override
   @JsonKey()
   final bool votingLikeDislikeLoading;
+  @override
+  final String? publicEmail;
 
   @override
   String toString() {
-    return 'ReadingStoryState(readingOptions: $readingOptions, loading: $loading, saveFavoriteloading: $saveFavoriteloading, registeringQuizItem: $registeringQuizItem, notAskForRegisteringQuizItem: $notAskForRegisteringQuizItem, storyProgress: $storyProgress, story: $story, myRating: $myRating, quizFinished: $quizFinished, correctAnswers: $correctAnswers, readPoints: $readPoints, bonusTotalPoints: $bonusTotalPoints, answerLoading: $answerLoading, votingLikeDislikeLoading: $votingLikeDislikeLoading)';
+    return 'ReadingStoryState(readingOptions: $readingOptions, loading: $loading, saveFavoriteloading: $saveFavoriteloading, registeringQuizItem: $registeringQuizItem, notAskForRegisteringQuizItem: $notAskForRegisteringQuizItem, storyProgress: $storyProgress, story: $story, myRating: $myRating, quizFinished: $quizFinished, correctAnswers: $correctAnswers, readPoints: $readPoints, bonusTotalPoints: $bonusTotalPoints, answerLoading: $answerLoading, votingLikeDislikeLoading: $votingLikeDislikeLoading, publicEmail: $publicEmail)';
   }
 
   @override
@@ -356,7 +372,9 @@ class _$_ReadingStoryState implements _ReadingStoryState {
                 other.answerLoading == answerLoading) &&
             (identical(
                     other.votingLikeDislikeLoading, votingLikeDislikeLoading) ||
-                other.votingLikeDislikeLoading == votingLikeDislikeLoading));
+                other.votingLikeDislikeLoading == votingLikeDislikeLoading) &&
+            (identical(other.publicEmail, publicEmail) ||
+                other.publicEmail == publicEmail));
   }
 
   @override
@@ -375,7 +393,8 @@ class _$_ReadingStoryState implements _ReadingStoryState {
       readPoints,
       bonusTotalPoints,
       answerLoading,
-      votingLikeDislikeLoading);
+      votingLikeDislikeLoading,
+      publicEmail);
 
   @JsonKey(ignore: true)
   @override
@@ -400,7 +419,8 @@ abstract class _ReadingStoryState implements ReadingStoryState {
       final Points? readPoints,
       final int bonusTotalPoints,
       final bool answerLoading,
-      final bool votingLikeDislikeLoading}) = _$_ReadingStoryState;
+      final bool votingLikeDislikeLoading,
+      final String? publicEmail}) = _$_ReadingStoryState;
 
   @override
   ReadingOptions get readingOptions;
@@ -430,6 +450,8 @@ abstract class _ReadingStoryState implements ReadingStoryState {
   bool get answerLoading;
   @override
   bool get votingLikeDislikeLoading;
+  @override
+  String? get publicEmail;
   @override
   @JsonKey(ignore: true)
   _$$_ReadingStoryStateCopyWith<_$_ReadingStoryState> get copyWith =>

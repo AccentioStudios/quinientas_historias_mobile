@@ -58,7 +58,7 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
           ],
           guards: [UserOnboardingGuard()],
         ),
-        // AutoRoute(path: '/tournament', page: TournamentDetailsRoute.page),
+        AutoRoute(path: '/tournaments/p', page: TournamentRoute.page),
         AutoRoute(path: '/onboarding', page: OnboardingUserRoute.page),
         AutoRoute(path: '/user/:id', page: UserProfileRoute.page),
         AutoRoute(path: '/school/:id', page: SchoolProfileRoute.page),
@@ -132,6 +132,12 @@ class AppRouter extends _$AppRouter implements AutoRouteGuard {
       if (await _checkAccessToken() ||
           resolver.route.name == ReceivedInviteRoute.name ||
           resolver.route.name == AuthRoute.name ||
+          resolver.route.name == ReadingStoryRoute.name ||
+          resolver.route.name == SchoolProfileRoute.name ||
+          resolver.route.name == TournamentRoute.name ||
+          resolver.route.name == TeamProfileRoute.name ||
+          resolver.route.name == UserProfileRoute.name ||
+          resolver.route.name == ExploreStoriesRoute.name ||
           resolver.route.name == CommonInfoRoute.name) {
         // we continue navigation
         resolver.next();

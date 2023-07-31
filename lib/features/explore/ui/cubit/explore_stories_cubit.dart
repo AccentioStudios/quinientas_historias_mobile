@@ -13,10 +13,13 @@ part 'explore_stories_cubit.freezed.dart';
 part 'explore_stories_state.dart';
 
 class ExploreStoriesCubit extends Cubit<ExploreStoriesState> {
-  ExploreStoriesCubit({required this.useCases})
-      : super(const ExploreStoriesState());
+  ExploreStoriesCubit({
+    required this.useCases,
+    this.tournamentId,
+  }) : super(const ExploreStoriesState());
 
   final ExploreStoriesUseCases useCases;
+  final int? tournamentId;
 
   Future<ListPage<Story>> getStories(int pageKey) async {
     final completer = Completer<ListPage<Story>>();
@@ -26,6 +29,7 @@ class ExploreStoriesCubit extends Cubit<ExploreStoriesState> {
       pageKey: pageKey,
       orderBy: state.filters.orderBy,
       title: state.filters.title,
+      tournamentId: tournamentId,
     )
         .listen((stories) {
       for (var story in stories.itemList) {

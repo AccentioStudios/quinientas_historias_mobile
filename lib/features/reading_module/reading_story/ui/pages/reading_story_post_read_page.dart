@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/mixins/bottom_sheet_messages.dart';
+import 'package:quinientas_historias/core/ui/widgets/role_widget.dart';
 import 'package:quinientas_historias/features/quiz/quiz_provider.dart';
 import 'package:quinientas_historias/features/reading_module/reading_story/reading_story_provider.dart';
 import '../../../../../core/routes/auto_router.dart';
@@ -54,11 +55,6 @@ class _ReadingStoryPostReadPageState extends State<ReadingStoryPostReadPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<ReadingStoryCubit, ReadingStoryState>(
       builder: (context, state) {
-        bool quizActive =
-            (widget.quizItems != null) && (widget.quizItems!.isNotEmpty);
-
-        bool quizFinished = state.quizFinished;
-
         return WillPopScope(
             onWillPop: () async {
               return true;
@@ -75,11 +71,16 @@ class _ReadingStoryPostReadPageState extends State<ReadingStoryPostReadPage> {
                         SizedBox(
                           height: 125 + MediaQuery.paddingOf(context).top,
                         ),
-                        UserAvatar(
-                          user: widget.user!,
-                          height: 110,
-                          width: 110,
-                        ),
+                        widget.user != null
+                            ? UserAvatar(
+                                user: widget.user!,
+                                height: 110,
+                                width: 110,
+                              )
+                            : SizedBox(
+                                width: 137,
+                                child: Image.asset('assets/images/logo.png'),
+                              ),
                         const SizedBox(
                           height: Constants.space21,
                         ),
@@ -160,18 +161,43 @@ class _ReadingStoryPostReadPageState extends State<ReadingStoryPostReadPage> {
                       ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space18,
-                            vertical: Constants.space21),
-                        child: BigButton(
-                            text: getBigButtonLabel(state),
-                            onPressed: () {
-                              bigButtonOnPressed(
-                                  state, context.read<ReadingStoryCubit>());
-                            })),
+                  RoleWidget(
+                    roles: const [
+                      Role.admin,
+                      Role.reader,
+                      Role.captain,
+                      Role.prof,
+                    ],
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space18,
+                              vertical: Constants.space21),
+                          child: BigButton(
+                              text: getBigButtonLabel(state),
+                              onPressed: () {
+                                bigButtonOnPressed(
+                                    state, context.read<ReadingStoryCubit>());
+                              })),
+                    ),
+                  ),
+                  RoleWidget(
+                    forPublic: true,
+                    roles: const [],
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space18,
+                              vertical: Constants.space21),
+                          child: BigButton(
+                              text: 'Ver otras historias',
+                              onPressed: () {
+                                AutoRouter.of(context)
+                                    .pushNamed('/tournaments/p');
+                              })),
+                    ),
                   ),
                 ],
               ),

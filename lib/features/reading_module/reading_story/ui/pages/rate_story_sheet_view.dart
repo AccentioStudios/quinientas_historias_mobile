@@ -184,6 +184,7 @@ class _RateStorySheetViewState extends State<RateStorySheetView> {
       veracityRating: veracityRating,
       originalityRating: originalityRating,
       educationalRating: educationalRating,
+      publicEmail: state.publicEmail,
     );
 
     context.read<ReadingStoryCubit>().rateStory(state.story!.id, request,

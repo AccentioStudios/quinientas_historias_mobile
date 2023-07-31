@@ -9,12 +9,17 @@ import 'ui/pages/explore_stories_page.dart';
 
 @RoutePage()
 class ExploreStoriesProvider extends StatelessWidget {
-  const ExploreStoriesProvider({super.key, @QueryParam('search') this.search});
+  const ExploreStoriesProvider(
+      {super.key,
+      @QueryParam('search') this.search,
+      @QueryParam('tournamentId') this.tournamentId});
   final String? search;
+  final int? tournamentId;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => ExploreStoriesCubit(
+          tournamentId: tournamentId,
           useCases:
               ExploreStoriesUseCases(repository: ExploreStoriesRepository())),
       child: const ExploreStoriesPage(),

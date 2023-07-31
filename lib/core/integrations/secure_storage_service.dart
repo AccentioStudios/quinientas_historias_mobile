@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -17,6 +16,24 @@ class SecureStorageService {
     encryptedSharedPreferences: true,
   ));
   final Storage _localStorage = window.localStorage;
+
+  setPublicEmail(String email) {
+    if (kIsWeb) {
+      _localStorage['publicEmail'] = email;
+    } else {
+      _secureStorage.write(
+          key: 'publicEmail', value: email, aOptions: _getAndroidOptions());
+    }
+  }
+
+  getPublicEmail() {
+    if (kIsWeb) {
+      return _localStorage['publicEmail'];
+    } else {
+      return _secureStorage.read(
+          key: 'publicEmail', aOptions: _getAndroidOptions());
+    }
+  }
 
   saveSession(AuthDto authDto) async {
     deleteAll();

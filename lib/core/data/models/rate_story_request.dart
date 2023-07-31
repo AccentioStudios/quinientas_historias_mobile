@@ -1,18 +1,19 @@
 import 'dart:convert';
 
 class RateStoryRequest {
-  RateStoryRequest({
-    required this.niceRating,
-    this.qualityRating,
-    this.veracityRating,
-    this.originalityRating,
-    this.educationalRating,
-  });
+  RateStoryRequest(
+      {required this.niceRating,
+      this.qualityRating,
+      this.veracityRating,
+      this.originalityRating,
+      this.educationalRating,
+      this.publicEmail});
   final int? niceRating;
   final int? qualityRating;
   final int? veracityRating;
   final int? originalityRating;
   final int? educationalRating;
+  final String? publicEmail;
 
   RateStoryRequest copyWith({
     int? niceRating,
@@ -20,6 +21,7 @@ class RateStoryRequest {
     int? veracityRating,
     int? originalityRating,
     int? educationalRating,
+    String? publicEmail,
   }) {
     return RateStoryRequest(
       niceRating: niceRating ?? this.niceRating,
@@ -27,6 +29,7 @@ class RateStoryRequest {
       veracityRating: veracityRating ?? this.veracityRating,
       originalityRating: originalityRating ?? this.originalityRating,
       educationalRating: educationalRating ?? this.educationalRating,
+      publicEmail: publicEmail ?? this.publicEmail,
     );
   }
 
@@ -37,6 +40,7 @@ class RateStoryRequest {
       'veracityRating': veracityRating,
       'originalityRating': originalityRating,
       'educationalRating': educationalRating,
+      'publicEmail': publicEmail,
     };
   }
 
@@ -47,6 +51,7 @@ class RateStoryRequest {
       veracityRating: map['veracityRating']?.toInt(),
       originalityRating: map['originalityRating']?.toInt(),
       educationalRating: map['educationalRating']?.toInt(),
+      publicEmail: map['publicEmail']?.toString(),
     );
   }
 
@@ -69,6 +74,7 @@ class RateStoryRequest {
         other.qualityRating == qualityRating &&
         other.veracityRating == veracityRating &&
         other.originalityRating == originalityRating &&
+        other.publicEmail == publicEmail &&
         other.educationalRating == educationalRating;
   }
 
@@ -78,6 +84,7 @@ class RateStoryRequest {
         qualityRating.hashCode ^
         veracityRating.hashCode ^
         originalityRating.hashCode ^
+        publicEmail.hashCode ^
         educationalRating.hashCode;
   }
 }

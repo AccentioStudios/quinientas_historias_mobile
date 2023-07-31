@@ -16,6 +16,7 @@ import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/mixins/error_handling.dart';
 import '../../../../core/routes/auto_router.dart';
 import '../../../../core/ui/widgets/big_button.dart';
+import '../../../../core/ui/widgets/link_button.dart';
 import '../../../../core/ui/widgets/padding_column.dart';
 import '../../../../core/utils/constants.dart';
 import '../bloc/cubit/auth_cubit.dart';
@@ -162,10 +163,13 @@ class _LoginPageState extends State<LoginPage> {
                                     text: 'Entrar a 500Historias',
                                   ),
                                   const SizedBox(height: Constants.space21),
-                                  // LinkButton(
-                                  //     onTap: () {},
-                                  //     text: 'Tengo una invitacion'),
-                                  // const SizedBox(height: Constants.space21),
+                                  LinkButton(
+                                      onTap: () {
+                                        AutoRouter.of(context)
+                                            .push(const TournamentRoute());
+                                      },
+                                      text: 'Entrar sin usuario'),
+                                  const SizedBox(height: Constants.space21),
                                 ],
                               ),
                             ),

@@ -95,25 +95,28 @@ class _MessagesBottomSheetState extends State<MessagesBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-      direction: Axis.vertical,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (widget.compact) _compactHeader() else _header(),
-        widget.contentBuilder != null
-            ? widget.contentBuilder!(context)
-            : Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: Constants.space21),
-                child: Text(
-                  widget.content,
-                  style: contentStyle,
-                  textAlign: TextAlign.center,
+    return Padding(
+      padding: MediaQuery.viewInsetsOf(context),
+      child: Flex(
+        direction: Axis.vertical,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.compact) _compactHeader() else _header(),
+          widget.contentBuilder != null
+              ? widget.contentBuilder!(context)
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: Constants.space21),
+                  child: Text(
+                    widget.content,
+                    style: contentStyle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-        const SizedBox(height: Constants.space30),
-        if (!widget.withoutButtons) _buttons(),
-      ],
+          const SizedBox(height: Constants.space30),
+          if (!widget.withoutButtons) _buttons(),
+        ],
+      ),
     );
   }
 

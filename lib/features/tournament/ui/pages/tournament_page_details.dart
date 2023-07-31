@@ -49,87 +49,115 @@ class _TournamentDetailsPageState extends State<TournamentDetailsPage>
         return DefaultTabController(
           length: 2,
           child: Scaffold(
+              floatingActionButton: FloatingActionButton.extended(
+                tooltip: 'Explora historias participantes en este torneo.',
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                onPressed: () {
+                  navigateToExploreStories(context, widget.tournament);
+                },
+                label: Text('Explorar historias',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.6,
+                        color: Theme.of(context).colorScheme.onPrimary)),
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 2.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/book-open-outline-icon.svg',
+                    width: 21,
+                    height: 21,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+              ),
               body: CustomNestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              CustomSliverOverlapAbsorber(
-                handle: CustomNestedScrollView.sliverOverlapAbsorberHandleFor(
-                    context),
-                sliver: SliverAppBar(
-                  actions: [
-                    FutureBuilder<JwtPayload?>(
-                        future: SecureStorageService().getSessionData(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const SizedBox.shrink();
-                          }
-                          final role = snapshot.data!.role;
-                          if (role != Role.admin) {
-                            return const SizedBox.shrink();
-                          }
-                          return TextButton.icon(
-                              onPressed: () {
-                                _navigateToEditTournament(
-                                    context, widget.tournament);
-                              },
-                              icon: const Icon(Icons.edit),
-                              label: const Text('Editar Torneo'));
-                        }),
-                  ],
-                  floating: true,
-                  expandedHeight: 200,
-                  flexibleSpace:
-                      TournamentDetailsHeader(tournament: widget.tournament),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: PaddingColumn(
-                  padding: EdgeInsets.symmetric(horizontal: Constants.space16),
-                  children: [
-                    // Headline(
-                    //   marginTop: Constants.space21,
-                    //   label: 'Podio de escuelas',
-                    // ),
-                    Headline(
-                      marginTop: Constants.space21,
-                      label: 'Tablero de posiciones',
-                    ),
-                  ],
-                ),
-              ),
-              LeaderboardTabs(state: state),
-              // if (me != null)
-              //   UserLeaderboardListItem(
-              //     user: me.user!,
-              //     position: me.position,
-              //   ),
-            ],
-            body: Builder(
-              builder: (context) => ExtendedTabBarView(
-                children: <Widget>[
-                  if (state.teamTabShowed)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Constants.space16),
-                      child: LeaderboardByTeamsTabView(
-                        tournamentId: widget.tournament.id,
-                        cubit: context.read<TournamentCubit>(),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Constants.space16),
-                    child: LeaderboardAllTabView(
-                      tournamentId: widget.tournament.id,
-                      cubit: context.read<TournamentCubit>(),
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  CustomSliverOverlapAbsorber(
+                    handle:
+                        CustomNestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
+                    sliver: SliverAppBar(
+                      actions: [
+                        FutureBuilder<JwtPayload?>(
+                            future: SecureStorageService().getSessionData(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const SizedBox.shrink();
+                              }
+                              final role = snapshot.data!.role;
+                              if (role != Role.admin) {
+                                return const SizedBox.shrink();
+                              }
+                              return TextButton.icon(
+                                  onPressed: () {
+                                    _navigateToEditTournament(
+                                        context, widget.tournament);
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                  label: const Text('Editar Torneo'));
+                            }),
+                      ],
+                      floating: true,
+                      expandedHeight: 200,
+                      flexibleSpace: TournamentDetailsHeader(
+                          tournament: widget.tournament),
                     ),
                   ),
+                  const SliverToBoxAdapter(
+                    child: PaddingColumn(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: Constants.space16),
+                      children: [
+                        // Headline(
+                        //   marginTop: Constants.space21,
+                        //   label: 'Podio de escuelas',
+                        // ),
+                        Headline(
+                          marginTop: Constants.space21,
+                          label: 'Tablero de posiciones',
+                        ),
+                      ],
+                    ),
+                  ),
+                  LeaderboardTabs(state: state),
+                  // if (me != null)
+                  //   UserLeaderboardListItem(
+                  //     user: me.user!,
+                  //     position: me.position,
+                  //   ),
                 ],
-              ),
-            ),
-          )),
+                body: Builder(
+                  builder: (context) => ExtendedTabBarView(
+                    children: <Widget>[
+                      if (state.teamTabShowed)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Constants.space16),
+                          child: LeaderboardByTeamsTabView(
+                            tournamentId: widget.tournament.id,
+                            cubit: context.read<TournamentCubit>(),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: Constants.space16),
+                        child: LeaderboardAllTabView(
+                          tournamentId: widget.tournament.id,
+                          cubit: context.read<TournamentCubit>(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
         );
       },
     );
+  }
+
+  void navigateToExploreStories(BuildContext context, Tournament tournament) {
+    AutoRouter.of(context)
+        .push(ExploreStoriesRoute(tournamentId: tournament.id));
   }
 
   void _navigateToEditTournament(BuildContext context, Tournament tournament) {

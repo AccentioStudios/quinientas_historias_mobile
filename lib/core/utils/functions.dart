@@ -1,4 +1,7 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quinientas_historias/core/integrations/platform_environments.dart';
@@ -69,26 +72,38 @@ Future<CroppedFile?> cropPhoto(XFile image,
 }
 
 Future<Uri> generateDynamicLinkForStory(Story story) async {
-  var weblink = 'https://telle.500historias.com/';
-  var uriPrefix = 'https://quinientas.page.link';
-  if (PlatformEnvironment.env == 'prod') {}
-  final dynamicLinkParams = DynamicLinkParameters(
-    link: Uri.parse('$weblink${story.id}'),
-    uriPrefix: uriPrefix,
-    androidParameters: AndroidParameters(
-      packageName: "com.accentiostudios.quinientas",
-      fallbackUrl: Uri.parse('$weblink/${story.id}'),
-    ),
-    iosParameters: IOSParameters(
-      bundleId: "com.accentiostudios.quinientas",
-      fallbackUrl: Uri.parse('$weblink/${story.id}'),
-    ),
-  );
-  final dynamicLink =
-      await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
-  return dynamicLink.shortUrl;
+  if (!kIsWeb) {
+    var weblink = 'https://telle.500historias.com/';
+    var uriPrefix = 'https://quinientas.page.link';
+    if (PlatformEnvironment.env == 'prod') {}
+    final dynamicLinkParams = DynamicLinkParameters(
+      link: Uri.parse('$weblink${story.id}'),
+      uriPrefix: uriPrefix,
+      androidParameters: AndroidParameters(
+        packageName: "com.accentiostudios.quinientas",
+        fallbackUrl: Uri.parse('$weblink/${story.id}'),
+      ),
+      iosParameters: IOSParameters(
+        bundleId: "com.accentiostudios.quinientas",
+        fallbackUrl: Uri.parse('$weblink/${story.id}'),
+      ),
+    );
+    final dynamicLink =
+        await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+    return dynamicLink.shortUrl;
+  } else {
+    return Uri.parse('https://telle.500historias.com/story/${story.id}');
+  }
 }
 
 shareLink(String link, String title) {
-  Share.share('Mira esta historia: $link', subject: title);
+  if (!kIsWeb) {
+    Share.share('Mira esta historia: $link', subject: title);
+    return;
+  }
+  // copiar link en portapapeles
+  Clipboard.setData(ClipboardData(text: "Mira esta historia: $link"))
+      .then((value) {
+    Fluttertoast.showToast(msg: 'Link Copiado');
+  });
 }

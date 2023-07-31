@@ -23,6 +23,7 @@ class ThemedTextFormField extends StatelessWidget {
     this.contentPadding,
     this.borderRadius,
     this.suffix,
+    this.fillColor,
   });
 
   final String? hintText;
@@ -42,6 +43,7 @@ class ThemedTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final BorderRadius? borderRadius;
   final Widget? suffix;
+  final Color? fillColor;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -113,7 +115,7 @@ class ThemedTextFormField extends StatelessWidget {
             fontSize: 15,
             overflow: TextOverflow.fade),
         filled: enabled == false ? false : true,
-        fillColor: Theme.of(context).colorScheme.primaryContainer,
+        fillColor: fillColor ?? Theme.of(context).colorScheme.primaryContainer,
         hintText: hintText,
       ),
     );

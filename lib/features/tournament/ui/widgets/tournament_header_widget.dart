@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
 import 'package:quinientas_historias/core/integrations/secure_storage_service.dart';
+import 'package:quinientas_historias/core/ui/widgets/role_widget.dart';
 
 import '../../../../core/data/entities/tournament_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
@@ -17,7 +18,7 @@ class TournamentHeaderWidget extends StatelessWidget {
         horizontal: Constants.space18, vertical: Constants.space18);
     return SliverToBoxAdapter(
       child: Container(
-        height: 158 + MediaQuery.paddingOf(context).top,
+        // height: 158 + MediaQuery.paddingOf(context).top,
         color: Theme.of(context).colorScheme.primaryContainer,
         child: Column(
           children: [
@@ -48,27 +49,33 @@ class TournamentHeaderWidget extends StatelessWidget {
                     }),
               ],
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: paddingHeader,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        child: SvgPicture.asset(
-                            'assets/icons/tournament-icon.svg'),
+            RoleWidget(
+              roles: const [Role.captain, Role.reader],
+              child: Column(
+                children: [
+                  Padding(
+                    padding: paddingHeader,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            child: SvgPicture.asset(
+                                'assets/icons/tournament-icon.svg'),
+                          ),
+                          const SizedBox(width: Constants.space21),
+                          const Flexible(
+                            child: Text(
+                              'Compite con otras escuelas y sube de posición con tu equipo para ganar el torneo',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: Constants.space21),
-                      const Flexible(
-                        child: Text(
-                          'Compite con otras escuelas y sube de posición con tu equipo para ganar el torneo',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),
