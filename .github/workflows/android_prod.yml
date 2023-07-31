@@ -64,8 +64,15 @@ jobs:
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
           API_URL: ${{ secrets.API_URL_PROD }}
-          JWT_SIGN_KEY: ${{ secrets.JWT_SIGN_KEY_PROD }}
+          SAR_API_URL: ${{ secrets.SAR_API_URL_PROD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET_PROD }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET_PROD }}
+          OIDC_CLIENT_ID: ${{ secrets.OIDC_CLIENT_ID_PROD }}
+          OIDC_DISCOVER_URL: ${{ secrets.OIDC_DISCOVER_URL_PROD }}
+          OIDC_REDIRECT_URI: ${{ secrets.OIDC_REDIRECT_URI_PROD }}
           BUILD_NUMBER: ${{env.BUILD_NUMBER}}
+          FIREBASE_ANDROID_APP_ID: ${{secrets.FIREBASE_ANDROID_APP_ID_PROD}}
+          FIREBASE_CLI_TOKEN: ${{secrets.FIREBASE_CLI_TOKEN}}
         with:
           lane: "prod"
           subdirectory: "android"
