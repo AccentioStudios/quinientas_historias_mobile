@@ -4,8 +4,10 @@ import 'package:alice_lightweight/alice.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
@@ -158,6 +160,10 @@ class _LoginPageState extends State<LoginPage> {
                                         setState(() {
                                           btnLoginLoading = false;
                                         });
+                                      }, onError: (error) {
+                                        setState(() {
+                                          btnLoginLoading = false;
+                                        });
                                       });
                                     },
                                     text: 'Entrar a 500Historias',
@@ -216,13 +222,15 @@ class _LoginPageState extends State<LoginPage> {
               return;
             }
           });
-    }, onError: (HttpFailure error) {
-      widget.handleError(context, error, onTap: () {
-        if (widget.onResult != null) widget.onResult!(false);
-        Navigator.of(context).pop(false);
-        Navigator.of(context).pop(false);
-        completer.completeError(false);
-      });
+    }, onError: (error) {
+      if (error is PlatformException) {
+        if (error.code == 'CANCELLED') {
+          Fluttertoast.showToast(msg: "Inicio de sesión cancelado");
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Error al iniciar sesión");
+      }
+      completer.completeError(false);
     });
 
     return completer.future;

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
@@ -119,7 +120,11 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
           httpFailure: HttpFailure(message: FailureTypes.unauthorized),
         ),
       );
-      onError(HttpFailure(message: FailureTypes.unauthorized));
+      if (error is PlatformException) {
+        onError(error);
+      } else {
+        onError(HttpFailure(message: FailureTypes.unauthorized));
+      }
     }
   }
 
