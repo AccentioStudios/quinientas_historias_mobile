@@ -134,6 +134,17 @@ mixin SheetMessages on Widget {
     );
   }
 
+  Future<T?> showAddSchoolAvatarMessage<T>(BuildContext context) {
+    return showMessage(
+      context,
+      height: 350,
+      title: '¡Espera un momento!',
+      content:
+          'No puede faltar una foto en este perfil.\n\nTener una foto ayuda a tus compañeros a identificar mejor que escuela es.',
+      btnLabel: 'Subir foto',
+    );
+  }
+
   Future<T?> showChallengeNotCompletedMessage<T>(BuildContext context) {
     return showMessage(
       context,

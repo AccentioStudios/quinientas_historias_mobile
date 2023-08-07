@@ -62,16 +62,15 @@ class SendInviteProvider extends StatelessWidget {
   }
 
   static Future<Team?> chooseTeamForInviteProfAndAdmin(BuildContext context,
-      {required int schoolId}) {
+      {required School school, required Tournament tournament}) {
     return Navigator.of(context, rootNavigator: true).push<Team>(
       MaterialPageRoute<Team>(
         builder: (context) => BlocProvider(
           create: (context) => SendInvitesCubit(
               invitesUseCases:
                   InvitesUseCases(repository: InvitesRepository())),
-          child: ChooseTeamForInvitePage(
-            schoolId: schoolId,
-          ),
+          child:
+              ChooseTeamForInvitePage(school: school, tournament: tournament),
         ),
       ),
     );

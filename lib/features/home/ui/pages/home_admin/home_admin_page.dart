@@ -9,6 +9,7 @@ import '../../../../../core/ui/widgets/chip.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/utils/constants.dart';
+import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
 import '../../../../user_managment/data/repositories/user_management_repositories.dart';
 import '../../../../user_managment/user_management_provider.dart';
@@ -79,6 +80,15 @@ class HomeAdminPage extends StatelessWidget {
                         body: 'Crea una nueva escuela.',
                         onTap: () {
                           openRegisterSchool(context);
+                        },
+                      ),
+                      const SizedBox(height: Constants.space16),
+                      CustomChip(
+                        svgIconPath: 'assets/icons/team-outline-icon.svg',
+                        title: 'Crear Equipo',
+                        body: 'Crea un nuevo equipo.',
+                        onTap: () {
+                          openRegisterTeam(context);
                         },
                       ),
                       const SizedBox(height: Constants.space16),
@@ -248,6 +258,37 @@ class HomeAdminPage extends StatelessWidget {
         Fluttertoast.showToast(
             msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
       }
+    });
+  }
+
+  void openRegisterTeam(BuildContext context) {
+    SendInviteProvider.chooseTournamentForInviteAdmin(
+      context,
+    ).then((tournament) {
+      if (tournament == null) {
+        Fluttertoast.cancel();
+        Fluttertoast.showToast(
+            msg:
+                'Error: No hay torneo seleccionado, entra en contacto con nosotros.');
+        return;
+      }
+      SendInviteProvider.chooseSchoolForInviteAdmin(
+        context,
+      ).then((school) {
+        UserManagementProvider()
+            .openRegisterTeam(context,
+                join: true, school: school, tournamentId: tournament.id)
+            .then((newSchool) {
+          if (newSchool != null) {
+            getDashboardFunction();
+          } else {
+            Fluttertoast.cancel();
+            Fluttertoast.showToast(
+                msg:
+                    'Error: No tienes escuela, entra en contacto con nosotros.');
+          }
+        });
+      });
     });
   }
 }

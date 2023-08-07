@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
+import '../../../../../core/data/entities/tournament_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/routes/auto_router.dart';
@@ -78,8 +79,7 @@ class HomeProfPage extends StatelessWidget {
                                     'Invita a lectores a formar parte de un equipo particular',
                                 onTap: () {
                                   navigateToInviteReaders(context,
-                                      schoolId:
-                                          state.dashboard?.user.school?.id);
+                                      school: state.dashboard?.user.school);
                                 },
                               ),
                             ],
@@ -171,29 +171,37 @@ class HomeProfPage extends StatelessWidget {
     }
   }
 
-  void navigateToInviteReaders(BuildContext context, {required int? schoolId}) {
-    if (schoolId != null) {
-      // SendInviteProvider.chooseTournamentForInviteAdmin(
-      //   context,
-      // ).then((tournament) {
-      SendInviteProvider.chooseTeamForInviteProfAndAdmin(
+  void navigateToInviteReaders(BuildContext context,
+      {required School? school}) {
+    if (school != null) {
+      SendInviteProvider.chooseTournamentForInviteAdmin(
         context,
-        schoolId: schoolId,
-      ).then((team) {
-        if (team != null) {
-          SendInviteProvider.open(
-            context,
-            team: team,
-            tournamentId: team.tournament?.id,
-            typeUserToInvite: Role.reader,
-          ).then((value) {});
+      ).then((tournament) {
+        if (tournament == null) {
+          Fluttertoast.cancel();
+          Fluttertoast.showToast(
+              msg:
+                  'Error: No hay torneo seleccionado, entra en contacto con nosotros.');
+          return;
         }
+        SendInviteProvider.chooseTeamForInviteProfAndAdmin(context,
+                school: school, tournament: tournament)
+            .then((team) {
+          if (team != null) {
+            SendInviteProvider.open(
+              context,
+              team: team,
+              tournamentId: team.tournament?.id,
+              typeUserToInvite: Role.reader,
+            ).then((value) {});
+          }
+        });
       });
-      // });
     } else {
       Fluttertoast.cancel();
       Fluttertoast.showToast(
-          msg: 'Error: No tienes escuela, entra en contacto con nosotros.');
+          msg:
+              'Error: No hay escuela seleccionada, entra en contacto con nosotros.');
     }
   }
 

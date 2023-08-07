@@ -134,7 +134,7 @@ class _RegisterSchoolPageState extends State<RegisterSchoolPage> {
     if ((state.groupManagementRequest?.avatarUrl == null ||
             state.groupManagementRequest?.avatarUrl == '') &&
         state.avatarMemory == null) {
-      widget.showAddGroupAvatarMessage(context).then((value) async {
+      widget.showAddSchoolAvatarMessage(context).then((value) async {
         if (value != null) {
           cubit.handleSaveAvatarMemory(await pickPhoto(
               webUiSettings: Constants.getWebUiSettings(context)));

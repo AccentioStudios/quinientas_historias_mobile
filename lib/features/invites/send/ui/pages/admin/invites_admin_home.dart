@@ -132,7 +132,8 @@ class _InvitesAdminPageState extends State<InvitesAdminPage> {
               if (school != null) {
                 SendInviteProvider.chooseTeamForInviteProfAndAdmin(
                   context,
-                  schoolId: school.id,
+                  school: school,
+                  tournament: tournament,
                 ).then((team) {
                   if (team != null) {
                     SendInviteProvider.open(
