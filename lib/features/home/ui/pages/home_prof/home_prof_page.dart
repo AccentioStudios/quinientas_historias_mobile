@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../core/data/entities/school_entity.dart';
 import '../../../../../core/data/entities/story_entity.dart';
-import '../../../../../core/data/entities/tournament_entity.dart';
 import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/routes/auto_router.dart';

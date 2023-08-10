@@ -12,7 +12,6 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
-import '../../../../core/failures/failures.dart';
 import '../../../../core/integrations/firebase_messaging_service.dart';
 import '../../../../core/integrations/platform_environments.dart';
 import '../../../../core/mixins/error_handling.dart';

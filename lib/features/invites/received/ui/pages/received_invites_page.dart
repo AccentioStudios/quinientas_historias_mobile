@@ -140,7 +140,8 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
       if (context.mounted) {
         final registerSuccess =
             await registerUserFirst(context, invite: invite);
-        if (registerSuccess) {
+        await Future.delayed(const Duration(seconds: 1));
+        if (registerSuccess == true) {
           if (context.mounted) {
             Future.delayed(const Duration(seconds: 1), () {
               navigateToAcceptInvite(context, invite: invite);

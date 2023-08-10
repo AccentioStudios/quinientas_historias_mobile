@@ -73,19 +73,26 @@ Future<CroppedFile?> cropPhoto(XFile image,
 
 Future<Uri> generateDynamicLinkForStory(Story story) async {
   if (!kIsWeb) {
-    var weblink = 'https://telle.500historias.com/';
+    var weblink = 'https://telle.500historias.com';
     var uriPrefix = 'https://quinientas.page.link';
-    if (PlatformEnvironment.env == 'prod') {}
+    var packageName = "com.accentiostudios.quinientas";
+
+    if (PlatformEnvironment.env != 'prod') {
+      weblink = 'https://telle.500historias.com';
+      uriPrefix = 'https://quinientas.page.link';
+      packageName = "com.accentiostudios.quinientas.dev";
+    }
+
     final dynamicLinkParams = DynamicLinkParameters(
-      link: Uri.parse('$weblink${story.id}'),
+      link: Uri.parse('$weblink/story/${story.id}'),
       uriPrefix: uriPrefix,
       androidParameters: AndroidParameters(
-        packageName: "com.accentiostudios.quinientas",
-        fallbackUrl: Uri.parse('$weblink/${story.id}'),
+        packageName: packageName,
+        fallbackUrl: Uri.parse('$weblink/story/${story.id}'),
       ),
       iosParameters: IOSParameters(
-        bundleId: "com.accentiostudios.quinientas",
-        fallbackUrl: Uri.parse('$weblink/${story.id}'),
+        bundleId: packageName,
+        fallbackUrl: Uri.parse('$weblink/story/${story.id}'),
       ),
     );
     final dynamicLink =

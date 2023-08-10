@@ -44,9 +44,16 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   int progressValue = 0;
 
   ScrollController scrollController = ScrollController();
+  late JwtPayload? userInfo;
 
   @override
   void initState() {
+    GetIt.I<SecureStorageService>().getSessionData().then(
+      (value) {
+        userInfo = value;
+      },
+    );
+
     if (!widget.isQuickView) {
       scrollController.addListener(sendProgressOfStory);
       _sendTriggerStoryInit();
@@ -67,12 +74,10 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   _sendTriggerStoryInit() async {
-    JwtPayload? userInfo =
-        await GetIt.I<SecureStorageService>().getSessionData();
     if (userInfo != null) {
       // Trigger story init
       GetIt.I<SARService>()
-          .emit(ChallengeSarTriggers.storyInit, userId: userInfo.id);
+          .emit(ChallengeSarTriggers.storyInit, userId: userInfo!.id);
     }
   }
 
@@ -400,8 +405,6 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   void sendProgressOfStory() async {
-    JwtPayload? userInfo =
-        await GetIt.I<SecureStorageService>().getSessionData();
     if (userInfo != null) {
       progressValue = ((scrollController.offset /
                   scrollController.position.maxScrollExtent) *
@@ -418,14 +421,12 @@ class _ReadingStoryPageState extends State<ReadingStoryPage> {
   }
 
   void completeReading(ReadingStoryCubit cubit) async {
-    JwtPayload? userInfo =
-        await GetIt.I<SecureStorageService>().getSessionData();
     cubit.progressStreamController.close();
     cubit.completeStory(onSuccess: (response) async {
       if (userInfo != null) {
         // Trigger story_ended
         GetIt.I<SARService>()
-            .emit(ChallengeSarTriggers.storyEnded, userId: userInfo.id);
+            .emit(ChallengeSarTriggers.storyEnded, userId: userInfo!.id);
       }
       if (!mounted) return;
       Navigator.of(context)

@@ -11,7 +11,6 @@ import '../../../../../core/ui/widgets/story_cover.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../invites/send/send_invite_provider.dart';
 import '../../../../reading_module/reading_story/reading_story_provider.dart';
-import '../../../../user_managment/data/repositories/user_management_repositories.dart';
 import '../../../../user_managment/user_management_provider.dart';
 import '../../../data/entities/dashboard_entity.dart';
 import '../../bloc/cubit/home_cubit.dart';
@@ -84,7 +83,7 @@ class HomeAdminPage extends StatelessWidget {
                       ),
                       const SizedBox(height: Constants.space16),
                       CustomChip(
-                        svgIconPath: 'assets/icons/team-outline-icon.svg',
+                        svgIconPath: 'assets/icons/group-outline-icon.svg',
                         title: 'Crear Equipo',
                         body: 'Crea un nuevo equipo.',
                         onTap: () {
@@ -202,27 +201,27 @@ class HomeAdminPage extends StatelessWidget {
     );
   }
 
-  Future<void> _sendTestNotification(int userId) async {
-    // send post request /api/v1/notifications
-    var asd = UserManagementRepository();
+  // Future<void> _sendTestNotification(int userId) async {
+  //   // send post request /api/v1/notifications
+  //   var asd = UserManagementRepository();
 
-    asd.sendNotification(userId, {
-      'title': 'Test notification',
-      'body': 'This is a test notification',
-      'data': {
-        'route': '/challenge',
-        'args': {
-          'id': 1,
-          'url': 'https://www.google.com',
-          'description': 'description',
-          'type': 'minigame',
-          'required': false,
-          'name': 'Testing'
-        }
-      },
-      'topic': 'test'
-    });
-  }
+  //   asd.sendNotification(userId, {
+  //     'title': 'Test notification',
+  //     'body': 'This is a test notification',
+  //     'data': {
+  //       'route': '/challenge',
+  //       'args': {
+  //         'id': 1,
+  //         'url': 'https://www.google.com',
+  //         'description': 'description',
+  //         'type': 'minigame',
+  //         'required': false,
+  //         'name': 'Testing'
+  //       }
+  //     },
+  //     'topic': 'test'
+  //   });
+  // }
 
   void _navigateToChallengeAdmin(BuildContext context) {
     AutoRouter.of(context).push(ChallengesAdminRoute());

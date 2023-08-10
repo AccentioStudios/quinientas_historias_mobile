@@ -52,16 +52,31 @@
             <!-- Deep Links -->
 
             <!-- App Links -->
-            <intent-filter android:autoVerify="true">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-             <!-- Accepts URIs that begin with https://YOUR_HOST -->
             <data
                 android:scheme="https"
                 android:host="telle.500historias.com" 
                 android:pathPrefix="/story" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                
+                <data android:host="telle.500historias.com" android:scheme="https"/>
+                <data android:host="quinientas.page.link" android:scheme="https"/>
+
+            </intent-filter>
+            <!-- App Links -->
+
+
         </activity>
 
         <activity

@@ -10,7 +10,6 @@ import '../../../../../core/data/entities/user_entity.dart';
 import '../../../../../core/failures/failures.dart';
 import '../../../../../core/mixins/bottom_sheet_messages.dart';
 import '../../../../../core/mixins/error_handling.dart';
-import '../../../../../core/ui/widgets/group_avatar.dart';
 import '../../../../../core/ui/widgets/headline.dart';
 import '../../../../../core/ui/widgets/padding_column.dart';
 import '../../../../../core/ui/widgets/role_widget.dart';
