@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quinientas_historias/core/utils/colors.dart';
 
@@ -11,6 +11,7 @@ import '../../../../core/ui/widgets/link_button.dart';
 import '../../../../core/ui/widgets/outlined_card.dart';
 import '../../../../core/utils/constants.dart';
 import '../../domain/bloc/cubit/quiz_cubit.dart';
+import '../../domain/entities/quiz_items.entity.dart';
 
 class QuizWidget extends StatefulWidget {
   const QuizWidget({
@@ -25,7 +26,7 @@ class QuizWidget extends StatefulWidget {
 }
 
 class _QuizWidgetState extends State<QuizWidget> {
-  final SwiperController _swiperController = SwiperController();
+  final CardSwiperController _swiperController = CardSwiperController();
   int currentSwiperIndex = 0;
   bool showQuizSuccessScreen = false;
   double height = 493;
@@ -36,7 +37,7 @@ class _QuizWidgetState extends State<QuizWidget> {
     super.initState();
     _swiperController.addListener(() {
       setState(() {
-        currentSwiperIndex = _swiperController.index;
+        currentSwiperIndex = _swiperController.state?.index ?? 0;
       });
     });
   }
@@ -45,7 +46,7 @@ class _QuizWidgetState extends State<QuizWidget> {
   void dispose() {
     _swiperController.removeListener(() {
       setState(() {
-        currentSwiperIndex = _swiperController.index;
+        currentSwiperIndex = _swiperController.state?.index ?? 0;
       });
     });
     _swiperController.dispose();
@@ -54,221 +55,406 @@ class _QuizWidgetState extends State<QuizWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
     return BlocBuilder<QuizCubit, QuizState>(
       builder: (context, state) {
+        List<Container> cards = [
+          ...state.quizItems.asMap().entries.map((entry) {
+            int index = entry.key;
+            QuizItem item = entry.value;
+
+            bool? questionAnsweredCorrectly = item.wasCorrect;
+            bool? liked = item.liked;
+            return Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Constants.space21, vertical: Constants.space21),
+              width: width,
+              height: height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: questionAnsweredCorrectly == true
+                  ? _SuccessAnswer(
+                      onLoading: state.votingLikeDislikeLoading,
+                      liked: liked,
+                      likeOrDislike: (liked) {
+                        _voteLikeOrDislike(
+                          item.id!,
+                          liked,
+                          index,
+                          state,
+                        );
+                      },
+                      points: item.points,
+                      onNext: !_verifyIfAllQuizQuestionsAreFinished(state)
+                          ? _next
+                          : null,
+                    )
+                  : questionAnsweredCorrectly == false
+                      ? _WrongAnswer(
+                          onLoading: state.votingLikeDislikeLoading,
+                          liked: liked,
+                          likeOrDislike: (liked) {
+                            _voteLikeOrDislike(item.id!, liked, index, state);
+                          },
+                          correctAnswer: item.correctAnswer,
+                          explanation: item.explanation,
+                          onNext: !_verifyIfAllQuizQuestionsAreFinished(state)
+                              ? _next
+                              : null,
+                        )
+                      : Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.help_outline_outlined,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                    ),
+                                    const SizedBox(width: Constants.space8),
+                                    Text(
+                                        '${index + 1}/${state.quizItems.length}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary)),
+                                  ],
+                                ),
+                                FittedBox(
+                                  child: OutlinedCard(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: Constants.space18,
+                                      vertical: Constants.space8,
+                                    ),
+                                    borderRadius: Constants.borderRadius23,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .tertiaryContainer,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(' + ${item.points} ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSecondaryContainer)),
+                                        Text(
+                                          'Bonus',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondaryContainer,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            AutoSizeText.rich(
+                              TextSpan(
+                                text: item.question,
+                              ),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            ListView.separated(
+                              itemBuilder: (context, questionIndex) {
+                                return CustomInkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  backgroundColor:
+                                      item.answered == questionIndex
+                                          ? questionAnsweredCorrectly == true
+                                              ? const Color.fromRGBO(
+                                                  105, 251, 203, 1)
+                                              : const Color.fromRGBO(
+                                                  255, 105, 105, 1)
+                                          : Colors.transparent,
+                                  onTap: () {
+                                    _submit(questionIndex, index, state);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: Constants.space21),
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(50),
+                                      border: Border.all(color: Colors.black),
+                                    ),
+                                    height: 50,
+                                    child: Center(
+                                        child: AutoSizeText(
+                                      item.options[questionIndex],
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    )),
+                                  ),
+                                );
+                              },
+                              itemCount: 4,
+                              shrinkWrap: true,
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const SizedBox(
+                                  height: Constants.space21,
+                                );
+                              },
+                            )
+                          ],
+                        ),
+            );
+          }).toList(),
+          Container(),
+        ];
+
         return showQuizSuccessScreen
             ? _FinishedQuiz(state: state)
             : Column(
                 children: [
-                  Swiper(
-                    scale: 1,
-                    controller: _swiperController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    loop: true,
-                    itemCount: state.quizItems.length,
-                    containerWidth: double.infinity,
-                    containerHeight: height + 10,
-                    itemWidth: double.infinity,
-                    itemHeight: height,
-                    layout: SwiperLayout.TINDER,
-                    itemBuilder: (BuildContext context, int index) {
-                      bool? questionAnsweredCorrectly =
-                          state.quizItems[index].wasCorrect;
-
-                      bool? liked = state.quizItems[index].liked;
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Constants.space21,
-                            vertical: Constants.space21),
-                        width: MediaQuery.sizeOf(context).width,
-                        height: height,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        child: questionAnsweredCorrectly == true
-                            ? _SuccessAnswer(
-                                onLoading: state.votingLikeDislikeLoading,
-                                liked: liked,
-                                likeOrDislike: (liked) {
-                                  _voteLikeOrDislike(
-                                    state.quizItems[index].id!,
-                                    liked,
-                                    index,
-                                    state,
-                                  );
-                                },
-                                points: state.quizItems[index].points,
-                                onNext:
-                                    !_verifyIfAllQuizQuestionsAreFinished(state)
-                                        ? _next
-                                        : null,
-                              )
-                            : questionAnsweredCorrectly == false
-                                ? _WrongAnswer(
-                                    onLoading: state.votingLikeDislikeLoading,
-                                    liked: liked,
-                                    likeOrDislike: (liked) {
-                                      _voteLikeOrDislike(
-                                          state.quizItems[index].id!,
-                                          liked,
-                                          index,
-                                          state);
-                                    },
-                                    correctAnswer:
-                                        state.quizItems[index].correctAnswer,
-                                    explanation:
-                                        state.quizItems[index].explanation,
-                                    onNext:
-                                        !_verifyIfAllQuizQuestionsAreFinished(
-                                                state)
-                                            ? _next
-                                            : null,
-                                  )
-                                : Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.help_outline_outlined,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary,
-                                              ),
-                                              const SizedBox(
-                                                  width: Constants.space8),
-                                              Text(
-                                                  '${index + 1}/${state.quizItems.length}',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onPrimary)),
-                                            ],
-                                          ),
-                                          FittedBox(
-                                            child: OutlinedCard(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: Constants.space18,
-                                                vertical: Constants.space8,
-                                              ),
-                                              borderRadius:
-                                                  Constants.borderRadius23,
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiaryContainer,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                      ' + ${state.quizItems[index].points} ',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .colorScheme
-                                                              .onSecondaryContainer)),
-                                                  Text(
-                                                    'Bonus',
-                                                    style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onSecondaryContainer,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 50,
-                                      ),
-                                      AutoSizeText.rich(
-                                        TextSpan(
-                                          text: state.quizItems[index].question,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      ListView.separated(
-                                        itemBuilder: (context, questionIndex) {
-                                          return CustomInkWell(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            backgroundColor: state
-                                                        .quizItems[index]
-                                                        .answered ==
-                                                    questionIndex
-                                                ? questionAnsweredCorrectly ==
-                                                        true
-                                                    ? const Color.fromRGBO(
-                                                        105, 251, 203, 1)
-                                                    : const Color.fromRGBO(
-                                                        255, 105, 105, 1)
-                                                : Colors.transparent,
-                                            onTap: () {
-                                              _submit(
-                                                  questionIndex, index, state);
-                                            },
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          Constants.space21),
-                                              decoration: BoxDecoration(
-                                                color: Colors.transparent,
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                border: Border.all(
-                                                    color: Colors.black),
-                                              ),
-                                              height: 50,
-                                              child: Center(
-                                                  child: AutoSizeText(
-                                                state.quizItems[index]
-                                                    .options[questionIndex],
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              )),
-                                            ),
-                                          );
-                                        },
-                                        itemCount: 4,
-                                        shrinkWrap: true,
-                                        separatorBuilder:
-                                            (BuildContext context, int index) {
-                                          return const SizedBox(
-                                            height: Constants.space21,
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                      );
-                    },
+                  SizedBox(
+                    height: height + 10,
+                    child: CardSwiper(
+                        allowedSwipeDirection:
+                            const AllowedSwipeDirection.none(),
+                        cardsCount: cards.length,
+                        cardBuilder: (context, index, percentThresholdX,
+                                percentThresholdY) =>
+                            cards[index]),
                   ),
+                  // Swiper(
+                  //   scale: 1,
+                  //   controller: _swiperController,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   loop: true,
+                  //   itemCount: state.quizItems.length,
+                  //   containerHeight: height + 10,
+                  //   containerWidth: width,
+                  //   itemHeight: height,
+                  //   itemWidth: width - 42,
+                  //   layout: SwiperLayout.STACK,
+                  //   itemBuilder: (BuildContext context, int index) {
+                  //     bool? questionAnsweredCorrectly =
+                  //         state.quizItems[index].wasCorrect;
+
+                  //     bool? liked = state.quizItems[index].liked;
+                  //     return Container(
+                  //       padding: const EdgeInsets.symmetric(
+                  //           horizontal: Constants.space21,
+                  //           vertical: Constants.space21),
+                  //       width: MediaQuery.sizeOf(context).width,
+                  //       height: height,
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(20),
+                  //         color: Theme.of(context).colorScheme.primary,
+                  //       ),
+                  //       child: questionAnsweredCorrectly == true
+                  //           ? _SuccessAnswer(
+                  //               onLoading: state.votingLikeDislikeLoading,
+                  //               liked: liked,
+                  //               likeOrDislike: (liked) {
+                  //                 _voteLikeOrDislike(
+                  //                   state.quizItems[index].id!,
+                  //                   liked,
+                  //                   index,
+                  //                   state,
+                  //                 );
+                  //               },
+                  //               points: state.quizItems[index].points,
+                  //               onNext:
+                  //                   !_verifyIfAllQuizQuestionsAreFinished(state)
+                  //                       ? _next
+                  //                       : null,
+                  //             )
+                  //           : questionAnsweredCorrectly == false
+                  //               ? _WrongAnswer(
+                  //                   onLoading: state.votingLikeDislikeLoading,
+                  //                   liked: liked,
+                  //                   likeOrDislike: (liked) {
+                  //                     _voteLikeOrDislike(
+                  //                         state.quizItems[index].id!,
+                  //                         liked,
+                  //                         index,
+                  //                         state);
+                  //                   },
+                  //                   correctAnswer:
+                  //                       state.quizItems[index].correctAnswer,
+                  //                   explanation:
+                  //                       state.quizItems[index].explanation,
+                  //                   onNext:
+                  //                       !_verifyIfAllQuizQuestionsAreFinished(
+                  //                               state)
+                  //                           ? _next
+                  //                           : null,
+                  //                 )
+                  //               : Column(
+                  //                   children: [
+                  //                     Row(
+                  //                       mainAxisAlignment:
+                  //                           MainAxisAlignment.spaceBetween,
+                  //                       children: [
+                  //                         Row(
+                  //                           children: [
+                  //                             Icon(
+                  //                               Icons.help_outline_outlined,
+                  //                               color: Theme.of(context)
+                  //                                   .colorScheme
+                  //                                   .onPrimary,
+                  //                             ),
+                  //                             const SizedBox(
+                  //                                 width: Constants.space8),
+                  //                             Text(
+                  //                                 '${index + 1}/${state.quizItems.length}',
+                  //                                 style: TextStyle(
+                  //                                     fontWeight:
+                  //                                         FontWeight.bold,
+                  //                                     color: Theme.of(context)
+                  //                                         .colorScheme
+                  //                                         .onPrimary)),
+                  //                           ],
+                  //                         ),
+                  //                         FittedBox(
+                  //                           child: OutlinedCard(
+                  //                             padding:
+                  //                                 const EdgeInsets.symmetric(
+                  //                               horizontal: Constants.space18,
+                  //                               vertical: Constants.space8,
+                  //                             ),
+                  //                             borderRadius:
+                  //                                 Constants.borderRadius23,
+                  //                             backgroundColor: Theme.of(context)
+                  //                                 .colorScheme
+                  //                                 .tertiaryContainer,
+                  //                             child: Row(
+                  //                               mainAxisAlignment:
+                  //                                   MainAxisAlignment.center,
+                  //                               children: [
+                  //                                 Text(
+                  //                                     ' + ${state.quizItems[index].points} ',
+                  //                                     style: TextStyle(
+                  //                                         fontWeight:
+                  //                                             FontWeight.bold,
+                  //                                         color: Theme.of(
+                  //                                                 context)
+                  //                                             .colorScheme
+                  //                                             .onSecondaryContainer)),
+                  //                                 Text(
+                  //                                   'Bonus',
+                  //                                   style: TextStyle(
+                  //                                     color: Theme.of(context)
+                  //                                         .colorScheme
+                  //                                         .onSecondaryContainer,
+                  //                                   ),
+                  //                                 )
+                  //                               ],
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                     const SizedBox(
+                  //                       height: 50,
+                  //                     ),
+                  //                     AutoSizeText.rich(
+                  //                       TextSpan(
+                  //                         text: state.quizItems[index].question,
+                  //                       ),
+                  //                       textAlign: TextAlign.center,
+                  //                       style: TextStyle(
+                  //                           fontSize: 20,
+                  //                           fontWeight: FontWeight.bold,
+                  //                           color: Theme.of(context)
+                  //                               .colorScheme
+                  //                               .onPrimary),
+                  //                       maxLines: 3,
+                  //                       overflow: TextOverflow.ellipsis,
+                  //                     ),
+                  //                     ListView.separated(
+                  //                       itemBuilder: (context, questionIndex) {
+                  //                         return CustomInkWell(
+                  //                           borderRadius:
+                  //                               BorderRadius.circular(50),
+                  //                           backgroundColor: state
+                  //                                       .quizItems[index]
+                  //                                       .answered ==
+                  //                                   questionIndex
+                  //                               ? questionAnsweredCorrectly ==
+                  //                                       true
+                  //                                   ? const Color.fromRGBO(
+                  //                                       105, 251, 203, 1)
+                  //                                   : const Color.fromRGBO(
+                  //                                       255, 105, 105, 1)
+                  //                               : Colors.transparent,
+                  //                           onTap: () {
+                  //                             _submit(
+                  //                                 questionIndex, index, state);
+                  //                           },
+                  //                           child: Container(
+                  //                             padding:
+                  //                                 const EdgeInsets.symmetric(
+                  //                                     horizontal:
+                  //                                         Constants.space21),
+                  //                             decoration: BoxDecoration(
+                  //                               color: Colors.transparent,
+                  //                               borderRadius:
+                  //                                   BorderRadius.circular(50),
+                  //                               border: Border.all(
+                  //                                   color: Colors.black),
+                  //                             ),
+                  //                             height: 50,
+                  //                             child: Center(
+                  //                                 child: AutoSizeText(
+                  //                               state.quizItems[index]
+                  //                                   .options[questionIndex],
+                  //                               style: const TextStyle(
+                  //                                 fontSize: 14,
+                  //                                 fontWeight: FontWeight.bold,
+                  //                                 color: Colors.black,
+                  //                               ),
+                  //                               maxLines: 2,
+                  //                               overflow: TextOverflow.ellipsis,
+                  //                             )),
+                  //                           ),
+                  //                         );
+                  //                       },
+                  //                       itemCount: 4,
+                  //                       shrinkWrap: true,
+                  //                       separatorBuilder:
+                  //                           (BuildContext context, int index) {
+                  //                         return const SizedBox(
+                  //                           height: Constants.space21,
+                  //                         );
+                  //                       },
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //     );
+                  //   },
+                  // ),
                   const SizedBox(height: Constants.space41),
                   if (state.answerLoading)
                     const Center(
@@ -319,7 +505,7 @@ class _QuizWidgetState extends State<QuizWidget> {
   }
 
   _next() {
-    _swiperController.next();
+    _swiperController.swipeLeft();
   }
 
   _submit(int answerIndex, int questionIndex, QuizState state) {

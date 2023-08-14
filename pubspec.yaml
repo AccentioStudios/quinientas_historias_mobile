@@ -14,7 +14,8 @@ dependencies:
   auto_route: ^7.1.0
   auto_size_text: ^3.0.0
   bloc: ^8.0.3
-  card_swiper: ^2.0.4
+  card_swiper: ^3.0.1
+  flutter_card_swiper: ^6.0.0
   carousel_slider: ^4.1.1
   cloud_firestore: ^4.3.2
   cupertino_icons: ^1.0.4
