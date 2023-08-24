@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -70,6 +72,12 @@ Future<CroppedFile?> cropPhoto(XFile image,
   );
   return Future.value(croppedFile);
 }
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+Random _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+    length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
 Future<Uri> generateDynamicLinkForStory(Story story) async {
   if (!kIsWeb) {
