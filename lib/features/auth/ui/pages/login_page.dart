@@ -53,7 +53,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void didChangeDependencies() {
     if (widget.byPassFirstScreen == true) {
-      _loginFlow(context, firebaseMessagingService, context.read<AuthCubit>());
+      _loginFlow(context, firebaseMessagingService, context.read<AuthCubit>())
+          .then(
+        (value) {
+          if (widget.onResult != null) widget.onResult!(true);
+          Navigator.of(context).pop(true);
+
+          if (widget.autoNavigateToShell) {
+            context.router.navigate(const ShellRoute());
+            return;
+          }
+        },
+        onError: (error) {
+          if (widget.onResult != null) widget.onResult!(false);
+          Navigator.of(context).pop(false);
+        },
+      );
     }
     super.didChangeDependencies();
   }
@@ -206,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
           firebaseToken: firebaseToken,
           accessToken: accessToken,
           onError: (error) => widget.handleError(context, error, onTap: () {
-                if (widget.onResult != null) widget.onResult!(false);
+                // if (widget.onResult != null) widget.onResult!(false);
                 Navigator.of(context).pop(false);
                 completer.complete(false);
               }),
@@ -225,9 +240,11 @@ class _LoginPageState extends State<LoginPage> {
       if (error is PlatformException) {
         if (error.code == 'CANCELLED') {
           Fluttertoast.showToast(msg: "Inicio de sesión cancelado");
+          completer.completeError(false);
         }
       } else {
         Fluttertoast.showToast(msg: "Error al iniciar sesión");
+        completer.completeError(false);
       }
       completer.completeError(false);
     });

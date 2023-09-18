@@ -519,12 +519,14 @@ class UserListTile extends StatelessWidget {
   const UserListTile(
       {super.key,
       this.user,
+      this.isLoading = false,
       this.email,
       this.isValid,
       required this.onTap,
       this.trailingWidget});
 
   final User? user;
+  final bool isLoading;
   final String? email;
   final bool? isValid;
   final Function(String) onTap;
@@ -555,92 +557,97 @@ class UserListTile extends StatelessWidget {
                       ? errorDarkColor.withOpacity(0.2)
                       : errorColor.withOpacity(0.08)) // is not valid
           : Border.all(color: Colors.white.withOpacity(0.08)), // we dont know,
-      child: Column(
-        children: [
-          email != null
-              ? Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(height: 35),
-                    Expanded(
-                      child: AutoSizeText.rich(
-                        TextSpan(
-                          style: DefaultTextStyle.of(context)
-                              .style
-                              .copyWith(fontSize: 15),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: '$email ',
-                            ),
-                          ],
-                        ),
-                        maxLines: 1,
-                        maxFontSize: 14,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: Constants.space8),
-                    isValid != null
-                        ? isValid!
-                            ? SizedBox(
-                                height: 35,
-                                child: SvgPicture.asset(
-                                    'assets/icons/send-outline-icon.svg'),
-                              )
-                            : const SizedBox.shrink()
-                        : const SizedBox.shrink(),
-                  ],
-                )
-              : Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: Constants.space16),
-                      child: SizedBox(
-                          width: 35,
-                          child: UserAvatar(
-                            user: user,
-                          )),
-                    ),
-                    Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      child: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                email != null
+                    ? Flex(
+                        direction: Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Flex(
-                            direction: Axis.horizontal,
-                            children: [
-                              Expanded(
-                                child: AutoSizeText.rich(
+                          const SizedBox(height: 35),
+                          Expanded(
+                            child: AutoSizeText.rich(
+                              TextSpan(
+                                style: DefaultTextStyle.of(context)
+                                    .style
+                                    .copyWith(fontSize: 15),
+                                children: <TextSpan>[
                                   TextSpan(
-                                    style: DefaultTextStyle.of(context)
-                                        .style
-                                        .copyWith(fontSize: 15),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text:
-                                            '${user?.firstName} ${user?.lastName} ',
-                                      ),
-                                    ],
+                                    text: '$email ',
                                   ),
-                                  maxLines: 1,
-                                  maxFontSize: 14,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                ],
                               ),
-                              const SizedBox(width: Constants.space8),
-                              trailingWidget ?? const SizedBox.shrink(),
-                            ],
-                          )
+                              maxLines: 1,
+                              maxFontSize: 14,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: Constants.space8),
+                          isValid != null
+                              ? isValid!
+                                  ? SizedBox(
+                                      height: 35,
+                                      child: SvgPicture.asset(
+                                          'assets/icons/send-outline-icon.svg'),
+                                    )
+                                  : const SizedBox.shrink()
+                              : const SizedBox.shrink(),
+                        ],
+                      )
+                    : Flex(
+                        direction: Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: Constants.space16),
+                            child: SizedBox(
+                                width: 35,
+                                child: UserAvatar(
+                                  user: user,
+                                )),
+                          ),
+                          Flexible(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Expanded(
+                                      child: AutoSizeText.rich(
+                                        TextSpan(
+                                          style: DefaultTextStyle.of(context)
+                                              .style
+                                              .copyWith(fontSize: 15),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text:
+                                                  '${user?.firstName} ${user?.lastName} ',
+                                            ),
+                                          ],
+                                        ),
+                                        maxLines: 1,
+                                        maxFontSize: 14,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: Constants.space8),
+                                    trailingWidget ?? const SizedBox.shrink(),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

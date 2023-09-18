@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import '../../core/data/dto/auth_dto.dart';
 import 'ui/existingUser/confirmation_existing_user_accept_invite.dart';
 import 'ui/register/pages/register_school_page.dart';
 
@@ -110,15 +109,14 @@ class UserManagementProvider {
   }
 
   Future<bool?> openAcceptInvite(BuildContext context,
-      {required Invite invite, required JwtPayload? session}) {
-    if (session != null || invite.invitedId != null) {
+      {required Invite invite}) {
+    if (invite.invitedId != null) {
       return Navigator.of(context, rootNavigator: true).push<bool>(
         MaterialPageRoute<bool>(
           builder: (context) => BlocProvider(
             create: (context) => userManagementcubit,
             child: ConfirmationExistingUserAcceptInvite(
               invite: invite,
-              session: session,
             ),
           ),
         ),

@@ -150,6 +150,14 @@ class HttpHelperImp implements HttpHelper {
       );
       return response;
     } catch (e) {
+      if (e is FormatException) {
+        if (e.message == "Invalid radix-10 number") {
+          debugPrint("Revisa el URL del servicio, ${e.message}");
+          throw HttpFailure(
+              message: FailureTypes.httpHandleError,
+              statusCode: StatusCodes.formatException);
+        }
+      }
       throw _handleHttpError(e);
     }
   }

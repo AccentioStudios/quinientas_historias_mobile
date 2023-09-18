@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:quinientas_historias/core/data/dto/auth_dto.dart';
+import 'package:get_it/get_it.dart';
 import 'package:quinientas_historias/core/mixins/error_handling.dart';
 import 'package:quinientas_historias/core/routes/auto_router.dart';
 
@@ -11,6 +11,7 @@ import 'package:quinientas_historias/features/user_managment/ui/cubit/user_manag
 import '../../../../core/data/entities/invites_entity.dart';
 import '../../../../core/data/entities/user_entity.dart';
 
+import '../../../../core/integrations/secure_storage_service.dart';
 import '../../../../core/ui/layouts/layout_with_footer.dart';
 import '../../../../core/ui/widgets/big_button.dart';
 import '../../../../core/ui/widgets/group_avatar.dart';
@@ -21,10 +22,7 @@ import '../../../invites/send/ui/widgets/team_list_item.dart';
 
 class ConfirmationExistingUserAcceptInvite extends StatelessWidget
     with ErrorHandling {
-  const ConfirmationExistingUserAcceptInvite(
-      {super.key, this.session, required this.invite});
-
-  final JwtPayload? session;
+  const ConfirmationExistingUserAcceptInvite({super.key, required this.invite});
   final Invite invite;
 
   @override
@@ -62,28 +60,35 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: Constants.space30),
-                    UserListTile(
-                      user: getUserData(),
-                      onTap: (_) {},
-                      trailingWidget: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 0),
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.tertiary,
-                              borderRadius: BorderRadius.circular(6)),
-                          child: Transform.translate(
-                            offset: const Offset(0, 6),
-                            child: Text(
-                              getRoleText(invite.invitedRole),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.onTertiary),
-                            ),
-                          )),
-                    ),
+                    FutureBuilder<User?>(
+                        future: getUserData(),
+                        builder: (context, snapshot) {
+                          return UserListTile(
+                            user: snapshot.data,
+                            isLoading: !snapshot.hasData,
+                            onTap: (_) {},
+                            trailingWidget: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 0),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    borderRadius: BorderRadius.circular(6)),
+                                child: Transform.translate(
+                                  offset: const Offset(0, 6),
+                                  child: Text(
+                                    getRoleText(invite.invitedRole),
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onTertiary),
+                                  ),
+                                )),
+                          );
+                        }),
                     const SizedBox(height: Constants.space30),
                     if (invite.invitedRole == Role.reader ||
                         invite.invitedRole == Role.captain)
@@ -184,9 +189,10 @@ class ConfirmationExistingUserAcceptInvite extends StatelessWidget
     }
   }
 
-  User? getUserData() {
+  Future<User?> getUserData() async {
     // If invite is for a existing user, we return that user
     // if not, we return the user that is logged in
+    final session = await GetIt.I<SecureStorageService>().getSessionData();
     if (invite.invited != null) {
       return invite.invited;
     } else {

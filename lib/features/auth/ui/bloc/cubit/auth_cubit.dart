@@ -55,7 +55,6 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
       required Function onError,
       required void Function() onSuccess}) async {
     emit(state.copyWith(loading: true, httpFailure: null));
-    await Future.delayed(const Duration(seconds: 1));
 
     final authRequest = AuthRequest(
       accessToken: accessToken,
@@ -65,7 +64,8 @@ class AuthCubit extends Cubit<AuthState> with StreamDisposable {
     authUseCases.login(authRequest).listen((AuthDto jwtTokenModel) async {
       if (jwtTokenModel.accessToken != null) {
         if (jwtTokenModel.accessToken!.isNotEmpty) {
-          GetIt.I<SecureStorageService>().saveSession(jwtTokenModel);
+          await GetIt.I<SecureStorageService>().saveSession(jwtTokenModel);
+          await Future.delayed(const Duration(seconds: 1));
           return onSuccess();
         } else {
           onError(HttpFailure(message: FailureTypes.invalidAccessToken));

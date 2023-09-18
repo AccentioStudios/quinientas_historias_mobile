@@ -7,6 +7,7 @@ import 'package:quinientas_historias/core/ui/widgets/big_button.dart';
 import 'package:quinientas_historias/core/ui/widgets/group_avatar.dart';
 import 'package:quinientas_historias/core/utils/constants.dart';
 
+import '../../../../../core/data/dto/auth_dto.dart';
 import '../../../../../core/data/entities/invites_entity.dart';
 import '../../../../../core/data/entities/team_entity.dart';
 import '../../../../../core/failures/failures.dart';
@@ -63,8 +64,8 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
                     headline: getHeader(state.invite),
                     message: getSubtitle(state.invite),
                     team: state.invite?.team,
-                    onAccept: () =>
-                        navigateToAcceptInvite(context, invite: state.invite!),
+                    onAccept: () => verifyRequirementsToAcceptInvite(context,
+                        invite: state.invite!),
                   )
                 : CommonInfoPage(
                     headline: 'Esta invitación ya no es válida',
@@ -80,97 +81,106 @@ class _ReceivedInvitesPageState extends State<ReceivedInvitesPage> {
     );
   }
 
+  Future<JwtPayload?> checkSession() {
+    return GetIt.I<SecureStorageService>().getSessionData();
+  }
+
+  Future<bool> checkIfUserNeedsToRegister({required Invite invite}) async {
+    if (invite.invitedId == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   navigateToAcceptInvite(BuildContext context, {required Invite invite}) async {
+    // If user is logged in, navigate to accept invite page
+    if (context.mounted) {
+      UserManagementProvider()
+          .openAcceptInvite(context, invite: invite)
+          .then((value) {
+        setState(() {
+          acceptingIsLoading = false;
+        });
+        return value;
+      });
+    }
+  }
+
+  verifyRequirementsToAcceptInvite(BuildContext context,
+      {required Invite invite}) async {
     setState(() {
       acceptingIsLoading = true;
     });
-    // If user is logged in, navigate to accept invite page
-    final session = await GetIt.I<SecureStorageService>().getSessionData();
-    if (session != null) {
-      if (context.mounted) {
-        UserManagementProvider()
-            .openAcceptInvite(context, invite: invite, session: session)
-            .then((value) {
-          setState(() {
-            acceptingIsLoading = false;
-          });
-        });
-        return;
-      }
-    }
-    // If invite has an invited user, try to login and then repeat the process with user logged in
-    if (invite.invitedId != null) {
-      if (context.mounted) {
-        await widget.showMessage<bool>(context,
-            content:
-                'Debes iniciar sesión, te mandaremos a la pantalla de inicio de sesión para que puedas continuar.',
-            title: 'Iniciar sesión');
-      }
-      bool? loginSuccess = await loginFirst();
-      if (loginSuccess == true) {
-        if (context.mounted) {
-          Future.delayed(const Duration(seconds: 1), () {
-            navigateToAcceptInvite(context, invite: invite);
-          });
-          return;
-        }
-        return;
-      } else {
-        if (context.mounted) {
-          setState(() {
-            acceptingIsLoading = false;
-          });
-          await widget.showMessage<bool>(context,
-              content:
-                  'No pudimos iniciar sesión, por favor intenta de nuevo más tarde.',
-              title: 'Error al iniciar sesión');
-          return;
-        }
-      }
-    }
 
-    // If invite is for a new user, navigate to register page an then repeat the process with user logged in
-    if (invite.invited == null) {
-      if (context.mounted) {
-        await widget.showMessage<bool>(context,
-            content:
-                'Para continuar debes crear una cuenta.\nTe mandaremos a la pantalla de registro para que puedas continuar.',
-            title: 'Bienvenido a 500Historias');
-      }
-      if (context.mounted) {
-        final registerSuccess =
-            await registerUserFirst(context, invite: invite);
-        await Future.delayed(const Duration(seconds: 1));
-        if (registerSuccess == true) {
-          if (context.mounted) {
-            Future.delayed(const Duration(seconds: 1), () {
-              navigateToAcceptInvite(context, invite: invite);
-            });
-          }
-          return;
-        } else {
-          if (context.mounted) {
-            setState(() {
-              acceptingIsLoading = false;
-            });
-            await widget.showMessage<bool>(context,
-                content:
-                    'No pudimos crear tu cuenta, por favor intenta de nuevo más tarde.',
-                title: 'Error al crear tu cuenta');
-            return;
-          }
-        }
-      }
+    final needToRegister = await checkIfUserNeedsToRegister(invite: invite);
+    final userSession = await checkSession();
+    if (!mounted) return;
+    if (needToRegister) {
+      widget
+          .showMessage<bool>(context,
+              content:
+                  'Para continuar debes crear una cuenta.\nTe mandaremos a la pantalla de registro para que puedas continuar.',
+              title: 'Bienvenido a 500Historias')
+          .then((value) {
+        registerUserFirst(context, invite: invite);
+      });
+      return;
     }
+    if (userSession == null) {
+      widget
+          .showMessage<bool>(context,
+              content:
+                  'Debes iniciar sesión, te mandaremos a la pantalla de inicio de sesión para que puedas continuar.',
+              title: 'Iniciar sesión')
+          .then((value) {
+        loginFirst(invite: invite);
+      });
+      return;
+    }
+    await navigateToAcceptInvite(context, invite: invite);
   }
 
-  Future<bool?> loginFirst() {
-    return const AuthProvider().login(context);
+  void loginFirst({required Invite invite}) async {
+    const AuthProvider().login(context).then((login) {
+      if (login != true) throw Exception('Error al iniciar sesión');
+      GetIt.I<SecureStorageService>()
+          .getSessionData()
+          .then((session) => navigateToAcceptInvite(context, invite: invite));
+      setState(() {
+        acceptingIsLoading = false;
+      });
+    }, onError: (error) {
+      setState(() {
+        acceptingIsLoading = false;
+      });
+      widget.showMessage<bool>(context,
+          content:
+              'No pudimos iniciar sesión, por favor intenta de nuevo más tarde.',
+          title: 'Error al iniciar sesión');
+      throw Exception('Error al iniciar sesión');
+    });
   }
 
   registerUserFirst(BuildContext context, {required Invite invite}) {
-    return UserManagementProvider()
-        .openRegisterReader(context, invite: invite, autoNavigateToHome: false);
+    UserManagementProvider()
+        .openRegisterReader(context, invite: invite, autoNavigateToHome: false)
+        .then((value) {
+      if (value != true) throw Exception('Error al registrar');
+      navigateToAcceptInvite(context, invite: invite);
+      setState(() {
+        acceptingIsLoading = false;
+      });
+    }, onError: (error) {
+      setState(() {
+        acceptingIsLoading = false;
+      });
+      widget.showMessage<bool>(context,
+          content:
+              'No pudimos crear tu cuenta, por favor intenta de nuevo más tarde.',
+          title: 'Error al crear tu cuenta');
+      throw Exception('Error al registrar');
+    });
   }
 
   String getHeader(Invite? invite) {
