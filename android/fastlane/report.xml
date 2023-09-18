@@ -5,27 +5,17 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0014707">
+      <testcase classname="fastlane.lanes" name="0: update_fastlane" time="2.220357">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: number_of_commits" time="0.0695786">
+      <testcase classname="fastlane.lanes" name="1: default_platform" time="0.0019854">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: flutter packages get" time="5.6781979">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: flutter clean" time="1.6054336">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: flutter build appbundle --release --build-number=147 --dart-define=API_URL= --dart-define=JWT_SIGN_KEY=" time="97.8320573">
+      <testcase classname="fastlane.lanes" name="2: validate_play_store_json_key" time="0.4803185">
         
       </testcase>
     

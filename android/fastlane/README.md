@@ -15,21 +15,29 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
+### android test_playstore
+
+```sh
+[bundle exec] fastlane android test_playstore
+```
+
+Test Connection with Play Store
+
 ### android prod
 
 ```sh
 [bundle exec] fastlane android prod
 ```
 
-Build APK for Production
+Build and Deploy AAB for Production (Play Store)
 
-### android deploy
+### android devqa
 
 ```sh
-[bundle exec] fastlane android deploy
+[bundle exec] fastlane android devqa
 ```
 
-Deploy a new version to the Google Play
+Build and Deploy App for Dev-QA (Firebase Distribution)
 
 ----
 
