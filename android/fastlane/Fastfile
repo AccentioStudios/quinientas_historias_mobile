@@ -18,6 +18,9 @@ default_platform(:android)
 platform :android do
 
   desc "Build and Deploy AAB for Production (Play Store)"
+  lane :test-connection-playstore do
+
+  desc "Build and Deploy AAB for Production (Play Store)"
   lane :prod do
     api_url = ENV['API_URL']
     sar_api_url = ENV['SAR_API_URL']
@@ -45,10 +48,8 @@ platform :android do
       "--dart-define=https=true", 
       "--dart-define=ENV=prod")
     end
-    upload_to_play_store(
-      track: 'beta', 
-      version_name: "500h-build-#{build_number}",
-      aab: '../build/app/outputs/bundle/release/app-release.aab'
+    validate_play_store_json_key(
+      json_key: './service_account_key.json'
     )
   end
 

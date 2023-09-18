@@ -74,5 +74,5 @@ jobs:
           FIREBASE_ANDROID_APP_ID: ${{secrets.FIREBASE_ANDROID_APP_ID_PROD}}
           FIREBASE_CLI_TOKEN: ${{secrets.FIREBASE_CLI_TOKEN}}
         with:
-          lane: "prod"
+          lane: "test-connection-playstore"
           subdirectory: "android"
