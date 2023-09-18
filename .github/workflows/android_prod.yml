@@ -60,7 +60,7 @@ jobs:
           channel: "stable"
 
       - name: Fastlane Action
-        uses: maierj/fastlane-action@v2.3.0
+        uses: maierj/fastlane-action@v3.0.0
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
           API_URL: ${{ secrets.API_URL_PROD }}
