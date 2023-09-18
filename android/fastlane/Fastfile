@@ -53,6 +53,9 @@ platform :android do
       "--dart-define=ENV=prod")
     end
     upload_to_play_store(
+      root_url: "https://androidpublisher.googleapis.com/",
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
       track: 'beta', 
       version_name: "500h-build-#{build_number}",
       aab: '../build/app/outputs/bundle/release/app-release.aab'
