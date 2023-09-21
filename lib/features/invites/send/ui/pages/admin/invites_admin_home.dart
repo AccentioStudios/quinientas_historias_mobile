@@ -101,6 +101,7 @@ class _InvitesAdminPageState extends State<InvitesAdminPage> {
 
         break;
       case Role.captain:
+        // ignore: use_build_context_synchronously
         SendInviteProvider.chooseTournamentForInviteAdmin(context)
             .then((tournament) {
           if (tournament != null) {
@@ -124,6 +125,7 @@ class _InvitesAdminPageState extends State<InvitesAdminPage> {
         });
         break;
       case Role.reader:
+        // ignore: use_build_context_synchronously
         SendInviteProvider.chooseTournamentForInviteAdmin(context)
             .then((tournament) {
           if (tournament != null) {
